@@ -1,0 +1,298 @@
+<ng-container [ngSwitch]="page">
+  <section class="docs-section" *ngSwitchCase="'overview'">
+    <header class="docs-header">
+      <p class="section-kicker">Overview</p>
+      <h1>Intelligence Graph API</h1>
+      <p>Query graph intelligence directly with AQL, or use MCP tools for natural-language and agentic lookups.</p>
+    </header>
+
+    <div class="overview-grid">
+      <article class="endpoint-card">
+        <h3>AQL Endpoint</h3>
+        <code>POST /api/v1/graph/aql-query</code>
+        <p>Use for explicit query control and deterministic result shaping.</p>
+      </article>
+      <article class="endpoint-card">
+        <h3>MCP Endpoint</h3>
+        <code>POST /api/v1/graph/mcp</code>
+        <p>Use for tool-driven querying from natural language and agent workflows.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'quick-start'">
+    <header class="section-header">
+      <p class="section-kicker">Getting Started</p>
+      <h2>Quick Start</h2>
+    </header>
+    <p class="section-intro">
+      Start here to verify connectivity and payload shape before building complex graph traversals.
+      This gives you a reliable baseline request/response flow.
+    </p>
+    <div class="split-grid">
+      <article class="docs-card">
+        <h3>Run first request</h3>
+        <pre><code [textContent]="curlExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>Expected outcome</h3>
+        <ul>
+          <li>HTTP 200 response from <code>/graph/aql-query</code> with a valid bearer token</li>
+          <li>Latest report rows in response payload</li>
+          <li>Stable baseline before running complex traversals</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'base-configuration'">
+    <header class="section-header">
+      <p class="section-kicker">Core Setup</p>
+      <h2>Base Configuration</h2>
+    </header>
+    <p class="section-intro">
+      This section defines the exact request contract for the graph endpoint:
+      base URL, method, headers, and minimal body fields.
+    </p>
+
+    <div class="config-grid">
+      <article class="docs-card">
+        <h3>Base URL</h3>
+        <code class="config-value">https://api.lunarchain.net/api/v1</code>
+      </article>
+      <article class="docs-card">
+        <h3>Primary Endpoint</h3>
+        <code class="config-value">POST /graph/aql-query</code>
+      </article>
+      <article class="docs-card">
+        <h3>Authentication</h3>
+        <p>Send a bearer token when calling <code>/graph/aql-query</code>.</p>
+      </article>
+      <article class="docs-card">
+        <h3>Payload Format</h3>
+        <p>JSON body with one required field: <code>query</code>.</p>
+      </article>
+    </div>
+
+    <article class="docs-card request-spec-card">
+      <h3>Required Request Fields</h3>
+      <div class="request-spec">
+        <div class="request-row">
+          <span class="request-key">Method</span>
+          <code>POST</code>
+        </div>
+        <div class="request-row">
+          <span class="request-key">URL</span>
+          <code>https://api.lunarchain.net/api/v1/graph/aql-query</code>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Required Headers</span>
+          <div class="request-values">
+            <code>Content-Type: application/json</code>
+            <code>Authorization: Bearer &lt;token&gt;</code>
+          </div>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Required Body</span>
+          <code>&#123; "query": "&lt;AQL string&gt;" &#125;</code>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Optional Body</span>
+          <div class="request-values">
+            <code>bind_vars: &#123; ... &#125;</code>
+            <code>options: &#123; ... &#125;</code>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'endpoint-focus'">
+    <header class="section-header">
+      <p class="section-kicker">Operating Model</p>
+      <h2>Endpoint Focus</h2>
+    </header>
+    <p class="section-intro">
+      Use this as a decision guide for when to use direct AQL calls versus agent-oriented query paths.
+      It summarizes reliability and scale tradeoffs.
+    </p>
+    <div class="focus-grid">
+      <article class="docs-card focus-card" *ngFor="let item of endpointHighlights">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.summary }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'mcp-server'">
+    <header class="section-header">
+      <p class="section-kicker">Agentic Access</p>
+      <h2>MCP Server</h2>
+    </header>
+    <p class="section-intro">
+      The MCP server is the agent-facing interface to the same intelligence graph.
+      It is designed for natural-language requests, safe query planning, and bounded execution without forcing every agent to handcraft AQL.
+    </p>
+
+    <div class="mcp-flow">
+      <article class="docs-card">
+        <h3>What It Is</h3>
+        <p>A streamable MCP endpoint exposed via your backend at <code>/api/v1/graph/mcp</code>.</p>
+      </article>
+      <article class="docs-card">
+        <h3>Why It Exists</h3>
+        <p>Lets AI agents query graph intelligence safely and consistently using standard tools instead of ad-hoc debug calls.</p>
+      </article>
+      <article class="docs-card">
+        <h3>How To Use It</h3>
+        <p>Initialize session → list tools → call <code>query_intel</code> for NL requests, or <code>run_read_query</code> for explicit AQL.</p>
+      </article>
+    </div>
+
+    <div class="config-grid">
+      <article class="docs-card">
+        <h3>MCP Endpoint</h3>
+        <code class="config-value">{{ mcpEndpoint }}</code>
+      </article>
+      <article class="docs-card">
+        <h3>Transport</h3>
+        <p>Streamable HTTP over the <code>/api/v1/graph/mcp</code> route.</p>
+      </article>
+      <article class="docs-card">
+        <h3>Session Header</h3>
+        <p>Use <code>mcp-session-id</code> from initialize response headers for subsequent calls.</p>
+      </article>
+      <article class="docs-card">
+        <h3>Primary Tool</h3>
+        <p>Use <code>query_intel</code> first for natural-language intelligence requests.</p>
+      </article>
+    </div>
+
+    <div class="mcp-tool-grid">
+      <article class="docs-card" *ngFor="let tool of mcpToolHighlights">
+        <h3><code>{{ tool.name }}</code></h3>
+        <p>{{ tool.use }}</p>
+        <p class="tool-why">{{ tool.why }}</p>
+      </article>
+    </div>
+
+    <details class="docs-collapsible">
+      <summary>MCP cURL examples</summary>
+      <div class="response-grid mcp-grid">
+        <article class="docs-card">
+          <h3>Install</h3>
+          <pre><code [textContent]="mcpInstallExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>Initialize Session</h3>
+          <pre><code [textContent]="mcpInitExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>List Tools (Test)</h3>
+          <pre><code [textContent]="mcpToolsExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>NL Intent -> AQL Preview</h3>
+          <pre><code [textContent]="mcpIntentPreviewExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>NL Query Execution</h3>
+          <pre><code [textContent]="mcpQueryIntelExample"></code></pre>
+        </article>
+      </div>
+    </details>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'payload-response'">
+    <header class="section-header">
+      <p class="section-kicker">Reference</p>
+      <h2>Payload and Response</h2>
+    </header>
+    <p class="section-intro">
+      These examples show the exact JSON shape expected by the API and common success/error payloads for client handling.
+    </p>
+    <details class="docs-collapsible" open>
+      <summary>View payload and response examples</summary>
+      <div class="response-grid">
+        <article class="docs-card">
+          <h3>Request Body</h3>
+          <pre><code [textContent]="payloadExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>Success</h3>
+          <pre><code [textContent]="successResponseExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>Error</h3>
+          <pre><code [textContent]="errorResponseExample"></code></pre>
+        </article>
+      </div>
+    </details>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'aql-playbook'">
+    <header class="section-header">
+      <p class="section-kicker">Examples</p>
+      <h2>AQL Query Playbook</h2>
+      <p class="section-note">Simple to advanced. Expand any example to run it.</p>
+    </header>
+    <p class="section-intro">
+      Production-ready query patterns for common intelligence tasks, from simple report retrieval to multi-hop graph pivots.
+    </p>
+
+    <div class="example-list">
+      <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index" [attr.data-level]="example.level">
+        <details class="example-collapse">
+          <summary>
+            <div class="example-meta">
+              <span class="example-index">Example {{ i + 1 }}</span>
+              <span class="example-level">{{ example.level }}</span>
+            </div>
+            <h3>{{ example.title }}</h3>
+          </summary>
+          <p>{{ example.goal }}</p>
+          <pre><code [textContent]="example.query"></code></pre>
+          <div class="example-actions">
+            <button class="run-btn" type="button" (click)="runExample(example, i)" [disabled]="runResults[i]?.isRunning">
+              {{ runResults[i]?.isRunning ? 'Running...' : 'Run query' }}
+            </button>
+            <button
+              class="view-btn"
+              type="button"
+              *ngIf="runResults[i]?.hasRun && !runResults[i]?.isRunning && runResults[i]?.fullResponseText"
+              (click)="toggleFullResponse(i)">
+              {{ runResults[i]?.showFullResponse ? 'Hide full response' : 'View full response' }}
+            </button>
+          </div>
+          <div class="run-result" *ngIf="runResults[i]?.hasRun">
+            <p class="run-error" *ngIf="runResults[i]?.error">
+              Run failed: {{ runResults[i]?.error }}
+            </p>
+            <p class="run-meta" *ngIf="!runResults[i]?.error && !runResults[i]?.isRunning">
+              Completed in {{ runResults[i]?.durationMs }} ms
+              <span *ngIf="runResults[i]?.responseCount !== null">
+                · {{ runResults[i]?.responseCount }} rows returned
+              </span>
+            </p>
+            <div *ngIf="!runResults[i]?.error && runResults[i]?.previewText">
+              <p class="run-preview-label">Preview (first 5 rows)</p>
+              <pre><code [textContent]="runResults[i]?.previewText || ''"></code></pre>
+            </div>
+            <div *ngIf="runResults[i]?.showFullResponse && runResults[i]?.fullResponseText">
+              <p class="run-preview-label">Full API response</p>
+              <pre><code [textContent]="runResults[i]?.fullResponseText || ''"></code></pre>
+            </div>
+          </div>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section class="docs-section" *ngSwitchDefault>
+    <header class="docs-header">
+      <p class="section-kicker">Overview</p>
+      <h1>Documentation</h1>
+      <p>Select a section from the left navigation.</p>
+    </header>
+  </section>
+</ng-container>

@@ -1,0 +1,191 @@
+<div class="globe-section">
+  <div class="globe-inner">
+    <div #globeContainer class="globe-canvas"></div>
+    <div class="globe-overlay" *ngIf="!selectedCountry && !selectedCountryLoading">
+      <div class="chip">Drag to rotate</div>
+      <div class="chip">Click to interact</div>
+      <div class="chip" *ngIf="explorerMode || enableSharedRelationshipArcs">Arcs show shared entities</div>
+    </div>
+
+    <div class="globe-meta globe-meta-left"
+         *ngIf="explorerMode || selectedCountry || entityGroups.length || selectedCountryLoading">
+      <div class="globe-meta-header">
+        <div class="globe-meta-title">
+          <ng-container *ngIf="explorerMode; else selectedCountryHeading">Query Results</ng-container>
+          <ng-template #selectedCountryHeading>
+            {{ selectedCountry || 'Loading...' }}
+            <span class="globe-meta-code" *ngIf="selectedCountryCode">{{ selectedCountryCode }}</span>
+          </ng-template>
+        </div>
+      </div>
+      <mat-progress-bar *ngIf="selectedCountryLoading" mode="indeterminate"></mat-progress-bar>
+      <div
+        class="globe-meta-content"
+        [class.loading]="selectedCountryLoading"
+        [class.show]="!selectedCountryLoading"
+      >
+        <ng-container *ngIf="explorerMode; else landingEntityBlock">
+          <ng-container *ngIf="entityGroups.length; else noEntities">
+            <div class="entity-group-grid">
+              <div class="entity-group-heading" *ngFor="let group of entityGroups">
+                <mat-icon>{{ group.icon }}</mat-icon>
+                <div class="entity-group-copy">
+                  <span class="entity-group-title">{{ group.label }}</span>
+                  <span class="entity-group-count">{{ group.items.length }} {{ group.items.length === 1 ? 'entry' : 'entries' }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-template #landingEntityBlock>
+          <ng-container *ngIf="landingEntitySnippets.length; else noEntities">
+            <ul class="landing-meta-list">
+              <li *ngFor="let line of landingEntitySnippets">{{ line }}</li>
+            </ul>
+          </ng-container>
+        </ng-template>
+        <ng-template #noEntities>
+          <div class="section-empty">No Intelligence</div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div
+      class="globe-right-column"
+      *ngIf="selectedCountry || selectedCountryLoading || (enableDateFilter && dateRangeReady) || (!selectedCountryLoading && !selectedCountryGroups.length)"
+    >
+      <div class="globe-map-view-row" *ngIf="explorerMode">
+        <span
+          class="globe-map-view-icon"
+          role="button"
+          tabindex="0"
+          aria-label="Open interactive map view"
+          title="Open interactive map view"
+          (click)="requestMapView()"
+          (keydown.enter)="requestMapView()"
+          (keydown.space)="requestMapView(); $event.preventDefault()"
+        >
+          <mat-icon>map</mat-icon>
+        </span>
+      </div>
+
+      <div class="globe-module-breakdown" *ngIf="moduleBreakdownCounts.length">
+        <div
+          class="module-filter-toggle"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle module filters"
+          (click)="toggleModuleFilterExpanded()"
+          (keydown.enter)="toggleModuleFilterExpanded()"
+          (keydown.space)="toggleModuleFilterExpanded(); $event.preventDefault()"
+        >
+          <span class="module-filter-title">Modules</span>
+          <span class="module-filter-meta">{{ moduleFilterSummary }}</span>
+          <span class="module-filter-chevron">{{ moduleFilterExpanded ? '▴' : '▾' }}</span>
+        </div>
+
+        <div class="module-breakdown-chips" *ngIf="moduleFilterExpanded">
+          <span
+            class="module-breakdown-chip"
+            *ngFor="let module of moduleBreakdownCounts"
+            role="button"
+            tabindex="0"
+            [class.active]="isModuleChipSelected(module.key)"
+            [class.muted]="isModuleChipMuted(module.key)"
+            (click)="onModuleChipClick(module.key)"
+            (keydown.enter)="onModuleChipClick(module.key)"
+            (keydown.space)="onModuleChipClick(module.key); $event.preventDefault()"
+          >
+            <span class="module-chip-name">{{ module.label }}</span>
+            <span class="module-chip-count">{{ module.count }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="globe-date-filter" *ngIf="enableDateFilter && dateRangeReady">
+        <div class="date-filter-heading">
+          <span class="date-filter-title">Date Range</span>
+          <span class="date-filter-value">{{ dateRangeLabel }}</span>
+        </div>
+        <mat-slider
+          class="date-range-slider"
+          [min]="sliderMin"
+          [max]="sliderMax"
+          [step]="dayMs"
+        >
+          <input
+            matSliderStartThumb
+            [(ngModel)]="sliderStartValue"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onDateRangeSliderChange()"
+          />
+          <input
+            matSliderEndThumb
+            [(ngModel)]="sliderEndValue"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="onDateRangeSliderChange()"
+          />
+        </mat-slider>
+        <div class="date-filter-labels">
+          <span>{{ sliderStartValue | date: 'MMM d' }}</span>
+          <span>{{ sliderEndValue | date: 'MMM d' }}</span>
+        </div>
+      </div>
+
+      <div class="globe-meta globe-meta-right"
+           *ngIf="selectedCountry || selectedCountryLoading || (!selectedCountryLoading && !selectedCountryGroups.length)">
+      <div class="globe-meta-header">
+        <div class="section-title">Linked Reports</div>
+      </div>
+      <mat-progress-bar *ngIf="selectedCountryLoading" mode="indeterminate"></mat-progress-bar>
+      <div
+        class="globe-meta-content"
+        [class.loading]="selectedCountryLoading"
+        [class.show]="!selectedCountryLoading"
+      >
+        <ng-container *ngIf="explorerMode; else landingReportsBlock">
+          <ng-container *ngIf="selectedCountryGroups.length; else noReports">
+            <div class="report-item" *ngFor="let group of selectedCountryGroups">
+              <div class="report-title">{{ group.report }}</div>
+              <span class="report-date" *ngIf="group.modified">Updated {{ group.modified | date: 'mediumDate' }}</span>
+              <span class="report-source" *ngIf="group.sourceName || group.sourceLink">
+                <ng-container *ngIf="group.sourceLink; else plainSource">
+                  <a [href]="group.sourceLink" target="_blank" rel="noopener" class="report-source-link">
+                    {{ group.sourceName || 'Source' }}
+                  </a>
+                </ng-container>
+                <ng-template #plainSource>
+                  {{ group.sourceName || 'Source' }}
+                </ng-template>
+              </span>
+              <div class="report-count">{{ group.items.length }} IOC{{ group.items.length === 1 ? '' : 's' }}</div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-template #landingReportsBlock>
+          <ng-container *ngIf="landingReportSnippets.length; else noReports">
+            <ul class="landing-meta-list">
+              <li *ngFor="let report of landingReportSnippets">
+                <div class="landing-report-title">{{ report.title }}</div>
+                <div class="landing-report-meta" *ngIf="report.date || report.source">
+                  <span *ngIf="report.date">Updated {{ report.date | date: 'mediumDate' }}</span>
+                  <span *ngIf="report.source">
+                    •
+                    <ng-container *ngIf="report.link; else landingPlainSource">
+                      <a [href]="report.link" target="_blank" rel="noopener">{{ report.source }}</a>
+                    </ng-container>
+                    <ng-template #landingPlainSource>{{ report.source }}</ng-template>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </ng-container>
+        </ng-template>
+        <ng-template #noReports>
+          <div class="section-empty">No intelligence, consider adjusting filters</div>
+        </ng-template>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

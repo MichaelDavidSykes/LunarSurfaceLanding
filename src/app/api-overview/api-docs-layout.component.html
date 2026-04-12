@@ -1,0 +1,47 @@
+<div class="api-shell">
+  <app-top-toolbar
+    context="api"
+    [forceScrolled]="true"
+    (docsMenuClick)="toggleMobileDocsMenu()">
+  </app-top-toolbar>
+
+  <main class="api-page docs-layout">
+    <div class="docs-sidebar-shell">
+      <app-api-docs-sidebar
+        [kicker]="'LunarChain API'"
+        [title]="'Documentation'"
+        [basePath]="'/api'"
+        [items]="sidebarItems">
+      </app-api-docs-sidebar>
+    </div>
+
+    <section class="docs-main">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+
+  <div class="docs-mobile-overlay" [class.open]="isMobileDocsMenuOpen" (click)="closeMobileDocsMenu()"></div>
+  <aside class="docs-mobile-drawer" [class.open]="isMobileDocsMenuOpen">
+    <div class="docs-mobile-header">
+      <span class="docs-mobile-title">Menu</span>
+      <button class="docs-mobile-close-btn" type="button" (click)="closeMobileDocsMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="docs-mobile-body">
+      <a class="docs-mobile-home-btn" routerLink="/" (click)="closeMobileDocsMenu()">
+        Back to Landing Page
+      </a>
+      <app-api-docs-sidebar
+        class="docs-mobile-sidebar"
+        [kicker]="'LunarChain API'"
+        [title]="'Documentation'"
+        [basePath]="'/api'"
+        [variant]="'light'"
+        [items]="sidebarItems">
+      </app-api-docs-sidebar>
+    </div>
+  </aside>
+</div>

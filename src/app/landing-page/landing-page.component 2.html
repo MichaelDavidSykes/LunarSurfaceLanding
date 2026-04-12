@@ -1,0 +1,780 @@
+<!-- Top Taskbar + Map (initial viewport) -->
+<div class="landing-initial-viewport">
+  <!-- Top Taskbar -->
+  <div class="landing-taskbar" [class.scrolled]="isTaskbarScrolled || isMobileMenuOpen">
+    <div class="brand-container">
+      <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo">
+      <span class="logo-text">LunarChain</span>
+    </div>
+    <span class="spacer"></span>
+    
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <button mat-button color="primary" (click)="scrollToSolutions()">Solutions</button>
+      <button mat-button color="primary" (click)="scrollToAIAgent()">AI Agent</button>
+      <button mat-button color="primary" (click)="scrollToContact()">Contact Us</button>
+      <button mat-stroked-button color="primary" routerLink="/login">Log In</button>
+    </div>
+    
+    <!-- Mobile Hamburger Menu -->
+    <div class="mobile-nav">
+      <button class="hamburger-btn" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Mobile Side Menu -->
+  <div class="mobile-side-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">Menu</span>
+      <button class="close-btn" (click)="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu-items">
+      <button mat-button color="primary" (click)="scrollToSolutions(); toggleMobileMenu()">Solutions</button>
+      <button mat-button color="primary" (click)="scrollToAIAgent(); toggleMobileMenu()">AI Agent</button>
+      <button mat-button color="primary" (click)="scrollToContact(); toggleMobileMenu()">Contact Us</button>
+      <button mat-stroked-button color="primary" routerLink="/login" (click)="toggleMobileMenu()">Log In</button>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+
+  <!-- Map Container -->
+  <div class="map-container">
+    <!-- Loading Animation in Map Area -->
+    <div class="map-loading" *ngIf="isLoading">
+      <div class="loading-container">
+        <div class="loading-logo">
+          <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="loading-logo-img">
+        </div>
+        <div class="loading-text">Loading LunarChain</div>
+      </div>
+    </div>
+    
+    <div *ngIf="typedThreatSummary" class="map-center-summary" [ngClass]="fadeState">
+      <div class="summary-content">
+        <div class="threat-type-badge" *ngIf="currentThreatType">
+          {{ currentThreatType | titlecase }}
+        </div>
+        {{ typedThreatSummary }}
+      </div>
+    </div>
+    
+    <!-- Multiple floating typing effects -->
+    <div 
+      *ngFor="let effect of typingEffects" 
+      class="floating-typing-effect"
+      [style.left.%]="effect.x"
+      [style.top.%]="effect.y"
+      [style.opacity]="effect.opacity"
+      [style.z-index]="effect.id"
+    >
+      <div class="effect-content">
+        {{ effect.displayText }}
+      </div>
+    </div>
+    <div *ngIf="typedLocationName" class="map-target-name" [ngClass]="fadeState">
+      <div class="target-name-content">
+        {{ typedLocationName }}
+      </div>
+    </div>
+    <div id="regions_div" [ngClass]="fadeState" style="width: 100%; height: 100vh; position: relative;"></div>
+</div>
+</div>
+
+<!-- Interactive Globe Section (full viewport, between map and mission) -->
+<section class="interactive-globe-section">
+  <h2 class="globe-heading">Building the worlds largest open threat intelligence database</h2>
+  <app-landing-globe
+    (selectedCountryChange)="onSelectedCountry($event)"
+    [selectedCountry]="selectedCountry"
+    [selectedCountryCode]="selectedCountryCode"
+    [selectedCountryIocs]="selectedCountryIocs"
+    [selectedCountryGroups]="selectedCountryGroups"
+    [selectedCountryLoading]="selectedCountryLoading">
+  </app-landing-globe>
+  <!-- spacer to ensure separation if needed -->
+</section>
+
+<!-- Extra content revealed on scroll -->
+<section class="landing-extra-content">
+  <div class="extra-content-inner">
+    <div class="mission-section" style="text-align: center; margin-bottom: 3rem;">
+      <h2 class="fade-in-element mission-title" style="font-size: 1.2rem !important; font-weight: 500 !important; color: #718096 !important; margin-bottom: 1.5rem !important; letter-spacing: -0.01em !important; text-transform: uppercase !important; opacity: 0.8 !important; margin-top: 0 !important; padding: 0 !important;">LunarChain's Mission</h2>
+      <p class="fade-in-element mission-statement" style="font-size: 2.2rem !important; font-weight: 700 !important; color: #1a202c !important; line-height: 1.3 !important; margin: 0 !important; max-width: 700px !important; margin-left: auto !important; margin-right: auto !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; letter-spacing: -0.02em !important;">Making actionable threat intelligence accessible to all</p>
+    </div>
+    <div class="feature-cards">
+      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(0)" [class.expanded]="expandedCards[0]">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Reconnaissance</h3>
+        <p class="card-main-text">LunarChain streamlines intelligence gathering by sourcing both mainstream and niche data—from underground forums to social platforms and global news outlets.</p>
+        <div class="card-expandable-content" [class.show]="expandedCards[0]">
+          <p>New intellgence sources are constaltly being onboarded, expanding our dataset.</p>
+        </div>
+        <div class="mobile-expand-indicator" *ngIf="isMobile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[0]">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(1)" [class.expanded]="expandedCards[1]">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+        </div>
+        <h3>Investigation</h3>
+        <p class="card-main-text">LunarChains Intelligence Graph performs deep and state of the art correlation on ingested intelligence, finding patterns and modelling threats as intel is ingested.</p>
+        <div class="card-expandable-content" [class.show]="expandedCards[1]">
+          <p>Relationships between IOCs, threat actors, groups, attack patterns and more are correlated and modelled, allowing for rich querying and alerting.</p>
+        </div>
+        <div class="mobile-expand-indicator" *ngIf="isMobile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[1]">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(2)" [class.expanded]="expandedCards[2]">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <h3>Delivery</h3>
+        <p class="card-main-text">LunarChain enables open querying of our Intelligence Graph, supporting complex and targeted lookups to surface general and highly specific threat intelligence.</p>
+        <div class="card-expandable-content" [class.show]="expandedCards[2]">
+          <p>Contact us for the setup of custom and automated alerting.</p>
+        </div>
+        <div class="mobile-expand-indicator" *ngIf="isMobile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[2]">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platform Architecture Section (Four Columns) -->
+<section class="gsap-animated-section">
+  <svg class="architectural-shapes" viewBox="0 0 1200 1000" preserveAspectRatio="none">
+    <!-- Only geometric connection lines remain -->
+    <line class="arch-connection" x1="200" y1="200" x2="400" y2="150" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="150" x2="600" y2="200" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="200" x2="800" y2="150" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="150" x2="1000" y2="200" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="200" y1="600" x2="400" y2="650" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="650" x2="600" y2="600" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="600" x2="800" y2="650" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="650" x2="1000" y2="600" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+  </svg>
+  <div class="animated-content">
+    <div class="animated-header">
+      <h2 class="animate-title">Platform Architecture</h2>
+      <p class="animate-subtitle">The core of our platform, and how we deliver our intelligence.</p>
+    </div>
+    <div class="platform-architecture-grid">
+      <div class="platform-col">
+        <div class="platform-col-heading">Queries</div>
+        <div class="target-card platform-card-2">
+          <div class="card-initial-content">
+            <div class="target-main-heading">AI and Platform Powered Intelligence Querying</div>
+            <span class="target-meta">Query our intelligence graph via our AI Agent, or build custom scheduled queries via the LunarChain platform.</span>
+          </div>
+          <div class="card-hover-content">
+            <hr class="card-divider">
+            Examples<br>
+            <hr class="card-divider">
+            Give me the latest IOCs associated with APT41<br><span class="target-meta">Ask our AI Agent, and it will handle the dirty work of querying and invesigateding all available intelligence.</span>
+            <hr class="card-divider">
+            Give me the latest report involving malware intel that poses threats to Ford in Europe<br><span class="target-meta">Ask our AI Agent, or use our platforms query builder to schedule this query, and receive alerts.</span>
+            <hr class="card-divider">
+          </div>
+        </div>
+      </div>
+      <div class="platform-col">
+        <div class="platform-col-heading">Targets</div>
+        <div class="target-card platform-card-1">
+          <div class="card-initial-content">
+            <div class="target-main-heading">Multiple Queries, Common Intelligence Goal</div>
+            <span class="target-meta">A target can be built from multiple queries, allowing for deeper reporting and alerting capabilities.</span>
+          </div>
+          <div class="card-hover-content">
+            <hr class="card-divider">
+            Setting up targets povides richer context and enables reporting<br><span class="target-meta">Having a target allows you to monitor for threats around a common entity from multiple angles, and LunarChain supports generating threat reports covering a targets findings and stance.</span>
+          </div>
+        </div>
+      </div>
+      <div class="platform-col">
+        <div class="platform-col-heading">Our Intelligence Agent</div>
+        <div class="target-card platform-card-3">
+          <div class="card-initial-content">
+            <div class="target-main-heading">Perform AI Assisted Intel Lookups with LunarChains Intelligence Agent</div>
+            <span class="target-meta">Query our intelligence graph with natural language, and have our AI agent query, interpret and report on the results immediately, surfing rich IOCs and relationships.</span>
+          </div>
+          <div class="card-hover-content">
+            <hr class="card-divider">
+          </div>
+        </div>
+      </div>
+      <div class="platform-col alerts-col">
+        <div class="platform-col-heading">Alerts</div>
+        <div class="target-card platform-card-4">
+          <div class="card-initial-content">
+            <div class="target-main-heading">Set up automated alerting and reporting.</div>
+            <span class="target-meta">Realtime alerting can be configured when we have hits on queries you have enabled notificatins for, allowing for immediate investigation and response.</span>
+          </div>
+          <div class="card-hover-content">
+            <hr class="card-divider">
+            Manage the Alert Lifecylce<br><span class="target-meta">LunarChain allows alerts to be assigned to users onboarded to the platform. A user can change the state of an alert and add comments indicating its status. A user can assign an alert to another user to handle.</span>
+            <hr class="card-divider">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Solutions Section -->
+<section class="solutions-section">
+  <div class="solutions-header">
+    <h1 class="solutions-main-heading fade-in-element">A deeper dive into our mission</h1>
+    <p class="solutions-subtitle fade-in-element">Of creating the worlds largest open database of high fidelity threat intelligence</p>
+  </div>
+</section>
+
+<!-- Reconnaissance Process Section -->
+<section class="reconnaissance-section">
+  <div class="recon-inner">
+    <div class="recon-copy">
+      <p class="recon-eyebrow">Reconnaissance</p>
+      <h2 class="recon-main-heading">Top tier intelligence feeds</h2>
+      <p class="recon-subheading">Every public and underground signal is ingested, normalized, and enriched before it hits our intelligence graph.</p>
+      <div class="recon-tags">
+        <span class="recon-tag">RSS & advisories</span>
+        <span class="recon-tag">Forums & dark web</span>
+        <span class="recon-tag">Social chatter</span>
+        <span class="recon-tag">Paste & leaks</span>
+        <span class="recon-tag">Malware sandboxes</span>
+        <span class="recon-tag">CVE & vuln feeds</span>
+      </div>
+    </div>
+    <div class="recon-diagram">
+      <div class="recon-grid-overlay"></div>
+      <div class="recon-flow recon-desktop-flow" *ngIf="!isMobile">
+        <svg class="recon-lines" viewBox="0 0 1200 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path class="recon-line line-1" d="M420 125 C 520 125, 560 400, 600 500"/>
+          <path class="recon-line line-2" d="M420 375 C 520 375, 560 500, 600 500"/>
+          <path class="recon-line line-3" d="M420 625 C 520 625, 560 600, 600 500"/>
+          <path class="recon-line line-4" d="M420 875 C 520 875, 560 600, 600 500"/>
+          <path class="recon-trunk" d="M600 500 C 630 500, 660 500, 720 500"/>
+          <path class="recon-report-line" d="M720 500 C 780 400, 840 300, 1000 250"/>
+          <path class="recon-alert-line" d="M720 500 C 780 500, 840 500, 1000 500"/>
+          <path class="recon-intel-line" d="M720 500 C 780 600, 840 700, 1000 750"/>
+          <circle class="recon-merge-dot" cx="600" cy="500" r="6"/>
+          <circle class="recon-report-dot" cx="1000" cy="250" r="6"/>
+          <circle class="recon-alert-dot" cx="1000" cy="500" r="6"/>
+          <circle class="recon-intel-dot" cx="1000" cy="750" r="6"/>
+        </svg>
+        <div class="recon-sources">
+          <div class="recon-source">
+            <div class="source-icon rss">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M5 11a8 8 0 0 1 8 8"/><path d="M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="2"/>
+              </svg>
+            </div>
+            <span>RSS & Blogs</span>
+          </div>
+          <div class="recon-source">
+            <div class="source-icon darkweb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 7h18v10H3z"/><path d="M7 7v10"/><path d="M17 7v10"/><path d="M3 11h18"/>
+              </svg>
+            </div>
+            <span>Forums & Dark Web</span>
+          </div>
+          <div class="recon-source">
+            <div class="source-icon social">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 8.7 10.5 12"/><path d="M15 8.7 13.5 12"/>
+              </svg>
+            </div>
+            <span>Social Signals</span>
+          </div>
+          <div class="recon-source">
+            <div class="source-icon cve">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 3 3 9l9 6 9-6-9-6z"/><path d="m3 15 9 6 9-6"/><path d="m3 9 9 6 9-6"/>
+              </svg>
+            </div>
+            <span>CVE & Vuln Feeds</span>
+          </div>
+        </div>
+        <div class="recon-core">
+          <div class="recon-core-glow"></div>
+          <span class="recon-core-label">LunarChain</span>
+        </div>
+        <div class="recon-output-nodes">
+          <div class="recon-report-node">
+            <div class="report-node-glow"></div>
+            <div class="report-node-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10,9 9,9 8,9"/>
+              </svg>
+            </div>
+            <span class="report-node-label">Reporting</span>
+          </div>
+          <div class="recon-alert-node">
+            <div class="alert-node-glow"></div>
+            <div class="alert-node-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <span class="alert-node-label">Alerting</span>
+          </div>
+          <div class="recon-intel-node">
+            <div class="intel-node-glow"></div>
+            <div class="intel-node-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="intel-node-label">Intelligence</span>
+          </div>
+        </div>
+      </div>
+      <div class="recon-mobile-flow" *ngIf="isMobile">
+        <div class="recon-mobile-card">
+          <span class="recon-mobile-label">Sources</span>
+          <div class="recon-mobile-tags">
+            <span>RSS & Blogs</span>
+            <span>Forums & Dark Web</span>
+            <span>Social Signals</span>
+            <span>CVE & Vuln Feeds</span>
+          </div>
+        </div>
+        <div class="recon-mobile-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+          </svg>
+        </div>
+        <div class="recon-mobile-core">LunarChain</div>
+        <div class="recon-mobile-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+          </svg>
+        </div>
+        <div class="recon-mobile-outputs">
+          <span>Reporting</span>
+          <span>Alerting</span>
+          <span>Intelligence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Investigation Process Section -->
+<section class="investigation-section">
+  <div class="investigation-header">
+    <h1 class="investigation-main-heading">Investigation</h1>
+    <p class="investigation-subtitle">From big data to nuanced threat intelligence</p>
+  </div>
+  
+  <div class="investigation-content">
+    <!-- Investigation Process Grid -->
+    <div class="investigation-process-grid">
+      <div class="investigation-description">
+        <h3>Automated Investigation & Threat Correlation</h3>
+        <p>LunarChain automates the full threat intelligence pipeline — from high-accuracy, IOC, location, tool, infastructure and threat actor extraction and profiling to contextual threat reasoning — we surface high-confidence intelligence enriched with global context.</p>
+        <div class="investigation-highlights">
+          <span class="highlight-tag">Threat Actors</span>
+          <span class="highlight-tag">Deployed Malware X</span>
+          <span class="highlight-tag">Effecting Infastructure Y</span>
+          <span class="highlight-tag">from Location Z</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investigation Capabilities Section -->
+    <div class="investigation-capabilities">
+      <h2 class="capabilities-title">Our Specialities</h2>
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+              <path d="M12 2l10 5-10 5-10-5z"/>
+            </svg>
+          </div>
+          <h3>Rich IOC Extraction</h3>
+          <p>LunarChain exposes and correlates a wide range of IOC types, ranging from IP Addresses, Threat Actor Groups to Locations and attack patterns. This allows for highly targeted threat intel lookups and profiling.</p>
+        </div>
+        
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M9 14l2 2 4-4"/>
+            </svg>
+          </div>
+          <h3>Deep Correlation of Intelligence</h3>
+          <p>LuanrChain performs in-ouse correlation of all intelligence data, finding hiddern patterns in large data. This amplifies the value of our data and allows for the discovery of previously unknown threatening activity and behavioural patterns.</p>
+        </div>
+        
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+              <path d="M12 6v6l4 2"/>
+              <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+            </svg>
+          </div>
+          <h3>Signal-to-Noise Optimization</h3>
+          <p>LunarChain automatically filters irrelevant chatter and disinformation — ensuring analysts only see what matters. Our enrichment pipeline uses AI powered investigation, correlation and detection to surface real threats faster.</p>
+        </div>
+        
+        <div class="capability-card">
+          <div class="capability-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/>
+              <path d="M16 5h-3V3a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2H7l3 3 3-3z"/>
+              <path d="M12 8v8"/>
+              <path d="M8 12h8"/>
+            </svg>
+          </div>
+          <h3>Agentic Threat Investigations</h3>
+          <p>LunarChain allows querying of our intelligence graph with natural language using our custom GPT, with the goal of making threat intelligence open and simple to use to everyone.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Alerting Process Section -->
+<section class="alerting-section">
+  <div class="alerting-content">
+    <!-- Alerting Header and Image Row -->
+    <div class="alerting-top-row">
+      <div class="alerting-header">
+        <h1 class="alerting-main-heading">Alerting</h1>
+        <p class="alerting-subtitle">Real-time threat alerting on anomaly and threat detection against targets</p>
+      </div>
+      
+      <!-- Original Alerting Image -->
+      <div class="alerting-image-wrapper">
+        <img src="assets/Screenshot 2025-07-13 at 23.06.05.png" alt="Alerting Example" class="alerting-image" />
+        <div class="alerting-image-fade"></div>
+      </div>
+    </div>
+
+    <!-- Alerting Features -->
+    <div class="alerting-features">
+      <h2 class="features-title">Alerting Capabilities</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>Automated Alerting</h3>
+          <p>LunarChain supports the setup of automated alerting based on niche intelligence needs, served in realtime as intel is surfaced.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <h3>Alert Delivery</h3>
+          <p>Receive realtime targeted alerts through platform notifications, email, messaging and customised reports.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10,9 9,9 8,9"/>
+            </svg>
+          </div>
+          <h3>Intelligent Filtering</h3>
+          <p>Advanced algorithms filter out false positives and ensure you only receive actionable, high-confidence alerts.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3>Reports on Targets</h3>
+          <p>We can deliver reports on targets of interest, as data surfaces on them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI Agent Section -->
+<section class="ai-agent-section">
+  <div class="ai-agent-content">
+    <!-- AI Agent Header and Image Row -->
+    <div class="ai-agent-top-row">
+      <div class="ai-agent-header">
+        <h1 class="ai-agent-main-heading">AI Intelligence Agent</h1>
+        <p class="ai-agent-subtitle">Access LunarChain's Intelligence Graph through natural language queries</p>
+      </div>
+      
+      <!-- AI Agent Icon/Image -->
+      <div class="ai-agent-image-wrapper">
+        <div class="ai-agent-icon siri-orb" aria-hidden="true">
+          <span class="siri-ring ring-1"></span>
+          <span class="siri-ring ring-2"></span>
+          <span class="siri-ring ring-3"></span>
+          <span class="siri-core"></span>
+          <span class="siri-scan"></span>
+          <span class="siri-blip blip-1"></span>
+          <span class="siri-blip blip-2"></span>
+          <span class="siri-blip blip-3"></span>
+        </div>
+        <div class="ai-agent-image-fade"></div>
+      </div>
+    </div>
+
+    <!-- AI Agent Features -->
+    <div class="ai-agent-features">
+      <h2 class="features-title">Agent Capabilities</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <h3>Natural Language Queries</h3>
+          <p>Perform complex threat intelligence lookups and investigations in plain English and get comprehensive, contextual responses immediately.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+          </div>
+          <h3>Intelligent Analysis</h3>
+          <p>Using all the latest tools available via OpenAIs latest GPT-5 model, AI can perform follow up querying of our intelligence, or additional research outside of the platform to complement research and findings.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3>Real-time Intelligence</h3>
+          <p>Access the latest threat data and start investigating emerging threats and attack patterns without needing to be fully onboarded to the LunarChain platform.</p>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3>Rich Data and Responses</h3>
+          <p>Query across our entire intelligence graph including IOCs, threat actors, intrusion sets locations, and attack patterns for rich and actionable intelligence.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Agent CTA -->
+    <div class="ai-agent-cta">
+      <h2>Access our openly available Intelligence Agent Beta</h2>
+      <p>LunarAgent v1</p>
+      <a href="https://chatgpt.com/g/g-689bbf19a698819193e4701581ec8c66-threat-intelligence-agent-beta" target="_blank" class="ai-agent-button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
+          <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+        Access AI Agent Beta
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Us Section -->
+<section class="contact-section">
+  <div class="contact-header">
+    <h1 class="contact-main-heading">Contact Us</h1>
+    <p class="contact-subtitle">For specific intelligence needs or alerting capabilities</p>
+  </div>
+  
+  <div class="contact-content">
+    <div class="contact-info">
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h3>Email</h3>
+        <p><a href="mailto:info&#64;lunarchain.net">info&#64;lunarchain.net</a></p>
+        <p>General inquiries and support</p>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        <h3>Phone</h3>
+        <p>+44 7751 933043</p>
+        <p>Available Monday - Friday, 9AM - 6PM EST</p>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3>Location</h3>
+        <p>London, UK</p>
+        <p>Headquarters and main operations center</p>
+      </div>
+    </div>
+    
+    <div class="contact-form">
+      <h2>Send us a message</h2>
+      <form class="contact-form-inner" (submit)="onSubmitContactForm($event)">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <input type="text" name="company" placeholder="Company Name">
+        </div>
+        <div class="form-group">
+          <select name="inquiryType" required>
+            <option value="">Select Inquiry Type</option>
+            <option value="demo">Request Demo</option>
+            <option value="pricing">Pricing Information</option>
+            <option value="support">Technical Support</option>
+            <option value="partnership">Partnership Opportunities</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="contact-submit-btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="landing-footer">
+  <div class="footer-content">
+    <!-- Main Footer Section -->
+    <div class="footer-main">
+      <div class="footer-brand">
+        <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="footer-logo">
+        <div class="footer-brand-text">
+          <h3>LunarChain</h3>
+          <p>Making actionable threat intelligence accessible to all</p>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-link-group">
+          <h4>Solutions</h4>
+          <ul>
+            <li><a href="https://chatgpt.com/g/g-689bbf19a698819193e4701581ec8c66-threat-intelligence-agent-beta" target="_blank" rel="noopener noreferrer">AI Agent</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-link-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href (click)="scrollToSolutions(); $event.preventDefault()">Solutions</a></li>
+            <li><a href="https://chatgpt.com/g/g-689bbf19a698819193e4701581ec8c66-threat-intelligence-agent-beta" target="_blank" rel="noopener noreferrer">AI Agent</a></li>
+            <li><a href (click)="scrollToContact(); $event.preventDefault()">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom Section -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <div class="footer-copyright">
+          <p>&copy; 2025 LunarChain. All rights reserved.</p>
+        </div>
+        
+        <div class="footer-social">
+          <a href="https://instagram.com/lunarchainco" target="_blank" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/company/lunarchain" target="_blank" class="social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com/lunarchainco" target="_blank" class="social-link" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.665 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

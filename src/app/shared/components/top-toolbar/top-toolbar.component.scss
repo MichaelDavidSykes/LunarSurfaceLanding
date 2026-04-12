@@ -1,0 +1,321 @@
+:host {
+  display: block;
+}
+
+.landing-taskbar {
+  display: flex;
+  align-items: center;
+  padding: 0 2.4rem;
+  background: transparent;
+  backdrop-filter: blur(0);
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  width: calc(100% - 0.5rem);
+  max-width: 1400px;
+  z-index: 200000;
+  height: 70px;
+  box-sizing: border-box;
+  box-shadow: none;
+  border: 1px solid transparent;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease,
+    backdrop-filter 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    border-radius 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.landing-taskbar.no-transition {
+  transition: none !important;
+}
+
+.landing-taskbar.scrolled {
+  width: calc(100% - 1.4rem);
+  max-width: 1320px;
+  padding: 0 2.2rem;
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.15);
+  border-color: rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.toolbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.landing-taskbar.scrolled .logo-text {
+  color: #1f2937;
+  text-shadow: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-btn,
+.login-btn {
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  margin-left: 0;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+}
+
+.nav-btn {
+  color: #334155 !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important;
+}
+
+.nav-btn:hover {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.26) !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12) !important;
+  transform: translateY(-1px);
+}
+
+.login-btn {
+  color: #334155 !important;
+  border: 1px solid rgba(15, 23, 42, 0.2) !important;
+  background: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important;
+}
+
+.landing-taskbar:not(.scrolled) .nav-btn,
+.landing-taskbar:not(.scrolled) .login-btn {
+  color: rgba(255, 255, 255, 0.95) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.landing-taskbar:not(.scrolled) .nav-btn:hover,
+.landing-taskbar:not(.scrolled) .login-btn:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+}
+
+.login-btn:hover {
+  background: #f7fafc;
+  color: #2d3748;
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.landing-taskbar.scrolled .nav-btn {
+  color: #334155 !important;
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.16) !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important;
+}
+
+.landing-taskbar.scrolled .nav-btn:hover {
+  color: #0f172a !important;
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.26) !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12) !important;
+}
+
+.landing-taskbar.scrolled .login-btn {
+  color: #334155 !important;
+  border-color: rgba(15, 23, 42, 0.2) !important;
+  background: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important;
+}
+
+.login-btn.active {
+  box-shadow: 0 0 0 2px rgba(145, 94, 255, 0.22);
+}
+
+.mobile-nav {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-side-menu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  z-index: 210000;
+  transition: right 0.3s ease;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-side-menu.open {
+  right: 0;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #2d3748;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.close-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-menu-items {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-menu-btn,
+.mobile-login-btn {
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #2d3748;
+  padding: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover,
+.mobile-login-btn:hover {
+  background-color: rgba(145, 94, 255, 0.1);
+  border-color: #915eff;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 209000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-icon-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #1f2937;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.mobile-icon-btn:hover {
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.mobile-icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
+  .mobile-icon-btn {
+    display: inline-flex;
+  }
+
+  .landing-taskbar {
+    padding: 0 1rem;
+    width: calc(100% - 1rem);
+  }
+
+  .logo-text {
+    font-size: 1.4rem;
+  }
+}

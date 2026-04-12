@@ -1,0 +1,27 @@
+<aside class="docs-sidebar" [class.docs-sidebar--light]="variant === 'light'" aria-label="Documentation navigation">
+  <p class="sidebar-kicker">{{ kicker }}</p>
+  <h2 class="sidebar-title">{{ title }}</h2>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-group" *ngFor="let item of items">
+      <a
+        class="sidebar-link group-link"
+        [routerLink]="buildPath(item)"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        {{ item.label }}
+      </a>
+
+      <div class="sidebar-children" *ngIf="item.children?.length">
+        <a
+          *ngFor="let child of item.children"
+          class="sidebar-link child-link"
+          [routerLink]="buildPath(child)"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          {{ child.label }}
+        </a>
+      </div>
+    </div>
+  </nav>
+</aside>

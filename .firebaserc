@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "lunarchain"
+  },
+  "targets": {
+    "lunarchain": {
+      "hosting": {
+        "landing": [
+          "lunarchain-landing"
+        ]
+      }
+    }
+  }
+}
