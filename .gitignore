@@ -54,3 +54,8 @@ e2e/dist
 *.tgz
 *.rar
 *.7z
+
+# Local build and deploy artifacts
+out-tsc/
+dist/
+.firebase/
