@@ -30,31 +30,31 @@ export class ApiDocsLayoutComponent implements OnDestroy {
       label: 'Getting Started',
       path: 'overview',
       children: [
-        { id: 'overview', label: 'Overview', path: 'overview' },
-        { id: 'quick-start', label: 'Quick Start', path: 'quick-start' },
-        { id: 'base-configuration', label: 'Base Configuration', path: 'base-configuration' }
+        { id: 'overview', label: 'Platform Overview', path: 'overview' },
+        { id: 'quick-start', label: 'Integration Paths', path: 'quick-start' },
+        { id: 'base-configuration', label: 'Architecture & Graph Model', path: 'base-configuration' }
       ]
     },
     {
-      id: 'api-reference',
-      label: 'API Reference',
+      id: 'platform-surfaces',
+      label: 'Platform Surfaces',
       path: 'endpoint-focus',
       children: [
-        { id: 'endpoint-focus', label: 'Endpoint Focus', path: 'endpoint-focus' },
-        { id: 'payload-response', label: 'Payload & Response', path: 'payload-response' }
+        { id: 'endpoint-focus', label: 'API Surfaces', path: 'endpoint-focus' },
+        { id: 'payload-response', label: 'Request & Response', path: 'payload-response' }
       ]
     },
     {
-      id: 'agentic-access',
-      label: 'Agentic Access',
+      id: 'agentic-systems',
+      label: 'Agentic Systems',
       path: 'mcp-server',
       children: [
-        { id: 'mcp-server', label: 'MCP Server', path: 'mcp-server' }
+        { id: 'mcp-server', label: 'MCP & Agent Workflows', path: 'mcp-server' }
       ]
     },
     {
-      id: 'querying',
-      label: 'Querying',
+      id: 'query-authoring',
+      label: 'Query Authoring',
       path: 'aql-playbook',
       children: [
         { id: 'aql-playbook', label: 'AQL Playbook', path: 'aql-playbook' }

@@ -16,13 +16,13 @@
 .api-page.docs-layout {
   width: min(1460px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 110px 0 48px;
+  padding: 138px 0 48px;
   position: relative;
 }
 
 .docs-sidebar-shell {
   position: fixed;
-  top: 96px;
+  top: 118px;
   left: max(calc(50% - 730px), 16px);
   width: 280px;
 }
@@ -52,7 +52,7 @@
 @media (max-width: 980px) {
   .api-page.docs-layout {
     width: min(1400px, calc(100% - 20px));
-    padding-top: 104px;
+    padding-top: 126px;
   }
 
   .docs-sidebar-shell {

@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   environment: 'development',
   apiUrl: 'https://api.lunarchain.net',
-  appUrl: 'https://lunarchain.net',
+  appUrl: 'https://app.lunarchain.net',
   apiVersion: 'v1',
   // Add other development-specific configurations
   enableDebugLogging: true,

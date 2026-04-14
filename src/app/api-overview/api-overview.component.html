@@ -2,105 +2,199 @@
   <section class="docs-section" *ngSwitchCase="'overview'">
     <header class="docs-header">
       <p class="section-kicker">Overview</p>
-      <h1>Intelligence Graph API</h1>
-      <p>Query graph intelligence directly with AQL, or use MCP tools for natural-language and agentic lookups.</p>
+      <h1>LunarChain Platform Overview</h1>
+      <p class="overview-lede">
+        LunarChain is a graph-native threat intelligence platform built to give analysts, applications,
+        and agentic systems a shared intelligence model. The platform combines a public landing/docs site,
+        an authenticated analyst frontend, a FastAPI backend, LunarGraph as the canonical intelligence store,
+        and LunarMCP as the guarded read-only agent interface over that graph.
+      </p>
     </header>
 
-    <div class="overview-grid">
-      <article class="endpoint-card">
-        <h3>AQL Endpoint</h3>
-        <code>POST /api/v1/graph/aql-query</code>
-        <p>Use for explicit query control and deterministic result shaping.</p>
-      </article>
-      <article class="endpoint-card">
-        <h3>MCP Endpoint</h3>
-        <code>POST /api/v1/graph/mcp</code>
-        <p>Use for tool-driven querying from natural language and agent workflows.</p>
+    <div class="metric-grid">
+      <article class="docs-card metric-card" *ngFor="let metric of overviewMetrics">
+        <p class="metric-value">{{ metric.value }}</p>
+        <h3>{{ metric.label }}</h3>
+        <p>{{ metric.detail }}</p>
       </article>
     </div>
+
+    <div class="docs-subsection">
+      <div class="section-copy">
+        <p class="section-kicker">Platform Surfaces</p>
+        <h2 class="subsection-title">What the platform consists of</h2>
+        <p class="section-intro">
+          The same threat intelligence graph is exposed through separate surfaces depending on who is consuming it.
+          That separation matters because the public site, authenticated product, backend APIs, and agent workflows
+          do not have the same trust model or operating goal.
+        </p>
+      </div>
+      <div class="overview-grid">
+        <article class="docs-card stack-card" *ngFor="let surface of platformSurfaces">
+          <p class="card-eyebrow">{{ surface.audience }}</p>
+          <h3>{{ surface.title }}</h3>
+          <p class="card-meta">Access: {{ surface.access }}</p>
+          <p>{{ surface.summary }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let bullet of surface.bullets">{{ bullet }}</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="docs-subsection">
+      <div class="section-copy">
+        <p class="section-kicker">Use Cases</p>
+        <h2 class="subsection-title">What LunarChain is built to do</h2>
+      </div>
+      <div class="focus-grid">
+        <article class="docs-card" *ngFor="let capability of capabilityCards">
+          <h3>{{ capability.title }}</h3>
+          <p>{{ capability.summary }}</p>
+        </article>
+      </div>
+    </div>
+
+    <article class="docs-card notice-card">
+      <h3>High-level architecture</h3>
+      <p>
+        Public visitors see a curated subset of graph data through fixed landing endpoints. Authenticated users work
+        through the product UI and backend APIs. MCP clients use LunarMCP to inspect schema, retrieve guidance, and run
+        bounded read-only AQL. All of those paths converge on the same underlying intelligence graph.
+      </p>
+    </article>
   </section>
 
   <section class="docs-section" *ngSwitchCase="'quick-start'">
     <header class="section-header">
       <p class="section-kicker">Getting Started</p>
-      <h2>Quick Start</h2>
+      <h2>Integration Paths</h2>
     </header>
     <p class="section-intro">
-      Start here to verify connectivity and payload shape before building complex graph traversals.
-      This gives you a reliable baseline request/response flow.
+      Start by choosing the surface that matches the job. Public landing routes are for presentation-safe visuals,
+      authenticated graph APIs are for product and integration work, and LunarMCP is the access layer for agents.
     </p>
-    <div class="split-grid">
-      <article class="docs-card">
-        <h3>Run first request</h3>
-        <pre><code [textContent]="curlExample"></code></pre>
-      </article>
-      <article class="docs-card">
-        <h3>Expected outcome</h3>
-        <ul>
-          <li>HTTP 200 response from <code>/graph/aql-query</code> with a valid bearer token</li>
-          <li>Latest report rows in response payload</li>
-          <li>Stable baseline before running complex traversals</li>
+
+    <div class="focus-grid integration-grid">
+      <article class="docs-card stack-card" *ngFor="let path of integrationPaths">
+        <p class="card-eyebrow">{{ path.audience }}</p>
+        <h3>{{ path.title }}</h3>
+        <code class="card-route">{{ path.route }}</code>
+        <p class="card-meta">Access: {{ path.access }}</p>
+        <p>{{ path.whenToUse }}</p>
+        <ul class="detail-list">
+          <li *ngFor="let bullet of path.bullets">{{ bullet }}</li>
         </ul>
       </article>
     </div>
-  </section>
 
-  <section class="docs-section" *ngSwitchCase="'base-configuration'">
-    <header class="section-header">
-      <p class="section-kicker">Core Setup</p>
-      <h2>Base Configuration</h2>
-    </header>
-    <p class="section-intro">
-      This section defines the exact request contract for the graph endpoint:
-      base URL, method, headers, and minimal body fields.
-    </p>
-
-    <div class="config-grid">
+    <div class="split-grid examples-grid">
       <article class="docs-card">
-        <h3>Base URL</h3>
-        <code class="config-value">https://api.lunarchain.net/api/v1</code>
+        <h3>First authenticated AQL request</h3>
+        <p class="card-support">Use this when you need exact graph control from the product or an authenticated integration.</p>
+        <pre><code [textContent]="curlExample"></code></pre>
       </article>
       <article class="docs-card">
-        <h3>Primary Endpoint</h3>
-        <code class="config-value">POST /graph/aql-query</code>
-      </article>
-      <article class="docs-card">
-        <h3>Authentication</h3>
-        <p>Send a bearer token when calling <code>/graph/aql-query</code>.</p>
-      </article>
-      <article class="docs-card">
-        <h3>Payload Format</h3>
-        <p>JSON body with one required field: <code>query</code>.</p>
+        <h3>First public landing request</h3>
+        <p class="card-support">Use this only for landing-safe visuals and fixed public content.</p>
+        <pre><code [textContent]="publicLandingExample"></code></pre>
       </article>
     </div>
 
     <article class="docs-card request-spec-card">
-      <h3>Required Request Fields</h3>
-      <div class="request-spec">
+      <h3>What the frontend does</h3>
+      <div class="request-spec compact-spec">
         <div class="request-row">
-          <span class="request-key">Method</span>
-          <code>POST</code>
-        </div>
-        <div class="request-row">
-          <span class="request-key">URL</span>
-          <code>https://api.lunarchain.net/api/v1/graph/aql-query</code>
-        </div>
-        <div class="request-row">
-          <span class="request-key">Required Headers</span>
+          <span class="request-key">Landing frontend</span>
           <div class="request-values">
-            <code>Content-Type: application/json</code>
-            <code>Authorization: Bearer &lt;token&gt;</code>
+            <span>Public marketing site, docs, flat map, globe, and country IOC previews.</span>
           </div>
         </div>
         <div class="request-row">
-          <span class="request-key">Required Body</span>
-          <code>&#123; "query": "&lt;AQL string&gt;" &#125;</code>
+          <span class="request-key">Authenticated frontend</span>
+          <div class="request-values">
+            <span>Explorer, Query, Reports, Targets, Alerts, Search, settings, and client-scoped workflows.</span>
+          </div>
         </div>
         <div class="request-row">
-          <span class="request-key">Optional Body</span>
+          <span class="request-key">Agent-facing workflow</span>
           <div class="request-values">
-            <code>bind_vars: &#123; ... &#125;</code>
-            <code>options: &#123; ... &#125;</code>
+            <span>MCP clients bootstrap context, inspect schema and ontology, and then execute explicit read-only AQL.</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="docs-section" *ngSwitchCase="'base-configuration'">
+    <header class="section-header">
+      <p class="section-kicker">Architecture</p>
+      <h2>Architecture and Graph Model</h2>
+    </header>
+    <p class="section-intro">
+      LunarChain is not just an endpoint collection. It is a layered system with separate trust boundaries,
+      a canonical graph schema, and explicit conventions for how graph queries should be written.
+    </p>
+
+    <div class="layer-grid">
+      <article class="docs-card stack-card" *ngFor="let layer of architectureLayers">
+        <h3>{{ layer.title }}</h3>
+        <p>{{ layer.summary }}</p>
+        <ul class="detail-list">
+          <li *ngFor="let responsibility of layer.responsibilities">{{ responsibility }}</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="docs-subsection">
+      <div class="section-copy">
+        <p class="section-kicker">Graph Structure</p>
+        <h2 class="subsection-title">Canonical graph rules</h2>
+      </div>
+      <div class="fact-grid">
+        <article class="docs-card fact-card" *ngFor="let fact of graphFacts">
+          <p class="fact-label">{{ fact.title }}</p>
+          <code class="fact-value">{{ fact.value }}</code>
+          <p>{{ fact.detail }}</p>
+        </article>
+      </div>
+    </div>
+
+    <article class="docs-card request-spec-card">
+      <h3>Base platform configuration</h3>
+      <div class="request-spec">
+        <div class="request-row">
+          <span class="request-key">API Base</span>
+          <code>{{ apiBase }}</code>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Public Graph Routes</span>
+          <div class="request-values">
+            <code>GET /graph/public/landing-threat-intelligence</code>
+            <code>GET /graph/public/landing-globe</code>
+            <code>POST /graph/public/landing-country-iocs</code>
+          </div>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Authenticated Graph Routes</span>
+          <div class="request-values">
+            <code>POST /graph/aql-query</code>
+            <code>POST /graph/simple-query</code>
+            <code>POST /graph/ai-query</code>
+            <code>GET /graph/collections</code>
+            <code>GET /graph/query-options</code>
+            <code>GET /graph/stix-types</code>
+            <code>GET /graph/aliases</code>
+          </div>
+        </div>
+        <div class="request-row">
+          <span class="request-key">MCP Proxy</span>
+          <code>{{ mcpEndpoint }}</code>
+        </div>
+        <div class="request-row">
+          <span class="request-key">Why this split exists</span>
+          <div class="request-values">
+            <span>Landing routes are fixed and public. Analyst APIs are authenticated and flexible. MCP is read-only and agent-oriented.</span>
           </div>
         </div>
       </div>
@@ -109,17 +203,23 @@
 
   <section class="docs-section" *ngSwitchCase="'endpoint-focus'">
     <header class="section-header">
-      <p class="section-kicker">Operating Model</p>
-      <h2>Endpoint Focus</h2>
+      <p class="section-kicker">Reference</p>
+      <h2>Platform Surfaces</h2>
     </header>
     <p class="section-intro">
-      Use this as a decision guide for when to use direct AQL calls versus agent-oriented query paths.
-      It summarizes reliability and scale tradeoffs.
+      These are the main graph-facing routes exposed by the platform today. Use the public endpoints only for landing-safe content,
+      use authenticated graph routes for analyst and application workflows, and use MCP when the caller is an agent runtime.
     </p>
-    <div class="focus-grid">
-      <article class="docs-card focus-card" *ngFor="let item of endpointHighlights">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.summary }}</p>
+
+    <div class="endpoint-grid">
+      <article class="docs-card stack-card" *ngFor="let endpoint of endpointCards">
+        <p class="card-eyebrow">{{ endpoint.access }}</p>
+        <h3>{{ endpoint.title }}</h3>
+        <code class="card-route">{{ endpoint.route }}</code>
+        <p>{{ endpoint.summary }}</p>
+        <ul class="detail-list">
+          <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+        </ul>
       </article>
     </div>
   </section>
@@ -127,25 +227,25 @@
   <section class="docs-section" *ngSwitchCase="'mcp-server'">
     <header class="section-header">
       <p class="section-kicker">Agentic Access</p>
-      <h2>MCP Server</h2>
+      <h2>MCP and Agent Workflows</h2>
     </header>
     <p class="section-intro">
-      The MCP server is the agent-facing interface to the same intelligence graph.
-      It is designed for natural-language requests, safe query planning, and bounded execution without forcing every agent to handcraft AQL.
+      LunarMCP is the read-only agent layer over LunarGraph. Its job is to give agents a stable contract for bootstrap context,
+      schema awareness, relationship guidance, and bounded query execution. It is not a server-side natural-language-to-AQL translator.
     </p>
 
     <div class="mcp-flow">
       <article class="docs-card">
-        <h3>What It Is</h3>
-        <p>A streamable MCP endpoint exposed via your backend at <code>/api/v1/graph/mcp</code>.</p>
+        <h3>What MCP is for</h3>
+        <p>Expose the graph to AI agents through a controlled, reusable interface rather than through ad-hoc backend debug routes.</p>
       </article>
       <article class="docs-card">
-        <h3>Why It Exists</h3>
-        <p>Lets AI agents query graph intelligence safely and consistently using standard tools instead of ad-hoc debug calls.</p>
+        <h3>What agents should do</h3>
+        <p>Bootstrap resources, inspect schema and relationship guidance, adapt example queries, and then call <code>run_read_query</code>.</p>
       </article>
       <article class="docs-card">
-        <h3>How To Use It</h3>
-        <p>Initialize session → list tools → call <code>query_intel</code> for NL requests, or <code>run_read_query</code> for explicit AQL.</p>
+        <h3>What MCP does not do</h3>
+        <p>It does not accept a natural-language question and synthesize AQL for you on the server. Agents must author the AQL explicitly.</p>
       </article>
     </div>
 
@@ -156,48 +256,72 @@
       </article>
       <article class="docs-card">
         <h3>Transport</h3>
-        <p>Streamable HTTP over the <code>/api/v1/graph/mcp</code> route.</p>
+        <p>Streamable HTTP with JSON-RPC messages returned as server-sent event frames.</p>
       </article>
       <article class="docs-card">
         <h3>Session Header</h3>
-        <p>Use <code>mcp-session-id</code> from initialize response headers for subsequent calls.</p>
+        <p>Use the <code>mcp-session-id</code> returned by <code>initialize</code> on later calls.</p>
       </article>
       <article class="docs-card">
-        <h3>Primary Tool</h3>
-        <p>Use <code>query_intel</code> first for natural-language intelligence requests.</p>
+        <h3>Execution Model</h3>
+        <p>Read-only AQL with server-side result limits, runtime caps, and collection alias normalization.</p>
       </article>
     </div>
 
-    <div class="mcp-tool-grid">
-      <article class="docs-card" *ngFor="let tool of mcpToolHighlights">
-        <h3><code>{{ tool.name }}</code></h3>
-        <p>{{ tool.use }}</p>
-        <p class="tool-why">{{ tool.why }}</p>
-      </article>
+    <div class="docs-subsection">
+      <div class="section-copy">
+        <p class="section-kicker">Resources</p>
+        <h2 class="subsection-title">Bootstrap context before writing queries</h2>
+      </div>
+      <div class="mcp-tool-grid">
+        <article class="docs-card" *ngFor="let resource of mcpResourceHighlights">
+          <h3>{{ resource.name }}</h3>
+          <code class="card-route">{{ resource.uri }}</code>
+          <p>{{ resource.purpose }}</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="docs-subsection">
+      <div class="section-copy">
+        <p class="section-kicker">Tools</p>
+        <h2 class="subsection-title">Actual tools exposed by LunarMCP</h2>
+      </div>
+      <div class="mcp-tool-grid">
+        <article class="docs-card" *ngFor="let tool of mcpToolHighlights">
+          <h3><code>{{ tool.name }}</code></h3>
+          <p>{{ tool.use }}</p>
+          <p class="tool-why">{{ tool.why }}</p>
+        </article>
+      </div>
     </div>
 
     <details class="docs-collapsible">
       <summary>MCP cURL examples</summary>
       <div class="response-grid mcp-grid">
         <article class="docs-card">
-          <h3>Install</h3>
+          <h3>Install a client</h3>
           <pre><code [textContent]="mcpInstallExample"></code></pre>
         </article>
         <article class="docs-card">
-          <h3>Initialize Session</h3>
+          <h3>Initialize</h3>
           <pre><code [textContent]="mcpInitExample"></code></pre>
         </article>
         <article class="docs-card">
-          <h3>List Tools (Test)</h3>
+          <h3>List resources</h3>
+          <pre><code [textContent]="mcpResourcesExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>List tools</h3>
           <pre><code [textContent]="mcpToolsExample"></code></pre>
         </article>
         <article class="docs-card">
-          <h3>NL Intent -> AQL Preview</h3>
-          <pre><code [textContent]="mcpIntentPreviewExample"></code></pre>
+          <h3>Run health check</h3>
+          <pre><code [textContent]="mcpHealthCheckExample"></code></pre>
         </article>
         <article class="docs-card">
-          <h3>NL Query Execution</h3>
-          <pre><code [textContent]="mcpQueryIntelExample"></code></pre>
+          <h3>Execute read-only AQL</h3>
+          <pre><code [textContent]="mcpQueryExample"></code></pre>
         </article>
       </div>
     </details>
@@ -206,39 +330,68 @@
   <section class="docs-section" *ngSwitchCase="'payload-response'">
     <header class="section-header">
       <p class="section-kicker">Reference</p>
-      <h2>Payload and Response</h2>
+      <h2>Request and Response Shapes</h2>
     </header>
     <p class="section-intro">
-      These examples show the exact JSON shape expected by the API and common success/error payloads for client handling.
+      The platform exposes three different request/response styles: authenticated graph API calls, public landing routes,
+      and MCP JSON-RPC over streamable HTTP. The payloads below reflect the current backend and MCP server behavior.
     </p>
-    <details class="docs-collapsible" open>
-      <summary>View payload and response examples</summary>
-      <div class="response-grid">
-        <article class="docs-card">
-          <h3>Request Body</h3>
-          <pre><code [textContent]="payloadExample"></code></pre>
-        </article>
-        <article class="docs-card">
-          <h3>Success</h3>
-          <pre><code [textContent]="successResponseExample"></code></pre>
-        </article>
-        <article class="docs-card">
-          <h3>Error</h3>
-          <pre><code [textContent]="errorResponseExample"></code></pre>
-        </article>
-      </div>
-    </details>
+
+    <div class="response-grid wide-response-grid">
+      <article class="docs-card">
+        <h3>Authenticated AQL request</h3>
+        <pre><code [textContent]="payloadExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>Authenticated AQL response</h3>
+        <pre><code [textContent]="successResponseExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>Public landing response</h3>
+        <pre><code [textContent]="publicResponseExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>Graph error response</h3>
+        <pre><code [textContent]="errorResponseExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>MCP tool call request</h3>
+        <pre><code [textContent]="mcpRequestExample"></code></pre>
+      </article>
+      <article class="docs-card">
+        <h3>MCP event-stream response</h3>
+        <pre><code [textContent]="mcpResponseExample"></code></pre>
+      </article>
+    </div>
+
+    <article class="docs-card request-spec-card">
+      <h3>Response handling notes</h3>
+      <ul class="detail-list">
+        <li>Public landing endpoints return a simple <code>status + data</code> wrapper and do not accept arbitrary graph input.</li>
+        <li><code>/graph/aql-query</code> returns the upstream graph result inside a backend wrapper that includes the effective query and bind vars.</li>
+        <li>MCP responses arrive as streamable HTTP event frames even when the payload itself is JSON-RPC.</li>
+        <li>If you are building agents, read resources and inspect schema before issuing <code>run_read_query</code>.</li>
+      </ul>
+    </article>
   </section>
 
   <section class="docs-section" *ngSwitchCase="'aql-playbook'">
     <header class="section-header">
       <p class="section-kicker">Examples</p>
-      <h2>AQL Query Playbook</h2>
-      <p class="section-note">Simple to advanced. Expand any example to run it.</p>
+      <h2>AQL Playbook</h2>
+      <p class="section-note">These patterns are written for the canonical graph collections and traversal conventions used across the platform.</p>
     </header>
     <p class="section-intro">
-      Production-ready query patterns for common intelligence tasks, from simple report retrieval to multi-hop graph pivots.
+      Use these as starting points for analyst views, integration work, and agent-authored queries.
+      They are intentionally bounded and follow the live graph conventions used by LunarChain and LunarMCP.
     </p>
+
+    <div class="focus-grid rule-grid">
+      <article class="docs-card" *ngFor="let rule of authoringRules">
+        <h3>{{ rule.title }}</h3>
+        <p>{{ rule.detail }}</p>
+      </article>
+    </div>
 
     <div class="example-list">
       <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index" [attr.data-level]="example.level">
@@ -252,37 +405,6 @@
           </summary>
           <p>{{ example.goal }}</p>
           <pre><code [textContent]="example.query"></code></pre>
-          <div class="example-actions">
-            <button class="run-btn" type="button" (click)="runExample(example, i)" [disabled]="runResults[i]?.isRunning">
-              {{ runResults[i]?.isRunning ? 'Running...' : 'Run query' }}
-            </button>
-            <button
-              class="view-btn"
-              type="button"
-              *ngIf="runResults[i]?.hasRun && !runResults[i]?.isRunning && runResults[i]?.fullResponseText"
-              (click)="toggleFullResponse(i)">
-              {{ runResults[i]?.showFullResponse ? 'Hide full response' : 'View full response' }}
-            </button>
-          </div>
-          <div class="run-result" *ngIf="runResults[i]?.hasRun">
-            <p class="run-error" *ngIf="runResults[i]?.error">
-              Run failed: {{ runResults[i]?.error }}
-            </p>
-            <p class="run-meta" *ngIf="!runResults[i]?.error && !runResults[i]?.isRunning">
-              Completed in {{ runResults[i]?.durationMs }} ms
-              <span *ngIf="runResults[i]?.responseCount !== null">
-                · {{ runResults[i]?.responseCount }} rows returned
-              </span>
-            </p>
-            <div *ngIf="!runResults[i]?.error && runResults[i]?.previewText">
-              <p class="run-preview-label">Preview (first 5 rows)</p>
-              <pre><code [textContent]="runResults[i]?.previewText || ''"></code></pre>
-            </div>
-            <div *ngIf="runResults[i]?.showFullResponse && runResults[i]?.fullResponseText">
-              <p class="run-preview-label">Full API response</p>
-              <pre><code [textContent]="runResults[i]?.fullResponseText || ''"></code></pre>
-            </div>
-          </div>
         </details>
       </article>
     </div>

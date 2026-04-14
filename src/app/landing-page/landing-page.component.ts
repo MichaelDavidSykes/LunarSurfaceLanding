@@ -1928,7 +1928,7 @@ FOR candidate IN candidateReports
     this.snackbar.open('Sending your message...', 'info');
     
     // Make API call
-    this.http.post('https://api-dev.lunarchain.net/api/v1/contacts/contact', payload)
+    this.http.post(`${environment.apiUrl}/api/${environment.apiVersion}/contacts/contact`, payload)
       .subscribe({
         next: (response) => {
           // Show success message
