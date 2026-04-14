@@ -82,6 +82,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
+              "outputHashing": "all",
               "sourceMap": true,
               "fileReplacements": [
                 {

@@ -23,14 +23,14 @@
       <div class="docs-outline">
         <p class="outline-title">On this page</p>
         <nav class="outline-nav" aria-label="On this page">
-          <button
+          <a
             *ngFor="let item of currentOutline"
-            type="button"
             class="outline-link"
+            [attr.href]="buildSectionHref(item.id)"
             [class.active]="item.id === activeOutlineId"
-            (click)="scrollToSection(item.id)">
+            (click)="onOutlineClick($event, item.id)">
             {{ item.label }}
-          </button>
+          </a>
         </nav>
       </div>
     </aside>

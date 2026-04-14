@@ -125,6 +125,20 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     return this.pageOutlines[this.currentPage] ?? [];
   }
 
+  protected buildSectionHref(sectionId: string): string {
+    const currentPath = this.router.url.split('#')[0];
+    return `${currentPath}#${sectionId}`;
+  }
+
+  protected onOutlineClick(event: MouseEvent, sectionId: string): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    event.preventDefault();
+    this.scrollToSection(sectionId);
+  }
+
   protected scrollToSection(sectionId: string): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -135,9 +149,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    if (target instanceof HTMLDetailsElement && !target.open) {
-      target.open = true;
-    }
+    this.openTargetIfNeeded(target);
 
     const top = target.getBoundingClientRect().top + window.scrollY - this.getScrollOffset();
     window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
@@ -210,9 +222,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    if (target instanceof HTMLDetailsElement && !target.open) {
-      target.open = true;
-    }
+    this.openTargetIfNeeded(target);
 
     const top = target.getBoundingClientRect().top + window.scrollY - this.getScrollOffset();
     window.scrollTo({ top: Math.max(top, 0), behavior: 'auto' });
@@ -245,6 +255,12 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
 
   private getScrollOffset(): number {
     return window.innerWidth <= 980 ? 104 : 118;
+  }
+
+  private openTargetIfNeeded(target: HTMLElement): void {
+    if (target instanceof HTMLDetailsElement && !target.open) {
+      target.open = true;
+    }
   }
 
   ngOnDestroy(): void {

@@ -4,6 +4,10 @@
   color: #f3f3f3;
 }
 
+.docs-section [id] {
+  scroll-margin-top: 132px;
+}
+
 .docs-section {
   display: grid;
   gap: 28px;
