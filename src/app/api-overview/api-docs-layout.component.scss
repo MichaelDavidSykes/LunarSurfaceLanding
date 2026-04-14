@@ -36,12 +36,16 @@
 }
 
 .docs-outline-shell {
-  position: sticky;
+  position: fixed;
   top: var(--docs-toolbar-height);
-  align-self: start;
+  right: max(12px, calc((100vw - 1600px) / 2));
+  width: 250px;
   height: calc(100vh - var(--docs-toolbar-height));
   padding: 34px 8px 28px 24px;
   border-left: 1px solid rgba(255, 255, 255, 0.09);
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 100;
 }
 
 .docs-outline {
