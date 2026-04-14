@@ -91,64 +91,64 @@ export class ApiOverviewComponent implements OnInit {
   protected readonly overviewMetrics: OverviewMetric[] = [
     {
       value: '1 Graph',
-      label: 'Canonical intelligence model',
-      detail: 'Analysts, APIs, and agents all work against the same connected graph rather than isolated feeds or separate search indexes.'
+      label: 'Shared intelligence model',
+      detail: 'The site, product, and agent workflows all read from the same graph instead of separate data copies.'
     },
     {
       value: '3 Access Paths',
-      label: 'Human, application, and agent workflows',
-      detail: 'The platform exposes public landing data, authenticated graph APIs, and a dedicated MCP layer for agentic systems.'
+      label: 'Public, app, and agent access',
+      detail: 'Choose between fixed public routes, authenticated graph APIs, or LunarMCP depending on the caller.'
     },
     {
       value: 'Read-Only Guardrails',
-      label: 'Safe agent execution model',
-      detail: 'LunarMCP enforces read-only AQL, result caps, runtime caps, and collection alias normalization before queries hit LunarGraph.'
+      label: 'Safe agent execution',
+      detail: 'LunarMCP keeps agent queries read-only, bounded, and aligned to the canonical graph collections.'
     }
   ];
 
   protected readonly platformSurfaces: PlatformSurface[] = [
     {
-      title: 'Landing and documentation frontend',
-      audience: 'Public visitors, evaluators, and integration teams',
+      title: 'Landing site',
+      audience: 'Public visitors and evaluators',
       access: 'Anonymous access',
-      summary: 'The standalone landing site presents the product, renders public graph-backed visuals, and hosts architecture-facing documentation.',
+      summary: 'The public site explains the platform, shows safe graph-backed visuals, and hosts the docs.',
       bullets: [
-        'Uses fixed public endpoints for the flat map, globe, and country IOC previews.',
-        'Does not use raw arbitrary AQL for anonymous visitors.',
-        'Provides the public entry point for understanding the platform before login or integration work begins.'
+        'Uses fixed routes for the map, globe, and country IOC previews.',
+        'Does not expose arbitrary AQL to anonymous users.',
+        'Acts as the first stop before login or integration work.'
       ]
     },
     {
-      title: 'Authenticated analyst frontend',
+      title: 'Analyst app',
       audience: 'Security teams and customer operators',
       access: 'Application session required',
-      summary: 'The product UI is where users investigate reports, manage alerts and targets, explore graph relationships, and work with client-scoped data.',
+      summary: 'The product UI is where analysts investigate reports, explore relationships, and manage customer workflows.',
       bullets: [
-        'Supports graph-backed views such as Explorer, Query, Reports, Targets, Alerts, and search workflows.',
-        'Uses authenticated backend endpoints for AQL, simplified graph queries, AI-assisted summaries, and account-scoped features.',
-        'Acts as the operational surface for analyst investigation rather than a public brochure site.'
+        'Includes Explorer, Query, Reports, Targets, Alerts, and search workflows.',
+        'Uses authenticated graph endpoints for AQL, structured queries, and summaries.',
+        'It is the operational surface, not the public brochure.'
       ]
     },
     {
-      title: 'FastAPI backend and graph API layer',
-      audience: 'Frontend clients, product services, and controlled integrations',
+      title: 'Backend API',
+      audience: 'Frontends, services, and controlled integrations',
       access: 'Mixed: public and authenticated routes',
-      summary: 'The backend brokers access to LunarGraph, exposes public landing-safe graph slices, and handles account, client, target, alert, and auth workflows.',
+      summary: 'The backend brokers graph access, exposes public slices, and handles product workflows such as auth and client state.',
       bullets: [
-        'Authenticated routes expose raw AQL, simplified graph querying, AI summarization, and metadata endpoints.',
-        'Public routes are deliberately narrow and designed only for the landing page visualizations.',
-        'The backend also proxies the MCP endpoint so agent access can live under the same backend domain.'
+        'Authenticated routes expose AQL, simplified querying, summaries, and metadata.',
+        'Public routes stay narrow and landing-safe.',
+        'The MCP endpoint is proxied through the same backend domain.'
       ]
     },
     {
-      title: 'LunarMCP for agentic systems',
+      title: 'LunarMCP',
       audience: 'MCP clients, automation frameworks, and AI agents',
       access: 'MCP session lifecycle over the backend proxy',
-      summary: 'LunarMCP is the agent-facing contract for discovering graph context and running bounded read-only AQL against LunarGraph.',
+      summary: 'LunarMCP is the agent-facing contract for bootstrapping context and running guarded read-only AQL.',
       bullets: [
-        'Exposes tools for health checks, schema inspection, relationship guidance, query examples, and guarded read-only query execution.',
-        'Does not translate natural language into AQL on the server.',
-        'Keeps agent workflows stable even as graph ingestion and product features evolve.'
+        'Exposes tools for health checks, schema inspection, guidance, examples, and read-only execution.',
+        'Agents still author the AQL explicitly.',
+        'Keeps agent workflows stable as the product evolves.'
       ]
     }
   ];
@@ -156,34 +156,34 @@ export class ApiOverviewComponent implements OnInit {
   protected readonly capabilityCards: CapabilityCard[] = [
     {
       title: 'Threat investigation',
-      summary: 'Pivot from reports into indicators, infrastructure, actors, malware, campaigns, tools, and locations through graph traversals.'
+      summary: 'Pivot from reports into indicators, infrastructure, actors, malware, tools, and locations through the graph.'
     },
     {
       title: 'Customer monitoring',
-      summary: 'Track client targets, alerts, and report-linked activity in one operational system rather than separate spreadsheets and feeds.'
+      summary: 'Track client targets, alerts, and report-linked activity in one operational system.'
     },
     {
       title: 'Graph-native enrichment',
-      summary: 'Use graph relationships to move from one entity to surrounding context instead of relying on isolated point lookups.'
+      summary: 'Move from a single entity to nearby context instead of relying on isolated point lookups.'
     },
     {
       title: 'Agentic workflows',
-      summary: 'Give agents a stable, read-only interface to schema context, relationship guidance, example queries, and bounded execution.'
+      summary: 'Give agents a stable, read-only path to schema context, query guidance, and bounded execution.'
     }
   ];
 
   protected readonly architectureLayers: ArchitectureLayer[] = [
     {
       title: 'Presentation layer',
-      summary: 'The public landing site and the authenticated product UI are separate frontends with different trust models and responsibilities.',
+      summary: 'The public site and the analyst app are separate frontends with different trust models.',
       responsibilities: [
-        'Landing/docs site renders public graph visuals and platform documentation.',
-        'Product frontend drives analyst workflows such as Explorer, Query, Reports, Targets, Alerts, and client management.'
+        'The landing site renders public visuals and docs.',
+        'The analyst app drives investigation, reporting, targets, alerts, and client workflows.'
       ]
     },
     {
       title: 'Backend orchestration layer',
-      summary: 'The FastAPI backend exposes application APIs, auth flows, graph access routes, and the MCP proxy under a single backend domain.',
+      summary: 'The FastAPI backend exposes auth, app APIs, graph routes, and the MCP proxy under one domain.',
       responsibilities: [
         'Separates anonymous landing-safe routes from authenticated product routes.',
         'Handles user, client, target, alert, invitation, and notification workflows.'
@@ -191,10 +191,10 @@ export class ApiOverviewComponent implements OnInit {
     },
     {
       title: 'Agent access layer',
-      summary: 'LunarMCP sits in front of LunarGraph as a stable, read-only contract for agents and automation systems.',
+      summary: 'LunarMCP sits in front of LunarGraph as a stable, read-only contract for agents.',
       responsibilities: [
-        'Provides resource bootstrap material, schema inspection tools, and bounded read-only AQL execution.',
-        'Normalizes common collection aliases and enforces server-side query guardrails.'
+        'Provides bootstrap resources, schema inspection, and bounded read-only AQL execution.',
+        'Normalizes common aliases and enforces query guardrails.'
       ]
     },
     {
@@ -202,7 +202,7 @@ export class ApiOverviewComponent implements OnInit {
       summary: 'LunarGraph stores the intelligence model as vertices, edges, and traversable relationships.',
       responsibilities: [
         'Uses nodes_vertex_collection for entities and reports, nodes_edge_collection for relationships, and lunargraph_graph for traversals.',
-        'Supports report-centric pivots, entity neighborhood exploration, and topology-aware investigation.'
+        'Supports report pivots, neighborhood exploration, and topology-aware investigation.'
       ]
     }
   ];
@@ -246,11 +246,11 @@ export class ApiOverviewComponent implements OnInit {
       audience: 'Public site and anonymous visitors',
       route: 'GET /graph/public/landing-threat-intelligence and related routes',
       access: 'No bearer token',
-      whenToUse: 'Use this only when you need fixed, non-arbitrary graph slices for the public landing experience.',
+      whenToUse: 'Use this only when you need fixed, presentation-safe graph slices for the public site.',
       bullets: [
-        'Backs the landing flat map, globe, and country IOC drill-down.',
-        'Returns pre-scoped results rather than accepting arbitrary analyst queries.',
-        'Designed for presentation safety, not investigation flexibility.'
+        'Backs the landing map, globe, and country drill-down.',
+        'Returns pre-scoped results instead of accepting arbitrary queries.',
+        'Built for presentation safety, not analyst flexibility.'
       ]
     },
     {
@@ -258,33 +258,33 @@ export class ApiOverviewComponent implements OnInit {
       audience: 'Frontend app, internal services, and controlled integrations',
       route: 'POST /graph/aql-query, /graph/simple-query, /graph/ai-query',
       access: 'Bearer token required',
-      whenToUse: 'Use this when you need full analyst-grade graph access, deterministic payloads, or product-specific orchestration.',
+      whenToUse: 'Use this when you need analyst-grade graph access, deterministic payloads, or product orchestration.',
       bullets: [
-        'Raw AQL gives maximum control and exact result shaping.',
-        'simple-query gives a structured boolean/filter-based API for common graph lookups.',
-        'ai-query executes AQL and then summarizes the result set for the product experience.'
+        'Raw AQL gives the most control.',
+        'simple-query handles common graph lookups with structured filters.',
+        'ai-query adds product-facing summarization on top of AQL.'
       ]
     },
     {
-      title: 'LunarMCP agent interface',
+      title: 'LunarMCP interface',
       audience: 'MCP clients and agentic systems',
       route: 'POST /graph/mcp',
       access: 'MCP initialize + session lifecycle',
-      whenToUse: 'Use this when an agent needs schema context, relationship guidance, curated examples, and guarded read-only AQL execution.',
+      whenToUse: 'Use this when an agent needs schema context, curated guidance, and guarded read-only AQL execution.',
       bullets: [
         'Bootstrap context via resources before writing queries.',
-        'Use tool calls to inspect schema and then run bounded read-only AQL.',
-        'Designed for agent reliability, not end-user browser interaction.'
+        'Inspect schema first, then run bounded read-only AQL.',
+        'Built for agent reliability, not browser interaction.'
       ]
     }
   ];
 
   protected readonly endpointCards: EndpointCard[] = [
     {
-      title: 'Landing threat-intelligence slice',
+      title: 'Landing threat feed',
       route: 'GET /graph/public/landing-threat-intelligence',
       access: 'Public',
-      summary: 'Returns grouped, recent public slices of indicators, reports, malware, tools, actors, and locations for the landing hero content.',
+      summary: 'Returns grouped, recent slices of indicators, reports, malware, tools, actors, and locations for the landing site.',
       bullets: [
         'Landing only.',
         'Fixed AQL on the backend.',
@@ -295,7 +295,7 @@ export class ApiOverviewComponent implements OnInit {
       title: 'Landing globe dataset',
       route: 'GET /graph/public/landing-globe',
       access: 'Public',
-      summary: 'Returns globe-ready, country-linked report clusters with highlight IOC snippets for public visualization.',
+      summary: 'Returns globe-ready, country-linked report clusters with IOC snippets for the public visualization.',
       bullets: [
         'Optimized for the landing globe.',
         'Pre-bounded for responsiveness.',
@@ -303,7 +303,7 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'Landing country IOC preview',
+      title: 'Country IOC preview',
       route: 'POST /graph/public/landing-country-iocs',
       access: 'Public',
       summary: 'Returns a narrow IOC preview for a selected country on the public site.',
@@ -314,10 +314,10 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'Direct AQL execution',
+      title: 'Direct AQL',
       route: 'POST /graph/aql-query',
       access: 'Authenticated',
-      summary: 'Executes explicit AQL against LunarGraph through the backend and returns the upstream graph result wrapped with request context.',
+      summary: 'Executes explicit AQL against LunarGraph and returns the graph result with request context.',
       bullets: [
         'Best for deterministic analyst views and custom integrations.',
         'Requires a bearer token.',
@@ -325,10 +325,10 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'Structured graph query helper',
+      title: 'Structured query helper',
       route: 'POST /graph/simple-query',
       access: 'Authenticated',
-      summary: 'Provides a structured filter/relationship API for common graph access patterns without hand-authoring AQL.',
+      summary: 'Provides a structured filter and relationship API for common graph access patterns without hand-authoring AQL.',
       bullets: [
         'Supports boolean filters and relationship configuration.',
         'Useful for product workflows that do not need raw AQL.',
@@ -336,10 +336,10 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'AI-assisted graph summary',
+      title: 'AI summary',
       route: 'POST /graph/ai-query',
       access: 'Authenticated',
-      summary: 'Runs AQL and then returns an AI-generated summary of the graph result set for product workflows.',
+      summary: 'Runs AQL and then returns an AI-generated summary of the result set for product workflows.',
       bullets: [
         'Useful when analysts need quick narrative output.',
         'Relies on a compiled AQL query from the frontend or another orchestration layer.',
@@ -347,7 +347,7 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'Metadata and schema helpers',
+      title: 'Metadata helpers',
       route: 'GET /graph/collections, /graph/query-options, /graph/stix-types, /graph/aliases',
       access: 'Authenticated',
       summary: 'Expose reference metadata and platform hints for building safer queries and integrations.',
@@ -358,7 +358,7 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'MCP proxy endpoint',
+      title: 'MCP proxy',
       route: 'POST /graph/mcp',
       access: 'MCP session-based',
       summary: 'Proxies LunarMCP over streamable HTTP so agents can use the same backend domain while following MCP session semantics.',
@@ -370,21 +370,33 @@ export class ApiOverviewComponent implements OnInit {
     }
   ];
 
+  protected get publicEndpoints(): EndpointCard[] {
+    return this.endpointCards.filter((endpoint) => endpoint.access === 'Public');
+  }
+
+  protected get authenticatedEndpoints(): EndpointCard[] {
+    return this.endpointCards.filter((endpoint) => endpoint.access === 'Authenticated');
+  }
+
+  protected get agentEndpoints(): EndpointCard[] {
+    return this.endpointCards.filter((endpoint) => endpoint.access !== 'Public' && endpoint.access !== 'Authenticated');
+  }
+
   protected readonly mcpResourceHighlights: McpResourceCard[] = [
     {
       name: 'Agent Bootstrap Guide',
       uri: 'lunar://agent-bootstrap',
-      purpose: 'First-session checklist that tells agents which resources to read before writing any AQL.'
+      purpose: 'First-session checklist that tells agents what to read before writing AQL.'
     },
     {
       name: 'LunarGraph Query Guide',
       uri: 'lunar://query-guide',
-      purpose: 'Operational guidance for writing bounded, useful, and high-signal graph queries.'
+      purpose: 'Guidance for writing bounded, useful, high-signal graph queries.'
     },
     {
       name: 'Relationship Ontology',
       uri: 'lunar://relationship-ontology',
-      purpose: 'Explains which relationship types are high-signal versus weak linkage so agents do not overtrust low-value edges.'
+      purpose: 'Explains which relationship types are strong signals versus weak linkage.'
     },
     {
       name: 'Graph Schema Context',
@@ -394,25 +406,25 @@ export class ApiOverviewComponent implements OnInit {
     {
       name: 'Collection Aliases',
       uri: 'lunar://collection-aliases',
-      purpose: 'Shows the friendly collection names that LunarMCP will rewrite to canonical vertex and edge collections.'
+      purpose: 'Shows the friendly names that LunarMCP rewrites to the canonical collections.'
     }
   ];
 
   protected readonly mcpToolHighlights: McpToolCard[] = [
     {
       name: 'health_check',
-      use: 'Confirm MCP availability, Arango connectivity, and current runtime guardrail settings.',
-      why: 'Useful for boot diagnostics and integration validation before running any query workload.'
+      use: 'Confirm MCP availability, Arango connectivity, and current guardrail settings.',
+      why: 'Use it before you run any query workload.'
     },
     {
       name: 'schema_overview',
-      use: 'Inspect current node-type and relationship-type distributions in the graph.',
-      why: 'Keeps agents grounded in the actual live graph shape instead of stale schema assumptions.'
+      use: 'Inspect the current node-type and relationship-type distributions in the graph.',
+      why: 'Keeps agents grounded in the live graph shape instead of stale assumptions.'
     },
     {
       name: 'relationship_type_overview',
-      use: 'Get relationship counts plus guidance on the relative signal quality of each relationship type.',
-      why: 'Helps agents avoid weak pivots and prefer operationally meaningful edges such as uses, targets, and attributed-to.'
+      use: 'Get relationship counts plus guidance on the signal quality of each relationship type.',
+      why: 'Helps agents avoid weak pivots and prefer stronger edges.'
     },
     {
       name: 'query_examples',
@@ -422,25 +434,25 @@ export class ApiOverviewComponent implements OnInit {
     {
       name: 'run_read_query',
       use: 'Execute explicit custom AQL with read-only enforcement, result caps, runtime caps, and alias normalization.',
-      why: 'This is the execution path for agent-authored graph queries once context has been bootstrapped.'
+      why: 'This is the execution path once the agent has enough context.'
     }
   ];
 
   protected readonly authoringRules: AuthoringRule[] = [
     {
-      title: 'Start with latest reports and time windows',
-      detail: 'Use _is_latest == true and explicit date bounds for operational report queries so you do not overcount historical versions.'
+      title: 'Start with freshness',
+      detail: 'Use _is_latest == true and explicit date bounds so you do not overcount historical versions.'
     },
     {
-      title: 'Use document _id for traversals',
+      title: 'Traverse with document _id',
       detail: 'When moving through lunargraph_graph, traverse from collection/key ids rather than STIX ids.'
     },
     {
-      title: 'Bound your hops and result sizes',
-      detail: 'Keep traversals shallow unless you have a reason to go wider, and always constrain result volume with LIMIT and explicit filters.'
+      title: 'Keep queries bounded',
+      detail: 'Keep traversals shallow unless you have a reason to go wider, and always constrain result volume with LIMIT and filters.'
     },
     {
-      title: 'Prefer stronger relationship types',
+      title: 'Prefer stronger edges',
       detail: 'Treat references and correlates-with as weaker evidence than uses, targets, attributed-to, indicates, or located-at.'
     }
   ];

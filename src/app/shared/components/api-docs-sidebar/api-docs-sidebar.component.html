@@ -6,6 +6,7 @@
     <div class="sidebar-group" *ngFor="let item of items">
       <a
         class="sidebar-link group-link"
+        [class.group-link--has-children]="item.children?.length"
         [routerLink]="buildPath(item)"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">

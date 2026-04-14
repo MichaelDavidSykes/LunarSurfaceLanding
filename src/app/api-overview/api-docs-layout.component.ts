@@ -9,6 +9,11 @@ interface DocsSidebarItem {
   children?: DocsSidebarItem[];
 }
 
+interface DocsOutlineItem {
+  id: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-api-docs-layout',
   templateUrl: './api-docs-layout.component.html',
@@ -16,51 +21,100 @@ interface DocsSidebarItem {
 })
 export class ApiDocsLayoutComponent implements OnDestroy {
   protected isMobileDocsMenuOpen = false;
+  protected currentPage = 'overview';
   private readonly routerEventsSub: Subscription;
 
   constructor(private readonly router: Router) {
+    this.syncCurrentPage(this.router.url);
     this.routerEventsSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => this.closeMobileDocsMenu());
+      .subscribe((event) => {
+        this.syncCurrentPage((event as NavigationEnd).urlAfterRedirects);
+        this.closeMobileDocsMenu();
+      });
   }
 
   protected readonly sidebarItems: DocsSidebarItem[] = [
     {
-      id: 'getting-started',
-      label: 'Getting Started',
+      id: 'start',
+      label: 'Start',
       path: 'overview',
       children: [
-        { id: 'overview', label: 'Platform Overview', path: 'overview' },
-        { id: 'quick-start', label: 'Integration Paths', path: 'quick-start' },
-        { id: 'base-configuration', label: 'Architecture & Graph Model', path: 'base-configuration' }
+        { id: 'overview', label: 'Overview', path: 'overview' },
+        { id: 'quick-start', label: 'Paths', path: 'quick-start' },
+        { id: 'base-configuration', label: 'Graph Model', path: 'base-configuration' }
       ]
     },
     {
       id: 'platform-surfaces',
-      label: 'Platform Surfaces',
+      label: 'APIs',
       path: 'endpoint-focus',
       children: [
-        { id: 'endpoint-focus', label: 'API Surfaces', path: 'endpoint-focus' },
-        { id: 'payload-response', label: 'Request & Response', path: 'payload-response' }
+        { id: 'endpoint-focus', label: 'Surfaces', path: 'endpoint-focus' },
+        { id: 'payload-response', label: 'Payloads', path: 'payload-response' }
       ]
     },
     {
       id: 'agentic-systems',
-      label: 'Agentic Systems',
+      label: 'Agents',
       path: 'mcp-server',
       children: [
-        { id: 'mcp-server', label: 'MCP & Agent Workflows', path: 'mcp-server' }
+        { id: 'mcp-server', label: 'MCP', path: 'mcp-server' }
       ]
     },
     {
       id: 'query-authoring',
-      label: 'Query Authoring',
+      label: 'Queries',
       path: 'aql-playbook',
       children: [
-        { id: 'aql-playbook', label: 'AQL Playbook', path: 'aql-playbook' }
+        { id: 'aql-playbook', label: 'AQL', path: 'aql-playbook' }
       ]
     }
   ];
+
+  protected readonly pageOutlines: Record<string, DocsOutlineItem[]> = {
+    overview: [
+      { id: 'page-overview', label: 'Overview' },
+      { id: 'platform-surfaces', label: 'Platform surfaces' },
+      { id: 'use-cases', label: 'Use cases' }
+    ],
+    'quick-start': [
+      { id: 'integration-paths', label: 'Integration paths' },
+      { id: 'starter-requests', label: 'Starter requests' },
+      { id: 'frontend-paths', label: 'Frontend split' }
+    ],
+    'base-configuration': [
+      { id: 'system-layers', label: 'System layers' },
+      { id: 'graph-facts', label: 'Graph facts' },
+      { id: 'platform-config', label: 'Platform config' }
+    ],
+    'endpoint-focus': [
+      { id: 'public-routes', label: 'Public routes' },
+      { id: 'authenticated-routes', label: 'Authenticated routes' },
+      { id: 'agent-routes', label: 'Agent route' }
+    ],
+    'mcp-server': [
+      { id: 'mcp-workflow', label: 'Workflow' },
+      { id: 'protocol-details', label: 'Protocol details' },
+      { id: 'mcp-resources', label: 'Resources' },
+      { id: 'mcp-tools', label: 'Tools' },
+      { id: 'mcp-examples', label: 'Examples' }
+    ],
+    'payload-response': [
+      { id: 'authenticated-payloads', label: 'Authenticated API' },
+      { id: 'public-payloads', label: 'Public API' },
+      { id: 'mcp-payloads', label: 'MCP' },
+      { id: 'payload-errors', label: 'Errors' }
+    ],
+    'aql-playbook': [
+      { id: 'authoring-rules', label: 'Authoring rules' },
+      { id: 'aql-examples', label: 'Examples' }
+    ]
+  };
+
+  protected get currentOutline(): DocsOutlineItem[] {
+    return this.pageOutlines[this.currentPage] ?? [];
+  }
 
   protected toggleMobileDocsMenu(): void {
     this.isMobileDocsMenuOpen = !this.isMobileDocsMenuOpen;
@@ -80,6 +134,12 @@ export class ApiDocsLayoutComponent implements OnDestroy {
       return;
     }
     document.body.style.overflow = this.isMobileDocsMenuOpen ? 'hidden' : '';
+  }
+
+  private syncCurrentPage(url: string): void {
+    const cleanUrl = url.split('#')[0].split('?')[0];
+    const lastSegment = cleanUrl.split('/').filter(Boolean).pop();
+    this.currentPage = !lastSegment || lastSegment === 'api' ? 'overview' : lastSegment;
   }
 
   ngOnDestroy(): void {

@@ -8,8 +8,8 @@
   <main class="api-page docs-layout">
     <div class="docs-sidebar-shell">
       <app-api-docs-sidebar
-        [kicker]="'LunarChain Platform'"
-        [title]="'Platform Docs'"
+        [kicker]="'LunarChain'"
+        [title]="'Docs'"
         [basePath]="'/api'"
         [items]="sidebarItems">
       </app-api-docs-sidebar>
@@ -18,12 +18,27 @@
     <section class="docs-main">
       <router-outlet></router-outlet>
     </section>
+
+    <aside class="docs-outline-shell" *ngIf="currentOutline.length">
+      <div class="docs-outline">
+        <p class="outline-title">On this page</p>
+        <nav class="outline-nav" aria-label="On this page">
+          <a
+            *ngFor="let item of currentOutline; let isFirst = first"
+            class="outline-link"
+            [class.active]="isFirst"
+            [href]="'#' + item.id">
+            {{ item.label }}
+          </a>
+        </nav>
+      </div>
+    </aside>
   </main>
 
   <div class="docs-mobile-overlay" [class.open]="isMobileDocsMenuOpen" (click)="closeMobileDocsMenu()"></div>
   <aside class="docs-mobile-drawer" [class.open]="isMobileDocsMenuOpen">
     <div class="docs-mobile-header">
-      <span class="docs-mobile-title">Menu</span>
+      <span class="docs-mobile-title">Docs</span>
       <button class="docs-mobile-close-btn" type="button" (click)="closeMobileDocsMenu()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 6L6 18M6 6l12 12" />
@@ -32,12 +47,12 @@
     </div>
     <div class="docs-mobile-body">
       <a class="docs-mobile-home-btn" routerLink="/" (click)="closeMobileDocsMenu()">
-        Back to Landing Page
+        Back to site
       </a>
       <app-api-docs-sidebar
         class="docs-mobile-sidebar"
-        [kicker]="'LunarChain Platform'"
-        [title]="'Platform Docs'"
+        [kicker]="'LunarChain'"
+        [title]="'Docs'"
         [basePath]="'/api'"
         [variant]="'light'"
         [items]="sidebarItems">

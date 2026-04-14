@@ -1,14 +1,23 @@
 <ng-container [ngSwitch]="page">
   <section class="docs-section" *ngSwitchCase="'overview'">
-    <header class="docs-header">
-      <p class="section-kicker">Overview</p>
-      <h1>LunarChain Platform Overview</h1>
-      <p class="overview-lede">
-        LunarChain is a graph-native threat intelligence platform built to give analysts, applications,
-        and agentic systems a shared intelligence model. The platform combines a public landing/docs site,
-        an authenticated analyst frontend, a FastAPI backend, LunarGraph as the canonical intelligence store,
-        and LunarMCP as the guarded read-only agent interface over that graph.
-      </p>
+    <header class="docs-hero" id="page-overview">
+      <div class="hero-copy">
+        <p class="section-kicker">Overview</p>
+        <h1>Platform overview</h1>
+        <p class="overview-lede">
+          LunarChain keeps the public site, analyst product, backend APIs, and agent workflows aligned around one
+          graph. This page shows what each surface is for and how those surfaces fit together.
+        </p>
+      </div>
+
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">In short</p>
+        <h3>One graph, three ways in</h3>
+        <p>
+          Public routes stay fixed and safe, analyst APIs stay authenticated and flexible, and LunarMCP stays
+          read-only for agent workflows.
+        </p>
+      </article>
     </header>
 
     <div class="metric-grid">
@@ -19,21 +28,25 @@
       </article>
     </div>
 
-    <div class="docs-subsection">
+    <div class="section-band" id="platform-surfaces">
       <div class="section-copy">
         <p class="section-kicker">Platform Surfaces</p>
-        <h2 class="subsection-title">What the platform consists of</h2>
+        <h2 class="subsection-title">What each part of the platform does</h2>
         <p class="section-intro">
-          The same threat intelligence graph is exposed through separate surfaces depending on who is consuming it.
-          That separation matters because the public site, authenticated product, backend APIs, and agent workflows
-          do not have the same trust model or operating goal.
+          The same graph is exposed through different trust boundaries. Keeping those boundaries clear is what makes
+          the platform easier to reason about.
         </p>
       </div>
-      <div class="overview-grid">
-        <article class="docs-card stack-card" *ngFor="let surface of platformSurfaces">
-          <p class="card-eyebrow">{{ surface.audience }}</p>
-          <h3>{{ surface.title }}</h3>
-          <p class="card-meta">Access: {{ surface.access }}</p>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card surface-card" *ngFor="let surface of platformSurfaces">
+          <div class="card-head">
+            <div>
+              <p class="card-eyebrow">{{ surface.audience }}</p>
+              <h3>{{ surface.title }}</h3>
+            </div>
+            <span class="card-tag">{{ surface.access }}</span>
+          </div>
           <p>{{ surface.summary }}</p>
           <ul class="detail-list">
             <li *ngFor="let bullet of surface.bullets">{{ bullet }}</li>
@@ -42,12 +55,13 @@
       </div>
     </div>
 
-    <div class="docs-subsection">
+    <div class="section-band" id="use-cases">
       <div class="section-copy">
         <p class="section-kicker">Use Cases</p>
-        <h2 class="subsection-title">What LunarChain is built to do</h2>
+        <h2 class="subsection-title">What teams use LunarChain for</h2>
       </div>
-      <div class="focus-grid">
+
+      <div class="compact-grid">
         <article class="docs-card" *ngFor="let capability of capabilityCards">
           <h3>{{ capability.title }}</h3>
           <p>{{ capability.summary }}</p>
@@ -56,70 +70,100 @@
     </div>
 
     <article class="docs-card notice-card">
-      <h3>High-level architecture</h3>
+      <p class="card-eyebrow">Mental model</p>
+      <h3>Everything converges on LunarGraph</h3>
       <p>
-        Public visitors see a curated subset of graph data through fixed landing endpoints. Authenticated users work
-        through the product UI and backend APIs. MCP clients use LunarMCP to inspect schema, retrieve guidance, and run
-        bounded read-only AQL. All of those paths converge on the same underlying intelligence graph.
+        The landing site shows curated slices, the analyst app works through authenticated APIs, and agents use LunarMCP
+        for guided read-only access. All three paths resolve to the same underlying intelligence graph.
       </p>
     </article>
   </section>
 
   <section class="docs-section" *ngSwitchCase="'quick-start'">
-    <header class="section-header">
-      <p class="section-kicker">Getting Started</p>
-      <h2>Integration Paths</h2>
+    <header class="docs-hero docs-hero--compact" id="integration-paths">
+      <div class="hero-copy">
+        <p class="section-kicker">Getting Started</p>
+        <h2>Choose the right entry point</h2>
+        <p class="section-intro">
+          Start with the caller and trust model first. That will tell you whether you should use public routes,
+          authenticated graph APIs, or LunarMCP.
+        </p>
+      </div>
+
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Recommended flow</p>
+        <ol class="step-list">
+          <li>Pick the caller: public site, internal app, or agent runtime.</li>
+          <li>Use the matching route family instead of crossing boundaries.</li>
+          <li>Keep public traffic fixed and keep agent traffic read-only.</li>
+        </ol>
+      </article>
     </header>
-    <p class="section-intro">
-      Start by choosing the surface that matches the job. Public landing routes are for presentation-safe visuals,
-      authenticated graph APIs are for product and integration work, and LunarMCP is the access layer for agents.
-    </p>
 
-    <div class="focus-grid integration-grid">
-      <article class="docs-card stack-card" *ngFor="let path of integrationPaths">
-        <p class="card-eyebrow">{{ path.audience }}</p>
-        <h3>{{ path.title }}</h3>
-        <code class="card-route">{{ path.route }}</code>
-        <p class="card-meta">Access: {{ path.access }}</p>
-        <p>{{ path.whenToUse }}</p>
-        <ul class="detail-list">
-          <li *ngFor="let bullet of path.bullets">{{ bullet }}</li>
-        </ul>
-      </article>
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">Paths</p>
+        <h2 class="subsection-title">Three ways to integrate</h2>
+        <p class="section-intro">
+          Each path below is intentionally scoped. Pick the narrowest one that still solves the job.
+        </p>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card path-card" *ngFor="let path of integrationPaths">
+          <div class="card-head">
+            <div>
+              <p class="card-eyebrow">{{ path.audience }}</p>
+              <h3>{{ path.title }}</h3>
+            </div>
+            <span class="card-tag">{{ path.access }}</span>
+          </div>
+          <code class="card-route">{{ path.route }}</code>
+          <p>{{ path.whenToUse }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let bullet of path.bullets">{{ bullet }}</li>
+          </ul>
+        </article>
+      </div>
     </div>
 
-    <div class="split-grid examples-grid">
-      <article class="docs-card">
-        <h3>First authenticated AQL request</h3>
-        <p class="card-support">Use this when you need exact graph control from the product or an authenticated integration.</p>
-        <pre><code [textContent]="curlExample"></code></pre>
-      </article>
-      <article class="docs-card">
-        <h3>First public landing request</h3>
-        <p class="card-support">Use this only for landing-safe visuals and fixed public content.</p>
-        <pre><code [textContent]="publicLandingExample"></code></pre>
-      </article>
-    </div>
+    <details class="docs-collapsible" id="starter-requests">
+      <summary>Starter requests</summary>
+      <div class="code-pair">
+        <article class="docs-card">
+          <h3>Authenticated AQL request</h3>
+          <p class="card-support">Use this when you need direct graph control from the app or an authenticated integration.</p>
+          <pre><code [textContent]="curlExample"></code></pre>
+        </article>
 
-    <article class="docs-card request-spec-card">
-      <h3>What the frontend does</h3>
+        <article class="docs-card">
+          <h3>Public landing request</h3>
+          <p class="card-support">Use this only for landing-safe content and fixed public visuals.</p>
+          <pre><code [textContent]="publicLandingExample"></code></pre>
+        </article>
+      </div>
+    </details>
+
+    <article class="docs-card request-spec-card" id="frontend-paths">
+      <p class="card-eyebrow">At a glance</p>
+      <h3>What each frontend path is doing</h3>
       <div class="request-spec compact-spec">
         <div class="request-row">
           <span class="request-key">Landing frontend</span>
           <div class="request-values">
-            <span>Public marketing site, docs, flat map, globe, and country IOC previews.</span>
+            <span>Public marketing site, docs, map, globe, and country IOC previews.</span>
           </div>
         </div>
         <div class="request-row">
-          <span class="request-key">Authenticated frontend</span>
+          <span class="request-key">Analyst frontend</span>
           <div class="request-values">
-            <span>Explorer, Query, Reports, Targets, Alerts, Search, settings, and client-scoped workflows.</span>
+            <span>Explorer, Query, Reports, Targets, Alerts, Search, settings, and client workflows.</span>
           </div>
         </div>
         <div class="request-row">
-          <span class="request-key">Agent-facing workflow</span>
+          <span class="request-key">Agent workflow</span>
           <div class="request-values">
-            <span>MCP clients bootstrap context, inspect schema and ontology, and then execute explicit read-only AQL.</span>
+            <span>MCP clients bootstrap context, inspect schema, and then execute explicit read-only AQL.</span>
           </div>
         </div>
       </div>
@@ -127,30 +171,52 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'base-configuration'">
-    <header class="section-header">
-      <p class="section-kicker">Architecture</p>
-      <h2>Architecture and Graph Model</h2>
-    </header>
-    <p class="section-intro">
-      LunarChain is not just an endpoint collection. It is a layered system with separate trust boundaries,
-      a canonical graph schema, and explicit conventions for how graph queries should be written.
-    </p>
+    <header class="docs-hero docs-hero--compact" id="system-layers">
+      <div class="hero-copy">
+        <p class="section-kicker">Architecture</p>
+        <h2>How the platform is layered</h2>
+        <p class="section-intro">
+          LunarChain is a layered system, not just a list of endpoints. Read it from the outside in: surface,
+          backend boundary, agent contract, then graph model.
+        </p>
+      </div>
 
-    <div class="layer-grid">
-      <article class="docs-card stack-card" *ngFor="let layer of architectureLayers">
-        <h3>{{ layer.title }}</h3>
-        <p>{{ layer.summary }}</p>
-        <ul class="detail-list">
-          <li *ngFor="let responsibility of layer.responsibilities">{{ responsibility }}</li>
-        </ul>
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Read it this way</p>
+        <ol class="step-list">
+          <li>Start with the user-facing surface.</li>
+          <li>Check which backend boundary that surface uses.</li>
+          <li>Anchor queries to the canonical graph rules.</li>
+        </ol>
       </article>
+    </header>
+
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">System Layers</p>
+        <h2 class="subsection-title">From interface to graph</h2>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card" *ngFor="let layer of architectureLayers">
+          <h3>{{ layer.title }}</h3>
+          <p>{{ layer.summary }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let responsibility of layer.responsibilities">{{ responsibility }}</li>
+          </ul>
+        </article>
+      </div>
     </div>
 
-    <div class="docs-subsection">
+    <div class="section-band" id="graph-facts">
       <div class="section-copy">
-        <p class="section-kicker">Graph Structure</p>
-        <h2 class="subsection-title">Canonical graph rules</h2>
+        <p class="section-kicker">Graph Rules</p>
+        <h2 class="subsection-title">Canonical graph facts</h2>
+        <p class="section-intro">
+          These are the defaults to assume when you are writing graph queries or interpreting examples in the docs.
+        </p>
       </div>
+
       <div class="fact-grid">
         <article class="docs-card fact-card" *ngFor="let fact of graphFacts">
           <p class="fact-label">{{ fact.title }}</p>
@@ -160,7 +226,8 @@
       </div>
     </div>
 
-    <article class="docs-card request-spec-card">
+    <article class="docs-card request-spec-card" id="platform-config">
+      <p class="card-eyebrow">Core config</p>
       <h3>Base platform configuration</h3>
       <div class="request-spec">
         <div class="request-row">
@@ -168,7 +235,7 @@
           <code>{{ apiBase }}</code>
         </div>
         <div class="request-row">
-          <span class="request-key">Public Graph Routes</span>
+          <span class="request-key">Public routes</span>
           <div class="request-values">
             <code>GET /graph/public/landing-threat-intelligence</code>
             <code>GET /graph/public/landing-globe</code>
@@ -176,7 +243,7 @@
           </div>
         </div>
         <div class="request-row">
-          <span class="request-key">Authenticated Graph Routes</span>
+          <span class="request-key">App routes</span>
           <div class="request-values">
             <code>POST /graph/aql-query</code>
             <code>POST /graph/simple-query</code>
@@ -188,13 +255,13 @@
           </div>
         </div>
         <div class="request-row">
-          <span class="request-key">MCP Proxy</span>
+          <span class="request-key">MCP proxy</span>
           <code>{{ mcpEndpoint }}</code>
         </div>
         <div class="request-row">
-          <span class="request-key">Why this split exists</span>
+          <span class="request-key">Why it is split</span>
           <div class="request-values">
-            <span>Landing routes are fixed and public. Analyst APIs are authenticated and flexible. MCP is read-only and agent-oriented.</span>
+            <span>Public routes are fixed, analyst routes are authenticated, and MCP is read-only and agent-oriented.</span>
           </div>
         </div>
       </div>
@@ -202,78 +269,187 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'endpoint-focus'">
-    <header class="section-header">
-      <p class="section-kicker">Reference</p>
-      <h2>Platform Surfaces</h2>
-    </header>
-    <p class="section-intro">
-      These are the main graph-facing routes exposed by the platform today. Use the public endpoints only for landing-safe content,
-      use authenticated graph routes for analyst and application workflows, and use MCP when the caller is an agent runtime.
-    </p>
+    <header class="docs-hero docs-hero--compact" id="public-routes">
+      <div class="hero-copy">
+        <p class="section-kicker">Reference</p>
+        <h2>API surfaces</h2>
+        <p class="section-intro">
+          The routes below are easier to follow when grouped by audience: public landing traffic, authenticated product
+          traffic, and agent traffic.
+        </p>
+      </div>
 
-    <div class="endpoint-grid">
-      <article class="docs-card stack-card" *ngFor="let endpoint of endpointCards">
-        <p class="card-eyebrow">{{ endpoint.access }}</p>
-        <h3>{{ endpoint.title }}</h3>
-        <code class="card-route">{{ endpoint.route }}</code>
-        <p>{{ endpoint.summary }}</p>
-        <ul class="detail-list">
-          <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
-        </ul>
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Rule of thumb</p>
+        <p>Use the most constrained route family that matches the caller. Do not send public traffic through analyst or MCP paths.</p>
       </article>
+    </header>
+
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">Public</p>
+        <h2 class="subsection-title">Landing-safe routes</h2>
+        <p class="section-intro">These routes power public visuals and should stay narrow, fixed, and presentation-safe.</p>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of publicEndpoints">
+          <div class="card-head">
+            <div>
+              <p class="card-eyebrow">{{ endpoint.access }}</p>
+              <h3>{{ endpoint.title }}</h3>
+            </div>
+            <code class="route-pill">{{ endpoint.route }}</code>
+          </div>
+          <p>{{ endpoint.summary }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-band" id="authenticated-routes">
+      <div class="section-copy">
+        <p class="section-kicker">Authenticated</p>
+        <h2 class="subsection-title">Product and integration routes</h2>
+        <p class="section-intro">These routes are for the analyst app and controlled integrations that need more flexibility.</p>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of authenticatedEndpoints">
+          <div class="card-head">
+            <div>
+              <p class="card-eyebrow">{{ endpoint.access }}</p>
+              <h3>{{ endpoint.title }}</h3>
+            </div>
+            <code class="route-pill">{{ endpoint.route }}</code>
+          </div>
+          <p>{{ endpoint.summary }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-band" id="agent-routes">
+      <div class="section-copy">
+        <p class="section-kicker">Agents</p>
+        <h2 class="subsection-title">MCP route</h2>
+        <p class="section-intro">This route is for MCP clients that need session-based, read-only access through the backend.</p>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of agentEndpoints">
+          <div class="card-head">
+            <div>
+              <p class="card-eyebrow">{{ endpoint.access }}</p>
+              <h3>{{ endpoint.title }}</h3>
+            </div>
+            <code class="route-pill">{{ endpoint.route }}</code>
+          </div>
+          <p>{{ endpoint.summary }}</p>
+          <ul class="detail-list">
+            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+          </ul>
+        </article>
+      </div>
     </div>
   </section>
 
   <section class="docs-section" *ngSwitchCase="'mcp-server'">
-    <header class="section-header">
-      <p class="section-kicker">Agentic Access</p>
-      <h2>MCP and Agent Workflows</h2>
+    <header class="docs-hero docs-hero--compact" id="mcp-workflow">
+      <div class="hero-copy">
+        <p class="section-kicker">Agent Access</p>
+        <h2>MCP workflow</h2>
+        <p class="section-intro">
+          LunarMCP gives agents a controlled way to understand the graph before they query it. The sequence matters:
+          bootstrap context first, execute AQL second.
+        </p>
+      </div>
+
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Expected sequence</p>
+        <ol class="step-list">
+          <li>Initialize a session and keep the returned session id.</li>
+          <li>Read resources and inspect schema before querying.</li>
+          <li>Run explicit read-only AQL through <code>run_read_query</code>.</li>
+        </ol>
+      </article>
     </header>
-    <p class="section-intro">
-      LunarMCP is the read-only agent layer over LunarGraph. Its job is to give agents a stable contract for bootstrap context,
-      schema awareness, relationship guidance, and bounded query execution. It is not a server-side natural-language-to-AQL translator.
-    </p>
 
-    <div class="mcp-flow">
-      <article class="docs-card">
-        <h3>What MCP is for</h3>
-        <p>Expose the graph to AI agents through a controlled, reusable interface rather than through ad-hoc backend debug routes.</p>
-      </article>
-      <article class="docs-card">
-        <h3>What agents should do</h3>
-        <p>Bootstrap resources, inspect schema and relationship guidance, adapt example queries, and then call <code>run_read_query</code>.</p>
-      </article>
-      <article class="docs-card">
-        <h3>What MCP does not do</h3>
-        <p>It does not accept a natural-language question and synthesize AQL for you on the server. Agents must author the AQL explicitly.</p>
-      </article>
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">Flow</p>
+        <h2 class="subsection-title">How agent access is meant to work</h2>
+      </div>
+
+      <div class="stack-list">
+        <article class="docs-card step-card">
+          <span class="step-index">01</span>
+          <div>
+            <h3>Connect</h3>
+            <p>Initialize the MCP session over streamable HTTP and keep the returned <code>mcp-session-id</code>.</p>
+          </div>
+        </article>
+        <article class="docs-card step-card">
+          <span class="step-index">02</span>
+          <div>
+            <h3>Bootstrap</h3>
+            <p>Read the bootstrap, schema, alias, and ontology resources before you write any AQL.</p>
+          </div>
+        </article>
+        <article class="docs-card step-card">
+          <span class="step-index">03</span>
+          <div>
+            <h3>Inspect</h3>
+            <p>Use schema and relationship tools to confirm the live graph shape and choose strong pivots.</p>
+          </div>
+        </article>
+        <article class="docs-card step-card">
+          <span class="step-index">04</span>
+          <div>
+            <h3>Query</h3>
+            <p>Only then run explicit, bounded read-only AQL through <code>run_read_query</code>.</p>
+          </div>
+        </article>
+      </div>
     </div>
 
-    <div class="config-grid">
-      <article class="docs-card">
-        <h3>MCP Endpoint</h3>
-        <code class="config-value">{{ mcpEndpoint }}</code>
-      </article>
-      <article class="docs-card">
-        <h3>Transport</h3>
-        <p>Streamable HTTP with JSON-RPC messages returned as server-sent event frames.</p>
-      </article>
-      <article class="docs-card">
-        <h3>Session Header</h3>
-        <p>Use the <code>mcp-session-id</code> returned by <code>initialize</code> on later calls.</p>
-      </article>
-      <article class="docs-card">
-        <h3>Execution Model</h3>
-        <p>Read-only AQL with server-side result limits, runtime caps, and collection alias normalization.</p>
-      </article>
+    <div class="section-band" id="protocol-details">
+      <div class="section-copy">
+        <p class="section-kicker">Essentials</p>
+        <h2 class="subsection-title">Protocol details</h2>
+      </div>
+
+      <div class="compact-grid">
+        <article class="docs-card">
+          <h3>MCP endpoint</h3>
+          <code class="config-value">{{ mcpEndpoint }}</code>
+        </article>
+        <article class="docs-card">
+          <h3>Transport</h3>
+          <p>Streamable HTTP with JSON-RPC payloads returned as server-sent event frames.</p>
+        </article>
+        <article class="docs-card">
+          <h3>Session header</h3>
+          <p>Send the <code>mcp-session-id</code> from <code>initialize</code> on later requests.</p>
+        </article>
+        <article class="docs-card">
+          <h3>Execution model</h3>
+          <p>Read-only AQL with result caps, runtime caps, and alias normalization enforced server-side.</p>
+        </article>
+      </div>
     </div>
 
-    <div class="docs-subsection">
+    <div class="section-band" id="mcp-resources">
       <div class="section-copy">
         <p class="section-kicker">Resources</p>
-        <h2 class="subsection-title">Bootstrap context before writing queries</h2>
+        <h2 class="subsection-title">Read these before querying</h2>
       </div>
-      <div class="mcp-tool-grid">
+
+      <div class="compact-grid">
         <article class="docs-card" *ngFor="let resource of mcpResourceHighlights">
           <h3>{{ resource.name }}</h3>
           <code class="card-route">{{ resource.uri }}</code>
@@ -282,12 +458,13 @@
       </div>
     </div>
 
-    <div class="docs-subsection">
+    <div class="section-band" id="mcp-tools">
       <div class="section-copy">
         <p class="section-kicker">Tools</p>
-        <h2 class="subsection-title">Actual tools exposed by LunarMCP</h2>
+        <h2 class="subsection-title">Core tools exposed by LunarMCP</h2>
       </div>
-      <div class="mcp-tool-grid">
+
+      <div class="compact-grid">
         <article class="docs-card" *ngFor="let tool of mcpToolHighlights">
           <h3><code>{{ tool.name }}</code></h3>
           <p>{{ tool.use }}</p>
@@ -296,9 +473,9 @@
       </div>
     </div>
 
-    <details class="docs-collapsible">
+    <details class="docs-collapsible" id="mcp-examples">
       <summary>MCP cURL examples</summary>
-      <div class="response-grid mcp-grid">
+      <div class="stack-list code-stack">
         <article class="docs-card">
           <h3>Install a client</h3>
           <pre><code [textContent]="mcpInstallExample"></code></pre>
@@ -328,47 +505,83 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'payload-response'">
-    <header class="section-header">
-      <p class="section-kicker">Reference</p>
-      <h2>Request and Response Shapes</h2>
-    </header>
-    <p class="section-intro">
-      The platform exposes three different request/response styles: authenticated graph API calls, public landing routes,
-      and MCP JSON-RPC over streamable HTTP. The payloads below reflect the current backend and MCP server behavior.
-    </p>
+    <header class="docs-hero docs-hero--compact" id="authenticated-payloads">
+      <div class="hero-copy">
+        <p class="section-kicker">Reference</p>
+        <h2>Payload shapes</h2>
+        <p class="section-intro">
+          There are three payload styles to keep in mind: authenticated graph API calls, public landing responses,
+          and MCP JSON-RPC over streamable HTTP.
+        </p>
+      </div>
 
-    <div class="response-grid wide-response-grid">
-      <article class="docs-card">
-        <h3>Authenticated AQL request</h3>
-        <pre><code [textContent]="payloadExample"></code></pre>
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Keep this straight</p>
+        <p>Public routes return fixed landing data, app routes wrap graph results, and MCP responses arrive as event-stream frames.</p>
       </article>
-      <article class="docs-card">
-        <h3>Authenticated AQL response</h3>
-        <pre><code [textContent]="successResponseExample"></code></pre>
-      </article>
+    </header>
+
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">Authenticated API</p>
+        <h2 class="subsection-title">Direct graph requests</h2>
+      </div>
+
+      <div class="code-pair">
+        <article class="docs-card">
+          <h3>AQL request</h3>
+          <pre><code [textContent]="payloadExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>AQL response</h3>
+          <pre><code [textContent]="successResponseExample"></code></pre>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-band" id="public-payloads">
+      <div class="section-copy">
+        <p class="section-kicker">Public API</p>
+        <h2 class="subsection-title">Landing response shape</h2>
+        <p class="section-intro">Public routes return a narrow wrapper with presentation-safe data and no arbitrary graph input.</p>
+      </div>
+
       <article class="docs-card">
         <h3>Public landing response</h3>
         <pre><code [textContent]="publicResponseExample"></code></pre>
       </article>
-      <article class="docs-card">
-        <h3>Graph error response</h3>
-        <pre><code [textContent]="errorResponseExample"></code></pre>
-      </article>
-      <article class="docs-card">
-        <h3>MCP tool call request</h3>
-        <pre><code [textContent]="mcpRequestExample"></code></pre>
-      </article>
-      <article class="docs-card">
-        <h3>MCP event-stream response</h3>
-        <pre><code [textContent]="mcpResponseExample"></code></pre>
-      </article>
     </div>
 
+    <div class="section-band" id="mcp-payloads">
+      <div class="section-copy">
+        <p class="section-kicker">MCP</p>
+        <h2 class="subsection-title">Tool call and event stream</h2>
+      </div>
+
+      <div class="code-pair">
+        <article class="docs-card">
+          <h3>MCP tool call request</h3>
+          <pre><code [textContent]="mcpRequestExample"></code></pre>
+        </article>
+        <article class="docs-card">
+          <h3>MCP event-stream response</h3>
+          <pre><code [textContent]="mcpResponseExample"></code></pre>
+        </article>
+      </div>
+    </div>
+
+    <article class="docs-card notice-card" id="payload-errors">
+      <p class="card-eyebrow">Errors</p>
+      <h3>Graph error response</h3>
+      <pre><code [textContent]="errorResponseExample"></code></pre>
+    </article>
+
     <article class="docs-card request-spec-card">
-      <h3>Response handling notes</h3>
+      <p class="card-eyebrow">Notes</p>
+      <h3>Response handling</h3>
       <ul class="detail-list">
-        <li>Public landing endpoints return a simple <code>status + data</code> wrapper and do not accept arbitrary graph input.</li>
-        <li><code>/graph/aql-query</code> returns the upstream graph result inside a backend wrapper that includes the effective query and bind vars.</li>
+        <li>Public landing endpoints return a simple <code>status + data</code> wrapper.</li>
+        <li><code>/graph/aql-query</code> returns the upstream graph result inside a backend wrapper with the effective query and bind vars.</li>
         <li>MCP responses arrive as streamable HTTP event frames even when the payload itself is JSON-RPC.</li>
         <li>If you are building agents, read resources and inspect schema before issuing <code>run_read_query</code>.</li>
       </ul>
@@ -376,45 +589,67 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'aql-playbook'">
-    <header class="section-header">
-      <p class="section-kicker">Examples</p>
-      <h2>AQL Playbook</h2>
-      <p class="section-note">These patterns are written for the canonical graph collections and traversal conventions used across the platform.</p>
-    </header>
-    <p class="section-intro">
-      Use these as starting points for analyst views, integration work, and agent-authored queries.
-      They are intentionally bounded and follow the live graph conventions used by LunarChain and LunarMCP.
-    </p>
+    <header class="docs-hero docs-hero--compact" id="authoring-rules">
+      <div class="hero-copy">
+        <p class="section-kicker">Examples</p>
+        <h2>AQL playbook</h2>
+        <p class="section-intro">
+          Use these examples as starting points for analyst views, integrations, and agent-authored queries. They follow
+          the canonical graph collections and traversal rules used across the platform.
+        </p>
+      </div>
 
-    <div class="focus-grid rule-grid">
-      <article class="docs-card" *ngFor="let rule of authoringRules">
-        <h3>{{ rule.title }}</h3>
-        <p>{{ rule.detail }}</p>
+      <article class="docs-card hero-callout">
+        <p class="card-eyebrow">Before you copy a query</p>
+        <p>Check freshness, keep hops shallow, and anchor traversals to document <code>_id</code> values.</p>
       </article>
+    </header>
+
+    <div class="section-band">
+      <div class="section-copy">
+        <p class="section-kicker">Authoring Rules</p>
+        <h2 class="subsection-title">Keep these defaults in mind</h2>
+      </div>
+
+      <div class="compact-grid">
+        <article class="docs-card" *ngFor="let rule of authoringRules">
+          <h3>{{ rule.title }}</h3>
+          <p>{{ rule.detail }}</p>
+        </article>
+      </div>
     </div>
 
-    <div class="example-list">
-      <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index" [attr.data-level]="example.level">
-        <details class="example-collapse">
-          <summary>
-            <div class="example-meta">
-              <span class="example-index">Example {{ i + 1 }}</span>
-              <span class="example-level">{{ example.level }}</span>
-            </div>
-            <h3>{{ example.title }}</h3>
-          </summary>
-          <p>{{ example.goal }}</p>
-          <pre><code [textContent]="example.query"></code></pre>
-        </details>
-      </article>
+    <div class="section-band" id="aql-examples">
+      <div class="section-copy">
+        <p class="section-kicker">Examples</p>
+        <h2 class="subsection-title">Expand only what you need</h2>
+      </div>
+
+      <div class="example-list">
+        <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index" [attr.data-level]="example.level">
+          <details class="example-collapse">
+            <summary>
+              <div class="example-meta">
+                <span class="example-index">Example {{ i + 1 }}</span>
+                <span class="example-level">{{ example.level }}</span>
+              </div>
+              <h3>{{ example.title }}</h3>
+            </summary>
+            <p>{{ example.goal }}</p>
+            <pre><code [textContent]="example.query"></code></pre>
+          </details>
+        </article>
+      </div>
     </div>
   </section>
 
   <section class="docs-section" *ngSwitchDefault>
-    <header class="docs-header">
-      <p class="section-kicker">Overview</p>
-      <h1>Documentation</h1>
-      <p>Select a section from the left navigation.</p>
+    <header class="docs-hero docs-hero--compact">
+      <div class="hero-copy">
+        <p class="section-kicker">Docs</p>
+        <h2>Select a section</h2>
+        <p class="section-intro">Use the left navigation to jump into the part of the platform you need.</p>
+      </div>
     </header>
   </section>
 </ng-container>
