@@ -84,7 +84,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected readonly pageOutlines: Record<string, DocsOutlineItem[]> = {
     overview: [
       { id: 'page-overview', label: 'Overview' },
-      { id: 'platform-surfaces', label: 'Platform surfaces' },
+      { id: 'platform-surfaces', label: 'Main components' },
       { id: 'use-cases', label: 'Use cases' }
     ],
     'quick-start': [
@@ -116,7 +116,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       { id: 'payload-errors', label: 'Errors' }
     ],
     'aql-playbook': [
-      { id: 'authoring-rules', label: 'Authoring rules' },
+      { id: 'authoring-rules', label: 'AQL basics' },
       { id: 'aql-examples', label: 'Examples' }
     ]
   };

@@ -90,65 +90,70 @@ export class ApiOverviewComponent implements OnInit {
 
   protected readonly overviewMetrics: OverviewMetric[] = [
     {
-      value: '1 Graph',
-      label: 'Shared intelligence model',
-      detail: 'The site, product, and agent workflows all read from the same graph instead of separate data copies.'
+      value: 'Frontend',
+      label: 'Public site and analyst experience',
+      detail: 'The frontend is where people browse the product, read the docs, and work with threat intelligence in the operator UI.'
     },
     {
-      value: '3 Access Paths',
-      label: 'Public, app, and agent access',
-      detail: 'Choose between fixed public routes, authenticated graph APIs, or LunarMCP depending on the caller.'
+      value: 'LunarGraph',
+      label: 'Shared intelligence graph',
+      detail: 'LunarGraph stores the entities, reports, indicators, infrastructure, and relationships that power every other part of the platform.'
     },
     {
-      value: 'Read-Only Guardrails',
-      label: 'Safe agent execution',
-      detail: 'LunarMCP keeps agent queries read-only, bounded, and aligned to the canonical graph collections.'
+      value: 'API',
+      label: 'Traditional application access',
+      detail: 'The API gives frontends, services, and integrations a standard HTTP way to query graph-backed data and workflow endpoints.'
+    },
+    {
+      value: 'LunarMCP',
+      label: 'Agentic access layer',
+      detail: 'LunarMCP gives AI agents and automation runtimes a guided, read-only path into the same threat intelligence.'
     }
   ];
 
   protected readonly platformSurfaces: PlatformSurface[] = [
     {
-      title: 'Landing site',
-      audience: 'Public visitors and evaluators',
-      access: 'Anonymous access',
-      summary: 'The public site explains the platform, shows safe graph-backed visuals, and hosts the docs.',
+      title: 'Frontend',
+      audience: 'Analysts, operators, and evaluators',
+      access: 'Public and authenticated UI',
+      summary: 'The frontend is the human-facing layer of LunarChain. It includes the public site as well as the authenticated product experience.',
       bullets: [
-        'Uses fixed routes for the map, globe, and country IOC previews.',
-        'Does not expose arbitrary AQL to anonymous users.',
-        'Acts as the first stop before login or integration work.'
+        'Public pages explain the platform and show safe, curated intelligence views.',
+        'Authenticated screens support exploration, reporting, targets, alerts, and day-to-day analyst workflows.',
+        'It is where people consume and act on the intelligence.'
       ]
     },
     {
-      title: 'Analyst app',
-      audience: 'Security teams and customer operators',
-      access: 'Application session required',
-      summary: 'The product UI is where analysts investigate reports, explore relationships, and manage customer workflows.',
+      title: 'LunarGraph',
+      audience: 'Core intelligence data model',
+      access: 'Underlying graph store',
+      summary: 'LunarGraph is the shared intelligence graph underneath every product surface and integration path.',
       bullets: [
-        'Includes Explorer, Query, Reports, Targets, Alerts, and search workflows.',
-        'Uses authenticated graph endpoints for AQL, structured queries, and summaries.',
-        'It is the operational surface, not the public brochure.'
+        'Stores reports, indicators, actors, malware, tools, infrastructure, locations, vulnerabilities, and related entities.',
+        'Preserves the relationships between those entities so users can pivot from one signal to surrounding context.',
+        'Acts as the system of record for the platform.'
       ]
     },
     {
-      title: 'Backend API',
-      audience: 'Frontends, services, and controlled integrations',
-      access: 'Mixed: public and authenticated routes',
-      summary: 'The backend brokers graph access, exposes public slices, and handles product workflows such as auth and client state.',
+      title: 'API',
+      audience: 'Frontends, internal services, and integrations',
+      access: 'HTTP endpoints',
+      summary: 'The API is the traditional programmatic access layer for applications that want graph-backed threat intelligence over standard requests.',
       bullets: [
-        'Authenticated routes expose AQL, simplified querying, summaries, and metadata.',
-        'Public routes stay narrow and landing-safe.',
-        'The MCP endpoint is proxied through the same backend domain.'
+        'Supports authenticated product requests as well as narrow public routes for the landing experience.',
+        'Best fit for web apps, services, and conventional integrations.',
+        'Handles graph queries, summaries, metadata, and workflow endpoints.'
       ]
     },
     {
       title: 'LunarMCP',
       audience: 'MCP clients, automation frameworks, and AI agents',
       access: 'MCP session lifecycle over the backend proxy',
-      summary: 'LunarMCP is the agent-facing contract for bootstrapping context and running guarded read-only AQL.',
+      summary: 'LunarMCP is the agent-facing access layer for AI systems that need guided, read-only interaction with threat intelligence.',
       bullets: [
-        'Exposes tools for health checks, schema inspection, guidance, examples, and read-only execution.',
-        'Agents still author the AQL explicitly.',
-        'Keeps agent workflows stable as the product evolves.'
+        'Lets agents inspect schema, retrieve query guidance, and run bounded read-only queries.',
+        'Designed for tool-using runtimes rather than human UI calls.',
+        'Sits alongside the API, but is optimized for agentic workflows.'
       ]
     }
   ];
@@ -169,6 +174,21 @@ export class ApiOverviewComponent implements OnInit {
     {
       title: 'Agentic workflows',
       summary: 'Give agents a stable, read-only path to schema context, query guidance, and bounded execution.'
+    }
+  ];
+
+  protected readonly aqlOverviewCards: CapabilityCard[] = [
+    {
+      title: 'What AQL is',
+      summary: 'AQL, or Arango Query Language, is the query language used to read, filter, sort, and traverse LunarGraph.'
+    },
+    {
+      title: 'When teams use it',
+      summary: 'Use AQL when an analyst, backend service, or integration needs exact control over graph logic and the shape of the returned data.'
+    },
+    {
+      title: 'When not to start with it',
+      summary: 'If a public route, higher-level API endpoint, or MCP helper already covers the use case, use that first and drop to AQL only when you need more control.'
     }
   ];
 

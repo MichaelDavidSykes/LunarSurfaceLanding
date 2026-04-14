@@ -2,20 +2,21 @@
   <section class="docs-section" *ngSwitchCase="'overview'">
     <header class="docs-hero" id="page-overview">
       <div class="hero-copy">
-        <p class="section-kicker">Overview</p>
+        <p class="section-kicker">Platform</p>
         <h1>Platform overview</h1>
         <p class="overview-lede">
-          LunarChain keeps the public site, analyst product, backend APIs, and agent workflows aligned around one
-          graph. This page shows what each surface is for and how those surfaces fit together.
+          LunarChain is a threat intelligence platform built around one shared intelligence graph. The frontend gives
+          people a place to explore intelligence, LunarGraph stores the underlying threat data and relationships, the
+          API gives traditional programmatic access, and LunarMCP gives agentic access for AI workflows.
         </p>
       </div>
 
       <article class="docs-card hero-callout">
         <p class="card-eyebrow">In short</p>
-        <h3>One graph, three ways in</h3>
+        <h3>Four parts, one intelligence system</h3>
         <p>
-          Public routes stay fixed and safe, analyst APIs stay authenticated and flexible, and LunarMCP stays
-          read-only for agent workflows.
+          Think of LunarChain as one graph with four main layers: the frontend, the graph itself, the API, and the
+          MCP server.
         </p>
       </article>
     </header>
@@ -30,11 +31,10 @@
 
     <div class="section-band" id="platform-surfaces">
       <div class="section-copy">
-        <p class="section-kicker">Platform Surfaces</p>
-        <h2 class="subsection-title">What each part of the platform does</h2>
+        <p class="section-kicker">Main Components</p>
+        <h2 class="subsection-title">How the platform is broken down</h2>
         <p class="section-intro">
-          The same graph is exposed through different trust boundaries. Keeping those boundaries clear is what makes
-          the platform easier to reason about.
+          These are the main parts of LunarChain and the role each one plays in delivering threat intelligence.
         </p>
       </div>
 
@@ -71,10 +71,10 @@
 
     <article class="docs-card notice-card">
       <p class="card-eyebrow">Mental model</p>
-      <h3>Everything converges on LunarGraph</h3>
+      <h3>Everything runs through the same graph</h3>
       <p>
-        The landing site shows curated slices, the analyst app works through authenticated APIs, and agents use LunarMCP
-        for guided read-only access. All three paths resolve to the same underlying intelligence graph.
+        The frontend, the API, and LunarMCP are different ways of reaching the same underlying threat intelligence.
+        LunarGraph is the shared data layer that keeps the whole platform consistent.
       </p>
     </article>
   </section>
@@ -591,24 +591,46 @@
   <section class="docs-section" *ngSwitchCase="'aql-playbook'">
     <header class="docs-hero docs-hero--compact" id="authoring-rules">
       <div class="hero-copy">
-        <p class="section-kicker">Examples</p>
+        <p class="section-kicker">AQL</p>
         <h2>AQL playbook</h2>
         <p class="section-intro">
-          Use these examples as starting points for analyst views, integrations, and agent-authored queries. They follow
-          the canonical graph collections and traversal rules used across the platform.
+          AQL, or Arango Query Language, is the query language used to read and traverse LunarGraph. Use it when you
+          need precise filtering, graph traversals, or custom result shapes that go beyond fixed API routes or
+          higher-level helpers.
         </p>
       </div>
 
       <article class="docs-card hero-callout">
-        <p class="card-eyebrow">Before you copy a query</p>
-        <p>Check freshness, keep hops shallow, and anchor traversals to document <code>_id</code> values.</p>
+        <p class="card-eyebrow">Think of it this way</p>
+        <p>AQL is the lowest-level read path for the graph. Start here when you need exact control over what the graph returns.</p>
       </article>
     </header>
 
     <div class="section-band">
       <div class="section-copy">
+        <p class="section-kicker">AQL Basics</p>
+        <h2 class="subsection-title">What it is and when to use it</h2>
+        <p class="section-intro">
+          Start here if you are new to LunarChain queries. Once you know the use case really needs graph-level control,
+          the rules and examples below will make more sense.
+        </p>
+      </div>
+
+      <div class="compact-grid">
+        <article class="docs-card" *ngFor="let card of aqlOverviewCards">
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.summary }}</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="section-band">
+      <div class="section-copy">
         <p class="section-kicker">Authoring Rules</p>
-        <h2 class="subsection-title">Keep these defaults in mind</h2>
+        <h2 class="subsection-title">Working defaults for LunarGraph queries</h2>
+        <p class="section-intro">
+          Once you know you need AQL, keep these defaults in mind so your queries stay aligned with the graph model.
+        </p>
       </div>
 
       <div class="compact-grid">
