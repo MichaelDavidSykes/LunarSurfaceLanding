@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
@@ -19,18 +20,26 @@ interface DocsOutlineItem {
   templateUrl: './api-docs-layout.component.html',
   styleUrls: ['./api-docs-layout.component.scss']
 })
-export class ApiDocsLayoutComponent implements OnDestroy {
+export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected isMobileDocsMenuOpen = false;
   protected currentPage = 'overview';
+  protected activeOutlineId = '';
   private readonly routerEventsSub: Subscription;
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly router: Router,
+    @Inject(PLATFORM_ID) private readonly platformId: Object
+  ) {
     this.syncCurrentPage(this.router.url);
+    this.activeOutlineId = this.currentOutline[0]?.id ?? '';
     this.routerEventsSub = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
-        this.syncCurrentPage((event as NavigationEnd).urlAfterRedirects);
+        const navigationEvent = event as NavigationEnd;
+        this.syncCurrentPage(navigationEvent.urlAfterRedirects);
+        this.activeOutlineId = this.currentOutline[0]?.id ?? '';
         this.closeMobileDocsMenu();
+        this.scheduleOutlineSync(navigationEvent.urlAfterRedirects);
       });
   }
 
@@ -116,6 +125,26 @@ export class ApiDocsLayoutComponent implements OnDestroy {
     return this.pageOutlines[this.currentPage] ?? [];
   }
 
+  protected scrollToSection(sectionId: string): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const target = document.getElementById(sectionId);
+    if (!target) {
+      return;
+    }
+
+    if (target instanceof HTMLDetailsElement && !target.open) {
+      target.open = true;
+    }
+
+    const top = target.getBoundingClientRect().top + window.scrollY - this.getScrollOffset();
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+    this.activeOutlineId = sectionId;
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#${sectionId}`);
+  }
+
   protected toggleMobileDocsMenu(): void {
     this.isMobileDocsMenuOpen = !this.isMobileDocsMenuOpen;
     this.syncBodyScrollLock();
@@ -140,6 +169,82 @@ export class ApiDocsLayoutComponent implements OnDestroy {
     const cleanUrl = url.split('#')[0].split('?')[0];
     const lastSegment = cleanUrl.split('/').filter(Boolean).pop();
     this.currentPage = !lastSegment || lastSegment === 'api' ? 'overview' : lastSegment;
+  }
+
+  @HostListener('window:scroll')
+  protected onWindowScroll(): void {
+    this.syncActiveOutlineWithScroll();
+  }
+
+  ngAfterViewInit(): void {
+    this.scheduleOutlineSync(this.router.url);
+  }
+
+  private scheduleOutlineSync(url: string): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        this.scrollToFragmentFromUrl(url);
+        this.syncActiveOutlineWithScroll();
+      });
+    });
+  }
+
+  private scrollToFragmentFromUrl(url: string): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const fragment = url.split('#')[1];
+    if (!fragment) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      return;
+    }
+
+    const decodedFragment = decodeURIComponent(fragment);
+    const target = document.getElementById(decodedFragment);
+    if (!target) {
+      return;
+    }
+
+    if (target instanceof HTMLDetailsElement && !target.open) {
+      target.open = true;
+    }
+
+    const top = target.getBoundingClientRect().top + window.scrollY - this.getScrollOffset();
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'auto' });
+    this.activeOutlineId = decodedFragment;
+  }
+
+  private syncActiveOutlineWithScroll(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.currentOutline.length) {
+      return;
+    }
+
+    const threshold = window.scrollY + this.getScrollOffset() + 16;
+    let activeId = this.currentOutline[0]?.id ?? '';
+
+    for (const item of this.currentOutline) {
+      const element = document.getElementById(item.id);
+      if (!element) {
+        continue;
+      }
+
+      if (element.offsetTop <= threshold) {
+        activeId = item.id;
+      } else {
+        break;
+      }
+    }
+
+    this.activeOutlineId = activeId;
+  }
+
+  private getScrollOffset(): number {
+    return window.innerWidth <= 980 ? 104 : 118;
   }
 
   ngOnDestroy(): void {

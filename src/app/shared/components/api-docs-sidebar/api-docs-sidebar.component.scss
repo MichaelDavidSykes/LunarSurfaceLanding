@@ -71,13 +71,15 @@
 .sidebar-children {
   display: grid;
   gap: 4px;
-  padding-left: 0;
-  border-left: none;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(145, 94, 255, 0.14);
 }
 
 .child-link {
   font-size: 0.94rem;
   color: #9f9f9f;
+  padding-left: 14px;
 }
 
 .sidebar-link:hover {
@@ -128,8 +130,9 @@
 }
 
 .docs-sidebar.docs-sidebar--light .sidebar-children {
-  padding-left: 0;
-  border-left: none;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(145, 94, 255, 0.14);
 }
 
 .docs-sidebar.docs-sidebar--light .child-link {
