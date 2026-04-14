@@ -21,6 +21,7 @@
 }
 
 .docs-sidebar-shell {
+  grid-column: 1;
   position: fixed;
   top: var(--docs-toolbar-height);
   left: max(12px, calc((100vw - 1600px) / 2));
@@ -34,12 +35,14 @@
 }
 
 .docs-main {
+  grid-column: 2;
   display: block;
   min-width: 0;
   padding: 34px 48px 40px;
 }
 
 .docs-outline-shell {
+  grid-column: 3;
   position: fixed;
   top: var(--docs-toolbar-height);
   right: max(12px, calc((100vw - 1600px) / 2));
@@ -126,6 +129,7 @@
   }
 
   .docs-main {
+    grid-column: 2;
     padding-left: 36px;
     padding-right: 24px;
   }
@@ -151,6 +155,7 @@
   }
 
   .docs-main {
+    grid-column: 1;
     padding: 26px 0 32px;
   }
 
