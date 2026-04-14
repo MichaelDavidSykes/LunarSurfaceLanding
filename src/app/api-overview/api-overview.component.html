@@ -5,18 +5,20 @@
         <p class="section-kicker">Platform</p>
         <h1>Platform overview</h1>
         <p class="overview-lede">
-          LunarChain is a threat intelligence platform built around one shared intelligence graph. The frontend gives
-          people a place to explore intelligence, LunarGraph stores the underlying threat data and relationships, the
-          API gives traditional programmatic access, and LunarMCP gives agentic access for AI workflows.
+          LunarChain is a threat intelligence platform built around one shared intelligence graph. Its goal is to help
+          organizations work with AI-enriched threat intelligence that stays connected across reports, indicators,
+          infrastructure, actors, and other entities so teams can investigate faster, automate workflows, and support
+          predictive analysis. The platform is composed of four main components: the frontend, the API, LunarMCP, and
+          the underlying intelligence graph in LunarGraph.
         </p>
       </div>
 
       <article class="docs-card hero-callout">
         <p class="card-eyebrow">In short</p>
-        <h3>Four parts, one intelligence system</h3>
+        <h3>One intelligence system, multiple ways to use it</h3>
         <p>
-          Think of LunarChain as one graph with four main layers: the frontend, the graph itself, the API, and the
-          MCP server.
+          LunarChain keeps the same intelligence graph available to analysts, applications, and AI agents without
+          splitting the underlying context into separate systems.
         </p>
       </article>
     </header>
@@ -34,7 +36,8 @@
         <p class="section-kicker">Main Components</p>
         <h2 class="subsection-title">How the platform is broken down</h2>
         <p class="section-intro">
-          These are the main parts of LunarChain and the role each one plays in delivering threat intelligence.
+          These are the main parts of LunarChain and the role each one plays in delivering intelligence to people,
+          applications, and agent workflows.
         </p>
       </div>
 
@@ -71,10 +74,10 @@
 
     <article class="docs-card notice-card">
       <p class="card-eyebrow">Mental model</p>
-      <h3>Everything runs through the same graph</h3>
+      <h3>Everything runs through the same intelligence graph</h3>
       <p>
         The frontend, the API, and LunarMCP are different ways of reaching the same underlying threat intelligence.
-        LunarGraph is the shared data layer that keeps the whole platform consistent.
+        LunarGraph is the shared intelligence layer that keeps the whole platform consistent.
       </p>
     </article>
   </section>
@@ -86,7 +89,7 @@
         <h2>Choose the right entry point</h2>
         <p class="section-intro">
           Start with the caller and trust model first. That will tell you whether you should use public routes,
-          authenticated graph APIs, or LunarMCP.
+          authenticated intelligence APIs, or LunarMCP.
         </p>
       </div>
 
@@ -132,7 +135,7 @@
       <div class="code-pair">
         <article class="docs-card">
           <h3>Authenticated AQL request</h3>
-          <p class="card-support">Use this when you need direct graph control from the app or an authenticated integration.</p>
+          <p class="card-support">Use this when you need direct control over the intelligence graph from the app or an authenticated integration.</p>
           <pre><code [textContent]="curlExample"></code></pre>
         </article>
 
@@ -177,7 +180,7 @@
         <h2>How the platform is layered</h2>
         <p class="section-intro">
           LunarChain is a layered system, not just a list of endpoints. Read it from the outside in: surface,
-          backend boundary, agent contract, then graph model.
+          backend boundary, agent contract, then the intelligence graph model.
         </p>
       </div>
 
@@ -186,7 +189,7 @@
         <ol class="step-list">
           <li>Start with the user-facing surface.</li>
           <li>Check which backend boundary that surface uses.</li>
-          <li>Anchor queries to the canonical graph rules.</li>
+          <li>Anchor queries to the canonical intelligence graph rules.</li>
         </ol>
       </article>
     </header>
@@ -194,7 +197,7 @@
     <div class="section-band">
       <div class="section-copy">
         <p class="section-kicker">System Layers</p>
-        <h2 class="subsection-title">From interface to graph</h2>
+        <h2 class="subsection-title">From interface to intelligence graph</h2>
       </div>
 
       <div class="stack-list">
@@ -210,10 +213,10 @@
 
     <div class="section-band" id="graph-facts">
       <div class="section-copy">
-        <p class="section-kicker">Graph Rules</p>
-        <h2 class="subsection-title">Canonical graph facts</h2>
+        <p class="section-kicker">Intelligence Graph</p>
+        <h2 class="subsection-title">Canonical intelligence graph facts</h2>
         <p class="section-intro">
-          These are the defaults to assume when you are writing graph queries or interpreting examples in the docs.
+          These are the defaults to assume when you are writing intelligence graph queries or interpreting examples in the docs.
         </p>
       </div>
 
@@ -364,8 +367,8 @@
         <p class="section-kicker">Agent Access</p>
         <h2>MCP workflow</h2>
         <p class="section-intro">
-          LunarMCP gives agents a controlled way to understand the graph before they query it. The sequence matters:
-          bootstrap context first, execute AQL second.
+          LunarMCP gives agents a controlled way to understand the intelligence graph before they query it. The
+          sequence matters: bootstrap context first, execute AQL second.
         </p>
       </div>
 
@@ -404,7 +407,7 @@
           <span class="step-index">03</span>
           <div>
             <h3>Inspect</h3>
-            <p>Use schema and relationship tools to confirm the live graph shape and choose strong pivots.</p>
+            <p>Use schema and relationship tools to confirm the live intelligence graph shape and choose strong pivots.</p>
           </div>
         </article>
         <article class="docs-card step-card">
@@ -510,21 +513,21 @@
         <p class="section-kicker">Reference</p>
         <h2>Payload shapes</h2>
         <p class="section-intro">
-          There are three payload styles to keep in mind: authenticated graph API calls, public landing responses,
-          and MCP JSON-RPC over streamable HTTP.
+          There are three payload styles to keep in mind: authenticated intelligence API calls, public landing
+          responses, and MCP JSON-RPC over streamable HTTP.
         </p>
       </div>
 
       <article class="docs-card hero-callout">
         <p class="card-eyebrow">Keep this straight</p>
-        <p>Public routes return fixed landing data, app routes wrap graph results, and MCP responses arrive as event-stream frames.</p>
+        <p>Public routes return fixed landing data, app routes wrap intelligence graph results, and MCP responses arrive as event-stream frames.</p>
       </article>
     </header>
 
     <div class="section-band">
       <div class="section-copy">
         <p class="section-kicker">Authenticated API</p>
-        <h2 class="subsection-title">Direct graph requests</h2>
+        <h2 class="subsection-title">Direct intelligence graph requests</h2>
       </div>
 
       <div class="code-pair">
@@ -543,7 +546,7 @@
       <div class="section-copy">
         <p class="section-kicker">Public API</p>
         <h2 class="subsection-title">Landing response shape</h2>
-        <p class="section-intro">Public routes return a narrow wrapper with presentation-safe data and no arbitrary graph input.</p>
+        <p class="section-intro">Public routes return a narrow wrapper with presentation-safe data and no arbitrary intelligence graph input.</p>
       </div>
 
       <article class="docs-card">
@@ -572,7 +575,7 @@
 
     <article class="docs-card notice-card" id="payload-errors">
       <p class="card-eyebrow">Errors</p>
-      <h3>Graph error response</h3>
+      <h3>Intelligence graph error response</h3>
       <pre><code [textContent]="errorResponseExample"></code></pre>
     </article>
 
@@ -581,7 +584,7 @@
       <h3>Response handling</h3>
       <ul class="detail-list">
         <li>Public landing endpoints return a simple <code>status + data</code> wrapper.</li>
-        <li><code>/graph/aql-query</code> returns the upstream graph result inside a backend wrapper with the effective query and bind vars.</li>
+        <li><code>/graph/aql-query</code> returns the upstream intelligence graph result inside a backend wrapper with the effective query and bind vars.</li>
         <li>MCP responses arrive as streamable HTTP event frames even when the payload itself is JSON-RPC.</li>
         <li>If you are building agents, read resources and inspect schema before issuing <code>run_read_query</code>.</li>
       </ul>
@@ -594,15 +597,15 @@
         <p class="section-kicker">AQL</p>
         <h2>AQL playbook</h2>
         <p class="section-intro">
-          AQL, or Arango Query Language, is the query language used to read and traverse LunarGraph. Use it when you
-          need precise filtering, graph traversals, or custom result shapes that go beyond fixed API routes or
-          higher-level helpers.
+          AQL, or Arango Query Language, is the query language used to read and traverse the intelligence graph stored
+          in LunarGraph. Use it when you need precise filtering, intelligence graph traversals, or custom result shapes
+          that go beyond fixed API routes or higher-level helpers.
         </p>
       </div>
 
       <article class="docs-card hero-callout">
         <p class="card-eyebrow">Think of it this way</p>
-        <p>AQL is the lowest-level read path for the graph. Start here when you need exact control over what the graph returns.</p>
+        <p>AQL is the lowest-level read path for the intelligence graph. Start here when you need exact control over what the intelligence graph returns.</p>
       </article>
     </header>
 
@@ -611,8 +614,8 @@
         <p class="section-kicker">AQL Basics</p>
         <h2 class="subsection-title">What it is and when to use it</h2>
         <p class="section-intro">
-          Start here if you are new to LunarChain queries. Once you know the use case really needs graph-level control,
-          the rules and examples below will make more sense.
+          Start here if you are new to LunarChain queries. Once you know the use case really needs control at the
+          intelligence graph level, the rules and examples below will make more sense.
         </p>
       </div>
 
@@ -627,9 +630,9 @@
     <div class="section-band">
       <div class="section-copy">
         <p class="section-kicker">Authoring Rules</p>
-        <h2 class="subsection-title">Working defaults for LunarGraph queries</h2>
+        <h2 class="subsection-title">Working defaults for intelligence graph queries</h2>
         <p class="section-intro">
-          Once you know you need AQL, keep these defaults in mind so your queries stay aligned with the graph model.
+          Once you know you need AQL, keep these defaults in mind so your queries stay aligned with the intelligence graph model.
         </p>
       </div>
 

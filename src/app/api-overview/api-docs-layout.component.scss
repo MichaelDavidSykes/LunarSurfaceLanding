@@ -21,12 +21,16 @@
 }
 
 .docs-sidebar-shell {
-  position: sticky;
+  position: fixed;
   top: var(--docs-toolbar-height);
-  align-self: start;
+  left: max(12px, calc((100vw - 1600px) / 2));
+  width: 300px;
   height: calc(100vh - var(--docs-toolbar-height));
   padding: 34px 24px 28px 8px;
   border-right: 1px solid rgba(255, 255, 255, 0.09);
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 100;
 }
 
 .docs-main {
@@ -117,6 +121,7 @@
   }
 
   .docs-sidebar-shell {
+    width: 280px;
     padding-right: 20px;
   }
 

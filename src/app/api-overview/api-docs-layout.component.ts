@@ -51,7 +51,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       children: [
         { id: 'overview', label: 'Overview', path: 'overview' },
         { id: 'quick-start', label: 'Paths', path: 'quick-start' },
-        { id: 'base-configuration', label: 'Graph Model', path: 'base-configuration' }
+        { id: 'base-configuration', label: 'Intelligence Graph', path: 'base-configuration' }
       ]
     },
     {
@@ -94,7 +94,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     ],
     'base-configuration': [
       { id: 'system-layers', label: 'System layers' },
-      { id: 'graph-facts', label: 'Graph facts' },
+      { id: 'graph-facts', label: 'Intelligence graph facts' },
       { id: 'platform-config', label: 'Platform config' }
     ],
     'endpoint-focus': [

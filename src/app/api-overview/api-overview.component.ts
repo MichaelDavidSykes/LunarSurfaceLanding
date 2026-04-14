@@ -90,24 +90,19 @@ export class ApiOverviewComponent implements OnInit {
 
   protected readonly overviewMetrics: OverviewMetric[] = [
     {
-      value: 'Frontend',
-      label: 'Public site and analyst experience',
-      detail: 'The frontend is where people browse the product, read the docs, and work with threat intelligence in the operator UI.'
+      value: 'AI-Enriched',
+      label: 'Threat intelligence ready for action',
+      detail: 'LunarChain helps organizations work with AI-enriched threat intelligence for investigation, monitoring, automation, and predictive analysis.'
     },
     {
-      value: 'LunarGraph',
-      label: 'Shared intelligence graph',
-      detail: 'LunarGraph stores the entities, reports, indicators, infrastructure, and relationships that power every other part of the platform.'
+      value: 'Connected Context',
+      label: 'One intelligence graph, not isolated records',
+      detail: 'Reports, indicators, infrastructure, actors, malware, tools, and locations stay connected inside one shared intelligence graph.'
     },
     {
-      value: 'API',
-      label: 'Traditional application access',
-      detail: 'The API gives frontends, services, and integrations a standard HTTP way to query graph-backed data and workflow endpoints.'
-    },
-    {
-      value: 'LunarMCP',
-      label: 'Agentic access layer',
-      detail: 'LunarMCP gives AI agents and automation runtimes a guided, read-only path into the same threat intelligence.'
+      value: 'Multi-Access',
+      label: 'People, apps, and agents use the same intelligence',
+      detail: 'The frontend, the API, and LunarMCP all expose the same intelligence graph through the access model that best fits the workflow.'
     }
   ];
 
@@ -126,7 +121,7 @@ export class ApiOverviewComponent implements OnInit {
     {
       title: 'LunarGraph',
       audience: 'Core intelligence data model',
-      access: 'Underlying graph store',
+      access: 'Underlying intelligence graph',
       summary: 'LunarGraph is the shared intelligence graph underneath every product surface and integration path.',
       bullets: [
         'Stores reports, indicators, actors, malware, tools, infrastructure, locations, vulnerabilities, and related entities.',
@@ -138,11 +133,11 @@ export class ApiOverviewComponent implements OnInit {
       title: 'API',
       audience: 'Frontends, internal services, and integrations',
       access: 'HTTP endpoints',
-      summary: 'The API is the traditional programmatic access layer for applications that want graph-backed threat intelligence over standard requests.',
+      summary: 'The API is the traditional programmatic access layer for applications that want threat intelligence backed by the intelligence graph over standard requests.',
       bullets: [
         'Supports authenticated product requests as well as narrow public routes for the landing experience.',
         'Best fit for web apps, services, and conventional integrations.',
-        'Handles graph queries, summaries, metadata, and workflow endpoints.'
+        'Handles intelligence graph queries, summaries, metadata, and workflow endpoints.'
       ]
     },
     {
@@ -161,15 +156,15 @@ export class ApiOverviewComponent implements OnInit {
   protected readonly capabilityCards: CapabilityCard[] = [
     {
       title: 'Threat investigation',
-      summary: 'Pivot from reports into indicators, infrastructure, actors, malware, tools, and locations through the graph.'
+      summary: 'Pivot from reports into indicators, infrastructure, actors, malware, tools, and locations through the intelligence graph.'
     },
     {
       title: 'Customer monitoring',
       summary: 'Track client targets, alerts, and report-linked activity in one operational system.'
     },
     {
-      title: 'Graph-native enrichment',
-      summary: 'Move from a single entity to nearby context instead of relying on isolated point lookups.'
+      title: 'Connected enrichment',
+      summary: 'Move from a single entity to nearby context through the intelligence graph instead of relying on isolated point lookups.'
     },
     {
       title: 'Agentic workflows',
@@ -180,11 +175,11 @@ export class ApiOverviewComponent implements OnInit {
   protected readonly aqlOverviewCards: CapabilityCard[] = [
     {
       title: 'What AQL is',
-      summary: 'AQL, or Arango Query Language, is the query language used to read, filter, sort, and traverse LunarGraph.'
+      summary: 'AQL, or Arango Query Language, is the query language used to read, filter, sort, and traverse the intelligence graph stored in LunarGraph.'
     },
     {
       title: 'When teams use it',
-      summary: 'Use AQL when an analyst, backend service, or integration needs exact control over graph logic and the shape of the returned data.'
+      summary: 'Use AQL when an analyst, backend service, or integration needs exact control over intelligence graph logic and the shape of the returned data.'
     },
     {
       title: 'When not to start with it',
@@ -203,7 +198,7 @@ export class ApiOverviewComponent implements OnInit {
     },
     {
       title: 'Backend orchestration layer',
-      summary: 'The FastAPI backend exposes auth, app APIs, graph routes, and the MCP proxy under one domain.',
+      summary: 'The FastAPI backend exposes auth, app APIs, intelligence graph routes, and the MCP proxy under one domain.',
       responsibilities: [
         'Separates anonymous landing-safe routes from authenticated product routes.',
         'Handles user, client, target, alert, invitation, and notification workflows.'
@@ -213,12 +208,12 @@ export class ApiOverviewComponent implements OnInit {
       title: 'Agent access layer',
       summary: 'LunarMCP sits in front of LunarGraph as a stable, read-only contract for agents.',
       responsibilities: [
-        'Provides bootstrap resources, schema inspection, and bounded read-only AQL execution.',
+        'Provides bootstrap resources, intelligence graph schema inspection, and bounded read-only AQL execution.',
         'Normalizes common aliases and enforces query guardrails.'
       ]
     },
     {
-      title: 'Canonical graph layer',
+      title: 'Canonical intelligence graph layer',
       summary: 'LunarGraph stores the intelligence model as vertices, edges, and traversable relationships.',
       responsibilities: [
         'Uses nodes_vertex_collection for entities and reports, nodes_edge_collection for relationships, and lunargraph_graph for traversals.',
@@ -236,17 +231,17 @@ export class ApiOverviewComponent implements OnInit {
     {
       title: 'Edge collection',
       value: 'nodes_edge_collection',
-      detail: 'Canonical relationship store for object, references, uses, targets, attributed-to, located-at, and other graph edges.'
+      detail: 'Canonical relationship store for object, references, uses, targets, attributed-to, located-at, and other intelligence graph edges.'
     },
     {
-      title: 'Graph name',
+      title: 'Intelligence graph name',
       value: 'lunargraph_graph',
-      detail: 'Use this graph in traversal queries whenever you move from a report or entity to neighboring nodes.'
+      detail: 'Use this intelligence graph in traversal queries whenever you move from a report or entity to neighboring nodes.'
     },
     {
       title: 'Traversal key',
       value: 'Arango document _id',
-      detail: 'Traversals use collection/key document identifiers, not STIX ids, when walking the graph.'
+      detail: 'Traversals use collection/key document identifiers, not STIX ids, when walking the intelligence graph.'
     },
     {
       title: 'Collection aliases',
@@ -266,7 +261,7 @@ export class ApiOverviewComponent implements OnInit {
       audience: 'Public site and anonymous visitors',
       route: 'GET /graph/public/landing-threat-intelligence and related routes',
       access: 'No bearer token',
-      whenToUse: 'Use this only when you need fixed, presentation-safe graph slices for the public site.',
+      whenToUse: 'Use this only when you need fixed, presentation-safe intelligence graph slices for the public site.',
       bullets: [
         'Backs the landing map, globe, and country drill-down.',
         'Returns pre-scoped results instead of accepting arbitrary queries.',
@@ -274,14 +269,14 @@ export class ApiOverviewComponent implements OnInit {
       ]
     },
     {
-      title: 'Authenticated graph API',
+      title: 'Authenticated intelligence API',
       audience: 'Frontend app, internal services, and controlled integrations',
       route: 'POST /graph/aql-query, /graph/simple-query, /graph/ai-query',
       access: 'Bearer token required',
-      whenToUse: 'Use this when you need analyst-grade graph access, deterministic payloads, or product orchestration.',
+      whenToUse: 'Use this when you need analyst-grade intelligence graph access, deterministic payloads, or product orchestration.',
       bullets: [
         'Raw AQL gives the most control.',
-        'simple-query handles common graph lookups with structured filters.',
+        'simple-query handles common intelligence graph lookups with structured filters.',
         'ai-query adds product-facing summarization on top of AQL.'
       ]
     },
@@ -337,7 +332,7 @@ export class ApiOverviewComponent implements OnInit {
       title: 'Direct AQL',
       route: 'POST /graph/aql-query',
       access: 'Authenticated',
-      summary: 'Executes explicit AQL against LunarGraph and returns the graph result with request context.',
+      summary: 'Executes explicit AQL against LunarGraph and returns the intelligence graph result with request context.',
       bullets: [
         'Best for deterministic analyst views and custom integrations.',
         'Requires a bearer token.',
@@ -348,11 +343,11 @@ export class ApiOverviewComponent implements OnInit {
       title: 'Structured query helper',
       route: 'POST /graph/simple-query',
       access: 'Authenticated',
-      summary: 'Provides a structured filter and relationship API for common graph access patterns without hand-authoring AQL.',
+      summary: 'Provides a structured filter and relationship API for common intelligence graph access patterns without hand-authoring AQL.',
       bullets: [
         'Supports boolean filters and relationship configuration.',
         'Useful for product workflows that do not need raw AQL.',
-        'Still targets the same graph model underneath.'
+        'Still targets the same intelligence graph model underneath.'
       ]
     },
     {
@@ -363,7 +358,7 @@ export class ApiOverviewComponent implements OnInit {
       bullets: [
         'Useful when analysts need quick narrative output.',
         'Relies on a compiled AQL query from the frontend or another orchestration layer.',
-        'Not a replacement for schema-aware graph querying.'
+        'Not a replacement for schema-aware intelligence graph querying.'
       ]
     },
     {
@@ -373,7 +368,7 @@ export class ApiOverviewComponent implements OnInit {
       summary: 'Expose reference metadata and platform hints for building safer queries and integrations.',
       bullets: [
         'Useful for frontend configuration and tooling support.',
-        'Return collection info, aliases, and supported graph query options.',
+        'Return collection info, aliases, and supported intelligence graph query options.',
         'Should be treated as reference helpers, not the primary integration surface.'
       ]
     },
@@ -411,7 +406,7 @@ export class ApiOverviewComponent implements OnInit {
     {
       name: 'LunarGraph Query Guide',
       uri: 'lunar://query-guide',
-      purpose: 'Guidance for writing bounded, useful, high-signal graph queries.'
+      purpose: 'Guidance for writing bounded, useful, high-signal intelligence graph queries.'
     },
     {
       name: 'Relationship Ontology',
@@ -419,9 +414,9 @@ export class ApiOverviewComponent implements OnInit {
       purpose: 'Explains which relationship types are strong signals versus weak linkage.'
     },
     {
-      name: 'Graph Schema Context',
+      name: 'Intelligence Graph Schema Context',
       uri: 'lunar://graph-schema',
-      purpose: 'Documents canonical collections, graph name, aliases, and core query conventions.'
+      purpose: 'Documents canonical collections, intelligence graph name, aliases, and core query conventions.'
     },
     {
       name: 'Collection Aliases',
@@ -438,8 +433,8 @@ export class ApiOverviewComponent implements OnInit {
     },
     {
       name: 'schema_overview',
-      use: 'Inspect the current node-type and relationship-type distributions in the graph.',
-      why: 'Keeps agents grounded in the live graph shape instead of stale assumptions.'
+      use: 'Inspect the current node-type and relationship-type distributions in the intelligence graph.',
+      why: 'Keeps agents grounded in the live intelligence graph shape instead of stale assumptions.'
     },
     {
       name: 'relationship_type_overview',
@@ -465,7 +460,7 @@ export class ApiOverviewComponent implements OnInit {
     },
     {
       title: 'Traverse with document _id',
-      detail: 'When moving through lunargraph_graph, traverse from collection/key ids rather than STIX ids.'
+      detail: 'When moving through the intelligence graph via lunargraph_graph, traverse from collection/key ids rather than STIX ids.'
     },
     {
       title: 'Keep queries bounded',
@@ -659,7 +654,7 @@ data: {
     {
       level: 'Simple',
       title: 'Latest Reports',
-      goal: 'Get the most recent reports in the graph.',
+      goal: 'Get the most recent reports in the intelligence graph.',
       query: `FOR reportDoc IN nodes_vertex_collection
   FILTER reportDoc.type == "report" AND reportDoc._is_latest == true
   SORT reportDoc.modified DESC
