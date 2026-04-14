@@ -1,66 +1,85 @@
-<div
-  class="landing-taskbar"
-  [class.scrolled]="taskbarScrolled"
-  [class.no-transition]="disableTransitions"
-  [class.api-context]="context === 'api'">
-  <div class="brand-container">
-    <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo">
-    <span class="logo-text">LunarChain</span>
-  </div>
-  <span class="spacer"></span>
+<ng-container *ngIf="context === 'api'; else landingToolbar">
+  <header class="docs-toolbar">
+    <a class="docs-brand" routerLink="/api/overview" aria-label="LunarChain docs home">
+      <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo docs-toolbar-logo">
+      <span class="docs-logo-text">LunarChain Docs</span>
+    </a>
 
-  <div class="desktop-nav">
-    <button type="button" class="nav-btn" (click)="onAction('solutions')">Solutions</button>
-    <button type="button" class="nav-btn" (click)="onAction('ai')">AI Agent</button>
-    <button type="button" class="nav-btn" (click)="onAction('api')">Documentation</button>
-    <button type="button" class="nav-btn" (click)="onAction('contact')">Contact Us</button>
-    <a class="login-btn" [class.active]="context === 'api'" [href]="loginUrl">Log In</a>
+    <nav class="docs-desktop-nav" aria-label="Primary">
+      <button type="button" class="docs-nav-link docs-nav-link--active" (click)="onAction('api')">Docs</button>
+      <button type="button" class="docs-nav-link" (click)="onAction('solutions')">Solutions</button>
+      <button type="button" class="docs-nav-link" (click)="onAction('ai')">AI Agent</button>
+      <button type="button" class="docs-nav-link" (click)="onAction('contact')">Contact</button>
+      <a class="docs-login-link" [href]="loginUrl">Log In</a>
+    </nav>
+
+    <div class="docs-mobile-nav">
+      <button
+        class="docs-mobile-icon-btn"
+        type="button"
+        aria-label="Open documentation navigation"
+        (click)="onDocsMenuClick()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+</ng-container>
+
+<ng-template #landingToolbar>
+  <div
+    class="landing-taskbar"
+    [class.scrolled]="taskbarScrolled"
+    [class.no-transition]="disableTransitions">
+    <div class="brand-container">
+      <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo">
+      <span class="logo-text">LunarChain</span>
+    </div>
+    <span class="spacer"></span>
+
+    <div class="desktop-nav">
+      <button type="button" class="nav-btn" (click)="onAction('solutions')">Solutions</button>
+      <button type="button" class="nav-btn" (click)="onAction('ai')">AI Agent</button>
+      <button type="button" class="nav-btn" (click)="onAction('api')">Documentation</button>
+      <button type="button" class="nav-btn" (click)="onAction('contact')">Contact Us</button>
+      <a class="login-btn" [href]="loginUrl">Log In</a>
+    </div>
+
+    <div class="mobile-nav">
+      <button
+        class="mobile-icon-btn"
+        type="button"
+        aria-label="Open menu"
+        (click)="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <div class="mobile-nav">
-    <button
-      *ngIf="context === 'api'"
-      class="mobile-icon-btn"
-      type="button"
-      aria-label="Open documentation navigation"
-      (click)="onDocsMenuClick()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 6h16"></path>
-        <path d="M4 12h16"></path>
-        <path d="M4 18h16"></path>
-      </svg>
-    </button>
-    <button
-      class="mobile-icon-btn"
-      type="button"
-      *ngIf="context !== 'api'"
-      aria-label="Open menu"
-      (click)="toggleMobileMenu()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 6h16"></path>
-        <path d="M4 12h16"></path>
-        <path d="M4 18h16"></path>
-      </svg>
-    </button>
+  <div class="mobile-side-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">Menu</span>
+      <button class="close-btn" type="button" (click)="toggleMobileMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu-items">
+      <button type="button" class="mobile-menu-btn" (click)="onAction('solutions')">Solutions</button>
+      <button type="button" class="mobile-menu-btn" (click)="onAction('ai')">AI Agent</button>
+      <button type="button" class="mobile-menu-btn" (click)="onAction('api')">Documentation</button>
+      <button type="button" class="mobile-menu-btn" (click)="onAction('contact')">Contact Us</button>
+      <a class="mobile-login-btn" [href]="loginUrl" (click)="toggleMobileMenu()">Log In</a>
+    </div>
   </div>
-</div>
 
-<div class="mobile-side-menu" [class.open]="isMobileMenuOpen">
-  <div class="mobile-menu-header">
-    <span class="mobile-menu-title">Menu</span>
-    <button class="close-btn" type="button" (click)="toggleMobileMenu()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 6L6 18M6 6l12 12" />
-      </svg>
-    </button>
-  </div>
-  <div class="mobile-menu-items">
-    <button type="button" class="mobile-menu-btn" (click)="onAction('solutions')">Solutions</button>
-    <button type="button" class="mobile-menu-btn" (click)="onAction('ai')">AI Agent</button>
-    <button type="button" class="mobile-menu-btn" (click)="onAction('api')">Documentation</button>
-    <button type="button" class="mobile-menu-btn" (click)="onAction('contact')">Contact Us</button>
-    <a class="mobile-login-btn" [href]="loginUrl" (click)="toggleMobileMenu()">Log In</a>
-  </div>
-</div>
-
-<div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+  <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+</ng-template>

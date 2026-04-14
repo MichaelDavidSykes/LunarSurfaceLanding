@@ -13,7 +13,7 @@
 
 .sidebar-kicker {
   margin: 0 0 6px;
-  color: #f48120;
+  color: #a88cff;
   font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -88,8 +88,8 @@
 
 .sidebar-link.active {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.08);
-  background: #3b3b3b;
+  border-color: rgba(145, 94, 255, 0.26);
+  background: rgba(145, 94, 255, 0.18);
 }
 
 .docs-sidebar.docs-sidebar--light {
@@ -100,7 +100,7 @@
 }
 
 .docs-sidebar.docs-sidebar--light .sidebar-kicker {
-  color: #f48120;
+  color: #a88cff;
 }
 
 .docs-sidebar.docs-sidebar--light .sidebar-title {
@@ -145,6 +145,6 @@
 
 .docs-sidebar.docs-sidebar--light .sidebar-link.active {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.08);
-  background: #3b3b3b;
+  border-color: rgba(145, 94, 255, 0.26);
+  background: rgba(145, 94, 255, 0.18);
 }
