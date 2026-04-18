@@ -369,10 +369,11 @@ LET candidateReports = (
     LET locationInfo = FIRST(
       FOR v IN 1..1 ANY reportDoc._id GRAPH 'lunargraph_graph'
         FILTER v.type == "location"
-        SORT v.modified DESC
+        LET countryCode = v.country ? UPPER(TRIM(TO_STRING(v.country))) : null
+        SORT countryCode != null AND countryCode != "" DESC, v.modified DESC
         LIMIT 1
         RETURN {
-          country: v.country ? UPPER(TRIM(TO_STRING(v.country))) : null,
+          country: countryCode,
           name: v.name
         }
     )

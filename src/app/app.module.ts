@@ -23,6 +23,7 @@ import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { TopToolbarComponent } from './shared/components/top-toolbar/top-toolbar.component';
 import { ApiDocsSidebarComponent } from './shared/components/api-docs-sidebar/api-docs-sidebar.component';
 import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component';
+import { TermsComponent } from './terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component
     ApiOverviewComponent,
     TopToolbarComponent,
     ApiDocsSidebarComponent,
-    ApiDocsLayoutComponent
+    ApiDocsLayoutComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,222 @@
+<section class="terms-page">
+  <app-top-toolbar
+    context="landing"
+    [isScrolled]="true"
+    [forceScrolled]="true"
+    (solutionsClick)="navigateHome('solutions')"
+    (aiAgentClick)="navigateHome('ai-agent')"
+    (apiClick)="navigateToApi()"
+    (contactClick)="navigateHome('contact')">
+  </app-top-toolbar>
+
+  <div class="terms-shell">
+    <header class="terms-hero">
+      <div class="terms-eyebrow">Legal</div>
+      <h1>Terms and Conditions</h1>
+      <p class="terms-summary">
+        These terms are a first-pass operating draft for LunarChain. They define the core rules for access,
+        acceptable use, service limits, and commercial use of the service, and should be reviewed by counsel
+        before production launch.
+      </p>
+
+      <div class="terms-meta">
+        <span>Last updated {{ lastUpdated }}</span>
+        <span>Applies to LunarChain website, APIs, and related services</span>
+      </div>
+    </header>
+
+    <div class="terms-layout">
+      <aside class="terms-sidebar" aria-label="Terms contents">
+        <div class="terms-sidebar-card">
+          <h2>Contents</h2>
+          <a *ngFor="let section of sectionLinks" [href]="'#' + section.id">{{ section.label }}</a>
+        </div>
+      </aside>
+
+      <article class="terms-content">
+        <div class="terms-notice">
+          <strong>Draft notice:</strong>
+          <span>
+            This page is intended to start LunarChain’s public legal surface. It is written in product-ready language,
+            but it is not a substitute for legal review.
+          </span>
+        </div>
+
+        <section id="overview" class="terms-section">
+          <h2>1. Overview</h2>
+          <p>
+            These Terms and Conditions govern your access to and use of LunarChain, including our website, APIs,
+            integrations, analytics, intelligence workflows, and any related software or services we make available.
+          </p>
+          <p>
+            By creating an account, requesting access, accessing the service, or using LunarChain on behalf of an
+            organization, you agree to these terms and represent that you have authority to bind the person or entity
+            using the service.
+          </p>
+        </section>
+
+        <section id="accounts" class="terms-section">
+          <h2>2. Accounts and Access</h2>
+          <p>
+            You must provide accurate registration information, maintain the security of your credentials, and use the
+            service only through authorized accounts and workspaces assigned to you by LunarChain or your organization.
+          </p>
+          <p>
+            You are responsible for all activity that occurs under your account, including activity by team members,
+            contractors, or agents acting under your organization’s access.
+          </p>
+        </section>
+
+        <section id="acceptable-use" class="terms-section">
+          <h2>3. Acceptable Use</h2>
+          <p>You may not use LunarChain to:</p>
+          <ul>
+            <li>violate applicable law, sanctions, export controls, or third-party rights;</li>
+            <li>probe, disrupt, reverse engineer, or interfere with the platform or its security controls;</li>
+            <li>upload or distribute malicious code, credential theft content, or unlawful surveillance material;</li>
+            <li>resell, sublicense, or provide unauthorized third-party access to the service;</li>
+            <li>use the service to support harmful, abusive, or deceptive operational activity.</li>
+          </ul>
+          <p>
+            We may set technical limits, fair-use protections, or product-specific restrictions to preserve platform
+            reliability, availability, and security.
+          </p>
+        </section>
+
+        <section id="data" class="terms-section">
+          <h2>4. Data and Privacy</h2>
+          <p>
+            As between the parties, you retain ownership of the data and materials you submit to LunarChain. You grant
+            LunarChain the limited rights needed to host, process, secure, transmit, and analyze that data to provide
+            the service.
+          </p>
+          <p>
+            You are responsible for ensuring that you have the rights and legal basis to provide any personal data,
+            intelligence material, documents, or operational records you submit. LunarChain may collect service usage,
+            telemetry, and diagnostic information needed to operate, secure, and improve the platform.
+          </p>
+          <p>
+            A separate privacy policy should supplement this section once published.
+          </p>
+        </section>
+
+        <section id="billing" class="terms-section">
+          <h2>5. Commercial Terms</h2>
+          <p>
+            Paid features, subscriptions, usage-based services, and enterprise access are subject to the pricing,
+            order forms, or commercial terms presented at purchase or otherwise agreed in writing.
+          </p>
+          <p>
+            Unless stated otherwise, fees are non-refundable, taxes are your responsibility, and continued access to
+            paid services may depend on timely payment.
+          </p>
+        </section>
+
+        <section id="ip" class="terms-section">
+          <h2>6. Intellectual Property</h2>
+          <p>
+            LunarChain and its licensors retain all right, title, and interest in the platform, including all software,
+            models, workflows, interfaces, branding, documentation, and derivative improvements, except for the rights
+            expressly granted to you in these terms.
+          </p>
+          <p>
+            You may not copy, modify, distribute, or create derivative works from LunarChain except as expressly
+            allowed by law or by written permission.
+          </p>
+        </section>
+
+        <section id="disclaimers" class="terms-section">
+          <h2>7. Disclaimers and Liability</h2>
+          <p>
+            LunarChain provides intelligence tooling and analytical outputs, not legal advice, security guarantees, or
+            operational decisions on your behalf. You remain responsible for validating outputs and making your own
+            decisions.
+          </p>
+          <p>
+            To the maximum extent permitted by law, the service is provided on an “as is” and “as available” basis.
+            LunarChain disclaims implied warranties, including merchantability, fitness for a particular purpose, and
+            non-infringement.
+          </p>
+          <p>
+            To the maximum extent permitted by law, LunarChain will not be liable for indirect, incidental, special,
+            consequential, or punitive damages, or for lost profits, revenues, goodwill, or data.
+          </p>
+        </section>
+
+        <section id="termination" class="terms-section">
+          <h2>8. Suspension and Termination</h2>
+          <p>
+            We may suspend or terminate access if you breach these terms, create security or legal risk, fail to pay
+            applicable fees, or use the service in a manner that threatens LunarChain, our customers, or third parties.
+          </p>
+          <p>
+            You may stop using the service at any time. Sections that by their nature should survive termination will
+            continue to apply after access ends.
+          </p>
+        </section>
+
+        <section id="general" class="terms-section">
+          <h2>9. General Terms</h2>
+          <p>
+            LunarChain may update these terms from time to time. If we make material changes, we may provide notice by
+            posting an updated version on this page or through the service. Your continued use after the effective date
+            of updated terms constitutes acceptance of the revised terms.
+          </p>
+          <p>
+            These terms should ultimately be supplemented with governing law, venue, dispute resolution, and export
+            control language once LunarChain finalizes its operating jurisdiction and customer contracting model.
+          </p>
+        </section>
+
+        <section id="contact" class="terms-section">
+          <h2>10. Contact</h2>
+          <p>
+            For legal, commercial, or compliance questions about these terms, contact LunarChain through the company’s
+            published support or business contact channels.
+          </p>
+        </section>
+      </article>
+    </div>
+  </div>
+
+  <footer class="landing-footer">
+    <div class="footer-content">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="footer-logo">
+          <div class="footer-brand-text">
+            <h3>LunarChain</h3>
+            <p>Operational threat intelligence for analysts, platforms, and agents</p>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-link-group">
+            <h4>Solutions</h4>
+            <ul>
+              <li><button type="button" (click)="navigateHome('solutions')">Solutions</button></li>
+              <li><button type="button" (click)="navigateToApi()">MCP Server</button></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <h4>Navigate</h4>
+            <ul>
+              <li><button type="button" (click)="navigateHome()">Home</button></li>
+              <li><button type="button" (click)="navigateHome('contact')">Contact Us</button></li>
+              <li><a href="/terms" aria-current="page">Terms &amp; Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-content">
+          <div class="footer-copyright">
+            <p>&copy; 2025 LunarChain. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
