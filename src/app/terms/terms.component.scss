@@ -1,3 +1,13 @@
+.terms-page,
+.terms-page h1,
+.terms-page h2,
+.terms-page h3,
+.terms-page h4,
+.terms-page h5,
+.terms-page h6 {
+  color: #0f172a;
+}
+
 .terms-page {
   min-height: 100vh;
   background:
@@ -37,6 +47,8 @@
   font-size: clamp(2.2rem, 5vw, 4rem);
   line-height: 1.04;
   letter-spacing: -0.04em;
+  color: #0f172a !important;
+  text-shadow: none !important;
 }
 
 .terms-summary {
@@ -282,6 +294,47 @@
   font-size: 0.9rem;
   color: #6b7280;
   margin: 0;
+}
+
+:host-context(.dark-theme) .terms-page,
+:host-context(.dark-theme) .terms-page h1,
+:host-context(.dark-theme) .terms-page h2,
+:host-context(.dark-theme) .terms-page h3,
+:host-context(.dark-theme) .terms-page h4,
+:host-context(.dark-theme) .terms-page h5,
+:host-context(.dark-theme) .terms-page h6,
+:host-context(.dark-theme) .terms-page p,
+:host-context(.dark-theme) .terms-page li,
+:host-context(.dark-theme) .terms-page a,
+:host-context(.dark-theme) .terms-page strong,
+:host-context(.dark-theme) .terms-page span {
+  color: inherit;
+}
+
+:host-context(.dark-theme) .terms-page {
+  color: #0f172a !important;
+}
+
+:host-context(.dark-theme) .terms-summary {
+  color: #475569 !important;
+}
+
+:host-context(.dark-theme) .terms-meta span,
+:host-context(.dark-theme) .terms-notice,
+:host-context(.dark-theme) .terms-section p,
+:host-context(.dark-theme) .terms-section li,
+:host-context(.dark-theme) .footer-brand-text h3,
+:host-context(.dark-theme) .footer-link-group h4 {
+  color: #0f172a !important;
+}
+
+:host-context(.dark-theme) .terms-eyebrow,
+:host-context(.dark-theme) .terms-sidebar-card h2,
+:host-context(.dark-theme) .footer-brand-text p,
+:host-context(.dark-theme) .footer-link-group a,
+:host-context(.dark-theme) .footer-link-group button,
+:host-context(.dark-theme) .footer-copyright p {
+  color: #475569 !important;
 }
 
 @media (max-width: 960px) {

@@ -690,6 +690,45 @@ body.dark-theme, :host-context(.dark-theme) {
   }
 }
 
+/* Terms page should remain light even when the site theme is dark */
+.dark-theme .terms-page,
+.dark-theme .terms-page .terms-hero,
+.dark-theme .terms-page .terms-content,
+.dark-theme .terms-page .terms-sidebar-card,
+.dark-theme .terms-page .landing-footer {
+  color: #0f172a !important;
+}
+
+.dark-theme .terms-page h1,
+.dark-theme .terms-page h2,
+.dark-theme .terms-page h3,
+.dark-theme .terms-page h4,
+.dark-theme .terms-page h5,
+.dark-theme .terms-page h6 {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+.dark-theme .terms-page .terms-eyebrow,
+.dark-theme .terms-page .terms-summary,
+.dark-theme .terms-page .terms-sidebar-card h2,
+.dark-theme .terms-page .footer-brand-text p,
+.dark-theme .terms-page .footer-link-group a,
+.dark-theme .terms-page .footer-link-group button,
+.dark-theme .terms-page .footer-copyright p {
+  color: #475569 !important;
+}
+
+.dark-theme .terms-page .terms-meta span,
+.dark-theme .terms-page .terms-notice,
+.dark-theme .terms-page .terms-section p,
+.dark-theme .terms-page .terms-section li,
+.dark-theme .terms-page .terms-sidebar-card a,
+.dark-theme .terms-page .footer-brand-text h3,
+.dark-theme .terms-page .footer-link-group h4 {
+  color: #0f172a !important;
+}
+
 /* Utility classes for special cases */
 .thin-scrollbar {
   scrollbar-width: thin;
