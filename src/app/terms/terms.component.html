@@ -6,6 +6,7 @@
     (solutionsClick)="navigateHome('solutions')"
     (aiAgentClick)="navigateHome('ai-agent')"
     (apiClick)="navigateToApi()"
+    (pricingClick)="navigateToPricing()"
     (contactClick)="navigateHome('contact')">
   </app-top-toolbar>
 
@@ -196,6 +197,7 @@
             <ul>
               <li><button type="button" (click)="navigateHome('solutions')">Solutions</button></li>
               <li><button type="button" (click)="navigateToApi()">MCP Server</button></li>
+              <li><button type="button" (click)="navigateToPricing()">Pricing</button></li>
             </ul>
           </div>
 
@@ -203,6 +205,7 @@
             <h4>Navigate</h4>
             <ul>
               <li><button type="button" (click)="navigateHome()">Home</button></li>
+              <li><button type="button" (click)="navigateToPricing()">Pricing</button></li>
               <li><button type="button" (click)="navigateHome('contact')">Contact Us</button></li>
               <li><a href="/terms" aria-current="page">Terms &amp; Conditions</a></li>
             </ul>

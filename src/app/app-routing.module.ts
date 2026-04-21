@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component';
+import { PricingPageComponent } from './pricing-page/pricing-page.component';
 import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent, data: { hideToolbar: true } },
   { path: 'landingpage', component: LandingPageComponent, data: { hideToolbar: true } },
+  { path: 'pricing', component: PricingPageComponent, data: { hideToolbar: true } },
   { path: 'terms', component: TermsComponent, data: { hideToolbar: true } },
   {
     path: 'api',

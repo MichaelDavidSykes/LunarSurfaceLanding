@@ -6,6 +6,7 @@
     (solutionsClick)="scrollToSolutions()"
     (aiAgentClick)="scrollToAIAgent()"
     (apiClick)="navigateTo('api')"
+    (pricingClick)="navigateTo('pricing')"
     (contactClick)="scrollToContact()"
     (mobileMenuOpenChange)="onToolbarMobileMenuChange($event)">
   </app-top-toolbar>
@@ -229,7 +230,7 @@
 </section>
 
 <!-- Our Solutions Section -->
-<section class="solutions-section">
+<section id="solutions" class="solutions-section">
   <div class="solutions-header">
     <h1 class="solutions-main-heading fade-in-element">A closer look at how LunarChain works</h1>
     <p class="solutions-subtitle fade-in-element">From large-scale collection to high-context threat intelligence</p>
@@ -529,7 +530,7 @@
 </section>
 
 <!-- MCP Server Section -->
-<section class="ai-agent-section">
+<section id="ai-agent" class="ai-agent-section">
   <div class="ai-agent-content">
     <!-- MCP Header and Image Row -->
     <div class="ai-agent-top-row">
@@ -613,7 +614,7 @@
 </section>
 
 <!-- Contact Us Section -->
-<section class="contact-section">
+<section id="contact" class="contact-section">
   <div class="contact-header">
     <h1 class="contact-main-heading">Contact Us</h1>
         <p class="contact-subtitle">Talk to us about intelligence requirements, alerting workflows, or platform access</p>
@@ -695,6 +696,7 @@
           <h4>Solutions</h4>
           <ul>
             <li><a href="/api">MCP Server</a></li>
+            <li><a href="/pricing">Pricing</a></li>
           </ul>
         </div>
 
@@ -703,6 +705,7 @@
           <ul>
             <li><a href (click)="scrollToSolutions(); $event.preventDefault()">Solutions</a></li>
             <li><a href="/api">MCP Server</a></li>
+            <li><a href="/pricing">Pricing</a></li>
             <li><a href (click)="scrollToContact(); $event.preventDefault()">Contact Us</a></li>
             <li><a href="/terms">Terms &amp; Conditions</a></li>
           </ul>

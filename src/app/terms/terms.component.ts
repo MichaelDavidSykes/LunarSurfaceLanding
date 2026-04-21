@@ -35,4 +35,8 @@ export class TermsComponent {
   protected navigateToApi(): void {
     void this.router.navigate(['/api/overview']);
   }
+
+  protected navigateToPricing(): void {
+    void this.router.navigate(['/pricing']);
+  }
 }

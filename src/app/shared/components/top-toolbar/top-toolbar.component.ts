@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 
-type ToolbarAction = 'solutions' | 'ai' | 'api' | 'contact';
+type ToolbarAction = 'solutions' | 'ai' | 'api' | 'pricing' | 'contact';
 type ToolbarContext = 'landing' | 'api';
 
 @Component({
@@ -19,10 +19,12 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() context: ToolbarContext = 'landing';
   @Input() isScrolled = false;
   @Input() forceScrolled = false;
+  @Input() activeAction: ToolbarAction | null = null;
 
   @Output() solutionsClick = new EventEmitter<void>();
   @Output() aiAgentClick = new EventEmitter<void>();
   @Output() apiClick = new EventEmitter<void>();
+  @Output() pricingClick = new EventEmitter<void>();
   @Output() contactClick = new EventEmitter<void>();
   @Output() mobileMenuOpenChange = new EventEmitter<boolean>();
   @Output() docsMenuClick = new EventEmitter<void>();
@@ -142,6 +144,14 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     this.docsMenuClick.emit();
   }
 
+  protected isActionActive(action: ToolbarAction): boolean {
+    if (this.activeAction) {
+      return this.activeAction === action;
+    }
+
+    return this.context === 'api' && action === 'api';
+  }
+
   private emitLandingAction(action: ToolbarAction): void {
     switch (action) {
       case 'solutions':
@@ -152,6 +162,9 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
         break;
       case 'api':
         this.apiClick.emit();
+        break;
+      case 'pricing':
+        this.pricingClick.emit();
         break;
       case 'contact':
         this.contactClick.emit();
@@ -165,12 +178,17 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    const landingTargetByAction: Record<Exclude<ToolbarAction, 'api'>, string> = {
+    if (action === 'pricing') {
+      this.router.navigateByUrl('/pricing');
+      return;
+    }
+
+    const landingTargetByAction: Record<Exclude<ToolbarAction, 'api' | 'pricing'>, string> = {
       solutions: 'solutions',
       ai: 'ai-agent',
       contact: 'contact'
     };
-    const landingScrollTarget = landingTargetByAction[action as Exclude<ToolbarAction, 'api'>];
+    const landingScrollTarget = landingTargetByAction[action as Exclude<ToolbarAction, 'api' | 'pricing'>];
     this.router.navigate(['/'], { state: { landingScrollTarget } });
   }
 }

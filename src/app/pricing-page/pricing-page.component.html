@@ -1,0 +1,191 @@
+<section class="pricing-page">
+  <app-top-toolbar
+    context="landing"
+    [isScrolled]="true"
+    [forceScrolled]="true"
+    [activeAction]="'pricing'"
+    (solutionsClick)="navigateHome('solutions')"
+    (aiAgentClick)="navigateHome('ai-agent')"
+    (apiClick)="navigateToApi()"
+    (pricingClick)="navigateToPricing()"
+    (contactClick)="navigateHome('contact')">
+  </app-top-toolbar>
+
+  <div class="pricing-shell">
+    <header class="pricing-hero">
+      <div class="hero-copy">
+        <p class="pricing-eyebrow">Pricing</p>
+        <h1>Simple pricing for recurring intelligence monitoring.</h1>
+        <p class="pricing-summary">
+          Start free. Scale monitored queries, retention, and delivery as the team operationalizes LunarChain.
+        </p>
+
+        <div class="pricing-meta">
+          <span>2 seats on Free</span>
+          <span>5 monitored queries</span>
+          <span>Only active monitors count</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="/#contact" class="hero-btn hero-btn--primary">Talk to us</a>
+          <a href="/api/overview" class="hero-btn hero-btn--secondary">Read the docs</a>
+        </div>
+      </div>
+
+      <aside class="pricing-model-card">
+        <p class="model-kicker">How it works</p>
+        <div class="model-points">
+          <div class="model-point" *ngFor="let point of modelPoints">
+            <span>{{ point.label }}</span>
+            <strong>{{ point.value }}</strong>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <section class="included-strip" aria-label="Included across the platform">
+      <p class="section-kicker">Included across the platform</p>
+      <div class="included-chips">
+        <span class="included-chip" *ngFor="let feature of includedFeatures">{{ feature }}</span>
+      </div>
+    </section>
+
+    <section class="plans-section">
+      <div class="section-heading">
+        <p class="section-kicker">Plans</p>
+        <h2>Three plans. One clean model.</h2>
+      </div>
+
+      <div class="plans-grid">
+        <article
+          *ngFor="let plan of plans"
+          class="plan-card"
+          [class.plan-card--featured]="plan.featured">
+          <div class="plan-header">
+            <div>
+              <p class="plan-name">{{ plan.name }}</p>
+              <div class="plan-price-row">
+                <h3>{{ plan.price }}</h3>
+                <span>{{ plan.cadence }}</span>
+              </div>
+            </div>
+
+            <span *ngIf="plan.badge" class="plan-badge">{{ plan.badge }}</span>
+          </div>
+
+          <p class="plan-description">{{ plan.description }}</p>
+
+          <div class="plan-metrics">
+            <div class="plan-metric">
+              <span>Seats</span>
+              <strong>{{ plan.seats }}</strong>
+            </div>
+            <div class="plan-metric">
+              <span>Coverage</span>
+              <strong>{{ plan.monitors }}</strong>
+            </div>
+            <div class="plan-metric">
+              <span>Refresh</span>
+              <strong>{{ plan.refresh }}</strong>
+            </div>
+          </div>
+
+          <ul class="plan-features">
+            <li *ngFor="let feature of plan.features">{{ feature }}</li>
+          </ul>
+
+          <p class="plan-footnote">{{ plan.footnote }}</p>
+
+          <a
+            [attr.href]="plan.ctaAction === 'docs' ? '/api/overview' : '/#contact'"
+            class="plan-cta"
+            [class.plan-cta--secondary]="!plan.featured">
+            {{ plan.ctaLabel }}
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="comparison-section">
+      <div class="section-heading">
+        <p class="section-kicker">Comparison</p>
+        <h2>What changes as customers scale.</h2>
+      </div>
+
+      <div class="comparison-card">
+        <div class="comparison-scroll">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th scope="col">Capability</th>
+                <th scope="col">Free</th>
+                <th scope="col">Pro</th>
+                <th scope="col">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of comparisonRows">
+                <th scope="row">{{ row.label }}</th>
+                <td>{{ row.free }}</td>
+                <td>{{ row.pro }}</td>
+                <td>{{ row.enterprise }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="comparison-footnote">Paused queries stay saved, but only active monitored queries count toward plan limits.</p>
+      </div>
+    </section>
+
+    <section class="pricing-cta">
+      <div>
+        <p class="section-kicker">Enterprise</p>
+        <h2>Need private deployment, deeper agentic investigations, or custom source onboarding?</h2>
+      </div>
+
+      <div class="cta-actions">
+        <a href="/#contact" class="hero-btn hero-btn--primary">Contact sales</a>
+        <a href="/" class="hero-btn hero-btn--secondary">Back to home</a>
+      </div>
+    </section>
+  </div>
+
+  <footer class="pricing-footer">
+    <div class="footer-content">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="footer-logo">
+          <div class="footer-brand-text">
+            <h3>LunarChain</h3>
+            <p>Operational threat intelligence for analysts, platforms, and agents.</p>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-link-group">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="/#solutions">Solutions</a></li>
+              <li><a href="/api/overview">Documentation</a></li>
+              <li><a href="/pricing" aria-current="page">Pricing</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <h4>Navigate</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/#contact">Contact Us</a></li>
+              <li><a href="/terms">Terms &amp; Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 LunarChain. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</section>

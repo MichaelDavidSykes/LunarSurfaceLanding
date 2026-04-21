@@ -201,6 +201,7 @@
   cursor: pointer;
   margin-left: 0;
   font-weight: 600;
+  white-space: nowrap;
   letter-spacing: 0.03em;
   border-radius: 8px;
   transition: all 0.2s ease;
@@ -223,6 +224,11 @@
   transform: translateY(-1px);
 }
 
+.nav-btn.active {
+  border-color: rgba(15, 23, 42, 0.28) !important;
+  box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2), 0 8px 20px rgba(15, 23, 42, 0.12) !important;
+}
+
 .login-btn {
   color: #334155 !important;
   border: 1px solid rgba(15, 23, 42, 0.2) !important;
@@ -243,6 +249,13 @@
   color: #ffffff !important;
   background: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+}
+
+.landing-taskbar:not(.scrolled) .nav-btn.active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
   box-shadow: none !important;
 }
 
@@ -342,8 +355,7 @@
   gap: 1rem;
 }
 
-.mobile-menu-btn,
-.mobile-login-btn {
+.mobile-menu-btn {
   width: 100%;
   text-align: left;
   border-radius: 8px;
@@ -356,10 +368,15 @@
   transition: all 0.2s ease;
 }
 
-.mobile-menu-btn:hover,
-.mobile-login-btn:hover {
+.mobile-menu-btn:hover {
   background-color: rgba(145, 94, 255, 0.1);
   border-color: #915eff;
+}
+
+.mobile-menu-btn.active {
+  border-color: rgba(15, 23, 42, 0.18);
+  background: rgba(15, 23, 42, 0.05);
+  color: #0f172a;
 }
 
 .mobile-menu-overlay {
@@ -405,7 +422,80 @@
   height: 22px;
 }
 
-@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+@media (max-width: 1180px) {
+  .docs-toolbar {
+    padding: 0 18px;
+    gap: 18px;
+  }
+
+  .docs-desktop-nav {
+    gap: 14px;
+  }
+
+  .docs-nav-link,
+  .docs-login-link {
+    font-size: 0.9rem;
+  }
+
+  .landing-taskbar {
+    padding: 0 1.35rem;
+    width: calc(100% - 0.9rem);
+  }
+
+  .desktop-nav {
+    gap: 0.65rem;
+  }
+
+  .nav-btn,
+  .login-btn {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+}
+
+@media (max-width: 960px) {
+  .docs-toolbar {
+    padding: 0 14px;
+    gap: 14px;
+  }
+
+  .docs-desktop-nav {
+    gap: 10px;
+  }
+
+  .docs-nav-link,
+  .docs-login-link {
+    font-size: 0.86rem;
+  }
+
+  .docs-login-link {
+    padding: 0 14px;
+  }
+
+  .landing-taskbar {
+    padding: 0 0.95rem;
+    width: calc(100% - 0.8rem);
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .desktop-nav {
+    gap: 0.45rem;
+  }
+
+  .nav-btn,
+  .login-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 760px) {
   .docs-desktop-nav {
     display: none;
   }
