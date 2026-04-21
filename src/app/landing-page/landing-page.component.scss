@@ -4622,6 +4622,29 @@ body {
   letter-spacing: -0.02em !important;
 }
 
+.landing-extra-content .extra-content-inner .mission-section .mission-copy,
+.landing-extra-content .mission-section .mission-copy,
+.mission-section .mission-copy,
+.mission-copy {
+  max-width: 860px !important;
+  margin: 1.5rem auto 0 !important;
+  display: grid !important;
+  gap: 0.9rem !important;
+}
+
+.landing-extra-content .extra-content-inner .mission-section .mission-copy p,
+.landing-extra-content .mission-section .mission-copy p,
+.mission-section .mission-copy p,
+.mission-copy p {
+  margin: 0 !important;
+  color: #4a5568 !important;
+  font-size: 1.05rem !important;
+  line-height: 1.85 !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /* Footer Styles */
 .landing-footer {
   background: #ffffff;

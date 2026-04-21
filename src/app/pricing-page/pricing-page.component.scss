@@ -18,7 +18,7 @@
 }
 
 .pricing-shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1260px, calc(100% - 32px));
   margin: 0 auto;
   padding: 132px 0 88px;
 }
@@ -220,13 +220,15 @@
 
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
 }
 
 .plan-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: minmax(84px, auto) minmax(96px, auto) auto minmax(178px, 1fr) minmax(64px, auto) auto;
+  align-items: start;
+  gap: 20px;
   padding: 28px;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
@@ -246,6 +248,13 @@
   justify-content: space-between;
   gap: 14px;
   align-items: flex-start;
+}
+
+.plan-header > div,
+.plan-description,
+.plan-features,
+.plan-footnote {
+  max-width: calc(100% - 12px);
 }
 
 .plan-price-row {
@@ -268,24 +277,8 @@
   }
 }
 
-.plan-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: #eef2f7;
-  border: 1px solid #d8e0ea;
-  color: #0f172a;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .plan-description {
-  margin: 16px 0 0;
+  margin: 0;
   color: #475569;
   font-size: 0.95rem;
   line-height: 1.65;
@@ -295,7 +288,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 20px;
+  margin: 0;
   padding: 14px;
   border-radius: 16px;
   background: #f8fafc;
@@ -323,11 +316,12 @@
 }
 
 .plan-features {
-  margin: 22px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
   gap: 12px;
+  align-content: start;
 
   li {
     position: relative;
@@ -350,7 +344,7 @@
 }
 
 .plan-footnote {
-  margin: 20px 0 0;
+  margin: 0;
   color: #64748b;
   font-size: 0.85rem;
   line-height: 1.6;
@@ -360,7 +354,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 26px;
+  margin-top: 0;
   border-radius: 10px;
   padding: 14px 18px;
   font: inherit;
@@ -402,7 +396,7 @@
 
 .comparison-table {
   width: 100%;
-  min-width: 760px;
+  min-width: 980px;
   border-collapse: collapse;
   background: #ffffff;
 
@@ -567,9 +561,14 @@
   }
 }
 
+@media (max-width: 1240px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 1080px) {
   .pricing-hero,
-  .plans-grid,
   .footer-main {
     grid-template-columns: 1fr;
   }
@@ -606,6 +605,15 @@
   }
 
   .plan-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-card {
+    grid-template-rows: auto;
+    gap: 18px;
+  }
+
+  .plans-grid {
     grid-template-columns: 1fr;
   }
 

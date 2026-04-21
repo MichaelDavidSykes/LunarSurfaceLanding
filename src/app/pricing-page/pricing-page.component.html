@@ -17,13 +17,13 @@
         <p class="pricing-eyebrow">Pricing</p>
         <h1>Simple pricing for recurring intelligence monitoring.</h1>
         <p class="pricing-summary">
-          Start free. Scale monitored queries, retention, and delivery as the team operationalizes LunarChain.
+          Start free. Scale monitored queries, delivery, and usage as the team operationalizes LunarChain.
         </p>
 
         <div class="pricing-meta">
           <span>2 seats on Free</span>
-          <span>5 monitored queries</span>
-          <span>Only active monitors count</span>
+          <span>6 monitored queries</span>
+          <span>Only active queries count</span>
         </div>
 
         <div class="hero-actions">
@@ -33,7 +33,7 @@
       </div>
 
       <aside class="pricing-model-card">
-        <p class="model-kicker">How it works</p>
+        <p class="model-kicker">What plans are based on</p>
         <div class="model-points">
           <div class="model-point" *ngFor="let point of modelPoints">
             <span>{{ point.label }}</span>
@@ -53,7 +53,7 @@
     <section class="plans-section">
       <div class="section-heading">
         <p class="section-kicker">Plans</p>
-        <h2>Three plans. One clean model.</h2>
+        <h2>Four plans. One clean model.</h2>
       </div>
 
       <div class="plans-grid">
@@ -69,8 +69,6 @@
                 <span>{{ plan.cadence }}</span>
               </div>
             </div>
-
-            <span *ngIf="plan.badge" class="plan-badge">{{ plan.badge }}</span>
           </div>
 
           <p class="plan-description">{{ plan.description }}</p>
@@ -120,6 +118,7 @@
                 <th scope="col">Capability</th>
                 <th scope="col">Free</th>
                 <th scope="col">Pro</th>
+                <th scope="col">Business</th>
                 <th scope="col">Enterprise</th>
               </tr>
             </thead>
@@ -128,13 +127,14 @@
                 <th scope="row">{{ row.label }}</th>
                 <td>{{ row.free }}</td>
                 <td>{{ row.pro }}</td>
+                <td>{{ row.business }}</td>
                 <td>{{ row.enterprise }}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p class="comparison-footnote">Paused queries stay saved, but only active monitored queries count toward plan limits.</p>
+        <p class="comparison-footnote">Paused queries stay saved, but only active queries count toward plan limits.</p>
       </div>
     </section>
 
