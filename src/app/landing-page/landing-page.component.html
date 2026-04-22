@@ -103,10 +103,10 @@
             <path d="M2 12l10 5 10-5"/>
           </svg>
         </div>
-        <h3>Large-Scale Ingestion</h3>
-        <p class="card-main-text">LunarChain continuously ingests high-volume global intelligence from open web, specialist feeds, and hard-to-monitor channels across cyber and physical security domains.</p>
+        <h3>Cyber Threat Intelligence</h3>
+        <p class="card-main-text">Track threat actors, malware, infrastructure, indicators, vulnerabilities, and campaigns across public and specialist cyber intelligence sources.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[0]">
-          <p>New intelligence sources are continuously onboarded to expand coverage and reduce blind spots.</p>
+          <p>Use LunarChain for IOC lookups, enrichment, investigations, and alerting inside analyst and security workflows. Use our API to enrich SOC operations.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[0]">
@@ -124,10 +124,10 @@
             <polyline points="10,9 9,9 8,9"/>
           </svg>
         </div>
-        <h3>Entity Correlation & Prioritization</h3>
-        <p class="card-main-text">Our intelligence graph links related entities, highlights high-signal patterns, and helps analysts prioritize the activity that matters most.</p>
+        <h3>Military &amp; Geopolitical Activity</h3>
+        <p class="card-main-text">Monitor military operations, geopolitical escalation, state-linked activity, and region-specific reporting as situations develop across countries and theatres.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[1]">
-          <p>IOCs, threat actors, infrastructure, campaigns, locations, and attack patterns are linked in one model for deeper investigation and alerting.</p>
+          <p>Follow locations, organizations, incidents, and linked reporting in one graph to surface operational context faster.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[1]">
@@ -142,10 +142,10 @@
             <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
         </div>
-        <h3>Operational Intelligence Delivery</h3>
-        <p class="card-main-text">Intelligence is delivered through the platform and agent-ready interfaces, enabling fast lookups, automated workflows, and analyst-ready decision support.</p>
+        <h3>Brand, Supply Chain &amp; Regional Risk</h3>
+        <p class="card-main-text">Track risk around organizations, executives, vendors, facilities, and operating regions, including exposure, disruption, leaks, and emerging local threats.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[2]">
-          <p>Teams can operationalize this intelligence through structured query workflows, alerting pipelines, and real-time analysis surfaces.</p>
+          <p>Deliver that intelligence through the platform, API, and MCP Server for operational workflows, custom integrations, and AI-powered operations.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[2]">
@@ -173,63 +173,86 @@
   <div class="animated-content">
     <div class="animated-header">
       <h2 class="animate-title">Platform Architecture</h2>
-      <p class="animate-subtitle">How the platform turns raw reporting into usable intelligence.</p>
+      <p class="animate-subtitle">How LunarChain analyzes intelligence and delivers it through the right interface.</p>
     </div>
     <div class="platform-architecture-grid">
       <div class="platform-col">
-        <div class="platform-col-heading">Queries</div>
+        <div class="platform-col-heading">Platform</div>
         <div class="target-card platform-card-2">
           <div class="card-initial-content">
-            <div class="target-main-heading">Natural-Language and Structured Intelligence Queries</div>
-            <span class="target-meta">Query the intelligence graph with natural language, or build repeatable scheduled queries in the LunarChain platform.</span>
+            <div class="target-main-heading">Use the Platform for Search, Monitoring, and Investigation</div>
+            <span class="target-meta">The frontend gives analysts direct access to graph-backed search, saved queries, alert triage, and high-context intelligence workflows.</span>
           </div>
           <div class="card-hover-content">
-            <hr class="card-divider">
-            Examples<br>
-            <hr class="card-divider">
-            Give me the latest IOCs associated with APT41<br><span class="target-meta">Ask the LunarChain agent to search the graph, retrieve the relevant entities, and return the intelligence in one workflow.</span>
-            <hr class="card-divider">
-            Give me the latest reporting on malware activity relevant to Ford in Europe<br><span class="target-meta">Run the request through the LunarChain agent, or schedule it through the query builder and receive alerts when new intelligence matches.</span>
-            <hr class="card-divider">
+            <div class="architecture-section-label">What it supports</div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Search reporting, entities, and locations in one workspace</div>
+              <span class="target-meta">Move from raw reporting to correlated intelligence without switching systems.</span>
+            </div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Save recurring intelligence requirements and monitor them continuously</div>
+              <span class="target-meta">Operationalize what your team cares about and surface fresh matches as intelligence arrives.</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="platform-col">
-        <div class="platform-col-heading">Targets</div>
+        <div class="platform-col-heading">API</div>
         <div class="target-card platform-card-1">
           <div class="card-initial-content">
-            <div class="target-main-heading">Multiple Queries, Common Intelligence Goal</div>
-            <span class="target-meta">A target can be built from multiple queries, allowing for deeper reporting and alerting capabilities.</span>
+            <div class="target-main-heading">Use the API for Custom Integrations and Automated Workflows</div>
+            <span class="target-meta">Pull live intelligence into internal systems, enrich existing tooling, and build custom operational workflows around LunarChain data.</span>
           </div>
           <div class="card-hover-content">
-            <hr class="card-divider">
-            Setting up targets provides richer context and enables reporting<br><span class="target-meta">Targets let you monitor an organization, asset, or region from multiple angles and generate reports around the findings that matter to that target.</span>
+            <div class="architecture-section-label">Integration use cases</div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Connect LunarChain to enrichment pipelines, internal tools, and downstream systems</div>
+              <span class="target-meta">Use the API to feed dashboards, alert handling systems, and custom intelligence workflows.</span>
+            </div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Deliver intelligence where your team already works</div>
+              <span class="target-meta">Programmatic access makes it easier to operationalize graph data beyond the frontend.</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="platform-col">
-        <div class="platform-col-heading">Our Intelligence Agent</div>
+        <div class="platform-col-heading">MCP</div>
         <div class="target-card platform-card-3">
           <div class="card-initial-content">
-            <div class="target-main-heading">Use the LunarChain Intelligence Agent for Fast Investigations</div>
-            <span class="target-meta">Use natural language to query the intelligence graph, interpret results, and return linked IOCs, entities, and relationships in seconds.</span>
+            <div class="target-main-heading">Use the MCP Server for AI-Powered Operations</div>
+            <span class="target-meta">LunarMCP gives agentic systems access to the intelligence graph, enabling AI Driven Operations.</span>
           </div>
           <div class="card-hover-content">
-            <hr class="card-divider">
+            <div class="architecture-section-label">Agent-ready access</div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Support AI-driven investigations, lookups, and intelligence reasoning</div>
+              <span class="target-meta">Use MCP to automate threat intelligence lookups in security workflows, such as SOC Operations or Investigations.</span>
+            </div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Built for operational assistants and agent workflows</div>
+              <span class="target-meta">Let AI systems retrieve fresh reporting and linked entities inside controlled intelligence workflows.</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="platform-col alerts-col">
-        <div class="platform-col-heading">Alerts</div>
+        <div class="platform-col-heading">Intelligence Engine</div>
         <div class="target-card platform-card-4">
           <div class="card-initial-content">
-            <div class="target-main-heading">Set up automated alerting and reporting.</div>
-            <span class="target-meta">Real-time alerts can be triggered when new intelligence matches saved queries, enabling immediate investigation and response.</span>
+            <div class="target-main-heading">LunarChain Analyzes, Correlates, and Prioritizes Intelligence at Scale</div>
+            <span class="target-meta">The intelligence engine ingests broad intel, extracts entities, correlates relationships, and turns raw activity into usable intelligence.</span>
           </div>
           <div class="card-hover-content">
-            <hr class="card-divider">
-            Manage the Alert Lifecycle<br><span class="target-meta">Alerts can be assigned, updated, commented on, and handed off across the team so investigations move with clear ownership.</span>
-            <hr class="card-divider">
+            <div class="architecture-section-label">What it delivers</div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Link indicators, actors, malware, infrastructure, campaigns, organizations, and locations</div>
+              <span class="target-meta">The engine builds one intelligence model that teams and systems can query consistently.</span>
+            </div>
+            <div class="architecture-item">
+              <div class="architecture-item-title">Data analytics for live intelligence operations</div>
+              <span class="target-meta">That analytical layer is what powers the platform, API, MCP Server, and alerting workflows.</span>
+            </div>
           </div>
         </div>
       </div>

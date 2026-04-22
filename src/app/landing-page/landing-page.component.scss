@@ -2276,14 +2276,13 @@ p {
   max-width: 270px;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-rows: minmax(220px, auto) 1fr;
+  align-items: start;
+  gap: 1.25rem;
   position: relative;
   align-self: center;
-  min-height: 200px;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  min-height: auto;
 }
 
 /* Main headings in target cards - make them larger */
@@ -2298,49 +2297,61 @@ p {
 
 /* Card content structure */
 .card-initial-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 200px;
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  min-height: 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .card-hover-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  transform: translateY(10px);
+  display: grid;
+  align-content: start;
+  gap: 1rem;
 }
 
-/* Hover effects */
+.card-hover-content:empty {
+  display: none;
+}
+
+.card-hover-content:not(:empty) {
+  display: grid;
+}
+
 .target-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  transform: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-
-.target-card:hover .card-hover-content {
-  max-height: 500px;
-  opacity: 1;
-  transform: translateY(0);
-  margin-top: 1rem;
-}
-
-// Card divider styling
-.card-divider {
-  border: none;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
-  margin: 1rem 0;
-}
-
-// Removed hover effects for sleek design
 
 .target-meta {
   display: block;
   color: #718096;
-  font-size: 0.85em;
-  margin-top: 0.5em;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-top: 0;
   font-weight: 500;
+}
+
+.architecture-section-label {
+  color: #334155;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.architecture-item {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.architecture-item-title {
+  color: #2d3748;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 	.platform-col .target-card:last-child {
@@ -2383,6 +2394,7 @@ p {
     max-width: 300px !important;
     margin: 0 auto 1rem auto !important;
     padding: 1rem !important;
+    grid-template-rows: auto !important;
   }
   
   /* Mobile styling for main headings */
