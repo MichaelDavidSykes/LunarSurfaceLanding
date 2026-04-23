@@ -157,105 +157,84 @@
   </div>
 </section>
 
-<!-- Platform Architecture Section (Four Columns) -->
-<section class="gsap-animated-section">
-  <svg class="architectural-shapes" viewBox="0 0 1200 1000" preserveAspectRatio="none">
-    <!-- Only geometric connection lines remain -->
-    <line class="arch-connection" x1="200" y1="200" x2="400" y2="150" stroke="#915eff" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="400" y1="150" x2="600" y2="200" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="600" y1="200" x2="800" y2="150" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="800" y1="150" x2="1000" y2="200" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="200" y1="600" x2="400" y2="650" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="400" y1="650" x2="600" y2="600" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="600" y1="600" x2="800" y2="650" stroke="#915eff" stroke-width="2" opacity="0.3"/>
-    <line class="arch-connection" x1="800" y1="650" x2="1000" y2="600" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
-  </svg>
-  <div class="animated-content">
-    <div class="animated-header">
+<!-- Platform Architecture Section -->
+<section class="gsap-animated-section platform-architecture-section">
+  <div class="animated-content platform-architecture-content">
+    <div class="animated-header platform-architecture-header">
       <h2 class="animate-title">Platform Architecture</h2>
       <p class="animate-subtitle">How LunarChain analyzes intelligence and delivers it through the right interface.</p>
     </div>
-    <div class="platform-architecture-grid">
-      <div class="platform-col">
-        <div class="platform-col-heading">Platform</div>
-        <div class="target-card platform-card-2">
-          <div class="card-initial-content">
-            <div class="target-main-heading">Use the Platform for Search, Monitoring, and Investigation</div>
-            <span class="target-meta">The frontend gives analysts direct access to graph-backed search, saved queries, alert triage, and high-context intelligence workflows.</span>
-          </div>
-          <div class="card-hover-content">
-            <div class="architecture-section-label">What it supports</div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Search reporting, entities, and locations in one workspace</div>
-              <span class="target-meta">Move from raw reporting to correlated intelligence without switching systems.</span>
-            </div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Save recurring intelligence requirements and monitor them continuously</div>
-              <span class="target-meta">Operationalize what your team cares about and surface fresh matches as intelligence arrives.</span>
-            </div>
+    <div class="platform-architecture-timeline">
+      <article class="platform-stage platform-stage-platform">
+        <div class="platform-stage-copy">
+          <div class="platform-stage-kicker">Platform</div>
+          <h3 class="platform-stage-title">Use the Platform for Search, Monitoring, and Investigation</h3>
+          <p class="platform-stage-summary">The frontend gives analysts direct access to graph-backed search, saved queries, alert triage, and high-context intelligence workflows.</p>
+          <div class="platform-stage-details">
+            <div class="platform-stage-details-label">What it supports</div>
+            <p><strong>Search reporting, entities, and locations in one workspace.</strong> Move from raw reporting to correlated intelligence without switching systems.</p>
+            <p><strong>Save recurring intelligence requirements and monitor them continuously.</strong> Operationalize what your team cares about and surface fresh matches as intelligence arrives.</p>
           </div>
         </div>
-      </div>
-      <div class="platform-col">
-        <div class="platform-col-heading">API</div>
-        <div class="target-card platform-card-1">
-          <div class="card-initial-content">
-            <div class="target-main-heading">Use the API for Custom Integrations and Automated Workflows</div>
-            <span class="target-meta">Pull live intelligence into internal systems, enrich existing tooling, and build custom operational workflows around LunarChain data.</span>
-          </div>
-          <div class="card-hover-content">
-            <div class="architecture-section-label">Integration use cases</div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Connect LunarChain to enrichment pipelines, internal tools, and downstream systems</div>
-              <span class="target-meta">Use the API to feed dashboards, alert handling systems, and custom intelligence workflows.</span>
-            </div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Deliver intelligence where your team already works</div>
-              <span class="target-meta">Programmatic access makes it easier to operationalize graph data beyond the frontend.</span>
-            </div>
+        <div class="platform-stage-axis" aria-hidden="true">
+          <span class="platform-stage-dot"></span>
+        </div>
+        <div class="platform-stage-media">
+          <img
+            src="assets/platform/platform-workspace-preview.png"
+            alt="LunarChain platform explorer workspace"
+            class="platform-stage-media-image"
+          />
+        </div>
+      </article>
+
+      <article class="platform-stage platform-stage-reverse platform-stage-api">
+        <div class="platform-stage-copy">
+          <div class="platform-stage-kicker">API</div>
+          <h3 class="platform-stage-title">Use the API for Custom Integrations and Automated Workflows</h3>
+          <p class="platform-stage-summary">Pull live intelligence into internal systems, enrich existing tooling, and build custom operational workflows around LunarChain data.</p>
+          <div class="platform-stage-details">
+            <div class="platform-stage-details-label">Integration use cases</div>
+            <p><strong>Connect LunarChain to enrichment pipelines, internal tools, and downstream systems.</strong> Use the API to feed dashboards, alert handling systems, and custom intelligence workflows.</p>
+            <p><strong>Deliver intelligence where your team already works.</strong> Programmatic access makes it easier to operationalize graph data beyond the frontend.</p>
           </div>
         </div>
-      </div>
-      <div class="platform-col">
-        <div class="platform-col-heading">MCP</div>
-        <div class="target-card platform-card-3">
-          <div class="card-initial-content">
-            <div class="target-main-heading">Use the MCP Server for AI-Powered Operations</div>
-            <span class="target-meta">LunarMCP gives agentic systems access to the intelligence graph, enabling AI Driven Operations.</span>
-          </div>
-          <div class="card-hover-content">
-            <div class="architecture-section-label">Agent-ready access</div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Support AI-driven investigations, lookups, and intelligence reasoning</div>
-              <span class="target-meta">Use MCP to automate threat intelligence lookups in security workflows, such as SOC Operations or Investigations.</span>
-            </div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Built for operational assistants and agent workflows</div>
-              <span class="target-meta">Let AI systems retrieve fresh reporting and linked entities inside controlled intelligence workflows.</span>
-            </div>
+        <div class="platform-stage-axis" aria-hidden="true">
+          <span class="platform-stage-dot"></span>
+        </div>
+      </article>
+
+      <article class="platform-stage platform-stage-mcp">
+        <div class="platform-stage-copy">
+          <div class="platform-stage-kicker">MCP</div>
+          <h3 class="platform-stage-title">Use the MCP Server for AI-Powered Operations</h3>
+          <p class="platform-stage-summary">LunarMCP gives agentic systems access to the intelligence graph, enabling AI Driven Operations.</p>
+          <div class="platform-stage-details">
+            <div class="platform-stage-details-label">Agent-ready access</div>
+            <p><strong>Support AI-driven investigations, lookups, and intelligence reasoning.</strong> Use MCP to automate threat intelligence lookups in security workflows, such as SOC Operations or Investigations.</p>
+            <p><strong>Built for operational assistants and agent workflows.</strong> Let AI systems retrieve fresh reporting and linked entities inside controlled intelligence workflows.</p>
           </div>
         </div>
-      </div>
-      <div class="platform-col alerts-col">
-        <div class="platform-col-heading">Intelligence Engine</div>
-        <div class="target-card platform-card-4">
-          <div class="card-initial-content">
-            <div class="target-main-heading">LunarChain Analyzes, Correlates, and Prioritizes Intelligence at Scale</div>
-            <span class="target-meta">The intelligence engine ingests broad intel, extracts entities, correlates relationships, and turns raw activity into usable intelligence.</span>
-          </div>
-          <div class="card-hover-content">
-            <div class="architecture-section-label">What it delivers</div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Link indicators, actors, malware, infrastructure, campaigns, organizations, and locations</div>
-              <span class="target-meta">The engine builds one intelligence model that teams and systems can query consistently.</span>
-            </div>
-            <div class="architecture-item">
-              <div class="architecture-item-title">Data analytics for live intelligence operations</div>
-              <span class="target-meta">That analytical layer is what powers the platform, API, MCP Server, and alerting workflows.</span>
-            </div>
+        <div class="platform-stage-axis" aria-hidden="true">
+          <span class="platform-stage-dot"></span>
+        </div>
+      </article>
+
+      <article class="platform-stage platform-stage-reverse platform-stage-engine">
+        <div class="platform-stage-copy">
+          <div class="platform-stage-kicker">Intelligence Engine</div>
+          <h3 class="platform-stage-title">LunarChain Analyzes, Correlates, and Prioritizes Intelligence at Scale</h3>
+          <p class="platform-stage-summary">The intelligence engine ingests broad intel, extracts entities, correlates relationships, and turns raw activity into usable intelligence.</p>
+          <div class="platform-stage-details">
+            <div class="platform-stage-details-label">What it delivers</div>
+            <p><strong>Link indicators, actors, malware, infrastructure, campaigns, organizations, and locations.</strong> The engine builds one intelligence model that teams and systems can query consistently.</p>
+            <p><strong>Data analytics for live intelligence operations.</strong> That analytical layer is what powers the platform, API, MCP Server, and alerting workflows.</p>
           </div>
         </div>
-      </div>
+        <div class="platform-stage-axis" aria-hidden="true">
+          <span class="platform-stage-dot"></span>
+        </div>
+      </article>
     </div>
   </div>
 </section>
