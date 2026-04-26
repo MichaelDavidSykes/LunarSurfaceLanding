@@ -8,11 +8,48 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalSnackbarService } from '../shared/global-snackbar/global-snackbar.service';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import * as d3 from 'd3';
+import { sankey as createD3Sankey, sankeyJustify, sankeyLinkHorizontal } from 'd3-sankey';
 import { environment } from '../../environments/environment';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 declare var google: any;
+
+interface ReconSankeyGradient {
+  id: string;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  from: string;
+  via: string;
+  to: string;
+}
+
+interface ReconSankeyLinkView {
+  path: string;
+  width: number;
+  sheenWidth: number;
+  shadowWidth: number;
+  gradientId: string;
+}
+
+interface ReconSankeyNodeView {
+  id: string;
+  type: string;
+  primary: string;
+  secondary: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  centerY: number;
+  labelX: number;
+  labelY: number;
+  secondaryY: number;
+  color: string;
+  visible: boolean;
+}
 
 @Component({
   selector: 'app-landing-page',
@@ -126,6 +163,14 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   targetCycleInterval: any;
   chartsLoaded = false;
   pendingTargets: any[] = [];
+  readonly reconSankeyLayout = this.createReconSankeyLayout();
+  readonly reconSankeyNodes = this.reconSankeyLayout.nodes;
+  readonly reconSankeyLinks = this.reconSankeyLayout.links;
+  readonly reconSankeyGradients = this.reconSankeyLayout.gradients;
+  readonly reconDomainNodes = this.reconSankeyNodes.filter((node) => node.type === 'domain');
+  readonly reconSourceNodes = this.reconSankeyNodes.filter((node) => node.type === 'source');
+  readonly reconDestinationNodes = this.reconSankeyNodes.filter((node) => node.type === 'destination');
+  readonly reconCoreNode = this.reconSankeyNodes.find((node) => node.type === 'core');
 
   // List of country names for matching in summaries
   private countryList = [
@@ -171,6 +216,170 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger);
     }
+  }
+
+  private createReconSankeyLayout(): {
+    nodes: ReconSankeyNodeView[];
+    links: ReconSankeyLinkView[];
+    gradients: ReconSankeyGradient[];
+  } {
+    const domainData = [
+      {
+        id: 'cyber',
+        label: 'Cyber Threat Intelligence',
+        metric: 'Actors, malware, IOCs',
+        color: '#915eff'
+      },
+      {
+        id: 'geopolitical',
+        label: 'Military & Geopolitical Activity',
+        metric: 'Operations, regions, incidents',
+        color: '#38bdf8'
+      },
+      {
+        id: 'risk',
+        label: 'Brand, Supply Chain & Regional Risk',
+        metric: 'Exposure, vendors, disruption',
+        color: '#14b8a6'
+      }
+    ];
+
+    const sourceData = [
+      { id: 'rss', label: 'RSS & Advisories', metric: '218K signals', value: 23, color: '#8b5cf6' },
+      { id: 'forums', label: 'Forums & Dark Web', metric: '148K signals', value: 16, color: '#915eff' },
+      { id: 'social', label: 'Social & Regional Signals', metric: '176K signals', value: 19, color: '#60a5fa' },
+      { id: 'leaks', label: 'Leaks & Paste Sites', metric: '92K signals', value: 12, color: '#d196e6' },
+      { id: 'malware', label: 'Malware & CVE Feeds', metric: '181K signals', value: 15, color: '#38bdf8' },
+      { id: 'field', label: 'News & Field Reporting', metric: '50K signals', value: 15, color: '#14b8a6' }
+    ];
+
+    const sourceNodes = sourceData.map((source) => ({ ...source, type: 'source' }));
+    const sourceTotal = sourceNodes.reduce((total, source) => total + source.value, 0);
+    const destinationBase = [
+      { id: 'attention', label: 'Require attention', metric: '13', value: 18, color: '#915eff' },
+      { id: 'progress', label: 'In progress', metric: '200', value: 47, color: '#60a5fa' },
+      { id: 'resolved', label: 'Resolved', metric: '87', value: 35, color: '#14b8a6' }
+    ];
+    const destinationTotal = destinationBase.reduce((total, destination) => total + destination.value, 0);
+    const destinations = destinationBase.map((destination) => ({
+      ...destination,
+      type: 'destination',
+      value: destination.value * (sourceTotal / destinationTotal)
+    }));
+
+    const nodes = [
+      ...domainData.map(({ id, label, metric, color }) => ({ id, label, metric, type: 'domain', color })),
+      ...sourceNodes.map(({ id, label, metric, type, color }) => ({ id, label, metric, type, color })),
+      { id: 'lunarchain', label: '865K', metric: 'Normalized signals', type: 'core', color: '#14b8a6' },
+      ...destinations.map(({ id, label, metric, type, color }) => ({ id, label, metric, type, color }))
+    ];
+
+    const links = [
+      { source: 'cyber', target: 'rss', value: 8, from: '#915eff', via: '#bca6ff', to: '#8b5cf6' },
+      { source: 'cyber', target: 'forums', value: 9, from: '#915eff', via: '#bca6ff', to: '#915eff' },
+      { source: 'cyber', target: 'social', value: 5, from: '#915eff', via: '#60a5fa', to: '#60a5fa' },
+      { source: 'cyber', target: 'leaks', value: 5, from: '#915eff', via: '#d196e6', to: '#d196e6' },
+      { source: 'cyber', target: 'malware', value: 15, from: '#915eff', via: '#38bdf8', to: '#38bdf8' },
+      { source: 'geopolitical', target: 'rss', value: 8, from: '#38bdf8', via: '#60a5fa', to: '#8b5cf6' },
+      { source: 'geopolitical', target: 'forums', value: 3, from: '#38bdf8', via: '#60a5fa', to: '#915eff' },
+      { source: 'geopolitical', target: 'social', value: 9, from: '#38bdf8', via: '#60a5fa', to: '#60a5fa' },
+      { source: 'geopolitical', target: 'field', value: 10, from: '#38bdf8', via: '#14b8a6', to: '#14b8a6' },
+      { source: 'risk', target: 'rss', value: 7, from: '#14b8a6', via: '#38bdf8', to: '#8b5cf6' },
+      { source: 'risk', target: 'forums', value: 4, from: '#14b8a6', via: '#60a5fa', to: '#915eff' },
+      { source: 'risk', target: 'social', value: 5, from: '#14b8a6', via: '#38bdf8', to: '#60a5fa' },
+      { source: 'risk', target: 'leaks', value: 7, from: '#14b8a6', via: '#d196e6', to: '#d196e6' },
+      { source: 'risk', target: 'field', value: 5, from: '#14b8a6', via: '#38bdf8', to: '#14b8a6' },
+      ...sourceNodes.map((source) => ({
+        source: source.id,
+        target: 'lunarchain',
+        value: source.value,
+        from: source.color,
+        via: '#38bdf8',
+        to: '#14b8a6'
+      })),
+      ...destinations.map((destination) => ({
+        source: 'lunarchain',
+        target: destination.id,
+        value: destination.value,
+        from: '#14b8a6',
+        via: destination.id === 'attention' ? '#d196e6' : destination.id === 'progress' ? '#60a5fa' : '#38bdf8',
+        to: destination.color
+      }))
+    ];
+
+    const sankeyGenerator = createD3Sankey()
+      .nodeId((node: any) => node.id)
+      .nodeAlign(sankeyJustify)
+      .nodeWidth(10)
+      .nodePadding(22)
+      .nodeSort(null)
+      .linkSort(null)
+      .extent([[300, 112], [1170, 442]]);
+
+    const graph = sankeyGenerator({
+      nodes: nodes.map((node) => ({ ...node })),
+      links: links.map((link) => ({ ...link }))
+    });
+    const linkPath = sankeyLinkHorizontal();
+
+    const renderedLinks = graph.links.map((link: any, index: number): ReconSankeyLinkView => {
+      const width = Math.max(3, Number(link.width) || 3);
+      return {
+        path: linkPath(link),
+        width,
+        sheenWidth: Math.max(2, width * 0.52),
+        shadowWidth: width + 14,
+        gradientId: `recon-sankey-gradient-${index}`
+      };
+    });
+
+    const gradients = graph.links.map((link: any, index: number): ReconSankeyGradient => ({
+      id: `recon-sankey-gradient-${index}`,
+      x1: Number(link.source?.x1) || 0,
+      y1: Number(link.y0) || 0,
+      x2: Number(link.target?.x0) || 0,
+      y2: Number(link.y1) || 0,
+      from: link.from,
+      via: link.via,
+      to: link.to
+    }));
+
+    const renderedNodes = graph.nodes.map((node: any): ReconSankeyNodeView => {
+      const x = Number(node.x0) || 0;
+      const y = Number(node.y0) || 0;
+      const width = Math.max(4, (Number(node.x1) || 0) - x);
+      const height = Math.max(4, (Number(node.y1) || 0) - y);
+      const centerY = y + height / 2;
+      const isDomain = node.type === 'domain';
+      const isSource = node.type === 'source';
+      const isDestination = node.type === 'destination';
+      const isCore = node.type === 'core';
+      const labelX = isCore ? x + width / 2 : isDestination ? 1228 : isSource ? 414 : 58;
+      const labelY = isCore ? 72 : isDestination ? centerY - 7 : isDomain ? centerY - 9 : centerY - 5;
+
+      return {
+        id: node.id,
+        type: node.type,
+        primary: isCore ? node.label : isDestination ? node.metric : node.label,
+        secondary: isCore ? node.metric : isDestination ? node.label : node.metric,
+        x,
+        y,
+        width,
+        height,
+        centerY,
+        labelX,
+        labelY,
+        secondaryY: isCore ? 101 : isDestination ? centerY + 17 : isDomain ? centerY + 11 : centerY + 13,
+        color: node.color,
+        visible: true
+      };
+    });
+
+    return {
+      nodes: renderedNodes,
+      links: renderedLinks,
+      gradients
+    };
   }
 
   private getInitialTaskbarScrolledState(): boolean {
@@ -744,13 +953,19 @@ FOR candidate IN candidateReports
       return;
     }
 
+    const normalizedFragment = (fragment || '').toLowerCase();
+    if (normalizedFragment === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     const sectionByFragment: Record<string, string> = {
       solutions: '.solutions-section',
       'ai-agent': '.ai-agent-section',
       contact: '.contact-section'
     };
 
-    const selector = sectionByFragment[(fragment || '').toLowerCase()];
+    const selector = sectionByFragment[normalizedFragment];
     if (!selector) {
       return;
     }
@@ -783,6 +998,16 @@ FOR candidate IN candidateReports
       return;
     }
 
+    if (target === 'top') {
+      this.scrollToFragment(target);
+      this.suppressTaskbarSyncUntil = 0;
+      this.updateTaskbarScrolledState();
+      if (typeof history !== 'undefined' && typeof window !== 'undefined') {
+        history.replaceState({}, '', window.location.pathname + window.location.search);
+      }
+      return;
+    }
+
     this.scrollToFragment(target);
     this.suppressTaskbarSyncUntil = Date.now() + 1200;
     setTimeout(() => {
@@ -800,7 +1025,10 @@ FOR candidate IN candidateReports
       return false;
     }
     const state = (typeof history !== 'undefined' ? history.state : null) as { landingScrollTarget?: string } | null;
-    return typeof state?.landingScrollTarget === 'string' && state.landingScrollTarget.trim().length > 0;
+    const target = typeof state?.landingScrollTarget === 'string'
+      ? state.landingScrollTarget.trim().toLowerCase()
+      : '';
+    return target.length > 0 && target !== 'top';
   }
 
   onToolbarMobileMenuChange(isOpen: boolean): void {
@@ -1233,25 +1461,6 @@ FOR candidate IN candidateReports
       }
     });
 
-    // Animate all fade-in elements (first section content)
-    gsap.fromTo('.fade-in-element',
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.landing-extra-content',
-          start: 'top 85%',
-          end: 'bottom 15%',
-          toggleActions: 'play none none reverse',
-          markers: false
-        }
-      }
-    );
-
     // Animate title and subtitle
     gsap.to('.animate-title', { 
       opacity: 1, 
@@ -1330,20 +1539,17 @@ FOR candidate IN candidateReports
     // Setup platform architecture card highlighting - DISABLED for sleek design
     // this.setupPlatformArchitectureHighlighting();
     
+    // Animate mission section and intelligence domain cards
+    this.setupMissionAnimations();
+
     // Setup simple fade-in effect for platform architecture cards
     this.setupPlatformArchitectureFadeIn();
 
     // Animate number counting
     this.animateNumbers();
-    
-    // Animate investigation section
-    this.setupInvestigationAnimations();
-    
-    // Setup fade-in animations for headings and cards
-    this.setupScrollFadeAnimations();
-    
-    // Setup AI Agent section animations
-    this.setupAIAgentAnimations();
+
+    // Keep everything from Our Solutions onward on a single, section-scoped animation system.
+    this.setupSolutionsAndBelowAnimations();
   }
 
   private setupPlatformArchitectureHighlighting(): void {
@@ -1454,56 +1660,288 @@ FOR candidate IN candidateReports
     }, 500);
   }
 
-  private setupPlatformArchitectureFadeIn(): void {
+  private setupMissionAnimations(): void {
     if (!this.isBrowser) return;
 
-    // Get all platform column headings
-    const platformHeadings = Array.from(document.querySelectorAll('.platform-col-heading')) as HTMLElement[];
+    const section = document.querySelector('.landing-extra-content') as HTMLElement | null;
+    const mission = section?.querySelector('.mission-section') as HTMLElement | null;
 
-    // Get all platform cards including Client, Reports, and all Target and Alert cards
-    const platformCards = [
-      ...Array.from(document.querySelectorAll('.platform-card-1')), // Client card
-      ...Array.from(document.querySelectorAll('.platform-card-2')), // All target cards
-      ...Array.from(document.querySelectorAll('.platform-card-3')), // Reports card
-      ...Array.from(document.querySelectorAll('.platform-card-4'))  // All alert cards
-    ] as HTMLElement[];
+    if (!section || !mission) return;
 
-    if (platformCards.length === 0) return;
+    const reduceMotion = typeof window !== 'undefined'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Set initial state - headings and cards start invisible
-    gsap.set(platformHeadings, { opacity: 0, y: 20 });
-    gsap.set(platformCards, { opacity: 0, y: 30 });
+    const title = mission.querySelector('.mission-title') as HTMLElement | null;
+    const statement = mission.querySelector('.mission-statement') as HTMLElement | null;
+    const copyParagraphs = gsap.utils.toArray<HTMLElement>('.mission-section .mission-copy p');
+    const cards = gsap.utils.toArray<HTMLElement>('.landing-extra-content .feature-card');
+    const cardIcons = cards
+      .map((card) => card.querySelector('.feature-icon'))
+      .filter((target): target is Element => Boolean(target));
+    const cardTextItems = cards.flatMap((card) => [
+      card.querySelector('h3'),
+      card.querySelector('.card-main-text'),
+      card.querySelector('.card-expandable-content')
+    ].filter((target): target is Element => Boolean(target)));
 
-    // Create a timeline for the fade-in effect
+    const targets = [
+      title,
+      statement,
+      ...copyParagraphs,
+      ...cards,
+      ...cardIcons,
+      ...cardTextItems
+    ].filter((target): target is Element => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (reduceMotion) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    if (title) {
+      gsap.set(title, {
+        opacity: 0,
+        y: 18,
+        letterSpacing: '0.08em'
+      });
+    }
+
+    if (statement) {
+      gsap.set(statement, {
+        opacity: 0,
+        y: 34,
+        scale: 0.97,
+        filter: 'blur(8px)',
+        transformOrigin: '50% 50%'
+      });
+    }
+
+    gsap.set(copyParagraphs, { opacity: 0, y: 18 });
+    gsap.set(cards, {
+      opacity: 0,
+      clipPath: 'inset(0% 0% 16% 0% round 12px)'
+    });
+    gsap.set(cardIcons, { opacity: 0 });
+    gsap.set(cardTextItems, { opacity: 0, y: 18 });
+
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.platform-architecture-grid',
-        start: 'top 90%',
-        end: 'top 40%',
-        scrub: 1,
-        toggleActions: 'play none none reverse',
+        trigger: section,
+        start: 'top 78%',
+        end: 'top 34%',
+        toggleActions: 'play none none reverse'
       }
     });
 
-    // Add headings to the timeline first
-    platformHeadings.forEach((heading, index) => {
-      tl.to(heading, {
+    if (title) {
+      tl.to(title, {
         opacity: 1,
         y: 0,
-        duration: 0.6,
+        letterSpacing: '0.18em',
+        duration: 0.55,
         ease: 'power2.out'
-      }, index * 0.1); // Faster stagger for headings
-    });
+      }, 0);
+    }
 
-    // Add each card to the timeline with staggered fade-in
-    platformCards.forEach((card, index) => {
+    if (statement) {
+      tl.to(statement, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        duration: 0.8,
+        ease: 'power3.out'
+      }, 0.12);
+    }
+
+    if (copyParagraphs.length > 0) {
+      tl.to(copyParagraphs, {
+        opacity: 1,
+        y: 0,
+        duration: 0.58,
+        stagger: 0.12,
+        ease: 'power2.out'
+      }, 0.42);
+    }
+
+    cards.forEach((card, index) => {
+      const icon = card.querySelector('.feature-icon');
+      const textItems = [
+        card.querySelector('h3'),
+        card.querySelector('.card-main-text'),
+        card.querySelector('.card-expandable-content')
+      ].filter((target): target is Element => Boolean(target));
+      const offset = 0.78 + index * 0.12;
+
       tl.to(card, {
         opacity: 1,
-        y: 0,
-        duration: 0.6,
+        clipPath: 'inset(0% 0% 0% 0% round 12px)',
+        duration: 0.62,
         ease: 'power2.out'
-      }, index * 0.15); // Slightly faster stagger for more cards
+      }, offset);
+
+      if (icon) {
+        tl.to(icon, {
+          opacity: 1,
+          duration: 0.36,
+          ease: 'power2.out'
+        }, offset + 0.06);
+      }
+
+      if (textItems.length > 0) {
+        tl.to(textItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.48,
+          stagger: 0.06,
+          ease: 'power3.out'
+        }, offset + 0.08);
+      }
     });
+  }
+
+  private setupPlatformArchitectureFadeIn(): void {
+    if (!this.isBrowser) return;
+
+    const section = document.querySelector('.platform-architecture-section') as HTMLElement | null;
+    const timeline = document.querySelector('.platform-architecture-timeline') as HTMLElement | null;
+
+    if (!section || !timeline) return;
+
+    const reduceMotion = typeof window !== 'undefined'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const stages = gsap.utils.toArray<HTMLElement>('.platform-architecture-section .platform-stage');
+
+    if (stages.length === 0) return;
+
+    if (reduceMotion) {
+      timeline.style.setProperty('--architecture-line-scale', '1');
+      stages.forEach((stage) => {
+        const clearTargets = [
+          stage.querySelector('.platform-stage-copy'),
+          stage.querySelector('.platform-stage-dot'),
+          stage.querySelector('.platform-stage-media'),
+          stage.querySelector('.platform-stage-media-image'),
+          ...Array.from(stage.querySelectorAll('.platform-stage-details-label, .platform-stage-details p'))
+        ].filter((target): target is Element => Boolean(target));
+
+        gsap.set(clearTargets, { clearProps: 'all' });
+      });
+      return;
+    }
+
+    gsap.set(timeline, { '--architecture-line-scale': 0 } as any);
+
+    gsap.to(timeline, {
+      '--architecture-line-scale': 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: timeline,
+        start: 'top 82%',
+        end: 'bottom 38%',
+        scrub: true
+      }
+    } as any);
+
+    stages.forEach((stage) => {
+      const copy = stage.querySelector('.platform-stage-copy') as HTMLElement | null;
+      const detailItems = gsap.utils.toArray<HTMLElement>(
+        stage.querySelectorAll('.platform-stage-details-label, .platform-stage-details p')
+      );
+      const dot = stage.querySelector('.platform-stage-dot') as HTMLElement | null;
+      const stageMedia = stage.querySelector('.platform-stage-media') as HTMLElement | null;
+      const mediaImage = stage.querySelector('.platform-stage-media-image') as HTMLElement | null;
+      const direction = stage.classList.contains('platform-stage-reverse') ? 30 : -30;
+
+      if (copy) {
+        gsap.set(copy, { opacity: 0, y: 34, x: direction });
+      }
+
+      if (detailItems.length > 0) {
+        gsap.set(detailItems, { opacity: 0, y: 14 });
+      }
+
+      if (dot) {
+        gsap.set(dot, { opacity: 0, scale: 0.55 });
+      }
+
+      if (stageMedia) {
+        gsap.set(stageMedia, {
+          opacity: 0,
+          y: 28,
+          x: 24,
+          scale: 0.97,
+          transformOrigin: '50% 50%'
+        });
+      }
+
+      if (mediaImage) {
+        gsap.set(mediaImage, { scale: 1.04, yPercent: -1 });
+      }
+
+      const stageTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: stage,
+          start: 'top 78%',
+          end: 'top 42%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      if (dot) {
+        stageTl.to(dot, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.42,
+          ease: 'back.out(1.8)'
+        }, 0);
+      }
+
+      if (copy) {
+        stageTl.to(copy, {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          duration: 0.68,
+          ease: 'power3.out'
+        }, 0.05);
+      }
+
+      if (detailItems.length > 0) {
+        stageTl.to(detailItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.42,
+          stagger: 0.08,
+          ease: 'power2.out'
+        }, 0.24);
+      }
+
+      if (stageMedia) {
+        stageTl.to(stageMedia, {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          scale: 1,
+          duration: 0.74,
+          ease: 'power3.out'
+        }, 0.12);
+      }
+
+      if (mediaImage) {
+        stageTl.to(mediaImage, {
+          scale: 1,
+          yPercent: 0,
+          duration: 0.9,
+          ease: 'power3.out'
+        }, 0.18);
+      }
+    });
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   }
 
   private animateNumbers(): void {
@@ -1531,100 +1969,431 @@ FOR candidate IN candidateReports
     });
   }
 
-  private setupReconnaissanceAnimations(): void {
+  private prefersReducedMotion(): boolean {
+    return typeof window !== 'undefined'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  private sectionTargets(section: HTMLElement, selector: string): HTMLElement[] {
+    return gsap.utils.toArray<HTMLElement>(section.querySelectorAll(selector));
+  }
+
+  private clearRevealInlineProps(targets: Array<Element | null | undefined>): void {
+    const cleanTargets = targets.filter((target): target is Element => Boolean(target));
+    if (cleanTargets.length === 0) return;
+
+    gsap.set(cleanTargets, {
+      clearProps: 'transform,filter,clipPath,willChange'
+    });
+  }
+
+  private setupSolutionsAndBelowAnimations(): void {
     if (!this.isBrowser) return;
 
-    // Check if we're on mobile - disable line animations on mobile
-    const isMobile = window.innerWidth <= 768;
+    const lowerSections = gsap.utils.toArray<HTMLElement>(
+      '.solutions-section, .reconnaissance-section, .investigation-section, .alerting-section, .ai-agent-section, .contact-section, .landing-footer'
+    );
 
-    // Set initial states for reconnaissance elements
-    gsap.set('.grid-step', { opacity: 0, y: 40 });
-    gsap.set('.recon-grid-line', { opacity: 0, scale: 0.8 });
+    if (lowerSections.length === 0) return;
 
-    // Animate each grid line and card in sequence as you scroll using a timeline
-    const lines = gsap.utils.toArray('.recon-grid-line') as HTMLElement[];
-    const cards = gsap.utils.toArray('.grid-step') as HTMLElement[];
+    if (this.prefersReducedMotion()) {
+      const lowerTargets = gsap.utils.toArray<HTMLElement>(
+        '.solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .investigation-section, .investigation-section *, .alerting-section, .alerting-section *, .ai-agent-section, .ai-agent-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
+      );
+      gsap.set(lowerTargets, { clearProps: 'all' });
+      return;
+    }
+
+    this.setupSolutionsIntroAnimation();
+    this.setupReconnaissanceAnimations();
+    this.setupInvestigationAnimations();
+    this.setupAlertingAnimations();
+    this.setupAIAgentAnimations();
+    this.setupContactAnimations();
+    this.setupFooterAnimations();
+
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  }
+
+  private setupSolutionsIntroAnimation(): void {
+    if (!this.isBrowser) return;
+
+    const section = document.querySelector('.solutions-section') as HTMLElement | null;
+    if (!section) return;
+
+    const title = section.querySelector('.solutions-main-heading') as HTMLElement | null;
+    const subtitle = section.querySelector('.solutions-subtitle') as HTMLElement | null;
+    const targets = [title, subtitle].filter((target): target is HTMLElement => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (title) {
+      gsap.set(title, {
+        autoAlpha: 0,
+        y: 34,
+        scale: 0.97,
+        filter: 'blur(8px)',
+        transformOrigin: '50% 50%',
+        willChange: 'transform, opacity, filter'
+      });
+    }
+
+    if (subtitle) {
+      gsap.set(subtitle, {
+        autoAlpha: 0,
+        y: 18,
+        filter: 'blur(6px)',
+        willChange: 'transform, opacity, filter'
+      });
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.reconnaissance-section',
-        start: 'top 50%',
-        end: 'bottom 70%',
-        scrub: 1,
-        toggleActions: 'play none none reverse',
-      }
+        trigger: section,
+        start: 'top 78%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
     });
 
-    if (!isMobile) {
-      /* Desktop: Complex grid layout with lines
-         Desired sequence: cards: 1, 2, 3, 6, 5, 4
-         lines: 1-2, 2-3, 3-6, 6-5, 5-4                */
-      const desktopCardOrder = [cards[0], cards[1], cards[2], cards[5], cards[4], cards[3]];
-      const lineOrder = [lines[0], lines[1], lines[2], lines[3], lines[4]]; // ignore the empty 6th polyline
+    if (title) {
+      tl.to(title, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        duration: 0.78,
+        ease: 'power3.out'
+      }, 0);
+    }
 
-    /* Card 1 */
-      tl.to(desktopCardOrder[0], {
-      opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-        onStart: () => desktopCardOrder[0].classList.add('active'),
-        onReverseComplete: () => desktopCardOrder[0].classList.remove('active')
+    if (subtitle) {
+      tl.to(subtitle, {
+        autoAlpha: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.68,
+        ease: 'power3.out'
+      }, 0.16);
+    }
+  }
+
+  private setupReconnaissanceAnimations(): void {
+    if (!this.isBrowser) return;
+
+    const section = document.querySelector('.reconnaissance-section') as HTMLElement | null;
+    if (!section) return;
+
+    const copyItems = this.sectionTargets(
+      section,
+      '.recon-eyebrow, .recon-main-heading, .recon-subheading, .recon-tag'
+    );
+    const sankeyNodes = this.sectionTargets(section, '.recon-sankey-node');
+    const sankeyLinks = this.sectionTargets(
+      section,
+      '.recon-sankey-link-shadow, .recon-sankey-link, .recon-liquid-wave'
+    );
+    const sankeyLabels = this.sectionTargets(section, '.recon-svg-label');
+
+    const targets = [
+      ...copyItems,
+      ...sankeyNodes,
+      ...sankeyLinks,
+      ...sankeyLabels
+    ].filter((target): target is HTMLElement => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(copyItems, {
+      autoAlpha: 0,
+      y: 24,
+      filter: 'blur(6px)',
+      willChange: 'transform, opacity, filter'
+    });
+    gsap.set(sankeyNodes, {
+      autoAlpha: 0,
+      scaleY: 0.64,
+      transformOrigin: '50% 50%',
+      willChange: 'transform, opacity'
+    });
+    gsap.set(sankeyLinks, { autoAlpha: 0, willChange: 'opacity' });
+    gsap.set(sankeyLabels, {
+      autoAlpha: 0,
+      y: 14,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 76%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(copyItems, {
+      autoAlpha: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.62,
+      stagger: 0.075,
+      ease: 'power3.out'
     }, 0);
 
-    /* Lines + the rest of the cards */
-    lineOrder.forEach((line, i) => {
-      tl.fromTo(line, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.1, ease: 'power2.out' }, i === 0 ? 0 : '>-0.1');
+    tl.to(sankeyNodes, {
+      autoAlpha: 1,
+      scaleY: 1,
+      duration: 0.54,
+      stagger: 0.035,
+      ease: 'power3.out'
+    }, 0.18);
 
-        const nextCard = desktopCardOrder[i + 1];
-      if (nextCard) {
-        tl.to(nextCard, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          onStart: () => nextCard.classList.add('active'),
-          onReverseComplete: () => nextCard.classList.remove('active')
-        }, '>-0.5');
-      }
-    });
-    } else {
-      /* Mobile: Simple sequential order with connecting lines
-         Desired sequence: cards: 1, 2, 3, 4, 5, 6 */
-      const mobileCardOrder = [cards[0], cards[1], cards[2], cards[3], cards[4], cards[5]];
+    tl.to(sankeyLinks, {
+      autoAlpha: 1,
+      duration: 0.82,
+      stagger: 0.025,
+      ease: 'power2.out'
+    }, 0.26);
 
-      /* Animate cards with connecting lines in sequential order */
-      mobileCardOrder.forEach((card, i) => {
-        tl.to(card, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          onStart: () => card.classList.add('active'),
-          onReverseComplete: () => card.classList.remove('active')
-        }, i === 0 ? 0 : `>+${0.3 + (i - 1) * 0.2}`);
-
-        /* Add connecting line to next card (except for the last card) */
-        if (i < mobileCardOrder.length - 1 && lines[i]) {
-          tl.fromTo(lines[i], 
-            { opacity: 0, scale: 0.8 }, 
-            { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' }, 
-            `>-0.3`
-          );
-        }
-      });
-    }
+    tl.to(sankeyLabels, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.035,
+      ease: 'power2.out'
+    }, 0.44);
   }
 
   private setupInvestigationAnimations(): void {
     if (!this.isBrowser) return;
 
-    // Set initial states for investigation elements
-    gsap.set('.capability-card', { opacity: 0, y: 30 });
+    const section = document.querySelector('.investigation-section') as HTMLElement | null;
+    if (!section) return;
 
-    // Animate capability cards with staggered effect
-    gsap.to('.capability-card', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power3.out',
+    const copyItems = this.sectionTargets(
+      section,
+      '.solution-eyebrow, .solution-main-heading, .solution-description, .solution-tag'
+    );
+    const capabilitiesTitle = section.querySelector('.capabilities-title') as HTMLElement | null;
+    const cards = this.sectionTargets(section, '.capability-card');
+    const cardDetails = cards.flatMap((card) => [
+      card.querySelector('.capability-icon'),
+      card.querySelector('h3'),
+      card.querySelector('p')
+    ].filter((target): target is Element => Boolean(target)));
+
+    const targets = [
+      ...copyItems,
+      capabilitiesTitle,
+      ...cards,
+      ...cardDetails
+    ].filter((target): target is HTMLElement | Element => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(copyItems, {
+      autoAlpha: 0,
+      y: 24,
+      filter: 'blur(6px)',
+      willChange: 'transform, opacity, filter'
+    });
+    if (capabilitiesTitle) {
+      gsap.set(capabilitiesTitle, {
+        autoAlpha: 0,
+        y: 24,
+        filter: 'blur(6px)',
+        willChange: 'transform, opacity, filter'
+      });
+    }
+    gsap.set(cards, {
+      autoAlpha: 0,
+      y: 34,
+      scale: 0.985,
+      willChange: 'transform, opacity'
+    });
+    gsap.set(cardDetails, {
+      autoAlpha: 0,
+      y: 14,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.investigation-capabilities',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse',
+        trigger: section,
+        start: 'top 76%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(copyItems, {
+      autoAlpha: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.62,
+      stagger: 0.075,
+      ease: 'power3.out'
+    }, 0);
+
+    if (capabilitiesTitle) {
+      tl.to(capabilitiesTitle, {
+        autoAlpha: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.58,
+        ease: 'power3.out'
+      }, 0.44);
+    }
+
+    cards.forEach((card, index) => {
+      const details = [
+        card.querySelector('.capability-icon'),
+        card.querySelector('h3'),
+        card.querySelector('p')
+      ].filter((target): target is Element => Boolean(target));
+      const offset = 0.68 + index * 0.11;
+
+      tl.to(card, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.62,
+        ease: 'power3.out'
+      }, offset);
+
+      if (details.length > 0) {
+        tl.to(details, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.42,
+          stagger: 0.045,
+          ease: 'power2.out'
+        }, offset + 0.08);
+      }
+    });
+  }
+
+  private setupAlertingAnimations(): void {
+    if (!this.isBrowser) return;
+
+    const section = document.querySelector('.alerting-section') as HTMLElement | null;
+    if (!section) return;
+
+    const copyItems = this.sectionTargets(
+      section,
+      '.solution-eyebrow, .solution-main-heading, .solution-description, .solution-tag'
+    );
+    const featuresTitle = section.querySelector('.features-title') as HTMLElement | null;
+    const cards = this.sectionTargets(section, '.feature-item');
+    const cardDetails = cards.flatMap((card) => [
+      card.querySelector('.feature-icon'),
+      card.querySelector('h3'),
+      card.querySelector('p')
+    ].filter((target): target is Element => Boolean(target)));
+
+    const targets = [
+      ...copyItems,
+      featuresTitle,
+      ...cards,
+      ...cardDetails
+    ].filter((target): target is Element => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(copyItems, {
+      autoAlpha: 0,
+      y: 24,
+      filter: 'blur(6px)',
+      willChange: 'transform, opacity, filter'
+    });
+    if (featuresTitle) {
+      gsap.set(featuresTitle, {
+        autoAlpha: 0,
+        y: 24,
+        filter: 'blur(6px)',
+        willChange: 'transform, opacity, filter'
+      });
+    }
+    gsap.set(cards, {
+      autoAlpha: 0,
+      y: 34,
+      scale: 0.985,
+      willChange: 'transform, opacity'
+    });
+    gsap.set(cardDetails, {
+      autoAlpha: 0,
+      y: 14,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 76%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(copyItems, {
+      autoAlpha: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.62,
+      stagger: 0.075,
+      ease: 'power3.out'
+    }, 0);
+
+    if (featuresTitle) {
+      tl.to(featuresTitle, {
+        autoAlpha: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.58,
+        ease: 'power3.out'
+      }, 0.42);
+    }
+
+    cards.forEach((card, index) => {
+      const details = [
+        card.querySelector('.feature-icon'),
+        card.querySelector('h3'),
+        card.querySelector('p')
+      ].filter((target): target is Element => Boolean(target));
+      const offset = 0.66 + index * 0.11;
+
+      tl.to(card, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.62,
+        ease: 'power3.out'
+      }, offset);
+
+      if (details.length > 0) {
+        tl.to(details, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.42,
+          stagger: 0.045,
+          ease: 'power2.out'
+        }, offset + 0.08);
       }
     });
   }
@@ -1632,61 +2401,364 @@ FOR candidate IN candidateReports
   private setupAIAgentAnimations(): void {
     if (!this.isBrowser) return;
 
-    // Set initial states for AI Agent elements
-    gsap.set('.ai-agent-main-heading', { opacity: 0, y: 30 });
-    gsap.set('.ai-agent-subtitle', { opacity: 0, y: 20 });
-    gsap.set('.ai-agent-icon', { opacity: 0, scale: 0.8 });
-    gsap.set('.ai-agent-section .feature-item', { opacity: 0, y: 40 });
-    gsap.set('.ai-agent-cta', { opacity: 0, y: 30 });
+    const section = document.querySelector('.ai-agent-section') as HTMLElement | null;
+    if (!section) return;
 
-    // Create timeline for AI Agent section animations
-    const aiAgentTimeline = gsap.timeline({
+    const copyItems = this.sectionTargets(
+      section,
+      '.solution-eyebrow, .solution-main-heading, .solution-description, .solution-tag'
+    );
+    const orb = section.querySelector('.ai-agent-icon') as HTMLElement | null;
+    const featuresTitle = section.querySelector('.features-title') as HTMLElement | null;
+    const cards = this.sectionTargets(section, '.feature-item');
+    const cardDetails = cards.flatMap((card) => [
+      card.querySelector('.feature-icon'),
+      card.querySelector('h3'),
+      card.querySelector('p')
+    ].filter((target): target is Element => Boolean(target)));
+    const cta = section.querySelector('.ai-agent-cta') as HTMLElement | null;
+    const ctaItems = this.sectionTargets(section, '.ai-agent-cta h2, .ai-agent-cta p, .ai-agent-button');
+
+    const targets = [
+      ...copyItems,
+      orb,
+      featuresTitle,
+      ...cards,
+      ...cardDetails,
+      cta,
+      ...ctaItems
+    ].filter((target): target is Element => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(copyItems, {
+      autoAlpha: 0,
+      y: 24,
+      filter: 'blur(6px)',
+      willChange: 'transform, opacity, filter'
+    });
+    if (orb) {
+      gsap.set(orb, {
+        autoAlpha: 0,
+        y: 18,
+        scale: 0.86,
+        filter: 'blur(6px)',
+        transformOrigin: '50% 50%',
+        willChange: 'transform, opacity, filter'
+      });
+    }
+    if (featuresTitle) {
+      gsap.set(featuresTitle, {
+        autoAlpha: 0,
+        y: 24,
+        filter: 'blur(6px)',
+        willChange: 'transform, opacity, filter'
+      });
+    }
+    gsap.set(cards, {
+      autoAlpha: 0,
+      y: 34,
+      scale: 0.985,
+      willChange: 'transform, opacity'
+    });
+    gsap.set(cardDetails, {
+      autoAlpha: 0,
+      y: 14,
+      willChange: 'transform, opacity'
+    });
+    if (cta) {
+      gsap.set(cta, {
+        autoAlpha: 0,
+        y: 30,
+        scale: 0.985,
+        willChange: 'transform, opacity'
+      });
+    }
+    gsap.set(ctaItems, {
+      autoAlpha: 0,
+      y: 14,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.ai-agent-section',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse',
-        scrub: false,
+        trigger: section,
+        start: 'top 76%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(copyItems, {
+      autoAlpha: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.62,
+      stagger: 0.075,
+      ease: 'power3.out'
+    }, 0);
+
+    if (orb) {
+      tl.to(orb, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        duration: 0.72,
+        ease: 'back.out(1.7)'
+      }, 0.22);
+    }
+
+    if (featuresTitle) {
+      tl.to(featuresTitle, {
+        autoAlpha: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.58,
+        ease: 'power3.out'
+      }, 0.56);
+    }
+
+    cards.forEach((card, index) => {
+      const details = [
+        card.querySelector('.feature-icon'),
+        card.querySelector('h3'),
+        card.querySelector('p')
+      ].filter((target): target is Element => Boolean(target));
+      const offset = 0.78 + index * 0.11;
+
+      tl.to(card, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.62,
+        ease: 'power3.out'
+      }, offset);
+
+      if (details.length > 0) {
+        tl.to(details, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.42,
+          stagger: 0.045,
+          ease: 'power2.out'
+        }, offset + 0.08);
       }
     });
 
-    // Animate header elements first
-    aiAgentTimeline
-      .to('.ai-agent-main-heading', {
-        opacity: 1,
+    if (cta) {
+      tl.to(cta, {
+        autoAlpha: 1,
         y: 0,
-        duration: 0.8,
+        scale: 1,
+        duration: 0.66,
+        ease: 'power3.out'
+      }, 1.22);
+    }
+
+    if (ctaItems.length > 0) {
+      tl.to(ctaItems, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.42,
+        stagger: 0.06,
+        ease: 'power2.out'
+      }, 1.34);
+    }
+  }
+
+  private setupContactAnimations(): void {
+    if (!this.isBrowser) return;
+
+    const section = document.querySelector('.contact-section') as HTMLElement | null;
+    if (!section) return;
+
+    const headerItems = this.sectionTargets(section, '.contact-main-heading, .contact-subtitle');
+    const cards = this.sectionTargets(section, '.contact-card');
+    const cardDetails = cards.flatMap((card) => [
+      card.querySelector('.contact-icon'),
+      card.querySelector('h3'),
+      ...Array.from(card.querySelectorAll('p'))
+    ].filter((target): target is Element => Boolean(target)));
+    const form = section.querySelector('.contact-form') as HTMLElement | null;
+    const formItems = this.sectionTargets(
+      section,
+      '.contact-form h2, .contact-form .form-group, .contact-submit-btn'
+    );
+
+    const targets = [
+      ...headerItems,
+      ...cards,
+      ...cardDetails,
+      form,
+      ...formItems
+    ].filter((target): target is Element => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(headerItems, {
+      autoAlpha: 0,
+      y: 24,
+      filter: 'blur(6px)',
+      willChange: 'transform, opacity, filter'
+    });
+    gsap.set(cards, {
+      autoAlpha: 0,
+      y: 30,
+      scale: 0.985,
+      willChange: 'transform, opacity'
+    });
+    gsap.set(cardDetails, {
+      autoAlpha: 0,
+      y: 12,
+      willChange: 'transform, opacity'
+    });
+    if (form) {
+      gsap.set(form, {
+        autoAlpha: 0,
+        y: 30,
+        scale: 0.985,
+        willChange: 'transform, opacity'
+      });
+    }
+    gsap.set(formItems, {
+      autoAlpha: 0,
+      y: 12,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 78%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(headerItems, {
+      autoAlpha: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.58,
+      stagger: 0.1,
+      ease: 'power3.out'
+    }, 0);
+
+    cards.forEach((card, index) => {
+      const details = [
+        card.querySelector('.contact-icon'),
+        card.querySelector('h3'),
+        ...Array.from(card.querySelectorAll('p'))
+      ].filter((target): target is Element => Boolean(target));
+      const offset = 0.28 + index * 0.12;
+
+      tl.to(card, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.58,
+        ease: 'power3.out'
+      }, offset);
+
+      if (details.length > 0) {
+        tl.to(details, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.36,
+          stagger: 0.045,
+          ease: 'power2.out'
+        }, offset + 0.08);
+      }
+    });
+
+    if (form) {
+      tl.to(form, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.64,
+        ease: 'power3.out'
+      }, 0.44);
+    }
+
+    if (formItems.length > 0) {
+      tl.to(formItems, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.38,
+        stagger: 0.045,
+        ease: 'power2.out'
+      }, 0.56);
+    }
+  }
+
+  private setupFooterAnimations(): void {
+    if (!this.isBrowser) return;
+
+    const footer = document.querySelector('.landing-footer') as HTMLElement | null;
+    if (!footer) return;
+
+    const brand = footer.querySelector('.footer-brand') as HTMLElement | null;
+    const linkGroups = this.sectionTargets(footer, '.footer-link-group');
+    const bottomItems = this.sectionTargets(footer, '.footer-copyright, .footer-social .social-link');
+    const targets = [
+      brand,
+      ...linkGroups,
+      ...bottomItems
+    ].filter((target): target is HTMLElement => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
+      return;
+    }
+
+    gsap.set(targets, {
+      autoAlpha: 0,
+      y: 18,
+      willChange: 'transform, opacity'
+    });
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: footer,
+        start: 'top 86%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    })
+      .to(brand, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.5,
         ease: 'power3.out'
       }, 0)
-      .to('.ai-agent-subtitle', {
-        opacity: 1,
+      .to(linkGroups, {
+        autoAlpha: 1,
         y: 0,
-        duration: 0.8,
+        duration: 0.46,
+        stagger: 0.08,
         ease: 'power3.out'
-      }, 0.2)
-      .to('.ai-agent-icon', {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        ease: 'back.out(1.7)'
-      }, 0.4);
-
-    // Animate feature items with staggered effect
-    aiAgentTimeline.to('.ai-agent-section .feature-item', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power3.out'
-    }, 0.6);
-
-    // Animate CTA section last
-    aiAgentTimeline.to('.ai-agent-cta', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    }, 1.0);
+      }, 0.08)
+      .to(bottomItems, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.42,
+        stagger: 0.05,
+        ease: 'power2.out'
+      }, 0.24);
   }
 
   private setupAlertingAnimation(): void {
@@ -1958,7 +3030,7 @@ FOR candidate IN candidateReports
     if (!this.isBrowser) return;
 
     // Set initial states for all fade-in elements
-    gsap.set('.solutions-main-heading, .recon-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading', { 
+    gsap.set('.solutions-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading', {
       opacity: 0, 
       y: 30 
     });
@@ -1968,7 +3040,7 @@ FOR candidate IN candidateReports
       y: 20 
     });
     
-    gsap.set('.capability-card, .contact-card, .feature-card', { 
+    gsap.set('.capability-card, .contact-card', {
       opacity: 0, 
       y: 40 
     });
@@ -2004,14 +3076,14 @@ FOR candidate IN candidateReports
     });
 
     // Animate all section headings with staggered effect
-    gsap.to('.solutions-main-heading, .recon-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading', {
+    gsap.to('.solutions-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading', {
       opacity: 1,
       y: 0,
       duration: 1.2,
       ease: 'power3.out',
       stagger: 0.2,
       scrollTrigger: {
-        trigger: '.solutions-main-heading, .recon-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading',
+        trigger: '.solutions-main-heading, .investigation-main-heading, .alerting-main-heading, .contact-main-heading',
         start: 'top 80%',
         end: 'bottom 20%',
         toggleActions: 'play none none reverse'
@@ -2042,21 +3114,6 @@ FOR candidate IN candidateReports
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.solutions-section',
-        start: 'top 70%',
-        end: 'bottom 30%',
-        toggleActions: 'play none none reverse'
-      }
-    });
-
-    // Animate feature cards with staggered effect
-    gsap.to('.feature-card', {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      stagger: 0.3,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.landing-extra-content',
         start: 'top 70%',
         end: 'bottom 30%',
         toggleActions: 'play none none reverse'

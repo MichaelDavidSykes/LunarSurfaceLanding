@@ -144,6 +144,21 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     this.docsMenuClick.emit();
   }
 
+  protected onBrandClick(): void {
+    if (this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
+    }
+
+    if (this.context === 'landing' && this.isCurrentLandingRoute()) {
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    this.router.navigate(['/'], { state: { landingScrollTarget: 'top' } });
+  }
+
   protected isActionActive(action: ToolbarAction): boolean {
     if (this.activeAction) {
       return this.activeAction === action;
@@ -190,5 +205,10 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     };
     const landingScrollTarget = landingTargetByAction[action as Exclude<ToolbarAction, 'api' | 'pricing'>];
     this.router.navigate(['/'], { state: { landingScrollTarget } });
+  }
+
+  private isCurrentLandingRoute(): boolean {
+    const path = this.router.url.split('?')[0].split('#')[0];
+    return path === '' || path === '/';
   }
 }

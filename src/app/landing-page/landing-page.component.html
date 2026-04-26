@@ -66,7 +66,7 @@
 
 <!-- Interactive Globe Section (full viewport, between map and mission) -->
 <section class="interactive-globe-section">
-  <h2 class="globe-heading">Building a continuously expanding open threat intelligence graph</h2>
+  <h2 class="globe-heading">Supporting Global Intelligence Operations</h2>
   <app-interactive-globe
     (selectedCountryChange)="onSelectedCountry($event)"
     [selectedCountry]="selectedCountry"
@@ -106,7 +106,7 @@
         <h3>Cyber Threat Intelligence</h3>
         <p class="card-main-text">Track threat actors, malware, infrastructure, indicators, vulnerabilities, and campaigns across public and specialist cyber intelligence sources.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[0]">
-          <p>Use LunarChain for IOC lookups, enrichment, investigations, and alerting inside analyst and security workflows. Use our API to enrich SOC operations.</p>
+          <p>Use LunarChain for IOC lookups, DFIR, enrichment, investigations, and alerting inside analyst and security workflows. Use our API to enrich SOC operations.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[0]">
@@ -127,7 +127,7 @@
         <h3>Military &amp; Geopolitical Activity</h3>
         <p class="card-main-text">Monitor military operations, geopolitical escalation, state-linked activity, and region-specific reporting as situations develop across countries and theatres.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[1]">
-          <p>Follow locations, organizations, incidents, and linked reporting in one graph to surface operational context faster.</p>
+          <p>Follow locations, organizations, incidents, and linked reporting in one view to surface operational context faster.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[1]">
@@ -145,7 +145,7 @@
         <h3>Brand, Supply Chain &amp; Regional Risk</h3>
         <p class="card-main-text">Track risk around organizations, executives, vendors, facilities, and operating regions, including exposure, disruption, leaks, and emerging local threats.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[2]">
-          <p>Deliver that intelligence through the platform, API, and MCP Server for operational workflows, custom integrations, and AI-powered operations.</p>
+          <p>Deliver that intelligence through the platform, API, and MCP Server for operational workflows, custom integrations, and AI-powered risk analysis.</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[2]">
@@ -250,110 +250,139 @@
 <!-- Reconnaissance Process Section -->
 <section class="reconnaissance-section">
   <div class="recon-inner">
-    <div class="recon-copy solution-section-copy">
-      <p class="recon-eyebrow solution-eyebrow">Reconnaissance</p>
-      <h2 class="recon-main-heading solution-main-heading">Broad intelligence collection</h2>
-      <p class="recon-subheading solution-description">Open-source and hard-to-monitor signals are ingested, normalized, and enriched before they enter the intelligence graph. We collect large scale data, and run state of the art analytics on it to identify trends, campaigns, events and signals relevant to your intelligence requirements.</p>
-      <div class="recon-tags solution-tags">
-        <span class="recon-tag solution-tag">RSS & advisories</span>
-        <span class="recon-tag solution-tag">Forums & dark web</span>
-        <span class="recon-tag solution-tag">Social chatter</span>
-        <span class="recon-tag solution-tag">Paste & leaks</span>
-        <span class="recon-tag solution-tag">Malware sandboxes</span>
-        <span class="recon-tag solution-tag">CVE & vuln feeds</span>
+    <div class="recon-copy">
+      <p class="recon-eyebrow">Reconnaissance</p>
+      <h2 class="recon-main-heading">Broad intelligence collection</h2>
+      <p class="recon-subheading">Open-source and hard-to-monitor signals are ingested, normalized, and enriched before they enter the intelligence graph. We collect large scale data, and run state of the art analytics on it to identify trends, campaigns, events and signals relevant to security teams.</p>
+      <div class="recon-tags">
+        <span class="recon-tag">RSS Feeds</span>
+        <span class="recon-tag">Forums & dark web</span>
+        <span class="recon-tag">Social chatter</span>
+        <span class="recon-tag">Paste & leaks</span>
+        <span class="recon-tag">Malware sandboxes</span>
+        <span class="recon-tag">CVE & vuln feeds</span>
       </div>
     </div>
     <div class="recon-diagram">
       <div class="recon-grid-overlay"></div>
       <div class="recon-flow recon-desktop-flow" *ngIf="!isMobile">
-        <svg class="recon-lines" viewBox="0 0 1200 1000" preserveAspectRatio="none" aria-hidden="true">
-          <path class="recon-line line-1" d="M420 125 C 520 125, 560 400, 600 500"/>
-          <path class="recon-line line-2" d="M420 375 C 520 375, 560 500, 600 500"/>
-          <path class="recon-line line-3" d="M420 625 C 520 625, 560 600, 600 500"/>
-          <path class="recon-line line-4" d="M420 875 C 520 875, 560 600, 600 500"/>
-          <path class="recon-trunk" d="M600 500 C 630 500, 660 500, 720 500"/>
-          <path class="recon-report-line" d="M720 500 C 800 385, 870 250, 1000 250"/>
-          <path class="recon-alert-line" d="M720 500 C 780 500, 840 500, 1000 500"/>
-          <path class="recon-intel-line" d="M720 500 C 800 615, 870 750, 1000 750"/>
-          <circle class="recon-merge-dot" cx="600" cy="500" r="6"/>
-          <circle class="recon-report-dot" cx="1000" cy="250" r="6"/>
-          <circle class="recon-alert-dot" cx="1000" cy="500" r="6"/>
-          <circle class="recon-intel-dot" cx="1000" cy="750" r="6"/>
+        <svg class="recon-lines" viewBox="0 0 1500 500" preserveAspectRatio="xMidYMid meet" aria-labelledby="reconSankeyTitle" role="img">
+          <title id="reconSankeyTitle">LunarChain reconnaissance domains flowing into source categories, normalization, and operational outputs</title>
+          <defs>
+            <linearGradient
+              *ngFor="let gradient of reconSankeyGradients"
+              [attr.id]="gradient.id"
+              gradientUnits="userSpaceOnUse"
+              [attr.x1]="gradient.x1"
+              [attr.y1]="gradient.y1"
+              [attr.x2]="gradient.x2"
+              [attr.y2]="gradient.y2">
+              <stop offset="0%" [attr.stop-color]="gradient.from" stop-opacity="0.52"/>
+              <stop offset="58%" [attr.stop-color]="gradient.via" stop-opacity="0.45"/>
+              <stop offset="100%" [attr.stop-color]="gradient.to" stop-opacity="0.55"/>
+            </linearGradient>
+            <linearGradient id="reconLiquidSheen" gradientUnits="userSpaceOnUse" x1="-760" y1="0" x2="-40" y2="0">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="34%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="50%" stop-color="#ffffff" stop-opacity="0.38"/>
+              <stop offset="66%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+              <animate attributeName="x1" dur="6.8s" values="-760;1240" repeatCount="indefinite"/>
+              <animate attributeName="x2" dur="6.8s" values="-40;1960" repeatCount="indefinite"/>
+            </linearGradient>
+          </defs>
+          <g class="recon-sankey-shadow">
+            <path
+              *ngFor="let link of reconSankeyLinks"
+              class="recon-sankey-link-shadow"
+              [attr.d]="link.path"
+              [attr.stroke-width]="link.shadowWidth"/>
+          </g>
+          <g class="recon-sankey-links">
+            <path
+              *ngFor="let link of reconSankeyLinks"
+              class="recon-sankey-link"
+              [attr.d]="link.path"
+              [attr.stroke]="'url(#' + link.gradientId + ')'"
+              [attr.stroke-width]="link.width"/>
+          </g>
+          <g class="recon-sankey-sheen">
+            <path
+              *ngFor="let link of reconSankeyLinks"
+              class="recon-liquid-wave"
+              [attr.d]="link.path"
+              stroke="url(#reconLiquidSheen)"
+              [attr.stroke-width]="link.sheenWidth"/>
+          </g>
+          <g class="recon-sankey-nodes">
+            <rect
+              *ngFor="let node of reconSankeyNodes"
+              class="recon-sankey-node"
+              [attr.class]="'recon-sankey-node recon-sankey-node-' + node.type"
+              [attr.x]="node.x"
+              [attr.y]="node.y"
+              [attr.width]="node.width"
+              [attr.height]="node.height"
+              [attr.fill]="node.color"
+              rx="5"/>
+          </g>
+          <g class="recon-svg-domain-labels">
+            <g class="recon-svg-label recon-svg-domain-label" *ngFor="let node of reconDomainNodes">
+              <rect
+                class="recon-svg-domain-card"
+                x="34"
+                [attr.y]="node.centerY - 28"
+                width="252"
+                height="56"
+                rx="12"/>
+              <rect
+                class="recon-svg-domain-accent"
+                x="34"
+                [attr.y]="node.centerY - 28"
+                width="5"
+                height="56"
+                rx="3"
+                [attr.fill]="node.color"/>
+              <text class="recon-svg-domain-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
+              <text class="recon-svg-domain-value" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
+            </g>
+          </g>
+          <g class="recon-svg-source-labels">
+            <g class="recon-svg-label" *ngFor="let node of reconSourceNodes">
+              <rect
+                class="recon-svg-source-card"
+                x="386"
+                [attr.y]="node.centerY - 20"
+                width="190"
+                height="40"
+                rx="10"/>
+              <rect
+                class="recon-svg-source-accent"
+                x="386"
+                [attr.y]="node.centerY - 20"
+                width="4"
+                height="40"
+                rx="2"
+                [attr.fill]="node.color"/>
+              <text class="recon-svg-source-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
+              <text class="recon-svg-source-value" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
+            </g>
+          </g>
+          <g class="recon-svg-destination-labels">
+            <g class="recon-svg-label recon-svg-destination-label" *ngFor="let node of reconDestinationNodes">
+              <text class="recon-svg-destination-value" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
+              <text class="recon-svg-destination-name" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
+            </g>
+          </g>
+          <g
+            *ngIf="reconCoreNode as core"
+            class="recon-svg-core"
+            [attr.transform]="'translate(' + core.labelX + ' ' + core.labelY + ')'">
+            <text class="recon-svg-core-value" x="0" y="0">{{ core.primary }}</text>
+            <text class="recon-svg-core-name" x="0" y="31">{{ core.secondary }}</text>
+            <text class="recon-svg-core-brand" x="0" y="62">LunarChain</text>
+          </g>
         </svg>
-        <div class="recon-sources">
-          <div class="recon-source">
-            <div class="source-icon rss">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M5 11a8 8 0 0 1 8 8"/><path d="M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="2"/>
-              </svg>
-            </div>
-            <span>RSS & Blogs</span>
-          </div>
-          <div class="recon-source">
-            <div class="source-icon darkweb">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M3 7h18v10H3z"/><path d="M7 7v10"/><path d="M17 7v10"/><path d="M3 11h18"/>
-              </svg>
-            </div>
-            <span>Forums & Dark Web</span>
-          </div>
-          <div class="recon-source">
-            <div class="source-icon social">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 8.7 10.5 12"/><path d="M15 8.7 13.5 12"/>
-              </svg>
-            </div>
-            <span>Social Signals</span>
-          </div>
-          <div class="recon-source">
-            <div class="source-icon cve">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M12 3 3 9l9 6 9-6-9-6z"/><path d="m3 15 9 6 9-6"/><path d="m3 9 9 6 9-6"/>
-              </svg>
-            </div>
-            <span>CVE & Vuln Feeds</span>
-          </div>
-        </div>
-        <div class="recon-core">
-          <div class="recon-core-glow"></div>
-          <span class="recon-core-label">LunarChain</span>
-        </div>
-        <div class="recon-output-nodes">
-          <div class="recon-report-node">
-            <div class="report-node-glow"></div>
-            <div class="report-node-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14,2 14,8 20,8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10,9 9,9 8,9"/>
-              </svg>
-            </div>
-            <span class="report-node-label">Reporting</span>
-          </div>
-          <div class="recon-alert-node">
-            <div class="alert-node-glow"></div>
-            <div class="alert-node-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-            </div>
-            <span class="alert-node-label">Alerting</span>
-          </div>
-          <div class="recon-intel-node">
-            <div class="intel-node-glow"></div>
-            <div class="intel-node-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <span class="intel-node-label">Intelligence</span>
-          </div>
-        </div>
       </div>
       <div class="recon-mobile-flow" *ngIf="isMobile">
         <div class="recon-mobile-card">

@@ -1,9 +1,9 @@
 <ng-container *ngIf="context === 'api'; else landingToolbar">
   <header class="docs-toolbar">
-    <a class="docs-brand" routerLink="/" aria-label="LunarChain home">
+    <button type="button" class="docs-brand" aria-label="LunarChain home" (click)="onBrandClick()">
       <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo docs-toolbar-logo">
       <span class="docs-logo-text">LunarChain Docs</span>
-    </a>
+    </button>
 
     <nav class="docs-desktop-nav" aria-label="Primary">
       <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('api')" (click)="onAction('api')">Docs</button>
@@ -35,10 +35,10 @@
     class="landing-taskbar"
     [class.scrolled]="taskbarScrolled"
     [class.no-transition]="disableTransitions">
-    <div class="brand-container">
+    <button type="button" class="brand-container" aria-label="Back to top of LunarChain landing page" (click)="onBrandClick()">
       <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo">
       <span class="logo-text">LunarChain</span>
-    </div>
+    </button>
     <span class="spacer"></span>
 
     <div class="desktop-nav">
