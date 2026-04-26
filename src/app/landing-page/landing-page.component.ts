@@ -46,6 +46,7 @@ interface ReconSankeyNodeView {
   centerY: number;
   labelX: number;
   labelY: number;
+  labelWidth: number;
   secondaryY: number;
   color: string;
   visible: boolean;
@@ -169,8 +170,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   readonly reconSankeyGradients = this.reconSankeyLayout.gradients;
   readonly reconDomainNodes = this.reconSankeyNodes.filter((node) => node.type === 'domain');
   readonly reconSourceNodes = this.reconSankeyNodes.filter((node) => node.type === 'source');
+  readonly reconAnalyticsNodes = this.reconSankeyNodes.filter((node) => node.type === 'core');
   readonly reconDestinationNodes = this.reconSankeyNodes.filter((node) => node.type === 'destination');
-  readonly reconCoreNode = this.reconSankeyNodes.find((node) => node.type === 'core');
 
   // List of country names for matching in summaries
   private countryList = [
@@ -245,20 +246,20 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     ];
 
     const sourceData = [
-      { id: 'rss', label: 'RSS & Advisories', metric: '218K signals', value: 23, color: '#8b5cf6' },
-      { id: 'forums', label: 'Forums & Dark Web', metric: '148K signals', value: 16, color: '#915eff' },
-      { id: 'social', label: 'Social & Regional Signals', metric: '176K signals', value: 19, color: '#60a5fa' },
-      { id: 'leaks', label: 'Leaks & Paste Sites', metric: '92K signals', value: 12, color: '#d196e6' },
-      { id: 'malware', label: 'Malware & CVE Feeds', metric: '181K signals', value: 15, color: '#38bdf8' },
-      { id: 'field', label: 'News & Field Reporting', metric: '50K signals', value: 15, color: '#14b8a6' }
+      { id: 'rss', label: 'RSS & Advisories', metric: '', value: 23, color: '#8b5cf6' },
+      { id: 'forums', label: 'Forums & Dark Web', metric: '', value: 16, color: '#915eff' },
+      { id: 'social', label: 'Social & Regional Signals', metric: '', value: 19, color: '#60a5fa' },
+      { id: 'leaks', label: 'Leaks & Paste Sites', metric: '', value: 12, color: '#d196e6' },
+      { id: 'malware', label: 'Malware & CVE Feeds', metric: '', value: 15, color: '#38bdf8' },
+      { id: 'field', label: 'News & Field Reporting', metric: '', value: 15, color: '#14b8a6' }
     ];
 
     const sourceNodes = sourceData.map((source) => ({ ...source, type: 'source' }));
     const sourceTotal = sourceNodes.reduce((total, source) => total + source.value, 0);
     const destinationBase = [
-      { id: 'attention', label: 'Require attention', metric: '13', value: 18, color: '#915eff' },
-      { id: 'progress', label: 'In progress', metric: '200', value: 47, color: '#60a5fa' },
-      { id: 'resolved', label: 'Resolved', metric: '87', value: 35, color: '#14b8a6' }
+      { id: 'investigations', label: 'Investigations', metric: '', value: 34, color: '#915eff' },
+      { id: 'alerting', label: 'Alerting', metric: '', value: 33, color: '#60a5fa' },
+      { id: 'delivery', label: 'API & MCP', metric: '', value: 33, color: '#14b8a6' }
     ];
     const destinationTotal = destinationBase.reduce((total, destination) => total + destination.value, 0);
     const destinations = destinationBase.map((destination) => ({
@@ -270,7 +271,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     const nodes = [
       ...domainData.map(({ id, label, metric, color }) => ({ id, label, metric, type: 'domain', color })),
       ...sourceNodes.map(({ id, label, metric, type, color }) => ({ id, label, metric, type, color })),
-      { id: 'lunarchain', label: '865K', metric: 'Normalized signals', type: 'core', color: '#14b8a6' },
+      { id: 'lunarchain', label: 'Intelligence Analytics', metric: '', type: 'core', color: '#14b8a6' },
       ...destinations.map(({ id, label, metric, type, color }) => ({ id, label, metric, type, color }))
     ];
 
@@ -302,7 +303,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
         target: destination.id,
         value: destination.value,
         from: '#14b8a6',
-        via: destination.id === 'attention' ? '#d196e6' : destination.id === 'progress' ? '#60a5fa' : '#38bdf8',
+        via: destination.id === 'investigations' ? '#bca6ff' : destination.id === 'alerting' ? '#60a5fa' : '#38bdf8',
         to: destination.color
       }))
     ];
@@ -323,12 +324,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     const linkPath = sankeyLinkHorizontal();
 
     const renderedLinks = graph.links.map((link: any, index: number): ReconSankeyLinkView => {
-      const width = Math.max(3, Number(link.width) || 3);
+      const width = Math.max(2.25, (Number(link.width) || 3) * 0.62);
       return {
         path: linkPath(link),
         width,
-        sheenWidth: Math.max(2, width * 0.52),
-        shadowWidth: width + 14,
+        sheenWidth: Math.max(1.5, width * 0.44),
+        shadowWidth: width + 8,
         gradientId: `recon-sankey-gradient-${index}`
       };
     });
@@ -354,14 +355,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       const isSource = node.type === 'source';
       const isDestination = node.type === 'destination';
       const isCore = node.type === 'core';
-      const labelX = isCore ? x + width / 2 : isDestination ? 1228 : isSource ? 414 : 58;
-      const labelY = isCore ? 72 : isDestination ? centerY - 7 : isDomain ? centerY - 9 : centerY - 5;
+      const labelX = isCore ? x + width / 2 : isDestination ? 1228 : isSource ? x + width + 34 : 58;
+      const labelY = isCore ? y - 14 : isDestination ? centerY + 4 : isDomain ? centerY - 9 : centerY + 4;
+      const labelWidth = isSource ? Math.ceil(Math.max(92, node.label.length * 7.1 + 34)) : 0;
 
       return {
         id: node.id,
         type: node.type,
-        primary: isCore ? node.label : isDestination ? node.metric : node.label,
-        secondary: isCore ? node.metric : isDestination ? node.label : node.metric,
+        primary: node.label,
+        secondary: isCore || isSource || isDestination ? '' : node.metric,
         x,
         y,
         width,
@@ -369,6 +371,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
         centerY,
         labelX,
         labelY,
+        labelWidth,
         secondaryY: isCore ? 101 : isDestination ? centerY + 17 : isDomain ? centerY + 11 : centerY + 13,
         color: node.color,
         visible: true

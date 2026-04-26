@@ -265,7 +265,7 @@
     </div>
     <div class="recon-diagram">
       <div class="recon-grid-overlay"></div>
-      <div class="recon-flow recon-desktop-flow" *ngIf="!isMobile">
+      <div class="recon-flow recon-desktop-flow">
         <svg class="recon-lines" viewBox="0 0 1500 500" preserveAspectRatio="xMidYMid meet" aria-labelledby="reconSankeyTitle" role="img">
           <title id="reconSankeyTitle">LunarChain reconnaissance domains flowing into source categories, normalization, and operational outputs</title>
           <defs>
@@ -351,40 +351,42 @@
             <g class="recon-svg-label" *ngFor="let node of reconSourceNodes">
               <rect
                 class="recon-svg-source-card"
-                x="386"
-                [attr.y]="node.centerY - 20"
-                width="190"
-                height="40"
-                rx="10"/>
+                [attr.x]="node.x + node.width + 14"
+                [attr.y]="node.centerY - 13"
+                [attr.width]="node.labelWidth"
+                height="26"
+                rx="8"/>
               <rect
                 class="recon-svg-source-accent"
-                x="386"
-                [attr.y]="node.centerY - 20"
+                [attr.x]="node.x + node.width + 14"
+                [attr.y]="node.centerY - 11"
                 width="4"
-                height="40"
+                height="22"
                 rx="2"
                 [attr.fill]="node.color"/>
               <text class="recon-svg-source-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
-              <text class="recon-svg-source-value" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
             </g>
           </g>
           <g class="recon-svg-destination-labels">
             <g class="recon-svg-label recon-svg-destination-label" *ngFor="let node of reconDestinationNodes">
-              <text class="recon-svg-destination-value" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
-              <text class="recon-svg-destination-name" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
+              <text class="recon-svg-destination-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
             </g>
           </g>
-          <g
-            *ngIf="reconCoreNode as core"
-            class="recon-svg-core"
-            [attr.transform]="'translate(' + core.labelX + ' ' + core.labelY + ')'">
-            <text class="recon-svg-core-value" x="0" y="0">{{ core.primary }}</text>
-            <text class="recon-svg-core-name" x="0" y="31">{{ core.secondary }}</text>
-            <text class="recon-svg-core-brand" x="0" y="62">LunarChain</text>
+          <g class="recon-svg-analytics-labels">
+            <g class="recon-svg-label recon-svg-analytics-label" *ngFor="let node of reconAnalyticsNodes">
+              <rect
+                class="recon-svg-analytics-card"
+                [attr.x]="node.labelX - 112"
+                [attr.y]="node.labelY - 19"
+                width="224"
+                height="30"
+                rx="11"/>
+              <text class="recon-svg-analytics-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
+            </g>
           </g>
         </svg>
       </div>
-      <div class="recon-mobile-flow" *ngIf="isMobile">
+      <div class="recon-mobile-flow">
         <div class="recon-mobile-card">
           <span class="recon-mobile-label">Sources</span>
           <div class="recon-mobile-tags">
@@ -399,16 +401,16 @@
             <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
           </svg>
         </div>
-        <div class="recon-mobile-core">LunarChain</div>
+        <div class="recon-mobile-core">Intelligence Analytics</div>
         <div class="recon-mobile-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
           </svg>
         </div>
         <div class="recon-mobile-outputs">
-          <span>Reporting</span>
+          <span>Platform Insights</span>
           <span>Alerting</span>
-          <span>Intelligence</span>
+          <span>API &amp; MCP</span>
         </div>
       </div>
     </div>
