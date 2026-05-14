@@ -2651,11 +2651,11 @@ p {
 .recon-copy {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  max-width: 860px;
-  margin: 0 auto;
-  text-align: center;
+  align-items: flex-start;
+  gap: 1.2rem;
+  max-width: 60rem;
+  margin: 0;
+  text-align: left;
 }
 
 .recon-eyebrow {
@@ -2687,7 +2687,7 @@ p {
 .recon-tags {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.65rem;
   margin-top: 0.45rem;
 }
@@ -2704,6 +2704,8 @@ p {
 
 .recon-diagram {
   position: relative;
+  display: flex;
+  justify-content: center;
   min-height: 0;
   padding: 0;
   background: transparent;
@@ -2723,6 +2725,7 @@ p {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
+  justify-self: center;
   width: 100%;
   max-width: 1280px !important;
   min-height: 0;
@@ -2748,6 +2751,8 @@ p {
   display: block;
   z-index: 1;
   width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
   height: auto;
   aspect-ratio: 1500 / 500;
   pointer-events: none;
@@ -2813,7 +2818,8 @@ p {
 .recon-svg-domain-value,
 .recon-svg-source-name,
 .recon-svg-analytics-name,
-.recon-svg-destination-name {
+.recon-svg-destination-name,
+.recon-svg-destination-value {
   font-family: inherit;
   pointer-events: none;
 }
@@ -2861,6 +2867,17 @@ p {
   letter-spacing: 0;
 }
 
+.recon-svg-destination-card {
+  fill: rgba(255, 255, 255, 0.78);
+  stroke: rgba(15, 23, 42, 0.07);
+  stroke-width: 1;
+  filter: drop-shadow(0 12px 28px rgba(15, 23, 42, 0.055));
+}
+
+.recon-svg-destination-accent {
+  opacity: 0.88;
+}
+
 .recon-svg-destination-name {
   fill: #0f172a;
   font-size: 12px;
@@ -2871,6 +2888,13 @@ p {
   stroke: rgba(255, 255, 255, 0.96);
   stroke-width: 5px;
   stroke-linejoin: round;
+}
+
+.recon-svg-destination-value {
+  fill: #64748b;
+  font-size: 9.2px;
+  font-weight: 760;
+  letter-spacing: 0;
 }
 
 .recon-svg-analytics-card {
@@ -3258,16 +3282,16 @@ p {
 @media (max-width: 960px) {
   .recon-inner {
     grid-template-columns: 1fr;
-    text-align: center;
+    text-align: left;
   }
 
   .recon-copy {
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .recon-tags {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .recon-flow {
@@ -5276,11 +5300,11 @@ body {
 
 
   .reconnaissance-section .recon-main-heading {
-    font-size: 2rem !important;
-    margin: 1rem 0 1rem 0 !important;
-    text-align: center !important;
+    font-size: clamp(1.9rem, 6.8vw, 2.45rem) !important;
+    margin: 0 !important;
+    text-align: left !important;
     width: 100% !important;
-    padding: 0 0.8rem !important;
+    padding: 0 !important;
   }
 
   .investigation-main-heading {
@@ -6408,7 +6432,7 @@ body {
 }
 
 .recon-copy.solution-section-copy {
-  max-width: 100%;
+  max-width: 60rem;
 }
 
 .investigation-section .investigation-content,

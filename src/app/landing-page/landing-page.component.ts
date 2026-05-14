@@ -257,9 +257,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     const sourceNodes = sourceData.map((source) => ({ ...source, type: 'source' }));
     const sourceTotal = sourceNodes.reduce((total, source) => total + source.value, 0);
     const destinationBase = [
-      { id: 'investigations', label: 'Investigations', metric: '', value: 34, color: '#915eff' },
-      { id: 'alerting', label: 'Alerting', metric: '', value: 33, color: '#60a5fa' },
-      { id: 'delivery', label: 'API & MCP', metric: '', value: 33, color: '#14b8a6' }
+      { id: 'investigations', label: 'Investigations', metric: 'Entity graph search & analyst workflows', value: 34, color: '#915eff' },
+      { id: 'alerting', label: 'Alerting', metric: 'Continuous monitoring & signal routing', value: 33, color: '#60a5fa' },
+      { id: 'delivery', label: 'API & MCP', metric: 'Integrations for tools and agents', value: 33, color: '#14b8a6' }
     ];
     const destinationTotal = destinationBase.reduce((total, destination) => total + destination.value, 0);
     const destinations = destinationBase.map((destination) => ({
@@ -308,6 +308,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       }))
     ];
 
+    const sankeyViewBoxWidth = 1500;
+    const sankeyLayoutWidth = 870;
+    const sankeyLayoutCenterX = sankeyViewBoxWidth / 2;
+    const sankeyLayoutLeftX = sankeyLayoutCenterX - sankeyLayoutWidth / 2;
+    const sankeyLayoutRightX = sankeyLayoutCenterX + sankeyLayoutWidth / 2;
+
     const sankeyGenerator = createD3Sankey()
       .nodeId((node: any) => node.id)
       .nodeAlign(sankeyJustify)
@@ -315,7 +321,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       .nodePadding(22)
       .nodeSort(null)
       .linkSort(null)
-      .extent([[300, 112], [1170, 442]]);
+      .extent([[sankeyLayoutLeftX, 112], [sankeyLayoutRightX, 442]]);
 
     const graph = sankeyGenerator({
       nodes: nodes.map((node) => ({ ...node })),
@@ -356,14 +362,14 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       const isDestination = node.type === 'destination';
       const isCore = node.type === 'core';
       const labelX = isCore ? x + width / 2 : isDestination ? 1228 : isSource ? x + width + 34 : 58;
-      const labelY = isCore ? y - 14 : isDestination ? centerY + 4 : isDomain ? centerY - 9 : centerY + 4;
+      const labelY = isCore ? y - 14 : isDestination ? centerY - 5 : isDomain ? centerY - 9 : centerY + 4;
       const labelWidth = isSource ? Math.ceil(Math.max(92, node.label.length * 7.1 + 34)) : 0;
 
       return {
         id: node.id,
         type: node.type,
         primary: node.label,
-        secondary: isCore || isSource || isDestination ? '' : node.metric,
+        secondary: isCore || isSource ? '' : node.metric,
         x,
         y,
         width,
@@ -372,7 +378,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
         labelX,
         labelY,
         labelWidth,
-        secondaryY: isCore ? 101 : isDestination ? centerY + 17 : isDomain ? centerY + 11 : centerY + 13,
+        secondaryY: isCore ? 101 : isDestination ? centerY + 16 : isDomain ? centerY + 11 : centerY + 13,
         color: node.color,
         visible: true
       };

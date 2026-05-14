@@ -250,18 +250,10 @@
 <!-- Reconnaissance Process Section -->
 <section class="reconnaissance-section">
   <div class="recon-inner">
-    <div class="recon-copy">
-      <p class="recon-eyebrow">Reconnaissance</p>
-      <h2 class="recon-main-heading">Broad intelligence collection</h2>
-      <p class="recon-subheading">Open-source and hard-to-monitor signals are ingested, normalized, and enriched before they enter the intelligence graph. We collect large scale data, and run state of the art analytics on it to identify trends, campaigns, events and signals relevant to security teams.</p>
-      <div class="recon-tags">
-        <span class="recon-tag">RSS Feeds</span>
-        <span class="recon-tag">Forums & dark web</span>
-        <span class="recon-tag">Social chatter</span>
-        <span class="recon-tag">Paste & leaks</span>
-        <span class="recon-tag">Malware sandboxes</span>
-        <span class="recon-tag">CVE & vuln feeds</span>
-      </div>
+    <div class="recon-copy solution-section-copy">
+      <p class="recon-eyebrow solution-eyebrow">Reconnaissance</p>
+      <h2 class="recon-main-heading solution-main-heading">Broad intelligence collection</h2>
+      <p class="recon-subheading solution-description">Open-source and hard-to-monitor signals are ingested, normalized, and enriched before they enter the intelligence graph. We collect large scale data, and run state of the art analytics on it to identify trends, campaigns, events and signals relevant to security teams.</p>
     </div>
     <div class="recon-diagram">
       <div class="recon-grid-overlay"></div>
@@ -369,7 +361,23 @@
           </g>
           <g class="recon-svg-destination-labels">
             <g class="recon-svg-label recon-svg-destination-label" *ngFor="let node of reconDestinationNodes">
+              <rect
+                class="recon-svg-destination-card"
+                [attr.x]="node.labelX - 24"
+                [attr.y]="node.centerY - 34"
+                width="264"
+                height="68"
+                rx="14"/>
+              <rect
+                class="recon-svg-destination-accent"
+                [attr.x]="node.labelX - 24"
+                [attr.y]="node.centerY - 34"
+                width="5"
+                height="68"
+                rx="3"
+                [attr.fill]="node.color"/>
               <text class="recon-svg-destination-name" [attr.x]="node.labelX" [attr.y]="node.labelY">{{ node.primary }}</text>
+              <text class="recon-svg-destination-value" [attr.x]="node.labelX" [attr.y]="node.secondaryY">{{ node.secondary }}</text>
             </g>
           </g>
           <g class="recon-svg-analytics-labels">
@@ -422,19 +430,13 @@
   <div class="investigation-content">
     <div class="investigation-header solution-section-copy">
       <p class="solution-eyebrow">Investigation</p>
-      <h1 class="investigation-main-heading solution-main-heading">Automated investigation & threat correlation</h1>
-      <p class="investigation-subtitle solution-description">LunarChain automates key parts of the threat intelligence pipeline, from IOC, location, tool, infrastructure, and threat actor extraction through to correlation and contextual analysis.</p>
-      <div class="investigation-highlights solution-tags">
-        <span class="highlight-tag solution-tag">Threat actors</span>
-        <span class="highlight-tag solution-tag">IOC extraction</span>
-        <span class="highlight-tag solution-tag">Infrastructure correlation</span>
-        <span class="highlight-tag solution-tag">Location context</span>
-      </div>
+      <h1 class="investigation-main-heading solution-main-heading">Turn raw intelligence into decisions your team can act on</h1>
+      <p class="investigation-subtitle solution-description">LunarChain connects cyber threats, geopolitical activity, military reporting, organizations, locations, vendors, people of interest, and exposed assets into one intelligence graph. Clients can monitor conflict zones around areas of interest, investigate IOCs tied to recent cyber campaigns, and understand which actors, weapons, infrastructure, or suppliers are connected to the events they care about.</p>
     </div>
 
     <!-- Investigation Capabilities Section -->
     <div class="investigation-capabilities">
-      <h2 class="capabilities-title">Our Specialities</h2>
+      <h2 class="capabilities-title">Investigation Outcomes</h2>
       <div class="capabilities-grid">
         <div class="capability-card">
           <div class="capability-icon">
@@ -445,8 +447,8 @@
               <path d="M12 2l10 5-10 5-10-5z"/>
             </svg>
           </div>
-          <h3>Rich IOC Extraction</h3>
-          <p>LunarChain extracts and correlates a wide range of entities, from IP addresses and malware families to threat actors, locations, and attack patterns.</p>
+          <h3>Monitor areas of interest</h3>
+          <p>Track conflict zones, border regions, facilities, trade routes, or operating areas and see related incidents, local reporting, associated threat actors, military units, and geopolitical context as it changes.</p>
         </div>
         
         <div class="capability-card">
@@ -457,8 +459,8 @@
               <path d="M9 14l2 2 4-4"/>
             </svg>
           </div>
-          <h3>Deep Correlation of Intelligence</h3>
-          <p>LunarChain correlates intelligence across sources to uncover hidden patterns at scale, improve signal quality, and surface activity that warrants deeper investigation.</p>
+          <h3>Investigate cyber campaigns</h3>
+          <p>Start from an IOC, malware family, domain, IP address, or article connected to a recent campaign and pivot to related infrastructure, threat actors, targets, sectors, and prior reporting.</p>
         </div>
         
         <div class="capability-card">
@@ -469,8 +471,8 @@
               <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
             </svg>
           </div>
-          <h3>Signal-to-Noise Optimization</h3>
-          <p>LunarChain filters irrelevant chatter and low-value noise so analysts can focus on the intelligence most relevant to their organization, sector, or target set.</p>
+          <h3>Understand people, groups, and weaponry</h3>
+          <p>Follow named people, organizations, armed groups, weapons systems, equipment, and incidents in regional reporting, including Middle East conflict coverage and other areas of concern.</p>
         </div>
         
         <div class="capability-card">
@@ -482,8 +484,8 @@
               <path d="M8 12h8"/>
             </svg>
           </div>
-          <h3>Agent-Assisted Investigations</h3>
-          <p>LunarChain supports natural-language querying over the intelligence graph so analysts can investigate faster without losing access to structured underlying data.</p>
+          <h3>Brief risk to the business</h3>
+          <p>Connect intelligence to your vendors, facilities, executives, brands, and operating footprint so teams can prioritize exposed assets and explain why an event matters.</p>
         </div>
       </div>
     </div>
@@ -500,12 +502,6 @@
         <p class="solution-eyebrow">Alerting</p>
         <h1 class="alerting-main-heading solution-main-heading">Real-time alerting for relevant threat activity</h1>
         <p class="alerting-subtitle solution-description">LunarChain watches saved targets and queries continuously, filters noisy matches, and routes high-confidence intelligence into the delivery and reporting workflows your team already uses.</p>
-        <div class="solution-tags">
-          <span class="solution-tag">Automated alerting</span>
-          <span class="solution-tag">Email & messaging</span>
-          <span class="solution-tag">Intelligent filtering</span>
-          <span class="solution-tag">Target reporting</span>
-        </div>
       </div>
     </div>
 
@@ -573,12 +569,6 @@
         <p class="solution-eyebrow">MCP Server</p>
         <h1 class="ai-agent-main-heading solution-main-heading">Protocol-native access to LunarChain intelligence</h1>
         <p class="ai-agent-subtitle solution-description">Connect MCP-compatible clients directly to LunarChain's intelligence graph so agents can query entities, traverse relationships, and bring live context into structured workflows.</p>
-        <div class="solution-tags">
-          <span class="solution-tag">Protocol-native access</span>
-          <span class="solution-tag">Agentic investigation</span>
-          <span class="solution-tag">Live intelligence</span>
-          <span class="solution-tag">Graph-correlated context</span>
-        </div>
       </div>
       
       <!-- MCP Icon/Image -->
