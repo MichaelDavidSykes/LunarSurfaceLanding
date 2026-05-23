@@ -783,6 +783,7 @@ p {
 
 /* ULTIMATE OVERRIDE - Force container constraints for all sections */
 .landing-extra-content,
+.custom-operations-section,
 .reconnaissance-section,
 .investigation-section,
 .alerting-section,
@@ -819,6 +820,7 @@ p {
 
 /* Prevent any JavaScript from overriding these constraints */
 .landing-extra-content *,
+.custom-operations-section *,
 .reconnaissance-section *,
 .investigation-section *,
 .alerting-section *,
@@ -1298,6 +1300,136 @@ p {
   
   .solutions-subtitle {
     font-size: 1.2rem;
+  }
+}
+
+.custom-operations-section {
+  width: 100%;
+  background: #ffffff;
+  color: #1f2937;
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-operations-section::before {
+  content: none;
+}
+
+.custom-operations-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.75rem, 3vw, 2.5rem);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(24rem, 0.68fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.custom-operations-copy {
+  max-width: 54rem;
+}
+
+.custom-operations-section .solution-eyebrow {
+  color: #667085;
+}
+
+.custom-operations-section .solution-main-heading {
+  color: #020617;
+  max-width: 46rem;
+}
+
+.custom-operations-section .solution-description {
+  color: #4b5563;
+  max-width: 42rem;
+}
+
+.custom-operations-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.custom-operation-item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.custom-operation-index {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+}
+
+.custom-operation-copy {
+  min-width: 0;
+}
+
+.custom-operation-item h3 {
+  margin: 0 0 0.35rem;
+  color: #0f172a;
+  font-size: 1.08rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.custom-operation-item p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.96rem;
+  line-height: 1.58;
+}
+
+@media (max-width: 900px) {
+  .custom-operations-section {
+    padding: 4.5rem 0;
+  }
+
+  .custom-operations-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .custom-operations-list {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-operations-section {
+    padding: 3.5rem 0;
+  }
+
+  .custom-operations-inner {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+
+  .custom-operation-item {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 1.05rem 0;
+  }
+
+  .custom-operation-item h3 {
+    font-size: 1.05rem;
+  }
+
+  .custom-operation-item p {
+    font-size: 0.93rem;
   }
 }
 
@@ -6582,5 +6714,67 @@ body {
   .solution-tag {
     width: fit-content;
     max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  :host,
+  :host *,
+  :host *::before,
+  :host *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .floating-typing-effect {
+    display: none !important;
+  }
+
+  .map-loading .loading-container,
+  .map-loading .loading-text,
+  .map-loading .loading-logo-mark,
+  .loading-logo-mark .logo-segment,
+  .fade-in-element,
+  .interactive-globe-section,
+  .globe-heading,
+  .animate-title,
+  .animate-subtitle,
+  .landing-extra-content,
+  .mission-title,
+  .mission-statement,
+  .mission-copy p,
+  .feature-card,
+  .feature-icon,
+  .card-main-text,
+  .card-expandable-content,
+  .gsap-animated-section,
+  .gsap-animated-section *,
+  .solutions-section,
+  .solutions-section *,
+  .reconnaissance-section,
+  .reconnaissance-section *,
+  .investigation-section,
+  .investigation-section *,
+  .alerting-section,
+  .alerting-section *,
+  .ai-agent-section,
+  .ai-agent-section *,
+  .contact-section,
+  .contact-section *,
+  .landing-footer,
+  .landing-footer * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    will-change: auto !important;
+  }
+
+  .map-center-summary.fade-out,
+  .map-target-name.fade-out,
+  #regions_div.fade-out {
+    opacity: 1 !important;
   }
 }

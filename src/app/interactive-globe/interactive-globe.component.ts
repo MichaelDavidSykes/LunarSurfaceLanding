@@ -177,6 +177,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   @Input() explorerMode = false;
   @Input() enableSharedRelationshipArcs = false;
   @Input() autoFocusOnSelection = false;
+  @Input() disableAnimations = false;
 
   @Input() enableDateFilter = false;
   @Input() dateRangeStart?: Date | string | null;
@@ -823,7 +824,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     // Avoid polar singularities that can look like vertical wobble.
     this.controls.minPolarAngle = 0.24;
     this.controls.maxPolarAngle = Math.PI - 0.24;
-    this.controls.autoRotate = true;
+    this.controls.autoRotate = !this.disableAnimations;
     this.controls.autoRotateSpeed = 0.6;
     // Keep orbit pivot locked to the globe center to avoid visual wobble.
     this.controls.target.set(0, 0, 0);
@@ -847,6 +848,16 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     onResize();
 
     const animate = () => {
+      if (this.disableAnimations) {
+        this.controls.autoRotate = false;
+        this.controls.target.set(0, 0, 0);
+        this.controls.update();
+        this.updateOverlayVisibility();
+        this.renderer.render(this.scene, this.camera);
+        this.labelRenderer.render(this.scene, this.camera);
+        return;
+      }
+
       if (this.explorerMode && this.focusAnimation && this.camera && this.controls) {
         const now = performance.now();
         const { start, end, startTime, duration } = this.focusAnimation;
@@ -882,9 +893,23 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
     // Apply continents texture from local GeoJSON
     await this.applyLandTexture(THREE);
+    if (this.disableAnimations) {
+      this.renderStaticFrame();
+    }
 
     // Click-to-highlight interaction
     this.setupClickHighlight();
+  }
+
+  private renderStaticFrame(): void {
+    if (!this.renderer || !this.scene || !this.camera || !this.labelRenderer || !this.controls) return;
+
+    this.controls.autoRotate = false;
+    this.controls.target.set(0, 0, 0);
+    this.controls.update();
+    this.updateOverlayVisibility();
+    this.renderer.render(this.scene, this.camera);
+    this.labelRenderer.render(this.scene, this.camera);
   }
 
   private async applyLandTexture(THREE: any): Promise<void> {
@@ -984,6 +1009,12 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     }
 
     const payload = Array.isArray(data) ? data : [];
+    if (this.disableAnimations) {
+      this.performOverlayRender(payload);
+      this.renderStaticFrame();
+      return;
+    }
+
     this.overlayRenderHandle = requestAnimationFrame(() => {
       this.overlayRenderHandle = null;
       this.performOverlayRender(payload);
@@ -2247,6 +2278,16 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.borderThemeAnimId = null;
     }
 
+    if (this.disableAnimations) {
+      this.borderThemeProgress = target;
+      this.redrawBaseTexture();
+      if (this.sphereMat?.map) {
+        this.sphereMat.map.needsUpdate = true;
+      }
+      this.renderStaticFrame();
+      return;
+    }
+
     const start = this.borderThemeProgress;
     const delta = target - start;
     const durationMs = 320;
@@ -2313,6 +2354,11 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.pendingLabelReveal = false;
       return;
     }
+    if (this.disableAnimations) {
+      this.revealPendingLabels();
+      this.pendingLabelReveal = false;
+      return;
+    }
     if (this.labelRevealTimer) {
       clearTimeout(this.labelRevealTimer);
     }
@@ -2329,6 +2375,12 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     }
     const elements = [...this.pendingLabelElements];
     this.pendingLabelElements = [];
+    if (this.disableAnimations) {
+      for (const el of elements) {
+        el.classList.remove('globe-label--hidden');
+      }
+      return;
+    }
     requestAnimationFrame(() => {
       for (const el of elements) {
         el.classList.remove('globe-label--hidden');

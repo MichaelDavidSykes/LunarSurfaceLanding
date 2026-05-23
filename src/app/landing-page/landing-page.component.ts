@@ -191,11 +191,17 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   private targetNameTypingTimeout: any;
   fadeState = 'fade-in';
   private parallaxLineAnimationFrame: any;
+  private typingEffectsFrameId: number | null = null;
   isAnimating = false;
   isLoading = false; // Start hidden
   private loadingAnimationTimeline: any;
   private platformHighlightInterval: any;
   private platformBreakTimer: any;
+  private alertingFlowTimer: any;
+  private readonly mobileAnimationBreakpoint = 768;
+  private readonly boundUpdateReconLinePoints = this.updateReconLinePointsToCardCenters.bind(this);
+  private readonly boundUpdateInvestigationLinePoints = this.updateInvestigationLinePointsToCardCenters.bind(this);
+  private readonly boundUpdateMobileDetection = this.updateMobileDetection.bind(this);
 
   constructor(
     private router: Router,
@@ -217,6 +223,20 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger);
     }
+  }
+
+  private isMobileViewport(): boolean {
+    return this.isBrowser
+      && typeof window !== 'undefined'
+      && window.innerWidth <= this.mobileAnimationBreakpoint;
+  }
+
+  private shouldReduceLandingMotion(): boolean {
+    return this.isMobileViewport() || this.prefersReducedMotion();
+  }
+
+  private landingScrollBehavior(): ScrollBehavior {
+    return this.shouldReduceLandingMotion() ? 'auto' : 'smooth';
   }
 
   private createReconSankeyLayout(): {
@@ -495,18 +515,19 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     };
     
     if (isPlatformBrowser(this.platformId)) {
+      this.isMobile = this.isMobileViewport();
       this.loadThreatIntelligenceData();
       // Run latest location + IOCs AQL and log output
       this.runLatestLocationIocsQuery();
-      // Detect mobile device
-      this.isMobile = window.innerWidth <= 768;
       this.updateTaskbarScrolledState();
     }
     if (this.isBrowser) {
       this.loadGoogleCharts();
     }
     // Start loading animation
+    if (!this.shouldReduceLandingMotion()) {
       this.startLoadingAnimation();
+    }
   }
 
   // Landing default globe: mirror explorer default logic with 10 random country anchors.
@@ -759,11 +780,15 @@ FOR candidate IN candidateReports
         
         this.updateReconLinePointsToCardCenters();
         this.updateInvestigationLinePointsToCardCenters();
-        this.setupGSAPAnimations();
-        this.setupAlertingAnimation();
-        
-        // Start animation loop for typing effects
-        this.startTypingEffectsAnimationLoop();
+        if (this.shouldReduceLandingMotion()) {
+          this.disableLandingAnimations();
+        } else {
+          this.setupGSAPAnimations();
+          this.setupAlertingAnimation();
+
+          // Start animation loop for typing effects
+          this.startTypingEffectsAnimationLoop();
+        }
         
         // Restore container constraints after layout calculations
         setTimeout(() => {
@@ -771,9 +796,9 @@ FOR candidate IN candidateReports
         }, 100);
         
         if (this.isBrowser && typeof window !== 'undefined') {
-          window.addEventListener('resize', this.updateReconLinePointsToCardCenters.bind(this));
-          window.addEventListener('resize', this.updateInvestigationLinePointsToCardCenters.bind(this));
-          window.addEventListener('resize', this.updateMobileDetection.bind(this));
+          window.addEventListener('resize', this.boundUpdateReconLinePoints);
+          window.addEventListener('resize', this.boundUpdateInvestigationLinePoints);
+          window.addEventListener('resize', this.boundUpdateMobileDetection);
         }
       }, 300); // Increased delay to 300ms
     }
@@ -790,13 +815,75 @@ FOR candidate IN candidateReports
 
   // Start animation loop for typing effects
   startTypingEffectsAnimationLoop(): void {
+    if (this.shouldReduceLandingMotion()) return;
+
     const animate = () => {
       this.updateTypingEffects();
-      if (this.isBrowser) {
-        requestAnimationFrame(animate);
+      if (this.isBrowser && !this.shouldReduceLandingMotion()) {
+        this.typingEffectsFrameId = requestAnimationFrame(animate);
       }
     };
     animate();
+  }
+
+  private disableLandingAnimations(): void {
+    if (!this.isBrowser) return;
+
+    this.stopThreatIntelligenceCycle();
+    this.stopLocationCycle();
+    this.stopMultipleTypingEffects();
+
+    if (this.typingEffectsFrameId !== null) {
+      cancelAnimationFrame(this.typingEffectsFrameId);
+      this.typingEffectsFrameId = null;
+    }
+    if (this.parallaxLineAnimationFrame) {
+      cancelAnimationFrame(this.parallaxLineAnimationFrame);
+      this.parallaxLineAnimationFrame = null;
+    }
+    if (this.platformHighlightInterval) {
+      clearInterval(this.platformHighlightInterval);
+      this.platformHighlightInterval = null;
+    }
+    if (this.platformBreakTimer) {
+      clearTimeout(this.platformBreakTimer);
+      this.platformBreakTimer = null;
+    }
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+      this.typingTimeout = null;
+    }
+    if (this.targetNameTypingTimeout) {
+      clearTimeout(this.targetNameTypingTimeout);
+      this.targetNameTypingTimeout = null;
+    }
+    if (this.alertingFlowTimer) {
+      clearTimeout(this.alertingFlowTimer);
+      this.alertingFlowTimer = null;
+    }
+    if (this.loadingAnimationTimeline) {
+      this.loadingAnimationTimeline.kill();
+      this.loadingAnimationTimeline = null;
+    }
+
+    ScrollTrigger.getAll().forEach((triggerInstance) => triggerInstance.kill());
+
+    const landingTargets = document.querySelectorAll(
+      '.landing-initial-viewport, .landing-initial-viewport *, .interactive-globe-section, .interactive-globe-section *, .landing-extra-content, .landing-extra-content *, .gsap-animated-section, .gsap-animated-section *, .solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .investigation-section, .investigation-section *, .alerting-section, .alerting-section *, .ai-agent-section, .ai-agent-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
+    );
+
+    if (landingTargets.length > 0) {
+      gsap.killTweensOf(landingTargets);
+      gsap.set(landingTargets, { clearProps: 'transform,filter,clipPath,willChange' });
+    }
+
+    this.typingEffects.forEach((effect) => {
+      effect.isVisible = false;
+    });
+    this.typingEffects = [];
+    this.isAnimating = false;
+    this.isLoading = false;
+    this.fadeState = 'fade-in';
   }
 
   ngOnDestroy(): void {
@@ -806,16 +893,24 @@ FOR candidate IN candidateReports
     if (this.parallaxLineAnimationFrame) {
       cancelAnimationFrame(this.parallaxLineAnimationFrame);
     }
+    if (this.typingEffectsFrameId !== null) {
+      cancelAnimationFrame(this.typingEffectsFrameId);
+      this.typingEffectsFrameId = null;
+    }
     if (this.platformHighlightInterval) {
       clearInterval(this.platformHighlightInterval);
     }
     if (this.platformBreakTimer) {
       clearTimeout(this.platformBreakTimer);
     }
+    if (this.alertingFlowTimer) {
+      clearTimeout(this.alertingFlowTimer);
+      this.alertingFlowTimer = null;
+    }
     if (this.isBrowser && typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.updateReconLinePointsToCardCenters.bind(this));
-      window.removeEventListener('resize', this.updateInvestigationLinePointsToCardCenters.bind(this));
-      window.removeEventListener('resize', this.updateMobileDetection.bind(this));
+      window.removeEventListener('resize', this.boundUpdateReconLinePoints);
+      window.removeEventListener('resize', this.boundUpdateInvestigationLinePoints);
+      window.removeEventListener('resize', this.boundUpdateMobileDetection);
     }
   }
 
@@ -937,7 +1032,7 @@ FOR candidate IN candidateReports
     const solutionsSection = document.querySelector('.solutions-section');
     if (solutionsSection) {
       solutionsSection.scrollIntoView({ 
-        behavior: 'smooth', 
+        behavior: this.landingScrollBehavior(),
         block: 'start' 
       });
     }
@@ -946,14 +1041,14 @@ FOR candidate IN candidateReports
   scrollToContact(): void {
     const contactSection = document.querySelector('.contact-section');
     if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      contactSection.scrollIntoView({ behavior: this.landingScrollBehavior(), block: 'start' });
     }
   }
 
   scrollToAIAgent(): void {
     const aiAgentSection = document.querySelector('.ai-agent-section');
     if (aiAgentSection) {
-      aiAgentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      aiAgentSection.scrollIntoView({ behavior: this.landingScrollBehavior(), block: 'start' });
     }
   }
 
@@ -964,7 +1059,7 @@ FOR candidate IN candidateReports
 
     const normalizedFragment = (fragment || '').toLowerCase();
     if (normalizedFragment === 'top') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: this.landingScrollBehavior() });
       return;
     }
 
@@ -985,7 +1080,7 @@ FOR candidate IN candidateReports
   private scrollToSelectorWithRetry(selector: string, attempts: number): void {
     const target = document.querySelector(selector);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: this.landingScrollBehavior(), block: 'start' });
       return;
     }
     if (attempts <= 0) {
@@ -1051,7 +1146,11 @@ FOR candidate IN candidateReports
   }
 
   updateMobileDetection(): void {
-    this.isMobile = window.innerWidth <= 768;
+    const wasMobile = this.isMobile;
+    this.isMobile = this.isMobileViewport();
+    if (this.isMobile && !wasMobile) {
+      this.disableLandingAnimations();
+    }
     this.updateTaskbarScrolledState();
   }
 
@@ -1127,6 +1226,7 @@ FOR candidate IN candidateReports
   // Randomly cycle through all threat intelligence values
   startRandomThreatIntelligenceCycle(): void {
     this.stopThreatIntelligenceCycle();
+    if (this.shouldReduceLandingMotion()) return;
     if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
     
     this.threatCycleInterval = setInterval(() => {
@@ -1152,6 +1252,7 @@ FOR candidate IN candidateReports
   // Start multiple typing effects system
   startMultipleTypingEffects(): void {
     this.stopMultipleTypingEffects();
+    if (this.shouldReduceLandingMotion()) return;
     
     // Create new effects with truly random timing
     const createNextEffect = () => {
@@ -1176,6 +1277,7 @@ FOR candidate IN candidateReports
 
   // Create a random typing effect at a random position
   createRandomTypingEffect(): void {
+    if (this.shouldReduceLandingMotion()) return;
     if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
 
     // Randomly select threat data
@@ -1247,6 +1349,7 @@ FOR candidate IN candidateReports
 
   // Start typing animation for a specific effect
   startTypingAnimationForEffect(effect: any): void {
+    if (this.shouldReduceLandingMotion()) return;
     let charIndex = 0;
     
     const typeNextChar = () => {
@@ -1269,6 +1372,10 @@ FOR candidate IN candidateReports
 
   // Update effects (called in animation loop)
   updateTypingEffects(): void {
+    if (this.shouldReduceLandingMotion()) {
+      this.typingEffects = [];
+      return;
+    }
     const now = Date.now();
     
     this.typingEffects = this.typingEffects.filter(effect => {
@@ -1331,6 +1438,12 @@ FOR candidate IN candidateReports
 
   private drawMapWithLocations(): void {
     if (!this.locationData || this.locationData.length === 0) return;
+
+    if (this.shouldReduceLandingMotion()) {
+      this.fadeState = 'fade-in';
+      this.hideLoading();
+      return;
+    }
     
     this.fadeState = 'fade-out';
     setTimeout(() => {
@@ -1400,6 +1513,10 @@ FOR candidate IN candidateReports
 
   private setupGSAPAnimations(): void {
     if (!this.isBrowser) return;
+    if (this.shouldReduceLandingMotion()) {
+      this.disableLandingAnimations();
+      return;
+    }
 
     // Set initial states for animations
     gsap.set('.animate-title', { opacity: 0, y: 30 });
@@ -1677,8 +1794,7 @@ FOR candidate IN candidateReports
 
     if (!section || !mission) return;
 
-    const reduceMotion = typeof window !== 'undefined'
-      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = this.shouldReduceLandingMotion();
 
     const title = mission.querySelector('.mission-title') as HTMLElement | null;
     const statement = mission.querySelector('.mission-statement') as HTMLElement | null;
@@ -1954,6 +2070,8 @@ FOR candidate IN candidateReports
   }
 
   private animateNumbers(): void {
+    if (this.shouldReduceLandingMotion()) return;
+
     const statNumbers = document.querySelectorAll('.stat-number');
     
     statNumbers.forEach((element) => {
@@ -2005,7 +2123,7 @@ FOR candidate IN candidateReports
 
     if (lowerSections.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       const lowerTargets = gsap.utils.toArray<HTMLElement>(
         '.solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .investigation-section, .investigation-section *, .alerting-section, .alerting-section *, .ai-agent-section, .ai-agent-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
       );
@@ -2113,7 +2231,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2206,7 +2324,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2320,7 +2438,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2440,7 +2558,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2610,7 +2728,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2729,7 +2847,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (this.prefersReducedMotion()) {
+    if (this.shouldReduceLandingMotion()) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -2849,16 +2967,23 @@ FOR candidate IN candidateReports
   }
 
   private startAlertingFlow(): void {
+    if (this.shouldReduceLandingMotion()) return;
+
     this.isAnimating = true;
     
     // Reset animation after 8 seconds
-    setTimeout(() => {
+    this.alertingFlowTimer = setTimeout(() => {
       this.isAnimating = false;
+      this.alertingFlowTimer = null;
     }, 8000);
   }
 
   private startLoadingAnimation(): void {
     if (!this.isBrowser) return;
+    if (this.shouldReduceLandingMotion()) {
+      this.isLoading = false;
+      return;
+    }
 
     this.isLoading = true;
 
@@ -2940,6 +3065,14 @@ FOR candidate IN candidateReports
     }
     if (document.querySelector('.loading-container')) {
       gsap.set('.loading-container', { opacity: 1 });
+    }
+
+    if (this.shouldReduceLandingMotion()) {
+      if (document.querySelector('#regions_div') || document.querySelector('.map')) {
+        gsap.set(['#regions_div', '.map'], { opacity: 1 });
+      }
+      this.isLoading = false;
+      return;
     }
 
     // Smoothly fade in the map
@@ -3233,6 +3366,7 @@ FOR candidate IN candidateReports
 
   startThreatIntelligenceCycle(): void {
     this.stopThreatIntelligenceCycle();
+    if (this.shouldReduceLandingMotion()) return;
     if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
     
     this.threatCycleInterval = setInterval(() => {
@@ -3274,6 +3408,7 @@ FOR candidate IN candidateReports
 
   startItemCycle(): void {
     this.stopItemCycle();
+    if (this.shouldReduceLandingMotion()) return;
     if (!this.currentThreatItems || this.currentThreatItems.length === 0) return;
     
     this.itemCycleInterval = setInterval(() => {
@@ -3306,12 +3441,14 @@ FOR candidate IN candidateReports
     const currentLocation = this.locationData[this.currentLocationIndex];
     if (currentLocation) {
       this.typedLocationName = currentLocation.name || 'Unknown Location';
+      if (this.shouldReduceLandingMotion()) return;
       this.startLocationNameTyping();
     }
   }
 
   startLocationCycle(): void {
     this.stopLocationCycle();
+    if (this.shouldReduceLandingMotion()) return;
     if (!this.locationData || this.locationData.length === 0) return;
     
     this.locationCycleInterval = setInterval(() => {
@@ -3338,6 +3475,8 @@ FOR candidate IN candidateReports
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout);
     }
+
+    if (this.shouldReduceLandingMotion()) return;
     
     this.typedLocationName = '';
     if (!this.typedLocationName) return;

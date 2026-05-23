@@ -548,3 +548,14 @@
     font-size: 1.4rem;
   }
 }
+
+@media (max-width: 768px) {
+  :host,
+  :host *,
+  :host *::before,
+  :host *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
