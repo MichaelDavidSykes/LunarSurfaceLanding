@@ -1677,8 +1677,8 @@ FOR candidate IN candidateReports
 
     if (!section || !mission) return;
 
-    const reduceMotion = typeof window !== 'undefined'
-      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = this.prefersReducedMotion();
+    const skipInitialMobileReveal = this.isMobileViewport();
 
     const title = mission.querySelector('.mission-title') as HTMLElement | null;
     const statement = mission.querySelector('.mission-statement') as HTMLElement | null;
@@ -1704,7 +1704,7 @@ FOR candidate IN candidateReports
 
     if (targets.length === 0) return;
 
-    if (reduceMotion) {
+    if (reduceMotion || skipInitialMobileReveal) {
       gsap.set(targets, { clearProps: 'all' });
       return;
     }
@@ -1981,6 +1981,12 @@ FOR candidate IN candidateReports
   private prefersReducedMotion(): boolean {
     return typeof window !== 'undefined'
       && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  private isMobileViewport(): boolean {
+    return this.isBrowser
+      && typeof window !== 'undefined'
+      && window.innerWidth <= 768;
   }
 
   private sectionTargets(section: HTMLElement, selector: string): HTMLElement[] {
