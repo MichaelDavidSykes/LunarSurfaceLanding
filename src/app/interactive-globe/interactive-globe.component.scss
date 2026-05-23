@@ -956,17 +956,3 @@
   letter-spacing: 0.1em;
   color: rgba(233, 236, 255, 0.6);
 }
-
-@media (max-width: 768px) {
-  :host,
-  :host *,
-  :host *::before,
-  :host *::after,
-  :host ::ng-deep *,
-  :host ::ng-deep *::before,
-  :host ::ng-deep *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-}

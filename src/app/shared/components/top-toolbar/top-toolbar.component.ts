@@ -151,7 +151,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.context === 'landing' && this.isCurrentLandingRoute()) {
       if (isPlatformBrowser(this.platformId)) {
-        window.scrollTo({ top: 0, behavior: this.landingScrollBehavior() });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       return;
     }
@@ -205,17 +205,6 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     };
     const landingScrollTarget = landingTargetByAction[action as Exclude<ToolbarAction, 'api' | 'pricing'>];
     this.router.navigate(['/'], { state: { landingScrollTarget } });
-  }
-
-  private landingScrollBehavior(): ScrollBehavior {
-    if (!isPlatformBrowser(this.platformId)) {
-      return 'smooth';
-    }
-
-    return window.innerWidth <= 768
-      || window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? 'auto'
-      : 'smooth';
   }
 
   private isCurrentLandingRoute(): boolean {
