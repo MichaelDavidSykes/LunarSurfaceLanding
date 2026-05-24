@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, Renderer2, Inject, PLATFORM_ID, HostListener } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, OnDestroy, Renderer2, Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { trigger, style, animate, transition, query, stagger } from '@angular/animations';
 import { InteractiveGlobeComponent } from '../interactive-globe/interactive-globe.component';
 import { isPlatformBrowser } from '@angular/common';
@@ -76,7 +76,7 @@ interface ReconSankeyNodeView {
     ])
   ]
 })
-export class LandingPageComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(InteractiveGlobeComponent) globeComp?: InteractiveGlobeComponent;
   selectedCountry: string | null = null;
   selectedCountryCode: string | null = null;
@@ -196,6 +196,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   private loadingAnimationTimeline: any;
   private platformHighlightInterval: any;
   private platformBreakTimer: any;
+  private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
+  private containerRestoreTimer: ReturnType<typeof setTimeout> | null = null;
+  private typingEffectsAnimationFrame: number | null = null;
+  private isDestroyed = false;
+  private readonly reconResizeHandler = () => this.updateReconLinePointsToCardCenters();
+  private readonly investigationResizeHandler = () => this.updateInvestigationLinePointsToCardCenters();
+  private readonly mobileDetectionResizeHandler = () => this.updateMobileDetection();
 
   constructor(
     private router: Router,
@@ -753,7 +760,12 @@ FOR candidate IN candidateReports
   ngAfterViewInit(): void {
     if (this.isBrowser) {
       // Small delay to ensure DOM is ready
-      setTimeout(() => {
+      this.viewInitDelayTimer = setTimeout(() => {
+        this.viewInitDelayTimer = null;
+        if (this.isDestroyed) {
+          return;
+        }
+
         // Preserve container constraints before running layout calculations
         this.preserveContainerConstraints();
         
@@ -766,14 +778,19 @@ FOR candidate IN candidateReports
         this.startTypingEffectsAnimationLoop();
         
         // Restore container constraints after layout calculations
-        setTimeout(() => {
+        this.containerRestoreTimer = setTimeout(() => {
+          this.containerRestoreTimer = null;
+          if (this.isDestroyed) {
+            return;
+          }
+
           this.restoreContainerConstraints();
         }, 100);
         
         if (this.isBrowser && typeof window !== 'undefined') {
-          window.addEventListener('resize', this.updateReconLinePointsToCardCenters.bind(this));
-          window.addEventListener('resize', this.updateInvestigationLinePointsToCardCenters.bind(this));
-          window.addEventListener('resize', this.updateMobileDetection.bind(this));
+          window.addEventListener('resize', this.reconResizeHandler);
+          window.addEventListener('resize', this.investigationResizeHandler);
+          window.addEventListener('resize', this.mobileDetectionResizeHandler);
         }
       }, 300); // Increased delay to 300ms
     }
@@ -790,19 +807,36 @@ FOR candidate IN candidateReports
 
   // Start animation loop for typing effects
   startTypingEffectsAnimationLoop(): void {
+    if (!this.isBrowser || this.typingEffectsAnimationFrame !== null) {
+      return;
+    }
+
     const animate = () => {
-      this.updateTypingEffects();
-      if (this.isBrowser) {
-        requestAnimationFrame(animate);
+      if (!this.isBrowser || this.isDestroyed) {
+        this.typingEffectsAnimationFrame = null;
+        return;
       }
+
+      this.updateTypingEffects();
+      this.typingEffectsAnimationFrame = requestAnimationFrame(animate);
     };
-    animate();
+    this.typingEffectsAnimationFrame = requestAnimationFrame(animate);
   }
 
   ngOnDestroy(): void {
+    this.isDestroyed = true;
     this.stopThreatIntelligenceCycle();
     this.stopLocationCycle();
     this.stopMultipleTypingEffects();
+    this.stopTypingEffectsAnimationLoop();
+    if (this.viewInitDelayTimer) {
+      clearTimeout(this.viewInitDelayTimer);
+      this.viewInitDelayTimer = null;
+    }
+    if (this.containerRestoreTimer) {
+      clearTimeout(this.containerRestoreTimer);
+      this.containerRestoreTimer = null;
+    }
     if (this.parallaxLineAnimationFrame) {
       cancelAnimationFrame(this.parallaxLineAnimationFrame);
     }
@@ -813,9 +847,16 @@ FOR candidate IN candidateReports
       clearTimeout(this.platformBreakTimer);
     }
     if (this.isBrowser && typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.updateReconLinePointsToCardCenters.bind(this));
-      window.removeEventListener('resize', this.updateInvestigationLinePointsToCardCenters.bind(this));
-      window.removeEventListener('resize', this.updateMobileDetection.bind(this));
+      window.removeEventListener('resize', this.reconResizeHandler);
+      window.removeEventListener('resize', this.investigationResizeHandler);
+      window.removeEventListener('resize', this.mobileDetectionResizeHandler);
+    }
+  }
+
+  private stopTypingEffectsAnimationLoop(): void {
+    if (this.typingEffectsAnimationFrame !== null) {
+      cancelAnimationFrame(this.typingEffectsAnimationFrame);
+      this.typingEffectsAnimationFrame = null;
     }
   }
 
