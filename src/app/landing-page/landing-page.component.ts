@@ -198,11 +198,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private platformBreakTimer: any;
   private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
   private containerRestoreTimer: ReturnType<typeof setTimeout> | null = null;
+  private navigationScrollTimer: ReturnType<typeof setTimeout> | null = null;
   private typingEffectsAnimationFrame: number | null = null;
   private isDestroyed = false;
   private readonly reconResizeHandler = () => this.updateReconLinePointsToCardCenters();
   private readonly investigationResizeHandler = () => this.updateInvestigationLinePointsToCardCenters();
-  private readonly mobileDetectionResizeHandler = () => this.updateMobileDetection();
+  private readonly mobileDetectionResizeHandler = () => this.handleViewportResize();
+  private readonly nativeMobileScrollClass = 'landing-native-mobile-scroll';
 
   constructor(
     private router: Router,
@@ -507,6 +509,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.runLatestLocationIocsQuery();
       // Detect mobile device
       this.isMobile = window.innerWidth <= 768;
+      this.syncNativeMobileScrollMode();
       this.updateTaskbarScrolledState();
     }
     if (this.isBrowser) {
@@ -801,7 +804,7 @@ FOR candidate IN candidateReports
       if (!fragment) {
         return;
       }
-      this.scrollToFragment(fragment);
+      this.scheduleNavigationScroll(fragment);
     });
   }
 
@@ -837,6 +840,10 @@ FOR candidate IN candidateReports
       clearTimeout(this.containerRestoreTimer);
       this.containerRestoreTimer = null;
     }
+    if (this.navigationScrollTimer) {
+      clearTimeout(this.navigationScrollTimer);
+      this.navigationScrollTimer = null;
+    }
     if (this.parallaxLineAnimationFrame) {
       cancelAnimationFrame(this.parallaxLineAnimationFrame);
     }
@@ -850,7 +857,10 @@ FOR candidate IN candidateReports
       window.removeEventListener('resize', this.reconResizeHandler);
       window.removeEventListener('resize', this.investigationResizeHandler);
       window.removeEventListener('resize', this.mobileDetectionResizeHandler);
+      document.body.classList.remove(this.nativeMobileScrollClass);
+      document.documentElement.classList.remove(this.nativeMobileScrollClass);
     }
+    this.killLandingScrollTriggers();
   }
 
   private stopTypingEffectsAnimationLoop(): void {
@@ -1023,6 +1033,25 @@ FOR candidate IN candidateReports
     this.scrollToSelectorWithRetry(selector, 8);
   }
 
+  private scheduleNavigationScroll(fragment: string): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    if (this.navigationScrollTimer) {
+      clearTimeout(this.navigationScrollTimer);
+    }
+
+    this.navigationScrollTimer = setTimeout(() => {
+      this.navigationScrollTimer = null;
+      if (this.isDestroyed) {
+        return;
+      }
+
+      this.scrollToFragment(fragment);
+    }, 450);
+  }
+
   private scrollToSelectorWithRetry(selector: string, attempts: number): void {
     const target = document.querySelector(selector);
     if (target) {
@@ -1058,7 +1087,7 @@ FOR candidate IN candidateReports
       return;
     }
 
-    this.scrollToFragment(target);
+    this.scheduleNavigationScroll(target);
     this.suppressTaskbarSyncUntil = Date.now() + 1200;
     setTimeout(() => {
       this.suppressTaskbarSyncUntil = 0;
@@ -1093,7 +1122,61 @@ FOR candidate IN candidateReports
 
   updateMobileDetection(): void {
     this.isMobile = window.innerWidth <= 768;
+    this.syncNativeMobileScrollMode();
     this.updateTaskbarScrolledState();
+  }
+
+  private handleViewportResize(): void {
+    this.updateMobileDetection();
+  }
+
+  private shouldUseNativeMobileScroll(): boolean {
+    if (!this.isBrowser || typeof window === 'undefined') {
+      return false;
+    }
+
+    const hasCoarsePointer = typeof window.matchMedia === 'function'
+      && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    return window.innerWidth <= 900 || hasCoarsePointer;
+  }
+
+  private syncNativeMobileScrollMode(): void {
+    if (!this.isBrowser || typeof document === 'undefined') {
+      return;
+    }
+
+    const useNativeScroll = this.shouldUseNativeMobileScroll();
+    document.body.classList.toggle(this.nativeMobileScrollClass, useNativeScroll);
+    document.documentElement.classList.toggle(this.nativeMobileScrollClass, useNativeScroll);
+
+    if (useNativeScroll) {
+      this.killLandingScrollTriggers();
+      this.resetLandingRevealStylesForNativeScroll();
+    }
+  }
+
+  private resetLandingRevealStylesForNativeScroll(): void {
+    const targets = gsap.utils.toArray<HTMLElement>(
+      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .platform-architecture-section *, .solutions-section *, .custom-operations-section *, .reconnaissance-section *, .investigation-section *, .alerting-section *, .ai-agent-section *, .contact-section *, .landing-footer *'
+    );
+
+    if (targets.length === 0) {
+      return;
+    }
+
+    gsap.killTweensOf(targets);
+    gsap.set(targets, {
+      clearProps: 'transform,filter,clipPath,willChange'
+    });
+  }
+
+  private killLandingScrollTriggers(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    ScrollTrigger.getAll().forEach((triggerInstance) => triggerInstance.kill());
   }
 
   @HostListener('window:scroll')
@@ -1442,9 +1525,17 @@ FOR candidate IN candidateReports
   private setupGSAPAnimations(): void {
     if (!this.isBrowser) return;
 
+    if (this.shouldUseNativeMobileScroll()) {
+      this.resetLandingRevealStylesForNativeScroll();
+      return;
+    }
+
     // Set initial states for animations
+    const animateSubtitles = gsap.utils.toArray<HTMLElement>('.animate-subtitle');
     gsap.set('.animate-title', { opacity: 0, y: 30 });
-    gsap.set('.animate-subtitle', { opacity: 0, y: 20 });
+    if (animateSubtitles.length > 0) {
+      gsap.set(animateSubtitles, { opacity: 0, y: 20 });
+    }
     // Globe section + heading initial state
     gsap.set('.interactive-globe-section', { opacity: 0, y: 30 });
     gsap.set('.globe-heading', { opacity: 0, y: 10 });
@@ -1525,19 +1616,21 @@ FOR candidate IN candidateReports
       }
     });
 
-    gsap.to('.animate-subtitle', {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      delay: 0.3,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.animate-subtitle',
-        start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play none none reverse'
-      }
-    });
+    if (animateSubtitles.length > 0) {
+      gsap.to(animateSubtitles, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        delay: 0.3,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: animateSubtitles[0],
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    }
 
     // Animate stats with staggered effect (disabled - elements not found)
     // gsap.to('.animate-stat', {

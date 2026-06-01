@@ -36,6 +36,27 @@ html, body {
   color: #ffffff;
 }
 
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  html.landing-native-mobile-scroll,
+  body.landing-native-mobile-scroll {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  body.landing-native-mobile-scroll {
+    position: relative;
+  }
+
+  body.landing-native-mobile-scroll app-root {
+    min-height: 100%;
+  }
+}
+
 app-root {
   min-height: 100%;
   display: block;

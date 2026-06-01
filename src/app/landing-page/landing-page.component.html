@@ -84,7 +84,7 @@
   <div class="extra-content-inner">
     <div class="mission-section" style="text-align: center; margin-bottom: 3rem;">
       <h2 class="fade-in-element mission-title" style="font-size: 1.2rem !important; font-weight: 500 !important; color: #718096 !important; margin-bottom: 1.5rem !important; letter-spacing: -0.01em !important; text-transform: uppercase !important; opacity: 0.8 !important; margin-top: 0 !important; padding: 0 !important;">LunarChain's Mission</h2>
-      <p class="fade-in-element mission-statement" style="font-size: 2.2rem !important; font-weight: 700 !important; color: #1a202c !important; line-height: 1.3 !important; margin: 0 !important; max-width: 700px !important; margin-left: auto !important; margin-right: auto !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; letter-spacing: -0.02em !important;">Building threat intelligence solutions for agentic systems</p>
+      <p class="fade-in-element mission-statement" style="font-size: 2.2rem !important; font-weight: 700 !important; color: #1a202c !important; line-height: 1.3 !important; margin: 0 !important; max-width: 700px !important; margin-left: auto !important; margin-right: auto !important; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; letter-spacing: -0.02em !important;">Building threat intelligence solutions for niche environments</p>
       <div class="fade-in-element mission-copy">
         <p>
           LunarChain supports intelligence operations in the domains of cybersecurity, military, and geopolitical activity by exposing actionable, live threat intelligence data to your teams.
@@ -96,13 +96,6 @@
     </div>
     <div class="feature-cards">
       <div class="feature-card fade-in-element" (click)="toggleCardExpansion(0)" [class.expanded]="expandedCards[0]">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-        </div>
         <h3>Cyber Threat Intelligence</h3>
         <p class="card-main-text">Track threat actors, malware, infrastructure, indicators, vulnerabilities, and campaigns across public and specialist cyber intelligence sources.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[0]">
@@ -115,15 +108,6 @@
         </div>
       </div>
       <div class="feature-card fade-in-element" (click)="toggleCardExpansion(1)" [class.expanded]="expandedCards[1]">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14,2 14,8 20,8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10,9 9,9 8,9"/>
-          </svg>
-        </div>
         <h3>Military &amp; Geopolitical Activity</h3>
         <p class="card-main-text">Monitor military operations, geopolitical escalation, state-linked activity, and region-specific reporting as situations develop across countries and theatres.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[1]">
@@ -136,12 +120,6 @@
         </div>
       </div>
       <div class="feature-card fade-in-element" (click)="toggleCardExpansion(2)" [class.expanded]="expandedCards[2]">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-        </div>
         <h3>Brand, Supply Chain &amp; Regional Risk</h3>
         <p class="card-main-text">Track risk around organizations, executives, vendors, facilities, and operating regions, including exposure, disruption, leaks, and emerging local threats.</p>
         <div class="card-expandable-content" [class.show]="expandedCards[2]">
@@ -170,63 +148,103 @@
   <div class="custom-operations-inner">
     <div class="custom-operations-copy solution-section-copy">
       <p class="solution-eyebrow">Custom Intelligence Operations</p>
-      <h2 class="solution-main-heading">Custom intelligence solutions for niche environments</h2>
-      <p class="solution-description">Clients get access to LunarSurface as a standalone intelligence product, which we then tune around their domains, sources, workflows, ontologies, automations, and models.</p>
+      <h2 class="solution-main-heading">Tailored intelligence operations for niche environments</h2>
+      <p class="solution-description">LunarSurface can be configured around the domains you monitor, the sources you trust, the entities you track, and the decisions your team needs to make.</p>
     </div>
 
     <div class="custom-operations-list" aria-label="Custom intelligence operation capabilities">
-      <article class="custom-operation-item">
-        <span class="custom-operation-index">01</span>
-        <div class="custom-operation-copy">
-          <h3>Custom ontologies and intelligence models</h3>
-          <p>An ontology is a shared map of the people, organizations, locations, events, risks, and relationships that matter to your mission. In LunarChain, it shapes the intelligence graph so teams can connect reporting and ask consistent questions.</p>
+      <article class="custom-operation-panel custom-operation-panel--cybersecurity">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">01</span>
+          <div class="custom-operation-copy">
+            <h3>Cyber Threat Monitoring And Incident Enrichment</h3>
+            <p>A custom monitoring workspace for security teams that tracks threat activity around your organization, sector, vendors, exposed assets, and priority technologies.</p>
+            <p>Monitor threat actors, malware reporting, phishing infrastructure, leaked credentials, vulnerability exploitation, suspicious domains, and IOCs so analysts can investigate faster and prioritize what matters.</p>
+          </div>
         </div>
       </article>
 
-      <article class="custom-operation-item">
-        <span class="custom-operation-index">02</span>
-        <div class="custom-operation-copy">
-          <h3>Custom data sources and ingestion</h3>
-          <p>Source lists, collection scope, enrichment, normalization, and ingestion workflows configured around the signals your team needs.</p>
+      <article class="custom-operation-panel custom-operation-panel--defence">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">02</span>
+          <div class="custom-operation-copy">
+            <h3>Defence Contract And Delivery Risk Monitoring</h3>
+            <p>For defence manufacturers, suppliers, and project teams managing high-value programmes across sensitive regions, customers, and delivery routes.</p>
+            <p>Monitor the customer, end user, operating region, supplier network, shipping lanes, sanctions exposure, conflict activity, border incidents, infrastructure disruption, and public reporting around a named programme.</p>
+            <p>Help commercial, compliance, and operations teams understand what could affect bid decisions, delivery timelines, site access, export reviews, or mission planning.</p>
+          </div>
         </div>
       </article>
 
-      <article class="custom-operation-item">
-        <span class="custom-operation-index">03</span>
-        <div class="custom-operation-copy">
-          <h3>Automations and alerting</h3>
-          <p>Saved queries, triggers, routing, and custom alert logic that turn new intelligence into action for analysts and stakeholders.</p>
+      <article class="custom-operation-panel custom-operation-panel--executive">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">03</span>
+          <div class="custom-operation-copy">
+            <h3>Executive Protection And Convoy Route Intelligence</h3>
+            <p>For private security operators, corporate security teams, and armed response providers protecting executives, VIPs, residences, offices, venues, and planned movements.</p>
+            <p>Build route and residence intelligence around the principal, convoy route, destination, and surrounding area. Monitor crime reports, protests, road closures, unrest, weather, medical access, incidents near venues, and local reporting before and during movement.</p>
+            <p>Use alerts and briefings to support control rooms, drivers, close protection teams, and response units with timely context for go, delay, reroute, or escalation decisions.</p>
+          </div>
         </div>
       </article>
 
-      <article class="custom-operation-item">
-        <span class="custom-operation-index">04</span>
-        <div class="custom-operation-copy">
-          <h3>LunarSurface access for your setup</h3>
-          <p>Your tuned LunarSurface workspace includes your custom ontology, sources, automations, and alerts, with API and MCP access when needed.</p>
+      <article class="custom-operation-panel custom-operation-panel--humanitarian">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">04</span>
+          <div class="custom-operation-copy">
+            <h3>Humanitarian Crisis And Access Monitoring</h3>
+            <p>For NGOs and aid organizations operating in unstable regions. Track conflict activity, displacement, border closures, infrastructure damage, disease outbreaks, sanctions, and access risks that could affect field teams, aid delivery, or reporting.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="custom-operation-panel custom-operation-panel--procurement">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">05</span>
+          <div class="custom-operation-copy">
+            <h3>Anti-Corruption And Procurement Risk Monitoring</h3>
+            <p>For investigative teams, compliance groups, and anti-corruption organizations. Monitor companies, officials, contracts, sanctions, court records, adverse media, ownership links, and regional political risk around a case, country, or procurement process.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="custom-operation-panel custom-operation-panel--environmental">
+        <div class="custom-operation-backdrop" aria-hidden="true"></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">06</span>
+          <div class="custom-operation-copy">
+            <h3>Wildlife Trafficking And Environmental Crime Monitoring</h3>
+            <p>For conservation groups and enforcement partners. Track seizure reports, trafficking routes, ports, border crossings, species mentions, suspected networks, online marketplaces, and regional enforcement activity.</p>
+          </div>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- Platform Architecture Section -->
+<!-- Flagship Products Section -->
 <section class="gsap-animated-section platform-architecture-section">
   <div class="animated-content platform-architecture-content">
     <div class="animated-header platform-architecture-header">
-      <h2 class="animate-title">Platform Architecture</h2>
-      <p class="animate-subtitle">How LunarChain analyzes intelligence and delivers it through LunarSurface, APIs, and MCP.</p>
+      <p class="platform-product-eyebrow">Our Product</p>
+      <h2 class="animate-title">LunarSurface</h2>
+      <p class="animate-subtitle platform-product-summary">Our threat intelligence workspace. Explorer, the Intelligence Map, alerts, reporting, and API access are all part of the same LunarSurface product.</p>
     </div>
     <div class="platform-architecture-timeline">
       <article class="platform-stage platform-stage-platform">
         <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">LunarSurface</div>
-          <h3 class="platform-stage-title">Use LunarSurface for Search, Monitoring, and Investigation</h3>
-          <p class="platform-stage-summary">LunarSurface is our standalone intelligence product, giving analysts direct access to graph-backed search, saved queries, alert triage, and high-context intelligence workflows.</p>
+          <div class="platform-stage-kicker">LunarSurface Explorer</div>
+          <h3 class="platform-stage-title">Investigation Workspace</h3>
+          <p class="platform-stage-summary">Explorer is the main LunarSurface workspace for search, targets, alerts, reporting, and investigation work.</p>
           <div class="platform-stage-details">
-            <div class="platform-stage-details-label">What LunarSurface supports</div>
-            <p><strong>Search reporting, entities, and locations in one workspace.</strong> Move from raw reporting to correlated intelligence without switching systems.</p>
-            <p><strong>Save recurring intelligence requirements and monitor them continuously.</strong> Operationalize what your team cares about and surface fresh matches as intelligence arrives.</p>
+            <div class="platform-stage-details-label">What teams use it for</div>
+            <p><strong>Search connected intelligence.</strong> Move from reporting, IOCs, entities, organizations, and locations into linked context without switching tools.</p>
+            <p><strong>Track recurring requirements.</strong> Save queries, monitor targets, review alerts, and build reporting around the activity your team cares about.</p>
           </div>
         </div>
         <div class="platform-stage-axis" aria-hidden="true">
@@ -241,47 +259,38 @@
         </div>
       </article>
 
-      <article class="platform-stage platform-stage-reverse platform-stage-api">
+      <article class="platform-stage platform-stage-reverse platform-stage-map">
         <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">API</div>
-          <h3 class="platform-stage-title">Use the API for Custom Integrations and Automated Workflows</h3>
-          <p class="platform-stage-summary">Pull live intelligence into internal systems, enrich existing tooling, and build custom operational workflows around LunarChain data.</p>
+          <div class="platform-stage-kicker">Built Into Explorer</div>
+          <h3 class="platform-stage-title">Intelligence Map</h3>
+          <p class="platform-stage-summary">The Intelligence Map gives LunarSurface users a geographic view of linked reporting, locations, routes, incidents, and operational layers.</p>
+          <div class="platform-stage-details">
+            <div class="platform-stage-details-label">What the map helps with</div>
+            <p><strong>Understand where activity is happening.</strong> Review country context, incident clusters, routes, hotspots, and location-linked reporting in one map view.</p>
+            <p><strong>Add operational context.</strong> Layer maritime activity, aircraft, surveillance feeds, hazards, conflict zones, and other signals over the same intelligence.</p>
+          </div>
+        </div>
+        <div class="platform-stage-axis" aria-hidden="true">
+          <span class="platform-stage-dot"></span>
+        </div>
+        <div class="platform-stage-media">
+          <img
+            src="assets/platform/intelligence-map-preview.png"
+            alt="LunarSurface Intelligence Map"
+            class="platform-stage-media-image"
+          />
+        </div>
+      </article>
+
+      <article class="platform-stage platform-stage-api">
+        <div class="platform-stage-copy">
+          <div class="platform-stage-kicker">LunarSurface API</div>
+          <h3 class="platform-stage-title">API Access For Custom Integrations</h3>
+          <p class="platform-stage-summary">Use API access when LunarSurface intelligence needs to flow into internal tools, dashboards, alert queues, or reporting workflows.</p>
           <div class="platform-stage-details">
             <div class="platform-stage-details-label">Integration use cases</div>
-            <p><strong>Connect LunarChain to enrichment pipelines, internal tools, and downstream systems.</strong> Use the API to feed dashboards, alert handling systems, and custom intelligence workflows.</p>
-            <p><strong>Deliver intelligence where your team already works.</strong> Programmatic access makes it easier to operationalize graph data beyond LunarSurface.</p>
-          </div>
-        </div>
-        <div class="platform-stage-axis" aria-hidden="true">
-          <span class="platform-stage-dot"></span>
-        </div>
-      </article>
-
-      <article class="platform-stage platform-stage-mcp">
-        <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">MCP</div>
-          <h3 class="platform-stage-title">Use the MCP Server for AI-Powered Operations</h3>
-          <p class="platform-stage-summary">LunarMCP gives agentic systems access to the intelligence graph, enabling AI Driven Operations.</p>
-          <div class="platform-stage-details">
-            <div class="platform-stage-details-label">Agent-ready access</div>
-            <p><strong>Support AI-driven investigations, lookups, and intelligence reasoning.</strong> Use MCP to automate threat intelligence lookups in security workflows, such as SOC Operations or Investigations.</p>
-            <p><strong>Built for operational assistants and agent workflows.</strong> Let AI systems retrieve fresh reporting and linked entities inside controlled intelligence workflows.</p>
-          </div>
-        </div>
-        <div class="platform-stage-axis" aria-hidden="true">
-          <span class="platform-stage-dot"></span>
-        </div>
-      </article>
-
-      <article class="platform-stage platform-stage-reverse platform-stage-engine">
-        <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">Intelligence Engine</div>
-          <h3 class="platform-stage-title">LunarChain Analyzes, Correlates, and Prioritizes Intelligence at Scale</h3>
-          <p class="platform-stage-summary">The intelligence engine ingests broad intel, extracts entities, correlates relationships, and turns raw activity into usable intelligence.</p>
-          <div class="platform-stage-details">
-            <div class="platform-stage-details-label">What it delivers</div>
-            <p><strong>Link indicators, actors, malware, infrastructure, campaigns, organizations, and locations.</strong> The engine builds one intelligence model that teams and systems can query consistently.</p>
-            <p><strong>Data analytics for live intelligence operations.</strong> That analytical layer is what powers LunarSurface, the API, MCP Server, and alerting workflows.</p>
+            <p><strong>Connect intelligence to existing systems.</strong> Feed dashboards, alert handling tools, enrichment pipelines, and internal investigation workflows.</p>
+            <p><strong>Keep teams working where they already work.</strong> Make LunarSurface intelligence available in the systems analysts and operators already use.</p>
           </div>
         </div>
         <div class="platform-stage-axis" aria-hidden="true">
@@ -439,32 +448,48 @@
           </g>
         </svg>
       </div>
-      <div class="recon-mobile-flow">
-        <div class="recon-mobile-card">
-          <span class="recon-mobile-label">Sources</span>
-          <div class="recon-mobile-tags">
-            <span>RSS & Blogs</span>
-            <span>Forums & Dark Web</span>
+      <div class="recon-mobile-flow" aria-label="Reconnaissance collection, analytics, and output workflow">
+        <article class="recon-mobile-step recon-mobile-card">
+          <span class="recon-mobile-label">01 Collection</span>
+          <h3>Relevant Sources</h3>
+          <p>We collect from the public, specialist, and hard-to-monitor channels that matter to each intelligence requirement.</p>
+          <div class="recon-mobile-tags" aria-label="Example source types">
+            <span>RSS &amp; Blogs</span>
+            <span>Forums &amp; Dark Web</span>
             <span>Social Signals</span>
-            <span>CVE & Vuln Feeds</span>
+            <span>CVE &amp; Vuln Feeds</span>
           </div>
-        </div>
+        </article>
         <div class="recon-mobile-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
           </svg>
         </div>
-        <div class="recon-mobile-core">Intelligence Analytics</div>
+        <article class="recon-mobile-step recon-mobile-core">
+          <span class="recon-mobile-label">02 Processing</span>
+          <h3>Intelligence Analytics</h3>
+          <p>Normalize reporting, extract entities, link relationships, and prioritize signals before they enter analyst workflows.</p>
+          <div class="recon-mobile-tags recon-mobile-analytics-tags" aria-label="Analytics steps">
+            <span>Normalize</span>
+            <span>Extract</span>
+            <span>Correlate</span>
+            <span>Prioritize</span>
+          </div>
+        </article>
         <div class="recon-mobile-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
           </svg>
         </div>
-        <div class="recon-mobile-outputs">
-          <span>LunarSurface Insights</span>
-          <span>Alerting</span>
-          <span>API &amp; MCP</span>
-        </div>
+        <article class="recon-mobile-step recon-mobile-output-card">
+          <span class="recon-mobile-label">03 Delivery</span>
+          <h3>Operational Outputs</h3>
+          <div class="recon-mobile-outputs" aria-label="Output channels">
+            <span>LunarSurface Insights</span>
+            <span>Alerting</span>
+            <span>API &amp; MCP</span>
+          </div>
+        </article>
       </div>
     </div>
   </div>
@@ -680,7 +705,7 @@
     <div class="ai-agent-cta">
       <h2>Integrate with LunarChain via MCP</h2>
       <p>Open our API docs for MCP usage, setup, and test workflows.</p>
-      <a href="/api" class="ai-agent-button">
+      <a routerLink="/api/overview" class="ai-agent-button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
           <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
         </svg>
@@ -772,19 +797,19 @@
         <div class="footer-link-group">
           <h4>Solutions</h4>
           <ul>
-            <li><a href="/api">MCP Server</a></li>
-            <li><a href="/pricing">Pricing</a></li>
+            <li><a routerLink="/api/overview">MCP Server</a></li>
+            <li><a routerLink="/pricing">Pricing</a></li>
           </ul>
         </div>
 
         <div class="footer-link-group">
           <h4>Navigate</h4>
           <ul>
-            <li><a href (click)="scrollToSolutions(); $event.preventDefault()">Solutions</a></li>
-            <li><a href="/api">MCP Server</a></li>
-            <li><a href="/pricing">Pricing</a></li>
-            <li><a href (click)="scrollToContact(); $event.preventDefault()">Contact Us</a></li>
-            <li><a href="/terms">Terms &amp; Conditions</a></li>
+            <li><button type="button" (click)="scrollToSolutions()">Solutions</button></li>
+            <li><a routerLink="/api/overview">MCP Server</a></li>
+            <li><a routerLink="/pricing">Pricing</a></li>
+            <li><button type="button" (click)="scrollToContact()">Contact Us</button></li>
+            <li><a routerLink="/terms">Terms &amp; Conditions</a></li>
           </ul>
         </div>
       </div>
