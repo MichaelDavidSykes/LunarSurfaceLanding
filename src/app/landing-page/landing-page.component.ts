@@ -1159,7 +1159,7 @@ FOR candidate IN candidateReports
 
   private resetLandingRevealStylesForNativeScroll(): void {
     const targets = gsap.utils.toArray<HTMLElement>(
-      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .reconnaissance-section *, .contact-section *, .landing-footer *'
+      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .contact-section *, .landing-footer *'
     );
 
     if (targets.length === 0) {
@@ -2076,21 +2076,20 @@ FOR candidate IN candidateReports
     if (!this.isBrowser) return;
 
     const lowerSections = gsap.utils.toArray<HTMLElement>(
-      '.solutions-section, .reconnaissance-section, .contact-section, .landing-footer'
+      '.solutions-section, .contact-section, .landing-footer'
     );
 
     if (lowerSections.length === 0) return;
 
     if (this.prefersReducedMotion()) {
       const lowerTargets = gsap.utils.toArray<HTMLElement>(
-        '.solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
+        '.solutions-section, .solutions-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
       );
       gsap.set(lowerTargets, { clearProps: 'all' });
       return;
     }
 
     this.setupSolutionsIntroAnimation();
-    this.setupReconnaissanceAnimations();
     this.setupContactAnimations();
     this.setupFooterAnimations();
 
