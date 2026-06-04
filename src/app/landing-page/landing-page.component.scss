@@ -1309,7 +1309,8 @@ p {
   color: #f8fafc;
   padding: clamp(5rem, 8vw, 8rem) 0;
   position: relative;
-  overflow: hidden;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
 }
 
 .custom-operations-section::before {
@@ -1326,13 +1327,19 @@ p {
   display: grid;
   grid-template-columns: minmax(18rem, 0.42fr) minmax(0, 0.58fr);
   gap: clamp(2.5rem, 6vw, 6rem);
-  align-items: start;
+  align-items: stretch;
 }
 
 .custom-operations-copy {
   max-width: 38rem;
   position: sticky;
-  top: clamp(5.5rem, 9vw, 8rem);
+  top: clamp(6rem, 12vh, 8.5rem);
+  align-self: start;
+  display: flex;
+  min-height: min(34rem, calc(100vh - 10rem));
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 2vw, 1.5rem) 0;
 }
 
 .custom-operations-section .solution-eyebrow {
@@ -1471,6 +1478,9 @@ p {
   .custom-operations-copy {
     position: static;
     max-width: 44rem;
+    min-height: auto;
+    display: block;
+    padding: 0;
   }
 
   .custom-operations-list {
@@ -6940,11 +6950,11 @@ body {
 }
 
 .product-panel--saferoute {
-  --product-accent: #d6a94f;
-  --product-muted: #e8cf95;
+  --product-accent: #91a7ff;
+  --product-muted: #c3ceff;
   grid-template-columns: minmax(0, 1.28fr) minmax(18rem, 0.72fr);
   background:
-    linear-gradient(135deg, rgba(16, 14, 10, 0.94) 0%, rgba(28, 24, 17, 0.9) 58%, rgba(42, 34, 18, 0.86) 100%);
+    linear-gradient(135deg, rgba(6, 10, 18, 0.95) 0%, rgba(10, 17, 31, 0.91) 58%, rgba(16, 23, 45, 0.87) 100%);
 }
 
 .product-panel-copy,
