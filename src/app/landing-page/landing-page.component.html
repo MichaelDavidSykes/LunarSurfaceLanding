@@ -227,74 +227,110 @@
   </div>
 </section>
 
-<!-- Flagship Products Section -->
-<section class="gsap-animated-section platform-architecture-section">
-  <div class="animated-content platform-architecture-content">
-    <div class="animated-header platform-architecture-header">
-      <p class="platform-product-eyebrow">Our Product</p>
-      <h2 class="animate-title">LunarSurface</h2>
-      <p class="animate-subtitle platform-product-summary">Our threat intelligence workspace. Explorer, the Intelligence Map, alerts, reporting, and API access are all part of the same LunarSurface product.</p>
+<!-- Products Section -->
+<section class="gsap-animated-section product-suite-section">
+  <svg class="architectural-shapes" viewBox="0 0 1200 1000" preserveAspectRatio="none">
+    <line class="arch-connection" x1="200" y1="200" x2="400" y2="150" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="150" x2="600" y2="200" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="200" x2="800" y2="150" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="150" x2="1000" y2="200" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="200" y1="600" x2="400" y2="650" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="650" x2="600" y2="600" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="600" x2="800" y2="650" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="650" x2="1000" y2="600" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+  </svg>
+  <div class="animated-content product-suite-content">
+    <div class="animated-header product-suite-header">
+      <p class="product-suite-eyebrow">Product Suite</p>
+      <h2 class="animate-title">Our Products</h2>
+      <p class="animate-subtitle product-suite-subtitle">Two intelligence products built on the same LunarChain graph: one for broad threat intelligence work, and one for convoy and route intelligence.</p>
     </div>
-    <div class="platform-architecture-timeline">
-      <article class="platform-stage platform-stage-platform">
-        <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">LunarSurface Explorer</div>
-          <h3 class="platform-stage-title">Investigation Workspace</h3>
-          <p class="platform-stage-summary">Explorer is the main LunarSurface workspace for search, targets, alerts, reporting, and investigation work.</p>
-          <div class="platform-stage-details">
-            <div class="platform-stage-details-label">What teams use it for</div>
-            <p><strong>Search connected intelligence.</strong> Move from reporting, IOCs, entities, organizations, and locations into linked context without switching tools.</p>
-            <p><strong>Track recurring requirements.</strong> Save queries, monitor targets, review alerts, and build reporting around the activity your team cares about.</p>
+
+    <div class="product-suite-grid">
+      <article class="product-panel product-panel--threatscape">
+        <div class="product-panel-copy">
+          <div class="product-panel-kicker">01 / General purpose threat intelligence platform</div>
+          <div class="product-panel-heading">
+            <h3>ThreatScape</h3>
+            <p>ThreatScape is the analyst workspace for searching, monitoring, alerting, reporting, and investigating intelligence across cyber, geopolitical, security, and operational risk domains.</p>
           </div>
         </div>
-        <div class="platform-stage-axis" aria-hidden="true">
-          <span class="platform-stage-dot"></span>
+
+        <figure class="product-media product-media--threatscape">
+          <img src="assets/product-screenshots/threatscape-explorer.png" alt="ThreatScape Explorer intelligence workspace showing a graph map and linked report context">
+        </figure>
+
+        <div class="product-module-grid" aria-label="ThreatScape capabilities">
+          <div class="product-module">
+            <h4>Explorer Workspace</h4>
+            <p>Search reports, entities, indicators, organizations, and locations from one connected intelligence workspace.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Targets, Alerts, And Reports</h4>
+            <p>Save priority requirements, monitor targets over time, review alerts, and build reporting from the same source of intelligence.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Dark Web And Source Coverage</h4>
+            <p>Bring hard-to-monitor sources, advisories, forums, leaks, and specialist reporting into a cleaner analyst workflow.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>API And MCP Access</h4>
+            <p>Give approved internal tools and AI workflows structured access to LunarChain intelligence through API and MCP endpoints.</p>
+          </div>
         </div>
-        <div class="platform-stage-media">
-          <img
-            src="assets/platform/platform-workspace-preview.png"
-            alt="LunarSurface intelligence workspace"
-            class="platform-stage-media-image"
-          />
+
+        <div class="product-integration-strip">
+          <div>
+            <span>MCP inside ThreatScape</span>
+            <p>Connect MCP-compatible clients to query and traverse LunarChain graph intelligence for agent-assisted investigations.</p>
+          </div>
+          <a href="/api">Open API docs</a>
         </div>
       </article>
 
-      <article class="platform-stage platform-stage-reverse platform-stage-map">
-        <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">Built Into Explorer</div>
-          <h3 class="platform-stage-title">Intelligence Map</h3>
-          <p class="platform-stage-summary">The Intelligence Map gives LunarSurface users a geographic view of linked reporting, locations, routes, incidents, and operational layers.</p>
-          <div class="platform-stage-details">
-            <div class="platform-stage-details-label">What the map helps with</div>
-            <p><strong>Understand where activity is happening.</strong> Review country context, incident clusters, routes, hotspots, and location-linked reporting in one map view.</p>
-            <p><strong>Add operational context.</strong> Layer maritime activity, aircraft, surveillance feeds, hazards, conflict zones, and other signals over the same intelligence.</p>
+      <article class="product-panel product-panel--saferoute">
+        <div class="product-panel-copy">
+          <div class="product-panel-kicker">02 / Convoy intelligence platform</div>
+          <div class="product-panel-heading">
+            <h3>SafeRoute</h3>
+            <p>SafeRoute helps security teams plan, brief, and monitor movements by combining route planning with live risk context, convoy details, and operational handoff workflows.</p>
           </div>
         </div>
-        <div class="platform-stage-axis" aria-hidden="true">
-          <span class="platform-stage-dot"></span>
-        </div>
-        <div class="platform-stage-media">
-          <img
-            src="assets/platform/intelligence-map-preview.png"
-            alt="LunarSurface Intelligence Map"
-            class="platform-stage-media-image"
-          />
-        </div>
-      </article>
 
-      <article class="platform-stage platform-stage-api">
-        <div class="platform-stage-copy">
-          <div class="platform-stage-kicker">LunarSurface API</div>
-          <h3 class="platform-stage-title">API Access For Custom Integrations</h3>
-          <p class="platform-stage-summary">Use API access when LunarSurface intelligence needs to flow into internal tools, dashboards, alert queues, or reporting workflows.</p>
-          <div class="platform-stage-details">
-            <div class="platform-stage-details-label">Integration use cases</div>
-            <p><strong>Connect intelligence to existing systems.</strong> Feed dashboards, alert handling tools, enrichment pipelines, and internal investigation workflows.</p>
-            <p><strong>Keep teams working where they already work.</strong> Make LunarSurface intelligence available in the systems analysts and operators already use.</p>
+        <figure class="product-media product-media--saferoute">
+          <img src="assets/product-screenshots/saferoute-route-planner.png" alt="SafeRoute route planner showing convoy route risk overlays and route review panel">
+        </figure>
+
+        <div class="product-module-grid" aria-label="SafeRoute capabilities">
+          <div class="product-module">
+            <h4>Route And Convoy Planning</h4>
+            <p>Plan routes, waypoints, alternates, vehicles, people, and trip details in one operational workspace.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Route Risk Layers</h4>
+            <p>Overlay hazards, road sections, exposure areas, traffic context, and local risk markers around planned movement corridors.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Trip And Asset Management</h4>
+            <p>Track planned trips, assigned vehicles, people, kit, and route allocations so movement planning has clear ownership.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Export And Handoff</h4>
+            <p>Package route intelligence for briefings, external map tools, and field teams through shareable exports and route files.</p>
           </div>
         </div>
-        <div class="platform-stage-axis" aria-hidden="true">
-          <span class="platform-stage-dot"></span>
+
+        <div class="product-integration-strip">
+          <div>
+            <span>Built for movement risk</span>
+            <p>Useful for convoy planning, executive protection movements, field operations, and route security reviews.</p>
+          </div>
         </div>
       </article>
     </div>
@@ -491,226 +527,6 @@
           </div>
         </article>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Investigation Process Section -->
-<section class="investigation-section">
-  <div class="investigation-content">
-    <div class="investigation-header solution-section-copy">
-      <p class="solution-eyebrow">Investigation</p>
-      <h1 class="investigation-main-heading solution-main-heading">Turn raw intelligence into decisions your team can act on</h1>
-      <p class="investigation-subtitle solution-description">LunarChain connects cyber threats, geopolitical activity, military reporting, organizations, locations, vendors, people of interest, and exposed assets into one intelligence graph. Clients can monitor conflict zones around areas of interest, investigate IOCs tied to recent cyber campaigns, and understand which actors, weapons, infrastructure, or suppliers are connected to the events they care about.</p>
-    </div>
-
-    <!-- Investigation Capabilities Section -->
-    <div class="investigation-capabilities">
-      <h2 class="capabilities-title">Investigation Outcomes</h2>
-      <div class="capabilities-grid">
-        <div class="capability-card">
-          <div class="capability-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-              <path d="M12 2l10 5-10 5-10-5z"/>
-            </svg>
-          </div>
-          <h3>Monitor areas of interest</h3>
-          <p>Track conflict zones, border regions, facilities, trade routes, or operating areas and see related incidents, local reporting, associated threat actors, military units, and geopolitical context as it changes.</p>
-        </div>
-        
-        <div class="capability-card">
-          <div class="capability-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
-              <path d="M9 14l2 2 4-4"/>
-            </svg>
-          </div>
-          <h3>Investigate cyber campaigns</h3>
-          <p>Start from an IOC, malware family, domain, IP address, or article connected to a recent campaign and pivot to related infrastructure, threat actors, targets, sectors, and prior reporting.</p>
-        </div>
-        
-        <div class="capability-card">
-          <div class="capability-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M12 6v6l4 2"/>
-              <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
-            </svg>
-          </div>
-          <h3>Understand people, groups, and weaponry</h3>
-          <p>Follow named people, organizations, armed groups, weapons systems, equipment, and incidents in regional reporting, including Middle East conflict coverage and other areas of concern.</p>
-        </div>
-        
-        <div class="capability-card">
-          <div class="capability-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/>
-              <path d="M16 5h-3V3a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2H7l3 3 3-3z"/>
-              <path d="M12 8v8"/>
-              <path d="M8 12h8"/>
-            </svg>
-          </div>
-          <h3>Brief risk to the business</h3>
-          <p>Connect intelligence to your vendors, facilities, executives, brands, and operating footprint so teams can prioritize exposed assets and explain why an event matters.</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- Alerting Process Section -->
-<section class="alerting-section">
-  <div class="alerting-content">
-    <!-- Alerting Header -->
-    <div class="alerting-top-row">
-      <div class="alerting-header solution-section-copy">
-        <p class="solution-eyebrow">Alerting</p>
-        <h1 class="alerting-main-heading solution-main-heading">Real-time alerting for relevant threat activity</h1>
-        <p class="alerting-subtitle solution-description">LunarChain watches saved targets and queries continuously, filters noisy matches, and routes high-confidence intelligence into the delivery and reporting workflows your team already uses.</p>
-      </div>
-    </div>
-
-    <!-- Alerting Features -->
-    <div class="alerting-features">
-      <h2 class="features-title">Alerting Capabilities</h2>
-      <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <h3>Automated Alerting</h3>
-          <p>LunarChain supports automated alerting around specific intelligence requirements, with new matches delivered as they are detected.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-          </div>
-          <h3>Alert Delivery</h3>
-          <p>Receive real-time alerts through LunarSurface notifications, email, messaging, and customized reporting workflows.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14,2 14,8 20,8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10,9 9,9 8,9"/>
-            </svg>
-          </div>
-          <h3>Intelligent Filtering</h3>
-          <p>Advanced algorithms filter out false positives and ensure you only receive actionable, high-confidence alerts.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <h3>Target Reporting</h3>
-          <p>Generate reporting on tracked targets as relevant intelligence surfaces over time.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MCP Server Section -->
-<section id="ai-agent" class="ai-agent-section">
-  <div class="ai-agent-content">
-    <!-- MCP Header and Image Row -->
-    <div class="ai-agent-top-row">
-      <div class="ai-agent-header solution-section-copy">
-        <p class="solution-eyebrow">MCP Server</p>
-        <h1 class="ai-agent-main-heading solution-main-heading">Protocol-native access to LunarChain intelligence</h1>
-        <p class="ai-agent-subtitle solution-description">Connect MCP-compatible clients directly to LunarChain's intelligence graph so agents can query entities, traverse relationships, and bring live context into structured workflows.</p>
-      </div>
-      
-      <!-- MCP Icon/Image -->
-      <div class="ai-agent-image-wrapper">
-        <div class="ai-agent-icon siri-orb" aria-hidden="true">
-          <span class="siri-ring ring-1"></span>
-          <span class="siri-ring ring-2"></span>
-          <span class="siri-ring ring-3"></span>
-          <span class="siri-core"></span>
-        </div>
-        <div class="ai-agent-image-fade"></div>
-      </div>
-    </div>
-
-    <!-- MCP Features -->
-    <div class="ai-agent-features">
-      <h2 class="features-title">MCP Capabilities</h2>
-      <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-            </svg>
-          </div>
-          <h3>Protocol-Native Access</h3>
-          <p>Connect any MCP-compatible client to query and traverse LunarChain graph intelligence with structured tool calls.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-            </svg>
-          </div>
-          <h3>Agentic Investigation</h3>
-          <p>Enable multi-step agents to chain retrieval, follow-up graph exploration, and contextual enrichment in one workflow.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-          </div>
-          <h3>Live Intelligence Surface</h3>
-          <p>Expose near real-time cyber, geopolitical, and military intelligence context through a single MCP endpoint.</p>
-        </div>
-        
-        <div class="feature-item">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 24px; height: 24px;">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <h3>Graph-Correlated Context</h3>
-          <p>Return rich entities and relationships across IOCs, actors, infrastructure, campaigns, locations, and attack patterns.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- MCP CTA -->
-    <div class="ai-agent-cta">
-      <h2>Integrate with LunarChain via MCP</h2>
-      <p>Open our API docs for MCP usage, setup, and test workflows.</p>
-      <a routerLink="/api/overview" class="ai-agent-button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 20px; height: 20px;">
-          <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-        </svg>
-        Open API Docs
-      </a>
     </div>
   </div>
 </section>

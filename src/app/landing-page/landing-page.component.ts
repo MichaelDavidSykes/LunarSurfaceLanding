@@ -1002,9 +1002,9 @@ FOR candidate IN candidateReports
   }
 
   scrollToAIAgent(): void {
-    const aiAgentSection = document.querySelector('.ai-agent-section');
-    if (aiAgentSection) {
-      aiAgentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const productsSection = document.querySelector('.product-suite-section');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
@@ -1020,8 +1020,9 @@ FOR candidate IN candidateReports
     }
 
     const sectionByFragment: Record<string, string> = {
+      products: '.product-suite-section',
       solutions: '.solutions-section',
-      'ai-agent': '.ai-agent-section',
+      'ai-agent': '.product-suite-section',
       contact: '.contact-section'
     };
 
@@ -1158,7 +1159,7 @@ FOR candidate IN candidateReports
 
   private resetLandingRevealStylesForNativeScroll(): void {
     const targets = gsap.utils.toArray<HTMLElement>(
-      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .platform-architecture-section *, .solutions-section *, .custom-operations-section *, .reconnaissance-section *, .investigation-section *, .alerting-section *, .ai-agent-section *, .contact-section *, .landing-footer *'
+      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .reconnaissance-section *, .contact-section *, .landing-footer *'
     );
 
     if (targets.length === 0) {
@@ -1685,8 +1686,8 @@ FOR candidate IN candidateReports
     // Animate mission section and intelligence domain cards
     this.setupMissionAnimations();
 
-    // Setup simple fade-in effect for platform architecture cards
-    this.setupPlatformArchitectureFadeIn();
+    // Setup simple fade-in effect for product panels
+    this.setupProductSuiteFadeIn();
 
     // Animate number counting
     this.animateNumbers();
@@ -1945,144 +1946,79 @@ FOR candidate IN candidateReports
     });
   }
 
-  private setupPlatformArchitectureFadeIn(): void {
+  private setupProductSuiteFadeIn(): void {
     if (!this.isBrowser) return;
 
-    const section = document.querySelector('.platform-architecture-section') as HTMLElement | null;
-    const timeline = document.querySelector('.platform-architecture-timeline') as HTMLElement | null;
+    const section = document.querySelector('.product-suite-section') as HTMLElement | null;
 
-    if (!section || !timeline) return;
+    if (!section) return;
 
-    const reduceMotion = typeof window !== 'undefined'
-      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const panels = gsap.utils.toArray<HTMLElement>('.product-suite-section .product-panel');
+    const modules = gsap.utils.toArray<HTMLElement>(
+      '.product-suite-section .product-module, .product-suite-section .product-integration-strip'
+    );
+    const media = gsap.utils.toArray<HTMLElement>('.product-suite-section .product-media');
+    const targets = [...panels, ...modules, ...media];
 
-    const stages = gsap.utils.toArray<HTMLElement>('.platform-architecture-section .platform-stage');
+    if (targets.length === 0) return;
 
-    if (stages.length === 0) return;
-
-    if (reduceMotion) {
-      timeline.style.setProperty('--architecture-line-scale', '1');
-      stages.forEach((stage) => {
-        const clearTargets = [
-          stage.querySelector('.platform-stage-copy'),
-          stage.querySelector('.platform-stage-dot'),
-          stage.querySelector('.platform-stage-media'),
-          stage.querySelector('.platform-stage-media-image'),
-          ...Array.from(stage.querySelectorAll('.platform-stage-details-label, .platform-stage-details p'))
-        ].filter((target): target is Element => Boolean(target));
-
-        gsap.set(clearTargets, { clearProps: 'all' });
-      });
+    if (this.prefersReducedMotion()) {
+      gsap.set(targets, { clearProps: 'all' });
       return;
     }
 
-    gsap.set(timeline, { '--architecture-line-scale': 0 } as any);
-
-    gsap.to(timeline, {
-      '--architecture-line-scale': 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: timeline,
-        start: 'top 82%',
-        end: 'bottom 38%',
-        scrub: true
-      }
-    } as any);
-
-    stages.forEach((stage) => {
-      const copy = stage.querySelector('.platform-stage-copy') as HTMLElement | null;
-      const detailItems = gsap.utils.toArray<HTMLElement>(
-        stage.querySelectorAll('.platform-stage-details-label, .platform-stage-details p')
-      );
-      const dot = stage.querySelector('.platform-stage-dot') as HTMLElement | null;
-      const stageMedia = stage.querySelector('.platform-stage-media') as HTMLElement | null;
-      const mediaImage = stage.querySelector('.platform-stage-media-image') as HTMLElement | null;
-      const direction = stage.classList.contains('platform-stage-reverse') ? 30 : -30;
-
-      if (copy) {
-        gsap.set(copy, { opacity: 0, y: 34, x: direction });
-      }
-
-      if (detailItems.length > 0) {
-        gsap.set(detailItems, { opacity: 0, y: 14 });
-      }
-
-      if (dot) {
-        gsap.set(dot, { opacity: 0, scale: 0.55 });
-      }
-
-      if (stageMedia) {
-        gsap.set(stageMedia, {
-          opacity: 0,
-          y: 28,
-          x: 24,
-          scale: 0.97,
-          transformOrigin: '50% 50%'
-        });
-      }
-
-      if (mediaImage) {
-        gsap.set(mediaImage, { scale: 1.04, yPercent: -1 });
-      }
-
-      const stageTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: stage,
-          start: 'top 78%',
-          end: 'top 42%',
-          toggleActions: 'play none none reverse'
-        }
-      });
-
-      if (dot) {
-        stageTl.to(dot, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.42,
-          ease: 'back.out(1.8)'
-        }, 0);
-      }
-
-      if (copy) {
-        stageTl.to(copy, {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.68,
-          ease: 'power3.out'
-        }, 0.05);
-      }
-
-      if (detailItems.length > 0) {
-        stageTl.to(detailItems, {
-          opacity: 1,
-          y: 0,
-          duration: 0.42,
-          stagger: 0.08,
-          ease: 'power2.out'
-        }, 0.24);
-      }
-
-      if (stageMedia) {
-        stageTl.to(stageMedia, {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          scale: 1,
-          duration: 0.74,
-          ease: 'power3.out'
-        }, 0.12);
-      }
-
-      if (mediaImage) {
-        stageTl.to(mediaImage, {
-          scale: 1,
-          yPercent: 0,
-          duration: 0.9,
-          ease: 'power3.out'
-        }, 0.18);
-      }
+    gsap.set(panels, {
+      autoAlpha: 0,
+      y: 38,
+      scale: 0.99,
+      willChange: 'transform, opacity'
     });
+    gsap.set(modules, {
+      autoAlpha: 0,
+      y: 18,
+      willChange: 'transform, opacity'
+    });
+    gsap.set(media, {
+      autoAlpha: 0,
+      y: 26,
+      scale: 1.01,
+      willChange: 'transform, opacity'
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 72%',
+        toggleActions: 'play none none reverse'
+      },
+      onComplete: () => this.clearRevealInlineProps(targets)
+    });
+
+    tl.to(panels, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.82,
+      stagger: 0.16,
+      ease: 'power3.out'
+    }, 0);
+
+    tl.to(media, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.8,
+      stagger: 0.14,
+      ease: 'power3.out'
+    }, 0.18);
+
+    tl.to(modules, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.48,
+      stagger: 0.045,
+      ease: 'power2.out'
+    }, 0.42);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
   }
@@ -2140,14 +2076,14 @@ FOR candidate IN candidateReports
     if (!this.isBrowser) return;
 
     const lowerSections = gsap.utils.toArray<HTMLElement>(
-      '.solutions-section, .reconnaissance-section, .investigation-section, .alerting-section, .ai-agent-section, .contact-section, .landing-footer'
+      '.solutions-section, .reconnaissance-section, .contact-section, .landing-footer'
     );
 
     if (lowerSections.length === 0) return;
 
     if (this.prefersReducedMotion()) {
       const lowerTargets = gsap.utils.toArray<HTMLElement>(
-        '.solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .investigation-section, .investigation-section *, .alerting-section, .alerting-section *, .ai-agent-section, .ai-agent-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
+        '.solutions-section, .solutions-section *, .reconnaissance-section, .reconnaissance-section *, .contact-section, .contact-section *, .landing-footer, .landing-footer *'
       );
       gsap.set(lowerTargets, { clearProps: 'all' });
       return;
@@ -2155,9 +2091,6 @@ FOR candidate IN candidateReports
 
     this.setupSolutionsIntroAnimation();
     this.setupReconnaissanceAnimations();
-    this.setupInvestigationAnimations();
-    this.setupAlertingAnimations();
-    this.setupAIAgentAnimations();
     this.setupContactAnimations();
     this.setupFooterAnimations();
 
