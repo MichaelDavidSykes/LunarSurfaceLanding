@@ -4,11 +4,6 @@ import { Router } from '@angular/router';
 type PricingLandingTarget = 'solutions' | 'ai-agent' | 'contact';
 type PlanCtaAction = 'docs' | 'contact';
 
-interface PricingModelPoint {
-  label: string;
-  value: string;
-}
-
 interface PricingPlan {
   name: string;
   price: string;
@@ -38,12 +33,6 @@ interface ComparisonRow {
   styleUrls: ['./pricing-page.component.scss']
 })
 export class PricingPageComponent {
-  protected readonly modelPoints: PricingModelPoint[] = [
-    { label: 'Monitored queries', value: 'How many saved queries can run continuously and trigger alerts' },
-    { label: 'Delivery and support', value: 'How alerts are routed, which exports are included, and what support you get' },
-    { label: 'Agent and MCP usage', value: 'Separate monthly AI and MCP/API allowance' }
-  ];
-
   protected readonly includedFeatures: string[] = [
     'Shared workspace',
     'Graph explorer',
@@ -112,16 +101,16 @@ export class PricingPageComponent {
       name: 'Enterprise',
       price: 'From $2,500',
       cadence: '/month, billed annually',
-      description: 'For enterprise grade intelligence operations with maxed out AI and Data Capabilities',
+      description: 'For private deployments, custom workflows, and higher-volume intelligence operations.',
       seats: 'Custom',
       monitors: 'Custom',
       refresh: 'Real-time',
-      ctaLabel: 'Contact sales',
+      ctaLabel: 'Contact us',
       ctaAction: 'contact',
       features: [
         'Custom AI and MCP/API limits',
         'Custom alert routing and exports',
-        'Deeper agentic investigations and custom source onboarding',
+        'Custom source onboarding',
         'Onboarding, SLA support, and SSO when ready'
       ],
       footnote: 'For private deployments, heavier usage, and custom workflows.'

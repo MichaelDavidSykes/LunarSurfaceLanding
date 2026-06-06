@@ -16,9 +16,6 @@
       <div class="hero-copy">
         <p class="pricing-eyebrow">Pricing</p>
         <h1>Simple pricing for recurring intelligence monitoring.</h1>
-        <p class="pricing-summary">
-          Start free. Scale monitored queries, delivery, and usage as the team operationalizes LunarChain.
-        </p>
 
         <div class="pricing-meta">
           <span>2 seats on Free</span>
@@ -31,16 +28,6 @@
           <a routerLink="/api/overview" class="hero-btn hero-btn--secondary">Read the docs</a>
         </div>
       </div>
-
-      <aside class="pricing-model-card">
-        <p class="model-kicker">What plans are based on</p>
-        <div class="model-points">
-          <div class="model-point" *ngFor="let point of modelPoints">
-            <span>{{ point.label }}</span>
-            <strong>{{ point.value }}</strong>
-          </div>
-        </div>
-      </aside>
     </header>
 
     <section class="included-strip" aria-label="Included across the platform">
@@ -139,13 +126,18 @@
     </section>
 
     <section class="pricing-cta">
-      <div>
-        <p class="section-kicker">Enterprise</p>
-        <h2>Need private deployment, deeper agentic investigations, or custom source onboarding?</h2>
+      <div class="cta-copy">
+        <p class="section-kicker">Custom intelligence solutions</p>
+        <h2>Need a custom intelligence solution?</h2>
+        <p class="pricing-cta-summary">
+          For defence project risk monitoring, executive protection, route planning,
+          cybersecurity monitoring, or custom source coverage, contact us and we will
+          scope the pricing around the work.
+        </p>
       </div>
 
       <div class="cta-actions">
-        <a routerLink="/" fragment="contact" class="hero-btn hero-btn--primary">Contact sales</a>
+        <a routerLink="/" fragment="contact" class="hero-btn hero-btn--primary">Contact us</a>
         <a routerLink="/" class="hero-btn hero-btn--secondary">Back to home</a>
       </div>
     </section>

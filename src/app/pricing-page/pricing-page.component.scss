@@ -50,15 +50,10 @@
 }
 
 .pricing-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-  gap: clamp(1.25rem, 4vw, 4rem);
-  align-items: stretch;
   margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .hero-copy,
-.pricing-model-card,
 .included-strip,
 .plan-card,
 .comparison-card,
@@ -74,7 +69,6 @@
 }
 
 .hero-copy::before,
-.pricing-model-card::before,
 .plan-card::before,
 .pricing-cta::before {
   content: "";
@@ -87,16 +81,12 @@
 }
 
 .hero-copy {
+  max-width: 62rem;
   padding: clamp(2rem, 5vw, 4rem);
-}
-
-.pricing-model-card {
-  padding: clamp(1.5rem, 3vw, 2.2rem);
 }
 
 .pricing-eyebrow,
 .section-kicker,
-.model-kicker,
 .plan-name {
   margin: 0 0 0.85rem;
   color: #9bc0d0;
@@ -113,14 +103,6 @@
   font-size: clamp(2.4rem, 5vw, 4.8rem);
   line-height: 1.02;
   font-weight: 850;
-}
-
-.pricing-summary {
-  max-width: 44rem;
-  margin: 1.25rem 0 0;
-  color: #c9d4dc;
-  font-size: clamp(1rem, 1.35vw, 1.16rem);
-  line-height: 1.65;
 }
 
 .pricing-meta {
@@ -187,36 +169,12 @@
   background: rgba(255, 255, 255, 0.045);
 }
 
-.model-points {
-  display: grid;
-}
-
-.model-point {
-  display: grid;
-  gap: 0.45rem;
-  padding: 1.1rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.model-point:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.model-point span,
 .plan-metric span {
   color: #94aaba;
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-.model-point strong {
-  color: #eef6fb;
-  font-size: 1rem;
-  line-height: 1.55;
-  font-weight: 650;
 }
 
 .included-strip {
@@ -463,6 +421,18 @@
   font-weight: 850;
 }
 
+.cta-copy {
+  max-width: 52rem;
+}
+
+.pricing-cta-summary {
+  max-width: 48rem;
+  margin: 0.9rem 0 0;
+  color: #c9d4dc;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
 .pricing-cta .section-kicker {
   margin-bottom: 0.65rem;
 }
@@ -574,7 +544,6 @@
 }
 
 @media (max-width: 1080px) {
-  .pricing-hero,
   .footer-main {
     grid-template-columns: 1fr;
   }
@@ -607,7 +576,6 @@
   }
 
   .hero-copy,
-  .pricing-model-card,
   .included-strip,
   .plan-card,
   .comparison-card,
