@@ -6831,31 +6831,8 @@ body {
   scroll-margin-top: 7rem;
 }
 
-.product-suite-section::before {
-  content: "";
-  position: absolute;
-  inset: -12% 0;
-  z-index: -2;
-  background-image: url("/assets/section-backgrounds/platform-delivery.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-.product-suite-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(3, 7, 12, 0.97) 0%, rgba(3, 7, 12, 0.89) 52%, rgba(3, 7, 12, 0.76) 100%),
-    linear-gradient(180deg, rgba(3, 7, 12, 0.16) 0%, rgba(3, 7, 12, 0.94) 100%);
-}
-
 .product-suite-section .architectural-shapes {
-  opacity: 0.2;
-  mix-blend-mode: screen;
+  display: none;
 }
 
 .product-suite-content {
@@ -7197,10 +7174,6 @@ body {
 @media (max-width: 720px) {
   .product-suite-section {
     padding: 4.5rem 0 !important;
-  }
-
-  .product-suite-section::before {
-    background-attachment: scroll;
   }
 
   .product-suite-content {
