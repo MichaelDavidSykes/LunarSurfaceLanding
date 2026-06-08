@@ -6953,8 +6953,15 @@ body {
 .product-panel--saferoute {
   --product-accent: #91a7ff;
   --product-muted: #c3ceff;
-  background:
-    linear-gradient(135deg, rgba(6, 10, 18, 0.95) 0%, rgba(10, 17, 31, 0.91) 58%, rgba(16, 23, 45, 0.87) 100%);
+  background-image:
+    linear-gradient(90deg, rgba(4, 8, 14, 0.98) 0%, rgba(5, 9, 16, 0.94) 42%, rgba(5, 9, 16, 0.82) 100%),
+    linear-gradient(180deg, rgba(4, 8, 14, 0.72) 0%, rgba(4, 8, 14, 0.96) 100%),
+    radial-gradient(circle at 86% 44%, rgba(145, 167, 255, 0.16), transparent 38%),
+    url("/assets/section-backgrounds/saferoute-executive-sedan-bg.jpg");
+  background-position: center, center, center, center right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll, scroll, scroll, fixed;
 }
 
 .product-panel-copy,
@@ -7046,6 +7053,19 @@ body {
   aspect-ratio: 2.4 / 1;
 }
 
+.product-panel--saferoute .product-module-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-panel--saferoute .product-module:nth-child(3n + 1) {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.product-panel--saferoute .product-module:nth-child(n + 4) {
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
 .product-module-grid {
   grid-column: 1 / -1;
   display: grid;
@@ -7128,6 +7148,29 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .product-panel--saferoute {
+    background-attachment: scroll;
+  }
+
+  .product-panel--saferoute .product-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-panel--saferoute .product-module {
+    padding-left: clamp(0.9rem, 1.7vw, 1.25rem);
+    border-left: 1px solid rgba(255, 255, 255, 0.13);
+    border-top: 0;
+  }
+
+  .product-panel--saferoute .product-module:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .product-panel--saferoute .product-module:nth-child(n + 3) {
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+  }
+
   .product-module:nth-child(odd) {
     padding-left: 0;
     border-left: 0;
@@ -7164,6 +7207,25 @@ body {
 
   .product-module-grid {
     grid-template-columns: 1fr;
+  }
+
+  .product-panel--saferoute {
+    background-position: center, center, center, 64% center;
+  }
+
+  .product-panel--saferoute .product-module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-panel--saferoute .product-module,
+  .product-panel--saferoute .product-module:nth-child(odd) {
+    padding-left: 0;
+    padding-right: 0;
+    border-left: 0;
+  }
+
+  .product-panel--saferoute .product-module:nth-child(n + 2) {
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
   }
 
   .product-module,
