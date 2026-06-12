@@ -6424,18 +6424,21 @@ body {
 
 /* Footer Styles */
 .landing-footer {
-  background: #ffffff;
-  color: #0f172a;
-  padding: 4rem 0 2rem;
-  margin-top: 0;
   position: relative;
-  /* Ensure the footer spans the page width without shifting */
+  isolation: isolate;
+  overflow: hidden;
   width: 100%;
+  padding: clamp(4rem, 7vw, 6rem) 0 2rem;
+  margin-top: 0;
   margin-left: 0;
   margin-right: 0;
   left: auto;
   right: auto;
   align-self: auto;
+  color: #f8fafc;
+  background:
+    linear-gradient(180deg, rgba(5, 7, 11, 0.98) 0%, rgba(3, 6, 10, 1) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 
   &::before {
     content: '';
@@ -6443,22 +6446,33 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #75c7d4, #91a7ff, #bca6ff);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(117, 199, 212, 0.1), transparent 28%),
+      radial-gradient(circle at 88% 18%, rgba(145, 167, 255, 0.1), transparent 30%);
   }
 }
 
 .footer-content {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .footer-main {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 4rem;
-  margin-bottom: 3rem;
+  grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 2.1fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -6472,26 +6486,28 @@ body {
   align-items: flex-start;
   
   .footer-logo {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-    filter: none;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.15rem;
+    filter: invert(1) brightness(1.18);
+    opacity: 0.94;
   }
   
   .footer-brand-text {
     h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: clamp(1.45rem, 2vw, 1.7rem);
+      font-weight: 850;
       margin: 0 0 0.5rem 0;
-      color: #0f172a;
+      color: #ffffff;
+      letter-spacing: 0;
     }
     
     p {
       font-size: 1rem;
-      color: #6b7280;
+      color: #aebdc8;
       margin: 0;
-      line-height: 1.6;
-      max-width: 300px;
+      line-height: 1.65;
+      max-width: 22rem;
     }
   }
 }
@@ -6499,7 +6515,7 @@ body {
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
   
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -6514,12 +6530,12 @@ body {
 
 .footer-link-group {
   h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #0f172a;
     margin: 0 0 1rem 0;
+    color: #9bc0d0;
+    font-size: 0.76rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.16em;
   }
   
   ul {
@@ -6528,22 +6544,25 @@ body {
     margin: 0;
     
     li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.65rem;
       
       a,
       button {
-        color: #6b7280;
+        color: #aebdc8;
         text-decoration: none;
-        font-size: 0.95rem;
-        transition: color 0.2s ease;
+        font-size: 0.94rem;
+        line-height: 1.45;
+        transition: color 0.18s ease, transform 0.18s ease;
         background: none;
         border: 0;
         padding: 0;
         cursor: pointer;
         font-family: inherit;
+        text-align: left;
         
         &:hover {
-          color: #915eff;
+          color: #ffffff;
+          transform: translateX(2px);
         }
       }
     }
@@ -6551,7 +6570,7 @@ body {
 }
 
 .footer-bottom {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 2rem;
   
   .footer-bottom-content {
@@ -6568,7 +6587,7 @@ body {
   
   .footer-copyright {
     p {
-      color: #6b7280;
+      color: #8797a4;
       font-size: 0.9rem;
       margin: 0;
     }
@@ -6584,14 +6603,16 @@ body {
       justify-content: center;
       width: 40px;
       height: 40px;
-      background: #f3f4f6;
-      border-radius: 8px;
-      color: #6b7280;
-      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 4px;
+      color: #aebdc8;
+      background: rgba(255, 255, 255, 0.045);
+      transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
       
       &:hover {
-        background: #915eff;
+        border-color: #91a7ff;
         color: #ffffff;
+        background: rgba(145, 167, 255, 0.12);
         transform: translateY(-2px);
       }
       
