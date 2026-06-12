@@ -15,12 +15,12 @@
     <header class="pricing-hero">
       <div class="hero-copy">
         <p class="pricing-eyebrow">Pricing</p>
-        <h1>Simple pricing for recurring intelligence monitoring.</h1>
+        <h1>Pricing by product, built around how your team works.</h1>
 
         <div class="pricing-meta">
-          <span>2 seats on Free</span>
-          <span>6 monitored queries</span>
-          <span>Only active queries count</span>
+          <span>ThreatScape subscriptions</span>
+          <span>SafeRoute scoped deployments</span>
+          <span>Custom solutions quoted separately</span>
         </div>
 
         <div class="hero-actions">
@@ -30,22 +30,28 @@
       </div>
     </header>
 
-    <section class="included-strip" aria-label="Included across the platform">
-      <p class="section-kicker">Included across the platform</p>
-      <div class="included-chips">
-        <span class="included-chip" *ngFor="let feature of includedFeatures">{{ feature }}</span>
-      </div>
+    <section class="pricing-overview" aria-label="Pricing overview">
+      <article class="pricing-overview-card" *ngFor="let item of pricingOverview">
+        <p>{{ item.label }}</p>
+        <span>{{ item.description }}</span>
+      </article>
     </section>
 
-    <section class="plans-section">
-      <div class="section-heading">
-        <p class="section-kicker">Plans</p>
-        <h2>Four plans. One clean model.</h2>
+    <section class="product-pricing-section product-pricing-section--threatscape" id="threatscape-pricing">
+      <div class="product-section-heading">
+        <div>
+          <p class="section-kicker">01 / ThreatScape</p>
+          <h2>ThreatScape pricing for the analyst workspace.</h2>
+        </div>
+        <p>
+          ThreatScape pricing is based on seats, active monitored queries, alert delivery,
+          exports, AI investigations, and MCP/API usage.
+        </p>
       </div>
 
-      <div class="plans-grid">
+      <div class="plans-grid plans-grid--threatscape">
         <article
-          *ngFor="let plan of plans"
+          *ngFor="let plan of threatscapePlans"
           class="plan-card"
           [class.plan-card--featured]="plan.featured">
           <div class="plan-header">
@@ -61,17 +67,9 @@
           <p class="plan-description">{{ plan.description }}</p>
 
           <div class="plan-metrics">
-            <div class="plan-metric">
-              <span>Seats</span>
-              <strong>{{ plan.seats }}</strong>
-            </div>
-            <div class="plan-metric">
-              <span>Coverage</span>
-              <strong>{{ plan.monitors }}</strong>
-            </div>
-            <div class="plan-metric">
-              <span>Refresh</span>
-              <strong>{{ plan.refresh }}</strong>
+            <div class="plan-metric" *ngFor="let metric of plan.metrics">
+              <span>{{ metric.label }}</span>
+              <strong>{{ metric.value }}</strong>
             </div>
           </div>
 
@@ -91,37 +89,55 @@
       </div>
     </section>
 
-    <section class="comparison-section">
-      <div class="section-heading">
-        <p class="section-kicker">Comparison</p>
-        <h2>What changes as customers scale.</h2>
+    <section class="product-pricing-section product-pricing-section--saferoute" id="saferoute-pricing">
+      <div class="product-section-heading">
+        <div>
+          <p class="section-kicker">02 / SafeRoute</p>
+          <h2>SafeRoute pricing for convoy and route intelligence.</h2>
+        </div>
+        <p>
+          SafeRoute is scoped around route volume, operating regions, risk layers,
+          deployment model, integrations, training, and support.
+        </p>
       </div>
 
-      <div class="comparison-card">
-        <div class="comparison-scroll">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th scope="col">Capability</th>
-                <th scope="col">Free</th>
-                <th scope="col">Pro</th>
-                <th scope="col">Business</th>
-                <th scope="col">Enterprise</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of comparisonRows">
-                <th scope="row">{{ row.label }}</th>
-                <td>{{ row.free }}</td>
-                <td>{{ row.pro }}</td>
-                <td>{{ row.business }}</td>
-                <td>{{ row.enterprise }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="plans-grid plans-grid--saferoute">
+        <article
+          *ngFor="let plan of saferoutePlans"
+          class="plan-card"
+          [class.plan-card--featured]="plan.featured">
+          <div class="plan-header">
+            <div>
+              <p class="plan-name">{{ plan.name }}</p>
+              <div class="plan-price-row">
+                <h3>{{ plan.price }}</h3>
+                <span>{{ plan.cadence }}</span>
+              </div>
+            </div>
+          </div>
 
-        <p class="comparison-footnote">Paused queries stay saved, but only active queries count toward plan limits.</p>
+          <p class="plan-description">{{ plan.description }}</p>
+
+          <div class="plan-metrics">
+            <div class="plan-metric" *ngFor="let metric of plan.metrics">
+              <span>{{ metric.label }}</span>
+              <strong>{{ metric.value }}</strong>
+            </div>
+          </div>
+
+          <ul class="plan-features">
+            <li *ngFor="let feature of plan.features">{{ feature }}</li>
+          </ul>
+
+          <p class="plan-footnote">{{ plan.footnote }}</p>
+
+          <a
+            [attr.href]="plan.ctaAction === 'docs' ? '/api/overview' : '/#contact'"
+            class="plan-cta"
+            [class.plan-cta--secondary]="!plan.featured">
+            {{ plan.ctaLabel }}
+          </a>
+        </article>
       </div>
     </section>
 
@@ -150,33 +166,53 @@
           <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="footer-logo">
           <div class="footer-brand-text">
             <h3>LunarChain</h3>
-            <p>Operational threat intelligence for analysts, platforms, and agents.</p>
+            <p>Custom intelligence products and solutions for high-demand environments.</p>
           </div>
         </div>
 
         <div class="footer-links">
           <div class="footer-link-group">
-            <h4>Product</h4>
+            <h4>Products</h4>
             <ul>
-              <li><a routerLink="/" fragment="solutions">Solutions</a></li>
+              <li><button type="button" (click)="navigateHome('ai-agent')">Our Products</button></li>
+              <li><button type="button" (click)="navigateHome('ai-agent')">ThreatScape</button></li>
+              <li><button type="button" (click)="navigateHome('ai-agent')">SafeRoute</button></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <h4>Solutions</h4>
+            <ul>
+              <li><button type="button" (click)="navigateHome('solutions')">Custom Intelligence</button></li>
+              <li><button type="button" (click)="navigateHome('solutions')">Cybersecurity</button></li>
+              <li><button type="button" (click)="navigateHome('solutions')">Defence &amp; Regional Risk</button></li>
+              <li><button type="button" (click)="navigateHome('solutions')">Executive Protection</button></li>
+            </ul>
+          </div>
+
+          <div class="footer-link-group">
+            <h4>Platform</h4>
+            <ul>
               <li><a routerLink="/api/overview">Documentation</a></li>
+              <li><a routerLink="/api/endpoint-focus">API</a></li>
+              <li><a routerLink="/api/mcp-server">MCP Server</a></li>
               <li><a routerLink="/pricing" aria-current="page">Pricing</a></li>
             </ul>
           </div>
 
           <div class="footer-link-group">
-            <h4>Navigate</h4>
+            <h4>Company</h4>
             <ul>
-              <li><a routerLink="/">Home</a></li>
-              <li><a routerLink="/" fragment="contact">Contact Us</a></li>
+              <li><button type="button" (click)="navigateHome('contact')">Contact Us</button></li>
               <li><a routerLink="/terms">Terms &amp; Conditions</a></li>
+              <li><a href="https://linkedin.com/company/lunarchain" target="_blank" rel="noopener">LinkedIn</a></li>
             </ul>
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 LunarChain. All rights reserved.</p>
+        <p>&copy; 2026 LunarChain. All rights reserved.</p>
       </div>
     </div>
   </footer>
