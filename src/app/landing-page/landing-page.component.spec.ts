@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA, PLATFORM_ID } from '@angular/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -14,10 +15,11 @@ describe('LandingPageComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [LandingPageComponent],
       imports: [
-        HttpClientTestingModule,
         RouterTestingModule
       ],
       providers: [
+        provideHttpClient(withFetch()),
+        provideHttpClientTesting(),
         { provide: PLATFORM_ID, useValue: 'server' },
         {
           provide: GlobalSnackbarService,
