@@ -17,7 +17,7 @@
     "build:local": "ng build --configuration=local",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:LunarSurface": "node dist/lunar-surface/server/server.mjs",
+    "serve:ssr:LunarChainLanding": "node dist/lunarchain-landing/server/server.mjs",
     "deploy:dev": "npm run build:dev && npx firebase-tools@13.35.1 deploy --only hosting --project lunarchain --config firebase.json",
     "deploy:qa": "npm run deploy:dev",
     "deploy:prod": "npm run build:prod && npx firebase-tools@13.35.1 deploy --only hosting --project lunarchain --config firebase.json"

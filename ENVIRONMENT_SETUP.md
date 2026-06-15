@@ -1,6 +1,6 @@
 # Environment Configuration Guide
 
-This guide explains how to switch between different environments (Development, Qu, Production) in the LunarSurface application.
+This guide explains how to switch between different environments (development, local, and production) in the LunarChain Landing application.
 
 ## Environment Files
 
@@ -86,20 +86,10 @@ console.log('Current environment:', environment.environment);
 console.log('API URL:', environment.apiUrl);
 ```
 
-### Using the API Service
-```typescript
-import { ApiService } from '../shared/services/api.service';
-
-constructor(private apiService: ApiService) {}
-
-// The service automatically uses the correct environment
-this.apiService.get('/alerts/client/alerts').subscribe(...);
-```
-
 ## Best Practices
 
 1. **Never hardcode URLs** - Always use environment variables
-2. **Use the ApiService** - For consistent API calls across environments
+2. **Keep public API paths explicit** - The landing app uses a small set of public endpoints directly from environment-derived base URLs
 3. **Test all environments** - Before deploying, test in each environment
 4. **Environment-specific features** - Use feature flags for environment-specific functionality
 5. **Logging** - Use `enableDebugLogging` for environment-appropriate logging
@@ -142,4 +132,4 @@ this.apiService.get('/alerts/client/alerts').subscribe(...);
 ### Build errors
 - Check that all environment files exist
 - Verify TypeScript compilation
-- Check for missing dependencies 
+- Check for missing dependencies

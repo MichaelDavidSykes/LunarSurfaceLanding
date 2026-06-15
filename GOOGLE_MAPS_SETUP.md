@@ -1,7 +1,7 @@
-# Google Maps API Setup for LunarSurface
+# Google Maps API Setup for LunarChain Landing
 
 ## Overview
-The World Map in the Geographical section requires a Google Maps API key to function properly. This document explains how to set up the API key.
+The public landing map requires a Google Maps API key to function properly. This document explains how to set up the API key.
 
 ## Prerequisites
 - A Google Cloud Platform account
@@ -43,7 +43,7 @@ The World Map in the Geographical section requires a Google Maps API key to func
 
 ### 6. Test the Implementation
 1. Start your development server: `ng serve`
-2. Navigate to the user home page
+2. Navigate to the landing page
 3. Check the browser console for any API key related warnings
 4. Verify that the World Map displays correctly
 
@@ -93,4 +93,4 @@ If you encounter issues:
 1. Check the browser console for error messages
 2. Verify your API key configuration
 3. Check Google Cloud Console for API usage and errors
-4. Review the [Google Maps JavaScript API documentation](https://developers.google.com/maps/documentation/javascript/overview) 
+4. Review the [Google Maps JavaScript API documentation](https://developers.google.com/maps/documentation/javascript/overview)

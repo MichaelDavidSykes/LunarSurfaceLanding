@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "LunarSurface": {
+    "LunarChainLanding": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lunar-surface",
+            "outputPath": "dist/lunarchain-landing",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -110,14 +110,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "LunarSurface:build:production"
+              "buildTarget": "LunarChainLanding:build:production"
             },
             "development": {
-              "buildTarget": "LunarSurface:build:development"
+              "buildTarget": "LunarChainLanding:build:development"
             },
 
             "local": {
-              "buildTarget": "LunarSurface:build:local"
+              "buildTarget": "LunarChainLanding:build:local"
             }
           },
           "defaultConfiguration": "development"
@@ -125,7 +125,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "LunarSurface:build"
+            "buildTarget": "LunarChainLanding:build"
           }
         },
         "test": {

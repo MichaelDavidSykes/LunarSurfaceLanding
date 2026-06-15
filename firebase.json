@@ -2,7 +2,7 @@
   "hosting": [
     {
       "target": "landing",
-      "public": "dist/lunar-surface/browser",
+      "public": "dist/lunarchain-landing/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
