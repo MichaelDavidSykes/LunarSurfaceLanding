@@ -38,4 +38,14 @@ describe('LandingPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('does not replace global console handlers during component init', () => {
+    const warn = console.warn;
+    const error = console.error;
+
+    component.ngOnInit();
+
+    expect(console.warn).toBe(warn);
+    expect(console.error).toBe(error);
+  });
 });
