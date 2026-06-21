@@ -91,19 +91,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   chartsLoaded = false;
 
-  // List of country names for matching in summaries
-  private countryList = [
-    'United States', 'United Kingdom', 'Germany', 'France', 'Canada', 'Australia', 'Japan', 'Brazil', 'India', 'China', 'Russia', 'South Korea', 'Singapore', 'United Arab Emirates',
-    'Italy', 'Spain', 'Netherlands', 'Sweden', 'Switzerland', 'Norway', 'Denmark', 'Finland', 'Poland', 'Austria', 'Belgium', 'Ireland', 'Portugal', 'Greece', 'Turkey', 'Mexico',
-    'Argentina', 'Chile', 'Colombia', 'South Africa', 'Egypt', 'Nigeria', 'Kenya', 'Israel', 'Saudi Arabia', 'Iran', 'Pakistan', 'Bangladesh', 'Indonesia', 'Thailand', 'Vietnam',
-    'Philippines', 'Malaysia', 'New Zealand', 'Ukraine', 'Romania', 'Czech Republic', 'Hungary', 'Slovakia', 'Bulgaria', 'Croatia', 'Slovenia', 'Estonia', 'Latvia', 'Lithuania',
-    'Luxembourg', 'Iceland', 'Malta', 'Cyprus', 'Morocco', 'Algeria', 'Tunisia', 'Ghana', 'Ivory Coast', 'Senegal', 'Peru', 'Venezuela', 'Ecuador', 'Uruguay', 'Paraguay', 'Bolivia',
-    'Panama', 'Costa Rica', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Jamaica', 'Trinidad and Tobago', 'Dominican Republic', 'Cuba', 'Puerto Rico', 'Qatar', 'Kuwait',
-    'Bahrain', 'Oman', 'Jordan', 'Lebanon', 'Syria', 'Iraq', 'Afghanistan', 'Kazakhstan', 'Uzbekistan', 'Turkmenistan', 'Georgia', 'Armenia', 'Azerbaijan', 'Mongolia', 'Cambodia',
-    'Laos', 'Myanmar', 'Nepal', 'Sri Lanka', 'Maldives', 'Fiji', 'Papua New Guinea', 'Solomon Islands', 'Samoa', 'Tonga', 'Vanuatu', 'Brunei', 'East Timor', 'Bhutan', 'Liechtenstein',
-    'Monaco', 'San Marino', 'Andorra', 'Vatican City', 'Gibraltar', 'Greenland', 'Antarctica'
-  ];
-
   private typingTimeout: any;
   fadeState = 'fade-in';
   isAnimating = false;
@@ -289,132 +276,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           console.error('[Landing] AQL latest location IOCs error:', err);
         }
       });
-  }
-
-  private buildLandingGlobeLightweightAql(): string {
-    return `LET recentReports = (
-  FOR reportDoc IN nodes_vertex_collection
-    FILTER reportDoc.type == "report" AND reportDoc._is_latest == true
-      AND reportDoc.created >= "1970-01-01T00:00:00Z"
-      AND reportDoc.created <= DATE_ISO8601(DATE_NOW())
-    SORT reportDoc.modified DESC
-    LIMIT 70
-    RETURN reportDoc
-)
-
-LET candidateReports = (
-  FOR reportDoc IN recentReports
-    LET locationInfo = FIRST(
-      FOR v IN 1..1 ANY reportDoc._id GRAPH 'lunargraph_graph'
-        FILTER v.type == "location"
-        LET countryCode = v.country ? UPPER(TRIM(TO_STRING(v.country))) : null
-        SORT countryCode != null AND countryCode != "" DESC, v.modified DESC
-        LIMIT 1
-        RETURN {
-          country: countryCode,
-          name: v.name
-        }
-    )
-    FILTER locationInfo != null AND locationInfo.country != null AND locationInfo.country != ""
-    LIMIT 12
-    RETURN {
-      reportDoc,
-      normalizedLocation: locationInfo
-    }
-)
-
-FOR candidate IN candidateReports
-  LET reportDoc = candidate.reportDoc
-  LET normalizedLocation = candidate.normalizedLocation
-
-  LET hasMatchingEntities = LENGTH(
-    FOR entity, e IN 1..1 OUTBOUND reportDoc._id GRAPH 'lunargraph_graph'
-      LET relType = LOWER(TO_STRING(e.relationship_type ? e.relationship_type : (HAS(e, 'type') ? e.type : null)))
-      FILTER relType IN ["object", "references", "related-to", "uses", "targets", "attributed-to", "indicates", "located-at", "duplicate-of", "correlates-with"]
-      FILTER entity.type IN ["indicator", "domain-name", "url", "ipv4-addr", "file", "email-addr", "windows-registry-key", "tool", "malware", "attack-pattern", "campaign", "intrusion-set", "threat-actor", "identity", "relationship", "marking-definition", "infrastructure", "course-of-action", "organization", "directory", "phone-number", "email-message", "software", "vulnerability", "location"]
-      LIMIT 1
-      RETURN 1
-  ) > 0
-
-  FILTER hasMatchingEntities
-
-  LET source_name = FIRST(
-    FOR ref IN reportDoc.external_references
-      FILTER ref.source_name == "x_source_name"
-      RETURN ref.description
-  )
-
-  LET source_link = FIRST(
-    FOR ref IN reportDoc.external_references
-      FILTER ref.source_name == "source_link"
-      RETURN ref.url
-  )
-
-  LET entities = (
-    FOR entity, e IN 1..1 OUTBOUND reportDoc._id GRAPH 'lunargraph_graph'
-      LET relType = LOWER(TO_STRING(e.relationship_type ? e.relationship_type : (HAS(e, "type") ? e.type : null)))
-      FILTER relType IN ["object", "references", "related-to", "uses", "targets", "attributed-to", "indicates", "located-at", "duplicate-of", "correlates-with"]
-      FILTER entity.type IN ["indicator", "domain-name", "url", "ipv4-addr", "file", "email-addr", "windows-registry-key", "tool", "malware", "attack-pattern", "campaign", "intrusion-set", "threat-actor", "identity", "relationship", "marking-definition", "infrastructure", "course-of-action", "organization", "directory", "phone-number", "email-message", "software", "vulnerability", "location"]
-      LIMIT 24
-      RETURN DISTINCT {
-        type: entity.type,
-        name: entity.name,
-        value: entity.value,
-        pattern: entity.pattern,
-        modified: entity.modified,
-        report: reportDoc.name,
-        source_name: source_name,
-        source_link: source_link
-      }
-  )
-
-  FILTER LENGTH(entities) > 0
-
-  COLLECT locCountry = normalizedLocation.country, locName = normalizedLocation.name INTO grouped = {
-    reportDoc,
-    sourceName: source_name,
-    sourceLink: source_link,
-    entities
-  }
-
-  LET nodes_vertex_collection = (
-    FOR entry IN grouped
-      LET doc = entry.reportDoc
-      LET detailEntities = SLICE(entry.entities, 0, 24)
-      RETURN {
-        id: doc._id,
-        name: doc.name,
-        modified: doc.modified,
-        sourceName: entry.sourceName,
-        sourceLink: entry.sourceLink,
-        entities: detailEntities
-      }
-  )
-
-  LET highlightIocs = SLICE(
-    UNIQUE(
-      FOR rep IN nodes_vertex_collection
-        FOR ent IN rep.entities
-          RETURN {
-            type: ent.type,
-            name: ent.name,
-            value: ent.value,
-            pattern: ent.pattern,
-            modified: ent.modified,
-            report: ent.report,
-            source_name: ent.source_name,
-            source_link: ent.source_link
-          }
-    ), 0, 8)
-
-  RETURN {
-    location: locCountry,
-    locationName: locName,
-    locationCode: locCountry,
-    report: LENGTH(nodes_vertex_collection) > 0 ? nodes_vertex_collection[0].name : null,
-    nodes_vertex_collection,
-    highlightIocs
-  }`;
   }
 
   private dedupeReportEntities(entities: any[]): any[] {
@@ -1949,7 +1810,7 @@ FOR candidate IN candidateReports
     // Make API call
     this.http.post(`${environment.apiUrl}/api/${environment.apiVersion}/contacts/contact`, payload)
       .subscribe({
-        next: (response) => {
+        next: () => {
           // Show success message
           this.snackbar.open('Thank you! Your message has been sent successfully. We\'ll get back to you soon.', 'success');
           

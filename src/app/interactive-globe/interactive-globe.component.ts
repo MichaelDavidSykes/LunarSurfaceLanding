@@ -1161,15 +1161,10 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
     const ctx = this.textureCtx as CanvasRenderingContext2D;
     const path = this.pathGen as any;
-    const proj = this.projection as any;
 
     // Styles
     const countryFill = 'rgba(110, 45, 200, 0.25)';
     const countryStroke = 'rgba(150, 90, 230, 0.65)';
-    const markerFill = 'rgba(220, 220, 230, 0.9)';
-    const textColor = '#d3d6de';
-    const panelBg = 'rgba(5,6,10,0.8)';
-    const panelStroke = 'rgba(110,45,200,0.4)';
 
     this.labelOverlays = [];
     this.lineOverlays = [];
@@ -1544,15 +1539,10 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
     const ctx = this.textureCtx as CanvasRenderingContext2D;
     const path = this.pathGen as any;
-    const proj = this.projection as any;
 
     // Styles
     const countryFill = 'rgba(110, 45, 200, 0.25)';
     const countryStroke = 'rgba(150, 90, 230, 0.65)';
-    const markerFill = 'rgba(220, 220, 230, 0.9)';
-    const textColor = '#d3d6de';
-    const panelBg = 'rgba(5,6,10,0.8)';
-    const panelStroke = 'rgba(110,45,200,0.4)';
 
     this.labelOverlays = [];
     this.lineOverlays = [];
