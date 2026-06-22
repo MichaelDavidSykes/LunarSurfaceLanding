@@ -672,15 +672,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             // Initialize map if charts are loaded, otherwise wait for them
             if (this.chartsLoaded) {
               this.initializeMapWithLocations();
-            } else {
-              // Charts not ready yet, wait for them
-              // console.log('Charts not ready yet, waiting...'); // Suppressed
             }
             
             // Also check if we can initialize the map now
             this.checkAndInitializeMap();
           } else {
-            // console.warn('No threat intelligence data received or invalid response format'); // Suppressed
             this.threatIntelligenceData = [];
             this.locationData = [];
             this.hideLoading();
@@ -893,9 +889,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (typeof google !== 'undefined' && google.charts) {
       if (this.locationData.length > 0) {
         this.drawMapWithLocations();
-      } else {
-        // Wait for data to be loaded
-        // console.log('Waiting for location data to be loaded...'); // Suppressed
       }
     }
   }
