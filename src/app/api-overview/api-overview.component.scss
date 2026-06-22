@@ -170,14 +170,14 @@
 }
 
 .card-tag,
-.route-pill,
+.route-code,
 .example-level {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 28px;
   padding: 4px 10px;
-  border-radius: 999px;
+  border-radius: 0;
   border: 1px solid rgba(145, 94, 255, 0.22);
   background: rgba(145, 94, 255, 0.1);
   color: #f5f5f5;
@@ -190,7 +190,7 @@
 .card-route,
 .config-value,
 .fact-value,
-.route-pill {
+.route-code {
   overflow-wrap: anywhere;
 }
 
@@ -201,7 +201,7 @@
   color: #f5f5f5;
 }
 
-.route-pill {
+.route-code {
   max-width: 100%;
   text-align: left;
 }
@@ -249,7 +249,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(145, 94, 255, 0.14);
   border: 1px solid rgba(145, 94, 255, 0.24);
   color: #ffffff;
@@ -272,7 +272,7 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border-radius: 16px;
+  border-radius: 0;
   background: rgba(145, 94, 255, 0.14);
   border: 1px solid rgba(145, 94, 255, 0.22);
   color: #ffffff;
@@ -309,7 +309,7 @@
 pre {
   margin: 0;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: #1d1d1d;
   color: #efefef;
@@ -328,7 +328,7 @@ p code,
 li code,
 span code {
   padding: 0.16rem 0.42rem;
-  border-radius: 6px;
+  border-radius: 0;
   background: #343434;
   color: #f0f0f0;
 }
@@ -336,7 +336,7 @@ span code {
 .docs-collapsible,
 .example-collapse {
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.015);
   overflow: hidden;
 }
@@ -423,7 +423,7 @@ span code {
     grid-template-columns: 1fr;
   }
 
-  .route-pill {
+  .route-code {
     max-width: none;
   }
 }
@@ -462,7 +462,7 @@ span code {
   .step-index {
     width: 44px;
     height: 44px;
-    border-radius: 14px;
+    border-radius: 0;
   }
 
   .metric-grid {

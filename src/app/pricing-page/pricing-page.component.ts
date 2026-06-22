@@ -36,44 +36,44 @@ export class PricingPageComponent {
   protected readonly pricingOverview: ProductPricingOverview[] = [
     {
       label: 'ThreatScape',
-      description: 'Subscription pricing for the analyst workspace, monitoring, alerting, reporting, API usage, and MCP access.'
+      description: 'Annual workspace pricing for intelligence search, saved queries, monitoring, alerting, AI investigations, API usage, and MCP access.'
     },
     {
       label: 'SafeRoute',
-      description: 'Scoped pricing for convoy route planning, route risk layers, briefings, and operational deployment support.'
+      description: 'Annual workspace pricing for route planning, route-risk review, safe haven markers, briefing exports, and protected movement workflows.'
     },
     {
       label: 'Custom intelligence solutions',
-      description: 'Quoted separately for specialised dashboards, workflows, source coverage, and private deployments.'
+      description: 'Quoted separately for enterprise deployments, specialist source onboarding, API/MCP integrations, paid pilots, and custom intelligence operations.'
     }
   ];
 
   protected readonly threatscapePlans: PricingPlan[] = [
     {
-      name: 'Free',
+      name: 'ThreatScape Demo',
       price: '$0',
-      cadence: '/month',
-      description: 'For quick intelligence lookups and manual investigations.',
+      cadence: '/controlled evaluation',
+      description: 'For qualified teams evaluating ThreatScape in a controlled, non-production workspace.',
       metrics: [
         { label: 'Seats', value: '2 seats' },
         { label: 'Coverage', value: '6 active queries' },
         { label: 'Delivery', value: 'In-app and email' }
       ],
-      ctaLabel: 'Read the docs',
-      ctaAction: 'docs',
+      ctaLabel: 'Request evaluation',
+      ctaAction: 'contact',
       features: [
         'Graph explorer and saved queries',
         'Manual investigations',
-        '12 AI investigations / month',
-        '150 MCP/API calls / month'
+        '12 AI investigations during evaluation',
+        '150 MCP/API calls during evaluation'
       ],
-      footnote: 'For evaluation, demos, and light ongoing query coverage.'
+      footnote: 'Evaluation access is time-limited to a maximum of one month unless agreed in writing.'
     },
     {
-      name: 'Pro',
-      price: '$50',
-      cadence: '/workspace/month',
-      description: 'The starter plan for smaller teams performing lightweight intelligence operations.',
+      name: 'Professional',
+      price: '$4,000',
+      cadence: '/workspace/year',
+      description: 'For smaller teams moving from evaluation into recurring intelligence monitoring.',
       metrics: [
         { label: 'Seats', value: '3 seats' },
         { label: 'Coverage', value: '15 active queries' },
@@ -83,20 +83,20 @@ export class PricingPageComponent {
       ctaAction: 'contact',
       features: [
         'Shared workspace for small teams',
-        'Manual exploration and saved queries',
+        'Manual exploration and saved query monitoring',
         '75 AI investigations / month',
         '5,000 MCP/API calls / month'
       ],
-      footnote: 'For small teams moving from evaluation into ongoing use.'
+      footnote: 'Billed annually. Final pricing remains subject to written quotation or proposal.'
     },
     {
       name: 'Business',
-      price: '$200',
-      cadence: '/workspace/month',
-      description: 'For larger teams running more advanced intelligence operations.',
+      price: '$8,000',
+      cadence: '/workspace/year',
+      description: 'For larger teams running more active intelligence requirements and delivery workflows.',
       metrics: [
-        { label: 'Seats', value: '8 seats' },
-        { label: 'Coverage', value: '50 active queries' },
+        { label: 'Seats', value: '18 seats' },
+        { label: 'Coverage', value: '80 active queries' },
         { label: 'Delivery', value: 'Email and webhook' }
       ],
       featured: true,
@@ -108,13 +108,13 @@ export class PricingPageComponent {
         '500 AI investigations / month',
         '50,000 MCP/API calls / month'
       ],
-      footnote: 'For security and intelligence teams using LunarChain day to day.'
+      footnote: 'Billed annually. Final pricing remains subject to written quotation or proposal.'
     },
     {
       name: 'Enterprise',
-      price: 'From $2,500',
-      cadence: '/month, billed annually',
-      description: 'For private deployments, custom workflows, and higher-volume intelligence operations.',
+      price: 'Quoted',
+      cadence: '/annual subscription',
+      description: 'For larger teams, sensitive environments, private deployments, and custom intelligence workflows.',
       metrics: [
         { label: 'Seats', value: 'Custom' },
         { label: 'Coverage', value: 'Custom' },
@@ -128,71 +128,91 @@ export class PricingPageComponent {
         'Custom source onboarding',
         'Onboarding, SLA support, and SSO when ready'
       ],
-      footnote: 'For private deployments, heavier usage, and custom workflows.'
+      footnote: 'Quoted for enterprise, defence/security, high-sensitivity, private deployment, or procurement-specific requirements.'
     }
   ];
 
   protected readonly saferoutePlans: PricingPlan[] = [
     {
-      name: 'SafeRoute Evaluation',
-      price: 'Scoped',
-      cadence: '/pilot',
-      description: 'For teams validating route planning and movement-risk workflows on a focused route set.',
+      name: 'SafeRoute Demo',
+      price: '$0',
+      cadence: '/controlled evaluation',
+      description: 'For qualified teams evaluating SafeRoute with representative routes, venues, vehicles, and risk scenarios.',
       metrics: [
-        { label: 'Users', value: 'Core planning team' },
-        { label: 'Routes', value: 'Pilot route set' },
-        { label: 'Delivery', value: 'Setup workshop' }
+        { label: 'Seats', value: 'Up to 3 seats' },
+        { label: 'Routes', value: 'Representative routes' },
+        { label: 'Delivery', value: 'Demo workspace' }
       ],
       ctaLabel: 'Contact us',
       ctaAction: 'contact',
       features: [
-        'SafeRoute planner configuration',
-        'Primary and alternate route review',
-        'Basic risk layers and handoff exports',
-        'Pilot support for evaluation'
+        'Representative routes, scenarios, vehicles, and venues',
+        'Risk areas, no-go zones, and safe haven points',
+        'Route review criteria and demonstration workflow',
+        'Controlled evaluation support'
       ],
-      footnote: 'Best for proving the workflow before a wider operational rollout.'
+      footnote: 'Evaluation access is time-limited to a maximum of one month and is not for live operational use.'
     },
     {
-      name: 'SafeRoute Operations',
-      price: 'Scoped',
-      cadence: '/month',
-      description: 'For active security teams planning, briefing, and monitoring protected movements.',
+      name: 'SafeRoute Professional',
+      price: '$4,000',
+      cadence: '/workspace/year',
+      description: 'For smaller teams that need structured route-risk planning and briefing support.',
       metrics: [
-        { label: 'Users', value: 'Protective operations team' },
-        { label: 'Routes', value: 'Active route portfolio' },
-        { label: 'Delivery', value: 'Monitoring and alerts' }
+        { label: 'Seats', value: 'Up to 5 seats' },
+        { label: 'Routes', value: 'Route planning and review' },
+        { label: 'Delivery', value: 'Briefing exports' }
       ],
       featured: true,
       ctaLabel: 'Contact us',
       ctaAction: 'contact',
       features: [
-        'Convoy, trip, vehicle, and waypoint management',
-        'Route risk comparison and readiness checks',
-        'Live risk layers around movement corridors',
-        'Briefing packs and operational handoff exports'
+        'Route planning and alternate route comparison',
+        'Configured route-risk review',
+        'Approved no-go areas',
+        'Safe haven and support-location markers'
       ],
-      footnote: 'Built for teams that need repeatable route intelligence workflows.'
+      footnote: 'Billed annually. Does not include live operational support or private deployment requirements.'
+    },
+    {
+      name: 'SafeRoute Business',
+      price: '$8,000',
+      cadence: '/workspace/year',
+      description: 'For organisations that need repeatable protected movement planning across more users and scenarios.',
+      metrics: [
+        { label: 'Seats', value: 'Up to 12 seats' },
+        { label: 'Routes', value: 'Multi-scenario workflows' },
+        { label: 'Delivery', value: 'Dashboards and handoff packs' }
+      ],
+      ctaLabel: 'Contact us',
+      ctaAction: 'contact',
+      features: [
+        'Convoy and asset readiness fields',
+        'Configured route-risk layers',
+        'Route review dashboards and briefing exports',
+        'Scheduled review support and limited API/export support'
+      ],
+      footnote: 'Billed annually. Intended for repeatable planning, review, and briefing workflows.'
     },
     {
       name: 'SafeRoute Enterprise',
-      price: 'Custom',
-      cadence: '/deployment',
-      description: 'For larger protective operations, private deployments, and custom regional intelligence coverage.',
+      price: 'Quoted',
+      cadence: '/annual or project',
+      description: 'For larger protective operations, sensitive deployments, and custom regional route intelligence.',
       metrics: [
         { label: 'Deployment', value: 'Private or dedicated' },
-        { label: 'Data', value: 'Custom map and risk layers' },
-        { label: 'Support', value: 'Onboarding and SLA' }
+        { label: 'Data', value: 'Custom risk layers' },
+        { label: 'Support', value: 'Training and SLA' }
       ],
       ctaLabel: 'Contact us',
       ctaAction: 'contact',
       features: [
         'Custom route intelligence workflows',
-        'Regional source and incident coverage',
-        'API delivery for internal systems',
-        'Training, governance, and SSO when ready'
+        'Advanced regional data coverage',
+        'Custom route models and operating procedures',
+        'Integrations, training, and dedicated onboarding'
       ],
-      footnote: 'Scoped around operating regions, route volume, integrations, and support needs.'
+      footnote: 'Quoted for private deployments, integrations, operational support, and high-sensitivity requirements.'
     }
   ];
 

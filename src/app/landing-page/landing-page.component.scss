@@ -61,7 +61,7 @@ html, body {
 .globe-side-iocs { display: grid; grid-template-columns: 1fr; gap: 6px; max-height: 40vh; overflow: auto; }
 .globe-side-iocs.loading, .globe-side-iocs.empty { color: rgba(255,255,255,0.75); font-size: 12px; }
 .globe-side-article { color: #cbd0dc; font-size: 11px; margin-bottom: 6px; opacity: 0.9; }
-.ioc-item { background: rgba(5, 6, 10, 0.64); border: 1px solid rgba(110, 45, 200, 0.22); box-shadow: 0 3px 10px rgba(110, 45, 200, 0.08); border-radius: 6px; padding: 6px 8px; }
+.ioc-item { background: rgba(5, 6, 10, 0.64); border: 1px solid rgba(110, 45, 200, 0.22); box-shadow: 0 3px 10px rgba(110, 45, 200, 0.08); border-radius: 0; padding: 6px 8px; }
 .ioc-type { color: #9f90e2; font-weight: 600; font-size: 10px; margin-bottom: 2px; text-transform: uppercase; }
 .ioc-text { color: #a9afbc; font-size: 10.5px; }
 .ioc-report { color: #7f87a0; font-size: 10px; margin-top: 3px; }
@@ -81,7 +81,7 @@ input[type="text"] {
   padding: 12px;
   margin-top: 12px;
   border: 1.5px solid #d196e6;
-  border-radius: 7px;
+  border-radius: 0;
   transition: border-color 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
   font-size: 16px;
@@ -109,7 +109,7 @@ button[type="submit"] {
   color: #fff;
   padding: 12px;
   border: none;
-  border-radius: 7px;
+  border-radius: 0;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
   width: 100%;
@@ -205,7 +205,7 @@ p {
   justify-content: center;
   gap: 6px;
   padding: 10px 12px;
-  border-radius: 999px;
+  border-radius: 0;
   pointer-events: none;
   background: rgba(8, 8, 12, 0.34);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -287,7 +287,7 @@ p {
     font-size: 0.8rem;
     font-weight: 600;
     padding: 4px 12px;
-    border-radius: 20px;
+    border-radius: 0;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -502,7 +502,7 @@ p {
   --feature-accent: #2563eb;
   --feature-accent-rgb: 37, 99, 235;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 2.5rem 2rem;
   min-width: 280px;
@@ -1138,7 +1138,7 @@ p {
 
 .contact-card {
   background: #f7fafc;
-  border-radius: 14px;
+  border-radius: 0;
   box-shadow: 0 2px 12px rgba(145, 94, 255, 0.07);
   padding: 2rem 1.5rem 1.5rem 1.5rem;
   display: flex;
@@ -1188,7 +1188,7 @@ p {
 .contact-form {
   flex: 1 1 380px;
   background: #f7fafc;
-  border-radius: 14px;
+  border-radius: 0;
   box-shadow: 0 2px 12px rgba(145, 94, 255, 0.07);
   padding: 2.5rem 2rem 2rem 2rem;
   border: 1px solid #e2e8f0;
@@ -1221,7 +1221,7 @@ p {
 .contact-form textarea {
   padding: 0.8rem 1rem;
   border: 1.5px solid #d1d5db;
-  border-radius: 7px;
+  border-radius: 0;
   font-size: 1rem;
   background: #fff;
   color: #2d3748;
@@ -1246,7 +1246,7 @@ p {
   color: #fff;
   font-weight: 700;
   border: none;
-  border-radius: 7px;
+  border-radius: 0;
   padding: 0.9rem 1.5rem;
   font-size: 1.1rem;
   cursor: pointer;
@@ -1499,7 +1499,7 @@ p {
     margin-bottom: 2rem !important;
     padding: 1.5rem 1rem !important;
     text-align: center !important;
-    border-radius: 16px !important;
+    border-radius: 0;
   }
 
   .mission-title {
@@ -1721,7 +1721,7 @@ p {
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
     padding: 12px 16px;
-    border-radius: 8px;
+    border-radius: 0;
     font-size: 0.9rem;
     line-height: 1.4;
     display: inline-block;
@@ -1748,7 +1748,7 @@ p {
       left: 0;
       right: 0;
       bottom: 0;
-      border-radius: 8px;
+      border-radius: 0;
       background: linear-gradient(45deg, transparent, rgba(145, 94, 255, 0.1), transparent);
       pointer-events: none;
     }
@@ -2082,7 +2082,7 @@ p {
       width: 40px;
       height: 40px;
       border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 4px;
+      border-radius: 0;
       color: #aebdc8;
       background: rgba(255, 255, 255, 0.045);
       transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
@@ -2518,7 +2518,7 @@ p {
   color: #08111b;
   background: var(--product-accent);
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 0;
   padding: 0.75rem 1rem;
   font-weight: 800;
   line-height: 1;
@@ -2789,7 +2789,7 @@ p {
 }
 
 .contact-submit-btn {
-  border-radius: 0 !important;
+  border-radius: 0;
   background: #f8fafc !important;
   color: #071019 !important;
   box-shadow: none !important;

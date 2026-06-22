@@ -9,7 +9,7 @@
   background: rgba(5, 6, 10, 0.72);
   border: 1px solid rgba(110, 45, 200, 0.28);
   box-shadow: 0 4px 14px rgba(110, 45, 200, 0.10);
-  border-radius: 7px;
+  border-radius: 0;
   padding: 6px 8px;
   max-width: 220px;
   backdrop-filter: blur(3px);
@@ -79,6 +79,60 @@ app-root {
   --border-light: #e1e1e1;
   --card-dark: #1a1a1a;
   --card-light: #ffffff;
+  --mat-focus-indicator-border-radius: 0;
+  --mat-mdc-focus-indicator-border-radius: 0;
+  --mat-bottom-sheet-container-shape: 0;
+  --mat-expansion-container-shape: 0;
+  --mat-legacy-button-toggle-shape: 0;
+  --mat-menu-container-shape: 0;
+  --mat-sidenav-container-shape: 0;
+  --mat-standard-button-toggle-shape: 0;
+  --mdc-chip-container-shape-radius: 0;
+  --mdc-chip-with-avatar-avatar-shape-radius: 0;
+  --mdc-dialog-container-shape: 0;
+  --mdc-elevated-card-container-shape: 0;
+  --mdc-fab-container-shape: 0;
+  --mdc-filled-text-field-container-shape: 0;
+  --mdc-linear-progress-track-shape: 0;
+  --mdc-list-list-item-container-shape: 0;
+  --mdc-list-list-item-leading-avatar-shape: 0;
+  --mdc-outlined-card-container-shape: 0;
+  --mdc-outlined-text-field-container-shape: 0;
+  --mdc-plain-tooltip-container-shape: 0;
+  --mdc-slider-active-track-shape: 0;
+  --mdc-slider-handle-shape: 0;
+  --mdc-slider-inactive-track-shape: 0;
+  --mdc-slider-with-tick-marks-container-shape: 0;
+  --mdc-snackbar-container-shape: 0;
+  --mdc-switch-handle-shape: 0;
+  --mdc-switch-track-shape: 0;
+  --mdc-tab-indicator-active-indicator-shape: 0;
+}
+
+.mat-ripple-element,
+.mat-badge-content,
+.mat-mdc-button-persistent-ripple,
+.mat-mdc-button-persistent-ripple::before,
+.mat-mdc-button-persistent-ripple::after,
+.mat-mdc-button-touch-target,
+.mat-mdc-icon-button,
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before,
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::after,
+.mat-mdc-fab,
+.mat-mdc-mini-fab,
+.mdc-fab,
+.mdc-fab:not(.mdc-fab--extended),
+.mdc-fab:not(.mdc-fab--extended) .mdc-fab__ripple,
+.mdc-fab--extended,
+.mdc-fab--extended .mdc-fab__ripple,
+.mdc-fab .mdc-fab__ripple,
+.mdc-fab::before,
+.mdc-fab .mdc-fab__ripple::before,
+.mdc-fab .mdc-fab__ripple::after,
+.mdc-ripple-surface::before,
+.mdc-ripple-surface::after {
+  border-radius: 0;
 }
 
 /* Base styles that apply to both themes */
@@ -89,7 +143,7 @@ app-root {
 .main-content,
 .dashboard-container {
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 0;
   margin-bottom: 20px;
 }
 
@@ -145,7 +199,7 @@ app-root {
     border: 1px solid rgba(148, 163, 184, 0.3);
     background: linear-gradient(135deg, rgba(39, 49, 77, 0.78), rgba(30, 41, 59, 0.72));
     color: rgba(236, 241, 255, 0.94);
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 6px 14px rgba(8, 12, 24, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     font-weight: 600;
     font-size: 0.82rem;
@@ -250,7 +304,7 @@ app-root {
     border: 1px solid rgba(148, 163, 184, 0.3);
     background: linear-gradient(135deg, rgba(39, 49, 77, 0.78), rgba(30, 41, 59, 0.72));
     color: rgba(236, 241, 255, 0.94);
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 6px 14px rgba(8, 12, 24, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     font-weight: 600;
     font-size: 0.82rem;
@@ -355,7 +409,7 @@ app-root {
 .cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
   background: linear-gradient(150deg, rgba(8, 11, 22, 0.98), rgba(16, 21, 38, 0.96)) !important;
   border: 1px solid rgba(145, 94, 255, 0.3) !important;
-  border-radius: 16px !important;
+  border-radius: 0;
   box-shadow: 0 28px 56px rgba(2, 5, 14, 0.62), 0 0 0 1px rgba(145, 94, 255, 0.1) !important;
   color: #f3f5ff !important;
 }
@@ -423,7 +477,7 @@ app-root {
   background: linear-gradient(135deg, rgba(10, 13, 26, 0.97), rgba(20, 24, 42, 0.96)) !important;
   color: var(--toast-text) !important;
   border: 1px solid var(--toast-border) !important;
-  border-radius: 14px !important;
+  border-radius: 0;
   box-shadow: 0 18px 40px rgba(3, 6, 14, 0.55), 0 0 0 1px rgba(145, 94, 255, 0.12), 0 0 28px var(--toast-glow) !important;
   min-height: 52px !important;
 }
@@ -490,7 +544,7 @@ app-root {
   font-size: 1.1rem !important;
   font-weight: 600 !important;
   padding: 18px 32px 18px 24px !important;
-  border-radius: 12px !important;
+  border-radius: 0;
   min-width: 320px !important;
   max-width: 90vw !important;
   text-align: left !important;
@@ -513,7 +567,7 @@ app-root {
   min-width: 32px !important;
   width: 32px !important;
   height: 32px !important;
-  border-radius: 50% !important;
+  border-radius: 0;
   font-size: 1.5rem !important;
   line-height: 32px !important;
   box-shadow: none !important;
@@ -573,7 +627,7 @@ app-root {
   font-size: 1.1rem !important;
   font-weight: 600 !important;
   padding: 18px 32px 18px 24px !important;
-  border-radius: 12px !important;
+  border-radius: 0;
   min-width: 320px !important;
   max-width: 90vw !important;
   text-align: left !important;
@@ -596,7 +650,7 @@ app-root {
   min-width: 32px !important;
   width: 32px !important;
   height: 32px !important;
-  border-radius: 50% !important;
+  border-radius: 0;
   font-size: 1.5rem !important;
   line-height: 32px !important;
   box-shadow: none !important;
@@ -662,12 +716,12 @@ app-root {
 
 ::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(161, 120, 241, 0.2);
-  border-radius: 4px;
+  border-radius: 0;
   border: 1px solid transparent;
   background-clip: content-box;
 }
@@ -763,7 +817,7 @@ body.dark-theme, :host-context(.dark-theme) {
   }
   &::-webkit-scrollbar-thumb {
     background: rgba(161, 120, 241, 0.15);
-    border-radius: 2px;
+    border-radius: 0;
   }
   &::-webkit-scrollbar-thumb:hover {
     background: rgba(161, 120, 241, 0.3);
@@ -785,7 +839,7 @@ body.dark-theme, :host-context(.dark-theme) {
 
 // Base styles for all custom snackbars
 .app-snackbar {
-  border-radius: 8px !important;
+  border-radius: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   padding: 12px 16px !important;
   font-size: 15px !important;

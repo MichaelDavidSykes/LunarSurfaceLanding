@@ -117,7 +117,7 @@
   min-height: 2.1rem;
   padding: 0 0.85rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 4px;
+  border-radius: 0;
   color: #dce7ed;
   background: rgba(255, 255, 255, 0.045);
   font-size: 0.84rem;
@@ -139,7 +139,7 @@
   justify-content: center;
   min-height: 2.85rem;
   padding: 0.75rem 1rem;
-  border-radius: 4px;
+  border-radius: 0;
   font: inherit;
   font-size: 0.93rem;
   font-weight: 800;
@@ -256,7 +256,7 @@
 }
 
 .plans-grid--saferoute {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .plan-card {
