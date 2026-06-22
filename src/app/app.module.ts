@@ -1,5 +1,5 @@
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
-import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { InteractiveGlobeComponent } from './interactive-globe/interactive-globe.component';
 import { ApiOverviewComponent } from './api-overview/api-overview.component';
@@ -35,10 +34,8 @@ import { TermsComponent } from './terms/terms.component';
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
     FormsModule,
     MatButtonModule,
     MatIconModule,
@@ -50,7 +47,6 @@ import { TermsComponent } from './terms/terms.component';
     provideClientHydration(),
     provideHttpClient(withFetch())
   ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

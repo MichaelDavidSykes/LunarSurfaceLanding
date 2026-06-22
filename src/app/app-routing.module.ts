@@ -8,14 +8,13 @@ import { PricingPageComponent } from './pricing-page/pricing-page.component';
 import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent, data: { hideToolbar: true } },
-  { path: 'landingpage', component: LandingPageComponent, data: { hideToolbar: true } },
-  { path: 'pricing', component: PricingPageComponent, data: { hideToolbar: true } },
-  { path: 'terms', component: TermsComponent, data: { hideToolbar: true } },
+  { path: '', component: LandingPageComponent },
+  { path: 'landingpage', component: LandingPageComponent },
+  { path: 'pricing', component: PricingPageComponent },
+  { path: 'terms', component: TermsComponent },
   {
     path: 'api',
     component: ApiDocsLayoutComponent,
-    data: { hideToolbar: true },
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: ':page', component: ApiOverviewComponent }
