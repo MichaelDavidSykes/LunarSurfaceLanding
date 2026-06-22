@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
@@ -37,7 +36,6 @@ import { TermsComponent } from './terms/terms.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
-    MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
     MatSliderModule,
