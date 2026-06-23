@@ -28,12 +28,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     sourceLink?: string | null;
   }> = [];
   selectedCountryLoading = false;
-  selectedCountryReport: string | null = null;
 
   isBrowser: boolean = false;
   isMobileMenuOpen: boolean = false;
   isMobile: boolean = false;
-  showLoginButton: boolean = false;
   isTaskbarScrolled: boolean = false;
   private suppressTaskbarSyncUntil = 0;
   expandedCards: boolean[] = [false, false, false];
@@ -66,7 +64,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private typingTimeout: any;
   fadeState = 'fade-in';
-  isAnimating = false;
   isLoading = false; // Start hidden
   private loadingAnimationTimeline: any;
   private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
@@ -118,7 +115,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedCountryIocs = [];
       this.selectedCountryGroups = [];
       this.selectedCountryLoading = false;
-      this.selectedCountryReport = null;
       return;
     }
     // Fetch IOC data for the selected country
@@ -158,16 +154,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             items: data.items,
             modified: data.modified ?? null
           }));
-
-          // If only one report, expose it in the single article header for convenience
-          this.selectedCountryReport = this.selectedCountryGroups.length === 1 ? this.selectedCountryGroups[0].report : null;
           this.selectedCountryLoading = false;
         },
         error: (err) => {
           console.error('[Landing] Selected country IOC query error:', err);
           this.selectedCountryIocs = [];
           this.selectedCountryGroups = [];
-          this.selectedCountryReport = null;
           this.selectedCountryLoading = false;
         }
       });
@@ -613,15 +605,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isTaskbarScrolled = window.scrollY > 20;
   }
-
-  // Open Instagram
-  followInstagram() {
-    if (this.isBrowser && typeof window !== 'undefined') {
-      window.open('https://instagram.com/lunarchainco', '_blank');
-    }
-  }
-
-
 
   loadThreatIntelligenceData(): void {
     this.http.get(`${environment.apiUrl}/api/${environment.apiVersion}/graph/public/landing-threat-intelligence`)
