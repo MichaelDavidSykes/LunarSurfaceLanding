@@ -12,15 +12,12 @@ interface ExplorerEntity {
 
 interface EntityGroupItem {
   primary: string;
-  secondary?: string;
-  report?: string;
   modified?: string;
 }
 
 interface EntityGroupPresentation {
   label: string;
   icon: string;
-  accent: string;
   order: number;
 }
 
@@ -28,30 +25,28 @@ interface EntityGroup {
   key: string;
   label: string;
   icon: string;
-  accent: string;
   items: EntityGroupItem[];
   order: number;
 }
 
 const TYPE_PRESENTATION: Record<string, EntityGroupPresentation> = {
-  malware: { label: 'Malware', icon: 'pest_control', accent: 'accent-malware', order: 1 },
-  tool: { label: 'Tools', icon: 'handyman', accent: 'accent-tool', order: 2 },
-  indicator: { label: 'Indicators', icon: 'flag', accent: 'accent-indicator', order: 3 },
-  'attack-pattern': { label: 'Attack Patterns', icon: 'track_changes', accent: 'accent-technique', order: 4 },
-  campaign: { label: 'Campaigns', icon: 'campaign', accent: 'accent-campaign', order: 5 },
-  'intrusion-set': { label: 'Intrusion Sets', icon: 'group_work', accent: 'accent-intrusion', order: 6 },
-  'threat-actor': { label: 'Threat Actors', icon: 'person_search', accent: 'accent-actor', order: 7 },
-  identity: { label: 'Identities', icon: 'apartment', accent: 'accent-identity', order: 8 },
-  file: { label: 'Files', icon: 'insert_drive_file', accent: 'accent-file', order: 9 },
-  relationship: { label: 'Relationships', icon: 'share', accent: 'accent-relationship', order: 10 },
-  location: { label: 'Locations', icon: 'public', accent: 'accent-location', order: 11 },
-  'marking-definition': { label: 'Marking Definitions', icon: 'verified_user', accent: 'accent-marking', order: 12 }
+  malware: { label: 'Malware', icon: 'pest_control', order: 1 },
+  tool: { label: 'Tools', icon: 'handyman', order: 2 },
+  indicator: { label: 'Indicators', icon: 'flag', order: 3 },
+  'attack-pattern': { label: 'Attack Patterns', icon: 'track_changes', order: 4 },
+  campaign: { label: 'Campaigns', icon: 'campaign', order: 5 },
+  'intrusion-set': { label: 'Intrusion Sets', icon: 'group_work', order: 6 },
+  'threat-actor': { label: 'Threat Actors', icon: 'person_search', order: 7 },
+  identity: { label: 'Identities', icon: 'apartment', order: 8 },
+  file: { label: 'Files', icon: 'insert_drive_file', order: 9 },
+  relationship: { label: 'Relationships', icon: 'share', order: 10 },
+  location: { label: 'Locations', icon: 'public', order: 11 },
+  'marking-definition': { label: 'Marking Definitions', icon: 'verified_user', order: 12 }
 };
 
 const DEFAULT_PRESENTATION: EntityGroupPresentation = {
   label: 'Related Intelligence',
   icon: 'hub',
-  accent: 'accent-generic',
   order: 99
 };
 
@@ -398,7 +393,6 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
           key: groupKey,
           label: presentation.label,
           icon: presentation.icon,
-          accent: presentation.accent,
           items: [],
           order: presentation.order
         });
@@ -406,12 +400,9 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
       const target = groupsMap.get(groupKey)!;
       const primary = this.resolvePrimaryText(entity);
-      const secondary = this.resolveSecondaryText(entity, primary);
 
       target.items.push({
         primary,
-        secondary,
-        report: entity.report ?? undefined,
         modified: entity.modified ?? undefined
       });
     }
@@ -444,18 +435,6 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       entity.pattern?.toString().trim() ||
       'Unnamed entity'
     );
-  }
-
-  private resolveSecondaryText(entity: ExplorerEntity, primary: string): string | undefined {
-    if (entity.pattern && entity.pattern !== primary) {
-      return entity.pattern;
-    }
-
-    if (entity.value && entity.value !== primary) {
-      return entity.value;
-    }
-
-    return undefined;
   }
 
   private toTitleCase(value: string): string {
