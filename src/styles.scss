@@ -26,7 +26,6 @@
   text-overflow: ellipsis;
   opacity: 0.9;
 }
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 
 html, body { 
   height: 100%;
@@ -356,27 +355,6 @@ app-root {
     }
   }
 }
-
-/* Global icon styles */
-.fas {
-    font-family: 'Font Awesome 6 Free' !important;
-    font-weight: 900;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1;
-}
-
-/* Specific icon styles */
-.fa-home:before { content: "\f015"; }
-.fa-bell:before { content: "\f0f3"; }
-.fa-search:before { content: "\f002"; }
-.fa-file-alt:before { content: "\f15c"; }
-.fa-chart-line:before { content: "\f201"; }
-.fa-cog:before { content: "\f013"; }
-.fa-user-circle:before { content: "\f2bd"; }
 
 /* Sidenav icon styles */
 .menu-item .icon {
