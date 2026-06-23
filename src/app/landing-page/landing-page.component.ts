@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, HostListener } from '@angular/core';
-import { trigger, style, animate, transition, query, stagger } from '@angular/animations';
 import { InteractiveGlobeComponent } from '../interactive-globe/interactive-globe.component';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,26 +13,7 @@ declare var google: any;
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
-  animations: [
-    trigger('iocItem', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(8px)' }),
-        animate('280ms 30ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition(':leave', [
-        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(-6px)' }))
-      ])
-    ]),
-    trigger('iocList', [
-      transition(':enter', [
-        query('.ioc-item', [
-          style({ opacity: 0, transform: 'translateY(8px)' }),
-          stagger(60, animate('320ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })))
-        ], { optional: true })
-      ])
-    ])
-  ]
+  styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(InteractiveGlobeComponent) globeComp?: InteractiveGlobeComponent;
