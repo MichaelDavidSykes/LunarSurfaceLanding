@@ -38,10 +38,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Location data from graph API
   locationData: any[] = [];
-  currentLocationIndex: number = 0;
-  typedLocationName: string = '';
-  private locationCycleInterval: any;
-
   // New threat intelligence properties
   threatIntelligenceData: any[] = [];
 
@@ -62,7 +58,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   chartsLoaded = false;
 
-  private typingTimeout: any;
   fadeState = 'fade-in';
   isLoading = false; // Start hidden
   private loadingAnimationTimeline: any;
@@ -359,7 +354,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed = true;
-    this.stopLocationCycle();
     this.stopMultipleTypingEffects();
     this.stopTypingEffectsAnimationLoop();
     if (this.viewInitDelayTimer) {
@@ -613,12 +607,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           if (Array.isArray(response?.data)) {
             this.threatIntelligenceData = response.data.filter((item: any) => item.type !== 'location');
             this.locationData = response.data.find((item: any) => item.type === 'location')?.items || [];
-            
-            this.currentLocationIndex = 0;
-            
-            this.updateCurrentLocationData(); // Initialize first location data
-            
-            this.startLocationCycle();
+
             // Typing effects will start after map loads
             
             // Initialize map if charts are loaded, otherwise wait for them
@@ -1006,9 +995,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const statement = mission.querySelector('.mission-statement') as HTMLElement | null;
     const copyParagraphs = gsap.utils.toArray<HTMLElement>('.mission-section .mission-copy p');
     const cards = gsap.utils.toArray<HTMLElement>('.landing-extra-content .feature-card');
-    const cardIcons = cards
-      .map((card) => card.querySelector('.feature-icon'))
-      .filter((target): target is Element => Boolean(target));
     const cardTextItems = cards.flatMap((card) => [
       card.querySelector('h3'),
       card.querySelector('.card-main-text'),
@@ -1020,7 +1006,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       statement,
       ...copyParagraphs,
       ...cards,
-      ...cardIcons,
       ...cardTextItems
     ].filter((target): target is Element => Boolean(target));
 
@@ -1054,7 +1039,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       opacity: 0,
       clipPath: 'inset(0% 0% 16% 0% round 12px)'
     });
-    gsap.set(cardIcons, { opacity: 0 });
     gsap.set(cardTextItems, { opacity: 0, y: 18 });
 
     const tl = gsap.timeline({
@@ -1098,7 +1082,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     cards.forEach((card, index) => {
-      const icon = card.querySelector('.feature-icon');
       const textItems = [
         card.querySelector('h3'),
         card.querySelector('.card-main-text'),
@@ -1112,14 +1095,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         duration: 0.62,
         ease: 'power2.out'
       }, offset);
-
-      if (icon) {
-        tl.to(icon, {
-          opacity: 1,
-          duration: 0.36,
-          ease: 'power2.out'
-        }, offset + 0.06);
-      }
 
       if (textItems.length > 0) {
         tl.to(textItems, {
@@ -1529,9 +1504,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (document.querySelector('#regions_div')) {
         gsap.set('#regions_div', { opacity: 0 });
       }
-      if (document.querySelector('.map')) {
-        gsap.set('.map', { opacity: 0 });
-      }
 
       this.loadingAnimationTimeline = gsap.timeline();
 
@@ -1596,8 +1568,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Smoothly fade in the map
-    if (document.querySelector('#regions_div') || document.querySelector('.map')) {
-      gsap.to(['#regions_div', '.map'], { opacity: 1, duration: 0.6, ease: 'power2.out' });
+    if (document.querySelector('#regions_div')) {
+      gsap.to('#regions_div', { opacity: 1, duration: 0.6, ease: 'power2.out' });
     }
 
     this.isLoading = false;
@@ -1688,57 +1660,4 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  updateCurrentLocationData(): void {
-    if (!this.locationData || this.locationData.length === 0) return;
-    
-    const currentLocation = this.locationData[this.currentLocationIndex];
-    if (currentLocation) {
-      this.typedLocationName = currentLocation.name || 'Unknown Location';
-      this.startLocationNameTyping();
-    }
-  }
-
-  startLocationCycle(): void {
-    this.stopLocationCycle();
-    if (!this.locationData || this.locationData.length === 0) return;
-    
-    this.locationCycleInterval = setInterval(() => {
-      try {
-        if (this.locationData.length > 0) {
-          this.currentLocationIndex = (this.currentLocationIndex + 1) % this.locationData.length;
-          this.updateCurrentLocationData();
-        }
-      } catch (err) {
-        console.error('Error in location cycling interval:', err);
-        this.stopLocationCycle();
-      }
-    }, 6000); // Change location every 6 seconds
-  }
-
-  stopLocationCycle(): void {
-    if (this.locationCycleInterval) {
-      clearInterval(this.locationCycleInterval);
-      this.locationCycleInterval = null;
-    }
-  }
-
-  startLocationNameTyping(): void {
-    if (this.typingTimeout) {
-      clearTimeout(this.typingTimeout);
-    }
-    
-    this.typedLocationName = '';
-    if (!this.typedLocationName) return;
-    
-    let i = 0;
-    const text = this.typedLocationName;
-    const typeNext = () => {
-      if (i <= text.length) {
-        this.typedLocationName = text.slice(0, i);
-        i++;
-        this.typingTimeout = setTimeout(typeNext, 18 + Math.random() * 32);
-      }
-    };
-    typeNext();
-  }
 }

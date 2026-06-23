@@ -42,12 +42,7 @@
         {{ effect.displayText }}
       </div>
     </div>
-    <div *ngIf="typedLocationName" class="map-target-name" [ngClass]="fadeState">
-      <div class="target-name-content">
-        {{ typedLocationName }}
-      </div>
-    </div>
-    <div id="regions_div" [ngClass]="fadeState" style="width: 100%; height: 100vh; position: relative;"></div>
+    <div id="regions_div" [ngClass]="fadeState"></div>
     <div class="map-scroll-cue" *ngIf="!isTaskbarScrolled && !isMobileMenuOpen && !isLoading">
       <span class="map-scroll-cue-text">Scroll</span>
       <span class="map-scroll-cue-arrow" aria-hidden="true"></span>
