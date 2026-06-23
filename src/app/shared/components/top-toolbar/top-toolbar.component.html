@@ -6,11 +6,14 @@
     </button>
 
     <nav class="docs-desktop-nav" aria-label="Primary">
-      <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('api')" (click)="onAction('api')">Docs</button>
-      <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('pricing')" (click)="onAction('pricing')">Pricing</button>
-      <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('solutions')" (click)="onAction('solutions')">Solutions</button>
-      <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('ai')" (click)="onAction('ai')">AI Agent</button>
-      <button type="button" class="docs-nav-link" [class.docs-nav-link--active]="isActionActive('contact')" (click)="onAction('contact')">Contact</button>
+      <button
+        *ngFor="let item of apiNavItems; trackBy: trackNavItem"
+        type="button"
+        class="docs-nav-link"
+        [class.docs-nav-link--active]="isActionActive(item.action)"
+        (click)="onAction(item.action)">
+        {{ item.label }}
+      </button>
       <a class="docs-login-link" [href]="loginUrl">Log In</a>
     </nav>
 
@@ -42,11 +45,14 @@
     <span class="spacer"></span>
 
     <div class="desktop-nav">
-      <button type="button" class="nav-btn" [class.active]="isActionActive('solutions')" (click)="onAction('solutions')">Solutions</button>
-      <button type="button" class="nav-btn" [class.active]="isActionActive('ai')" (click)="onAction('ai')">AI Agent</button>
-      <button type="button" class="nav-btn" [class.active]="isActionActive('api')" (click)="onAction('api')">Documentation</button>
-      <button type="button" class="nav-btn" [class.active]="isActionActive('pricing')" (click)="onAction('pricing')">Pricing</button>
-      <button type="button" class="nav-btn" [class.active]="isActionActive('contact')" (click)="onAction('contact')">Contact Us</button>
+      <button
+        *ngFor="let item of landingNavItems; trackBy: trackNavItem"
+        type="button"
+        class="nav-btn"
+        [class.active]="isActionActive(item.action)"
+        (click)="onAction(item.action)">
+        {{ item.label }}
+      </button>
       <a class="login-btn" [href]="loginUrl">Log In</a>
     </div>
 
@@ -75,11 +81,14 @@
       </button>
     </div>
     <div class="mobile-menu-items">
-      <button type="button" class="mobile-menu-btn" [class.active]="isActionActive('solutions')" (click)="onAction('solutions')">Solutions</button>
-      <button type="button" class="mobile-menu-btn" [class.active]="isActionActive('ai')" (click)="onAction('ai')">AI Agent</button>
-      <button type="button" class="mobile-menu-btn" [class.active]="isActionActive('api')" (click)="onAction('api')">Documentation</button>
-      <button type="button" class="mobile-menu-btn" [class.active]="isActionActive('pricing')" (click)="onAction('pricing')">Pricing</button>
-      <button type="button" class="mobile-menu-btn" [class.active]="isActionActive('contact')" (click)="onAction('contact')">Contact Us</button>
+      <button
+        *ngFor="let item of landingNavItems; trackBy: trackNavItem"
+        type="button"
+        class="mobile-menu-btn"
+        [class.active]="isActionActive(item.action)"
+        (click)="onAction(item.action)">
+        {{ item.label }}
+      </button>
     </div>
   </div>
 

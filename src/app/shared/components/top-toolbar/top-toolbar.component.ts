@@ -6,6 +6,11 @@ import { environment } from '../../../../environments/environment';
 type ToolbarAction = 'solutions' | 'ai' | 'api' | 'pricing' | 'contact';
 type ToolbarContext = 'landing' | 'api';
 
+interface ToolbarNavItem {
+  action: ToolbarAction;
+  label: string;
+}
+
 @Component({
   selector: 'app-top-toolbar',
   templateUrl: './top-toolbar.component.html',
@@ -32,6 +37,20 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   protected isMobileMenuOpen = false;
   protected disableTransitions = false;
   protected readonly loginUrl = `${environment.appUrl}/login`;
+  protected readonly apiNavItems: ReadonlyArray<ToolbarNavItem> = [
+    { action: 'api', label: 'Docs' },
+    { action: 'pricing', label: 'Pricing' },
+    { action: 'solutions', label: 'Solutions' },
+    { action: 'ai', label: 'AI Agent' },
+    { action: 'contact', label: 'Contact' }
+  ];
+  protected readonly landingNavItems: ReadonlyArray<ToolbarNavItem> = [
+    { action: 'solutions', label: 'Solutions' },
+    { action: 'ai', label: 'AI Agent' },
+    { action: 'api', label: 'Documentation' },
+    { action: 'pricing', label: 'Pricing' },
+    { action: 'contact', label: 'Contact Us' }
+  ];
   private forcedScrollVisual = false;
   private forceScrollTimer: ReturnType<typeof setTimeout> | null = null;
   private transitionUnlockTimer: ReturnType<typeof setTimeout> | null = null;
@@ -165,6 +184,10 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     return this.context === 'api' && action === 'api';
+  }
+
+  protected trackNavItem(_index: number, item: ToolbarNavItem): ToolbarAction {
+    return item.action;
   }
 
   private emitLandingAction(action: ToolbarAction): void {
