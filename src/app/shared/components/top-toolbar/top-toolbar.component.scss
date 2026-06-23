@@ -462,9 +462,6 @@
   }
 }
 
-@media (hover: none) and (pointer: coarse) {
-}
-
 @media (max-width: 960px) {
   .docs-toolbar {
     padding: 0 14px;
@@ -524,10 +521,6 @@
 
   .desktop-nav {
     display: none;
-  }
-
-  .mobile-nav {
-    display: block;
   }
 
   .mobile-nav {

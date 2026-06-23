@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 interface SidebarItem {
   path?: string;
@@ -18,13 +18,6 @@ export class ApiDocsSidebarComponent {
   @Input() items: SidebarItem[] = [];
   @Input() basePath = '/api';
   @Input() variant: 'default' | 'light' = 'default';
-
-  @Output() sectionSelect = new EventEmitter<string>();
-
-  protected onSelect(event: Event, sectionId: string): void {
-    event.preventDefault();
-    this.sectionSelect.emit(sectionId);
-  }
 
   protected buildPath(item: SidebarItem): string {
     const segment = item.path ?? item.id;
