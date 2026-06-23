@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 type PricingLandingTarget = 'solutions' | 'ai-agent' | 'contact';
-type PlanCtaAction = 'docs' | 'contact';
 
 interface PricingMetric {
   label: string;
@@ -17,7 +16,6 @@ interface PricingPlan {
   metrics: PricingMetric[];
   featured?: boolean;
   ctaLabel: string;
-  ctaAction: PlanCtaAction;
   features: string[];
   footnote: string;
 }
@@ -60,7 +58,6 @@ export class PricingPageComponent {
         { label: 'Delivery', value: 'In-app and email' }
       ],
       ctaLabel: 'Request evaluation',
-      ctaAction: 'contact',
       features: [
         'Graph explorer and saved queries',
         'Manual investigations',
@@ -80,7 +77,6 @@ export class PricingPageComponent {
         { label: 'Delivery', value: 'In-app and email' }
       ],
       ctaLabel: 'Request access',
-      ctaAction: 'contact',
       features: [
         'Shared workspace for small teams',
         'Manual exploration and saved query monitoring',
@@ -101,7 +97,6 @@ export class PricingPageComponent {
       ],
       featured: true,
       ctaLabel: 'Request access',
-      ctaAction: 'contact',
       features: [
         'In-app, email, and webhook alerts',
         'CSV and PDF exports',
@@ -121,7 +116,6 @@ export class PricingPageComponent {
         { label: 'Delivery', value: 'Custom routing' }
       ],
       ctaLabel: 'Contact us',
-      ctaAction: 'contact',
       features: [
         'Custom AI and MCP/API limits',
         'Custom alert routing and exports',
@@ -144,7 +138,6 @@ export class PricingPageComponent {
         { label: 'Delivery', value: 'Demo workspace' }
       ],
       ctaLabel: 'Contact us',
-      ctaAction: 'contact',
       features: [
         'Representative routes, scenarios, vehicles, and venues',
         'Risk areas, no-go zones, and safe haven points',
@@ -165,7 +158,6 @@ export class PricingPageComponent {
       ],
       featured: true,
       ctaLabel: 'Contact us',
-      ctaAction: 'contact',
       features: [
         'Route planning and alternate route comparison',
         'Configured route-risk review',
@@ -185,7 +177,6 @@ export class PricingPageComponent {
         { label: 'Delivery', value: 'Dashboards and handoff packs' }
       ],
       ctaLabel: 'Contact us',
-      ctaAction: 'contact',
       features: [
         'Convoy and asset readiness fields',
         'Configured route-risk layers',
@@ -205,7 +196,6 @@ export class PricingPageComponent {
         { label: 'Support', value: 'Training and SLA' }
       ],
       ctaLabel: 'Contact us',
-      ctaAction: 'contact',
       features: [
         'Custom route intelligence workflows',
         'Advanced regional data coverage',
@@ -233,14 +223,5 @@ export class PricingPageComponent {
 
   protected navigateToPricing(): void {
     void this.router.navigate(['/pricing']);
-  }
-
-  protected handlePlanCta(action: PlanCtaAction): void {
-    if (action === 'docs') {
-      this.navigateToApi();
-      return;
-    }
-
-    this.navigateHome('contact');
   }
 }
