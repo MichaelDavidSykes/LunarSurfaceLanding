@@ -29,15 +29,6 @@
       </div>
     </div>
     
-    <div *ngIf="typedThreatSummary" class="map-center-summary" [ngClass]="fadeState">
-      <div class="summary-content">
-        <div class="threat-type-badge" *ngIf="currentThreatType">
-          {{ currentThreatType | titlecase }}
-        </div>
-        {{ typedThreatSummary }}
-      </div>
-    </div>
-    
     <!-- Multiple floating typing effects -->
     <div 
       *ngFor="let effect of typingEffects" 

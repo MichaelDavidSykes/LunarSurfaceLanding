@@ -66,13 +66,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // New threat intelligence properties
   threatIntelligenceData: any[] = [];
-  currentThreatType: string | null = null;
-  currentThreatItems: any[] = [];
-  currentThreatIndex: number = 0;
-  currentItemIndex: number = 0;
-  typedThreatSummary: string = '';
-  private threatCycleInterval: any;
-  private itemCycleInterval: any;
 
   // Multiple typing effects properties
   typingEffects: Array<{
@@ -394,7 +387,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed = true;
-    this.stopThreatIntelligenceCycle();
     this.stopLocationCycle();
     this.stopMultipleTypingEffects();
     this.stopTypingEffectsAnimationLoop();
@@ -659,13 +651,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.threatIntelligenceData = response.data.filter((item: any) => item.type !== 'location');
             this.locationData = response.data.find((item: any) => item.type === 'location')?.items || [];
             
-            this.currentThreatIndex = 0;
             this.currentLocationIndex = 0;
             
-            this.updateCurrentThreatData(); // Initialize first threat data
             this.updateCurrentLocationData(); // Initialize first location data
             
-            this.startRandomThreatIntelligenceCycle();
             this.startLocationCycle();
             // Typing effects will start after map loads
             
@@ -689,31 +678,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hideLoading();
         }
       });
-  }
-
-  // Randomly cycle through all threat intelligence values
-  startRandomThreatIntelligenceCycle(): void {
-    this.stopThreatIntelligenceCycle();
-    if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
-    
-    this.threatCycleInterval = setInterval(() => {
-      try {
-        // Randomly select a threat type
-        const randomThreatIndex = Math.floor(Math.random() * this.threatIntelligenceData.length);
-        this.currentThreatIndex = randomThreatIndex;
-        
-        // Randomly select an item within that threat type
-        const currentThreat = this.threatIntelligenceData[this.currentThreatIndex];
-        if (currentThreat && currentThreat.items && currentThreat.items.length > 0) {
-          const randomItemIndex = Math.floor(Math.random() * currentThreat.items.length);
-          this.currentItemIndex = randomItemIndex;
-          this.updateCurrentThreatData();
-        }
-      } catch (err) {
-        console.error('Error in random threat intelligence cycling interval:', err);
-        this.stopThreatIntelligenceCycle();
-      }
-    }, 5000); // Change every 5 seconds for more dynamic feel
   }
 
   // Start multiple typing effects system
@@ -980,24 +944,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     gsap.set('.interactive-globe-section', { opacity: 0, y: 30 });
     gsap.set('.globe-heading', { opacity: 0, y: 10 });
 
-    // Animate line drawing for first section (disabled - requires DrawSVG plugin)
-    // gsap.fromTo('.line-path',
-    //   { drawSVG: "0%" },
-    //   {
-    //     drawSVG: "100%",
-    //     duration: 2,
-    //     ease: "power2.out",
-    //     stagger: 0.3,
-    //     scrollTrigger: {
-    //       trigger: '.landing-extra-content',
-    //       start: 'top 20%',
-    //       end: 'bottom 0%',
-    //       scrub: 1,
-    //       toggleActions: 'play none none reverse'
-    //     }
-    //   }
-    // );
-
     // Animate architectural connections for second section
     gsap.fromTo('.arch-connection',
       { strokeDasharray: "0 1000", strokeDashoffset: 0 },
@@ -1071,53 +1017,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     }
-
-    // Animate stats with staggered effect (disabled - elements not found)
-    // gsap.to('.animate-stat', {
-    //   opacity: 1,
-    //   y: 0,
-    //   duration: 1,
-    //   stagger: 0.2,
-    //   ease: 'power3.out',
-    //   scrollTrigger: {
-    //     trigger: '.animated-stats',
-    //     start: 'top 70%',
-    //     end: 'bottom 30%',
-    //     toggleActions: 'play none none reverse'
-    //     }
-    //   }
-    // );
-
-    // Animate feature items with staggered effect (disabled - elements not found)
-    // gsap.to('.animate-feature', {
-    //   opacity: 1,
-    //   y: 0,
-    //   duration: 1.2,
-    //   stagger: 0.3,
-    //   ease: 'power3.out',
-    //   scrollTrigger: {
-    //     trigger: '.animated-features',
-    //     start: 'top 70%',
-    //     end: 'bottom 30%',
-    //       toggleActions: 'play none none reverse'
-    //     }
-    //   }
-    // );
-
-    // Animate platform cards with staggered effect
-    // gsap.to('.platform-card', {
-    //   opacity: 1,
-    //   y: 0,
-    //   duration: 1.2,
-    //   stagger: 0.3,
-    //   ease: 'power3.out',
-    //   scrollTrigger: {
-    //     trigger: '.platform-flow',
-    //     start: 'top 70%',
-    //     end: 'bottom 30%',
-    //     toggleActions: 'play none none reverse'
-    //   }
-    // });
 
     // Animate mission section and intelligence domain cards
     this.setupMissionAnimations();
@@ -1825,75 +1724,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-
-  startThreatIntelligenceCycle(): void {
-    this.stopThreatIntelligenceCycle();
-    if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
-    
-    this.threatCycleInterval = setInterval(() => {
-      try {
-        if (this.threatIntelligenceData.length > 0) {
-          this.currentThreatIndex = (this.currentThreatIndex + 1) % this.threatIntelligenceData.length;
-          this.updateCurrentThreatData();
-        }
-      } catch (err) {
-        console.error('Error in threat intelligence cycling interval:', err);
-        this.stopThreatIntelligenceCycle();
-      }
-    }, 8000); // Change threat type every 8 seconds
-  }
-
-  stopThreatIntelligenceCycle(): void {
-    if (this.threatCycleInterval) {
-      clearInterval(this.threatCycleInterval);
-      this.threatCycleInterval = null;
-    }
-    if (this.itemCycleInterval) {
-      clearInterval(this.itemCycleInterval);
-      this.itemCycleInterval = null;
-    }
-  }
-
-  updateCurrentThreatData(): void {
-    if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
-    
-    const currentThreat = this.threatIntelligenceData[this.currentThreatIndex];
-    if (currentThreat) {
-      this.currentThreatType = currentThreat.type;
-      this.currentThreatItems = currentThreat.items || [];
-      this.currentItemIndex = 0;
-      this.startItemCycle();
-      
-    }
-  }
-
-  startItemCycle(): void {
-    this.stopItemCycle();
-    if (!this.currentThreatItems || this.currentThreatItems.length === 0) return;
-    
-    this.itemCycleInterval = setInterval(() => {
-      try {
-        if (this.currentThreatItems.length > 0) {
-          this.currentItemIndex = (this.currentItemIndex + 1) % this.currentThreatItems.length;
-  
-        }
-      } catch (err) {
-        console.error('Error in item cycling interval:', err);
-        this.stopItemCycle();
-      }
-    }, 4000); // Change item every 4 seconds
-  }
-
-  stopItemCycle(): void {
-    if (this.itemCycleInterval) {
-      clearInterval(this.itemCycleInterval);
-      this.itemCycleInterval = null;
-    }
-  }
-
-
-
-
 
   updateCurrentLocationData(): void {
     if (!this.locationData || this.locationData.length === 0) return;

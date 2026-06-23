@@ -247,55 +247,6 @@ p {
 }
 
 
-.map-center-summary {
-  position: absolute;
-  top: 50%;
-  left: 7vw;
-  right: auto;
-  transform: translateY(-50%);
-  z-index: 10;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 50vw;
-  max-width: 600px;
-  height: 10em; /* Increased for more lines */
-  min-height: 80px;
-  pointer-events: none;
-}
-
-.summary-content {
-  background: none;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 400;
-  border-radius: 0;
-  padding: 0;
-  box-shadow: none;
-  text-align: left;
-  line-height: 1.6;
-  text-shadow: 0 2px 16px rgba(0,0,0,0.45), 0 1px 1px rgba(0,0,0,0.18);
-  height: 100%;
-  /* Removed max-height and overflow-y for no scrollbars */
-  word-break: break-word;
-  white-space: pre-line;
-
-  .threat-type-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #915eff, #d196e6);
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 0;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(145, 94, 255, 0.3);
-    text-shadow: none;
-  }
-}
-
 .map-target-name {
   position: absolute;
   top: 50%;
@@ -331,7 +282,6 @@ p {
   white-space: pre-line;
 }
 
-.map-center-summary,
 .map-target-name,
 #regions_div {
   transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
