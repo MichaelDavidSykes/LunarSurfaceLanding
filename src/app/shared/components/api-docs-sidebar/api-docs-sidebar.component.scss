@@ -67,21 +67,6 @@
   font-weight: 600;
 }
 
-.group-link--has-children {
-  position: relative;
-  padding-right: 36px;
-}
-
-.group-link--has-children::after {
-  content: '›';
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #7f7f7f;
-  font-size: 1.2rem;
-}
-
 .sidebar-children {
   display: grid;
   gap: 6px;

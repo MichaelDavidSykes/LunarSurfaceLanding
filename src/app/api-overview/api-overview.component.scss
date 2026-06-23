@@ -48,7 +48,6 @@
 
 .overview-lede,
 .section-intro,
-.section-note,
 .docs-card p,
 .request-values span,
 .detail-list {
@@ -419,10 +418,6 @@ span code {
 }
 
 @media (max-width: 1180px) {
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
   .route-code {
     max-width: none;
   }
@@ -437,7 +432,6 @@ span code {
     margin-top: 12px;
   }
 
-  .metric-grid,
   .compact-grid,
   .fact-grid,
   .code-pair {
@@ -463,9 +457,5 @@ span code {
     width: 44px;
     height: 44px;
     border-radius: 0;
-  }
-
-  .metric-grid {
-    grid-template-columns: 1fr;
   }
 }

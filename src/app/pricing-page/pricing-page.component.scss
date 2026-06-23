@@ -255,10 +255,6 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
-.plans-grid--saferoute {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 .plan-card {
   display: grid;
   grid-template-rows: auto auto auto 1fr auto auto;
