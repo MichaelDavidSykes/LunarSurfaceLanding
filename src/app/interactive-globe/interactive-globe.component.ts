@@ -259,6 +259,10 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   ]);
   private borderThemeProgress = 0; // 0 = purple (intel), 1 = red (no intel)
   private borderThemeAnimId: number | null = null;
+  private destroyed = false;
+  private resizeHandler: (() => void) | null = null;
+  private clickHighlightCanvas: HTMLCanvasElement | null = null;
+  private clickHighlightHandler: ((event: MouseEvent) => void) | null = null;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -720,6 +724,10 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       import('three/examples/jsm/controls/OrbitControls.js'),
       import('three/examples/jsm/renderers/CSS2DRenderer.js')
     ]);
+    if (this.destroyed) {
+      return;
+    }
+
     this.three = THREE;
     this.CSS2DObjectCtor = CSS2DObject;
 
@@ -834,7 +842,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.labelRenderer?.domElement?.classList.remove('globe-label-layer--dragging');
     });
 
-    const onResize = () => {
+    this.resizeHandler = () => {
       if (!this.renderer || !this.camera) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
@@ -843,10 +851,15 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
     };
-    window.addEventListener('resize', onResize);
-    onResize();
+    window.addEventListener('resize', this.resizeHandler);
+    this.resizeHandler();
 
     const animate = () => {
+      if (this.destroyed) {
+        this.animationId = null;
+        return;
+      }
+
       if (this.explorerMode && this.focusAnimation && this.camera && this.controls) {
         const now = performance.now();
         const { start, end, startTime, duration } = this.focusAnimation;
@@ -882,6 +895,9 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
     // Apply continents texture from local GeoJSON
     await this.applyLandTexture(THREE);
+    if (this.destroyed) {
+      return;
+    }
 
     // Click-to-highlight interaction
     this.setupClickHighlight();
@@ -2089,7 +2105,10 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     const raycaster = new this.three.Raycaster();
     const mouse = new this.three.Vector2();
 
-    const onClick = (event: MouseEvent) => {
+    this.removeClickHighlightListener();
+
+    this.clickHighlightCanvas = canvas;
+    this.clickHighlightHandler = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -2158,7 +2177,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       // Leave selection active until user picks another country
     };
 
-    canvas.addEventListener('click', onClick);
+    canvas.addEventListener('click', this.clickHighlightHandler);
   }
 
   private drawCountryHighlight(feature: any): void {
@@ -2217,8 +2236,17 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
+    this.removeGlobeEventListeners();
     if (this.animationId) cancelAnimationFrame(this.animationId);
+    this.animationId = null;
     if (this.controls) this.controls.dispose();
+    if (this.labelRenderer) {
+      const el = this.containerRef?.nativeElement;
+      if (el && this.labelRenderer.domElement && el.contains(this.labelRenderer.domElement)) {
+        el.removeChild(this.labelRenderer.domElement);
+      }
+    }
     if (this.renderer) {
       this.renderer.dispose();
       const el = this.containerRef?.nativeElement;
@@ -2243,5 +2271,21 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.borderThemeAnimId = null;
     }
     this.clearPendingLabelReveal();
+  }
+
+  private removeGlobeEventListeners(): void {
+    if (this.isBrowser && this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    this.removeClickHighlightListener();
+  }
+
+  private removeClickHighlightListener(): void {
+    if (this.clickHighlightCanvas && this.clickHighlightHandler) {
+      this.clickHighlightCanvas.removeEventListener('click', this.clickHighlightHandler);
+    }
+    this.clickHighlightCanvas = null;
+    this.clickHighlightHandler = null;
   }
 }
