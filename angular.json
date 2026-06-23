@@ -83,13 +83,7 @@
               "optimization": false,
               "extractLicenses": false,
               "outputHashing": "all",
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.ts"
-                }
-              ]
+              "sourceMap": true
             },
 
             "local": {
