@@ -7,6 +7,7 @@ import { GlobalSnackbarService } from '../shared/global-snackbar/global-snackbar
 import { environment } from '../../environments/environment';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Subscription } from 'rxjs';
 
 declare var google: any;
 
@@ -64,6 +65,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
   private containerRestoreTimer: ReturnType<typeof setTimeout> | null = null;
   private navigationScrollTimer: ReturnType<typeof setTimeout> | null = null;
+  private routeFragmentSubscription?: Subscription;
   private typingEffectsAnimationFrame: number | null = null;
   private isDestroyed = false;
   private readonly mobileDetectionResizeHandler = () => this.handleViewportResize();
@@ -326,7 +328,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.consumeNavigationScrollTarget();
 
-    this.route.fragment.subscribe((fragment) => {
+    this.routeFragmentSubscription = this.route.fragment.subscribe((fragment) => {
       if (!fragment) {
         return;
       }
@@ -368,6 +370,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       clearTimeout(this.navigationScrollTimer);
       this.navigationScrollTimer = null;
     }
+    this.routeFragmentSubscription?.unsubscribe();
+    this.routeFragmentSubscription = undefined;
     if (this.isBrowser && typeof window !== 'undefined') {
       window.removeEventListener('resize', this.mobileDetectionResizeHandler);
       document.body.classList.remove(this.nativeMobileScrollClass);
