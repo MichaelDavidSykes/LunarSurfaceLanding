@@ -7,7 +7,6 @@
     (solutionsClick)="navigateHome('solutions')"
     (aiAgentClick)="navigateHome('ai-agent')"
     (apiClick)="navigateToApi()"
-    (pricingClick)="navigateToPricing()"
     (contactClick)="navigateHome('contact')">
   </app-top-toolbar>
 
@@ -81,7 +80,8 @@
           <p class="plan-footnote">{{ plan.footnote }}</p>
 
           <a
-            href="/#contact"
+            routerLink="/"
+            fragment="contact"
             class="plan-cta"
             [class.plan-cta--secondary]="!plan.featured">
             {{ plan.ctaLabel }}
@@ -134,7 +134,8 @@
           <p class="plan-footnote">{{ plan.footnote }}</p>
 
           <a
-            href="/#contact"
+            routerLink="/"
+            fragment="contact"
             class="plan-cta"
             [class.plan-cta--secondary]="!plan.featured">
             {{ plan.ctaLabel }}

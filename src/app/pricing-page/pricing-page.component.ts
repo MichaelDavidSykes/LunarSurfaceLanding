@@ -220,8 +220,4 @@ export class PricingPageComponent {
   protected navigateToApi(): void {
     void this.router.navigate(['/api/overview']);
   }
-
-  protected navigateToPricing(): void {
-    void this.router.navigate(['/pricing']);
-  }
 }
