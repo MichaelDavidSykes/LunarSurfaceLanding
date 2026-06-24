@@ -36,76 +36,22 @@
       </article>
     </section>
 
-    <section class="product-pricing-section product-pricing-section--threatscape" id="threatscape-pricing">
+    <section
+      *ngFor="let section of pricingSections"
+      class="product-pricing-section"
+      [ngClass]="section.modifierClass"
+      [id]="section.id">
       <div class="product-section-heading">
         <div>
-          <p class="section-kicker">01 / ThreatScape</p>
-          <h2>ThreatScape annual workspace pricing.</h2>
+          <p class="section-kicker">{{ section.kicker }}</p>
+          <h2>{{ section.heading }}</h2>
         </div>
-        <p>
-          ThreatScape pricing is based on seats, active monitored queries, alert delivery,
-          exports, AI investigations, and MCP/API usage. Final pricing is confirmed by
-          written quotation or proposal.
-        </p>
+        <p>{{ section.description }}</p>
       </div>
 
       <div class="plans-grid">
         <article
-          *ngFor="let plan of threatscapePlans"
-          class="plan-card"
-          [class.plan-card--featured]="plan.featured">
-          <div class="plan-header">
-            <div>
-              <p class="plan-name">{{ plan.name }}</p>
-              <div class="plan-price-row">
-                <h3>{{ plan.price }}</h3>
-                <span>{{ plan.cadence }}</span>
-              </div>
-            </div>
-          </div>
-
-          <p class="plan-description">{{ plan.description }}</p>
-
-          <div class="plan-metrics">
-            <div class="plan-metric" *ngFor="let metric of plan.metrics">
-              <span>{{ metric.label }}</span>
-              <strong>{{ metric.value }}</strong>
-            </div>
-          </div>
-
-          <ul class="plan-features">
-            <li *ngFor="let feature of plan.features">{{ feature }}</li>
-          </ul>
-
-          <p class="plan-footnote">{{ plan.footnote }}</p>
-
-          <a
-            routerLink="/"
-            fragment="contact"
-            class="plan-cta"
-            [class.plan-cta--secondary]="!plan.featured">
-            {{ plan.ctaLabel }}
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <section class="product-pricing-section product-pricing-section--saferoute" id="saferoute-pricing">
-      <div class="product-section-heading">
-        <div>
-          <p class="section-kicker">02 / SafeRoute</p>
-          <h2>SafeRoute annual workspace pricing.</h2>
-        </div>
-        <p>
-          SafeRoute pricing is based on seats, route-planning workflow, configured
-          risk review, briefing outputs, support needs, and deployment scope. Enterprise
-          and operational deployments are quoted separately.
-        </p>
-      </div>
-
-      <div class="plans-grid">
-        <article
-          *ngFor="let plan of saferoutePlans"
+          *ngFor="let plan of section.plans"
           class="plan-card"
           [class.plan-card--featured]="plan.featured">
           <div class="plan-header">
