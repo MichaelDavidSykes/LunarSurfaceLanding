@@ -194,42 +194,6 @@ app-root {
     border: 1px solid var(--border-dark);
   }
 
-  button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn) {
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    background: linear-gradient(135deg, rgba(39, 49, 77, 0.78), rgba(30, 41, 59, 0.72));
-    color: rgba(236, 241, 255, 0.94);
-    border-radius: 0;
-    box-shadow: 0 6px 14px rgba(8, 12, 24, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.03em;
-    padding: 9px 14px;
-    min-width: 80px;
-    min-height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
-  }
-  button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn) mat-icon {
-    font-size: 1.1em;
-  }
-  button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):hover {
-    border-color: rgba(167, 139, 250, 0.38);
-    background: linear-gradient(135deg, rgba(50, 63, 97, 0.82), rgba(35, 47, 73, 0.76));
-    box-shadow: 0 4px 10px rgba(10, 14, 28, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
-  button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):focus-visible {
-    outline: none;
-    border-color: rgba(165, 180, 252, 0.62);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.16), 0 4px 10px rgba(10, 14, 28, 0.18);
-  }
-  button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):active {
-    filter: brightness(0.98);
-  }
-
   .menu-item {
     color: var(--text-dark);
     
@@ -243,7 +207,7 @@ app-root {
 
     &.active {
       background-color: rgba(209, 150, 230, 0.1);
-      
+
       .icon {
         color: var(--primary-color);
       }
@@ -299,6 +263,30 @@ app-root {
     border: 1px solid var(--border-light);
   }
 
+  .menu-item {
+    color: var(--text-light);
+
+    .icon {
+      color: var(--text-light);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &.active {
+      background-color: rgba(209, 150, 230, 0.1);
+
+      .icon {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+/* Shared themed button treatment */
+.dark-theme,
+.light-theme {
   button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn) {
     border: 1px solid rgba(148, 163, 184, 0.3);
     background: linear-gradient(135deg, rgba(39, 49, 77, 0.78), rgba(30, 41, 59, 0.72));
@@ -318,41 +306,25 @@ app-root {
     cursor: pointer;
     transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
   }
+
   button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn) mat-icon {
     font-size: 1.1em;
   }
+
   button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):hover {
     border-color: rgba(167, 139, 250, 0.38);
     background: linear-gradient(135deg, rgba(50, 63, 97, 0.82), rgba(35, 47, 73, 0.76));
     box-shadow: 0 4px 10px rgba(10, 14, 28, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
+
   button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):focus-visible {
     outline: none;
     border-color: rgba(165, 180, 252, 0.62);
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.16), 0 4px 10px rgba(10, 14, 28, 0.18);
   }
+
   button:not(.menu-item):not(.mat-button):not(.nav-btn):not(.login-btn):not(.mobile-menu-btn):not(.mobile-login-btn):not(.hamburger-btn):not(.close-btn):not(.mobile-icon-btn):active {
     filter: brightness(0.98);
-  }
-
-  .menu-item {
-    color: var(--text-light);
-
-    .icon {
-      color: var(--text-light);
-    }
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    &.active {
-      background-color: rgba(209, 150, 230, 0.1);
-      
-      .icon {
-        color: var(--primary-color);
-      }
-    }
   }
 }
 
