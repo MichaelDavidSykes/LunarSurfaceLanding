@@ -81,38 +81,23 @@
       </div>
     </div>
     <div class="feature-cards">
-      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(0)" [class.expanded]="expandedCards[0]">
-        <h3>Cyber Threat Intelligence</h3>
-        <p class="card-main-text">Track threat actors, malware, infrastructure, indicators, vulnerabilities, and campaigns across public and specialist cyber intelligence sources.</p>
-        <div class="card-expandable-content" [class.show]="expandedCards[0]">
-          <p>Use LunarChain for IOC lookups, DFIR, enrichment, investigations, and alerting inside analyst and security workflows. Use our API to enrich SOC operations.</p>
+      <div
+        *ngFor="let card of featureCards; let cardIndex = index; trackBy: trackFeatureCard"
+        class="feature-card fade-in-element"
+        [class.expanded]="expandedCards[cardIndex]"
+        [attr.role]="isMobile ? 'button' : null"
+        [attr.tabindex]="isMobile ? 0 : null"
+        [attr.aria-expanded]="isMobile ? expandedCards[cardIndex] : null"
+        (click)="toggleCardExpansion(cardIndex)"
+        (keydown.enter)="toggleCardExpansion(cardIndex)"
+        (keydown.space)="toggleCardExpansion(cardIndex); $event.preventDefault()">
+        <h3>{{ card.title }}</h3>
+        <p class="card-main-text">{{ card.summary }}</p>
+        <div class="card-expandable-content" [class.show]="expandedCards[cardIndex]">
+          <p>{{ card.details }}</p>
         </div>
         <div class="mobile-expand-indicator" *ngIf="isMobile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[0]">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </div>
-      </div>
-      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(1)" [class.expanded]="expandedCards[1]">
-        <h3>Military &amp; Geopolitical Activity</h3>
-        <p class="card-main-text">Monitor military operations, geopolitical escalation, state-linked activity, and region-specific reporting as situations develop across countries and theatres.</p>
-        <div class="card-expandable-content" [class.show]="expandedCards[1]">
-          <p>Follow locations, organizations, incidents, and linked reporting in one view to surface operational context faster.</p>
-        </div>
-        <div class="mobile-expand-indicator" *ngIf="isMobile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[1]">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </div>
-      </div>
-      <div class="feature-card fade-in-element" (click)="toggleCardExpansion(2)" [class.expanded]="expandedCards[2]">
-        <h3>Brand, Supply Chain &amp; Regional Risk</h3>
-        <p class="card-main-text">Track risk around organizations, executives, vendors, facilities, and operating regions, including exposure, disruption, leaks, and emerging local threats.</p>
-        <div class="card-expandable-content" [class.show]="expandedCards[2]">
-          <p>Deliver that intelligence through LunarSurface, the API, and the MCP Server for operational workflows, custom integrations, and AI-powered risk analysis.</p>
-        </div>
-        <div class="mobile-expand-indicator" *ngIf="isMobile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[2]">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[cardIndex]">
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </div>

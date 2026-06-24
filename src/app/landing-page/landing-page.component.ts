@@ -11,6 +11,12 @@ import { Subscription } from 'rxjs';
 
 declare var google: any;
 
+interface FeatureCard {
+  title: string;
+  summary: string;
+  details: string;
+}
+
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -35,7 +41,24 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   isMobile: boolean = false;
   isTaskbarScrolled: boolean = false;
   private suppressTaskbarSyncUntil = 0;
-  expandedCards: boolean[] = [false, false, false];
+  protected readonly featureCards: FeatureCard[] = [
+    {
+      title: 'Cyber Threat Intelligence',
+      summary: 'Track threat actors, malware, infrastructure, indicators, vulnerabilities, and campaigns across public and specialist cyber intelligence sources.',
+      details: 'Use LunarChain for IOC lookups, DFIR, enrichment, investigations, and alerting inside analyst and security workflows. Use our API to enrich SOC operations.'
+    },
+    {
+      title: 'Military & Geopolitical Activity',
+      summary: 'Monitor military operations, geopolitical escalation, state-linked activity, and region-specific reporting as situations develop across countries and theatres.',
+      details: 'Follow locations, organizations, incidents, and linked reporting in one view to surface operational context faster.'
+    },
+    {
+      title: 'Brand, Supply Chain & Regional Risk',
+      summary: 'Track risk around organizations, executives, vendors, facilities, and operating regions, including exposure, disruption, leaks, and emerging local threats.',
+      details: 'Deliver that intelligence through LunarSurface, the API, and the MCP Server for operational workflows, custom integrations, and AI-powered risk analysis.'
+    }
+  ];
+  expandedCards: boolean[] = this.featureCards.map(() => false);
 
   // Location data from graph API
   locationData: any[] = [];
@@ -527,6 +550,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isMobile) {
       this.expandedCards[cardIndex] = !this.expandedCards[cardIndex];
     }
+  }
+
+  protected trackFeatureCard(_index: number, card: FeatureCard): string {
+    return card.title;
   }
 
   updateMobileDetection(): void {

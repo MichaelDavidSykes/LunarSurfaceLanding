@@ -436,6 +436,11 @@ p {
   transform: scaleX(1);
 }
 
+.feature-card:focus-visible {
+  outline: 2px solid rgba(var(--feature-accent-rgb), 0.72);
+  outline-offset: 4px;
+}
+
 .feature-card h3 {
   color: #2d3748;
   font-size: 1.4rem;
@@ -587,7 +592,7 @@ p {
     transition: transform 0.3s ease !important;
   }
 
-  .landing-extra-content .feature-cards .feature-card .mobile-expand-indicator.rotated {
+  .landing-extra-content .feature-cards .feature-card .mobile-expand-indicator svg.rotated {
     transform: rotate(180deg) !important;
   }
 
