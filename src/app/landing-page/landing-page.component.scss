@@ -676,17 +676,6 @@ p {
   letter-spacing: -0.02em;
 }
 
-.animate-subtitle {
-  font-size: 1.25rem;
-  color: #4a5568;
-  opacity: 1;
-  transform: translateY(0);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-
 // Solutions Section Styles
 .solutions-section {
   width: 100%;
@@ -1366,15 +1355,6 @@ p {
     padding: 0 1rem;
   }
 
-  .extra-content-inner .animate-title {
-    margin-top: 4rem;
-  }
-
-  .animate-subtitle {
-    font-size: 1.1rem;
-    padding: 0 1rem;
-  }
-
   .mission-section {
     margin-top: 4rem;
     margin-bottom: 2rem !important;
@@ -1506,11 +1486,6 @@ p {
     padding: 0 0.8rem;
   }
 
-  .extra-content-inner .animate-title {
-    margin-top: 3.5rem;
-  }
-
-  .animate-subtitle,
   .solutions-subtitle,
   .contact-subtitle {
     font-size: 1rem;

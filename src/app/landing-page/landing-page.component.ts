@@ -594,7 +594,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetLandingRevealStylesForNativeScroll(): void {
     const targets = gsap.utils.toArray<HTMLElement>(
-      '.animate-title, .animate-subtitle, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .contact-section *, .landing-footer *'
+      '.animate-title, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .contact-section *, .landing-footer *'
     );
 
     if (targets.length === 0) {
@@ -918,11 +918,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Set initial states for animations
-    const animateSubtitles = gsap.utils.toArray<HTMLElement>('.animate-subtitle');
     gsap.set('.animate-title', { opacity: 0, y: 30 });
-    if (animateSubtitles.length > 0) {
-      gsap.set(animateSubtitles, { opacity: 0, y: 20 });
-    }
     // Globe section + heading initial state
     gsap.set('.interactive-globe-section', { opacity: 0, y: 30 });
     gsap.set('.globe-heading', { opacity: 0, y: 10 });
@@ -984,22 +980,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         toggleActions: 'play none none reverse'
       }
     });
-
-    if (animateSubtitles.length > 0) {
-      gsap.to(animateSubtitles, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.3,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: animateSubtitles[0],
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse'
-        }
-      });
-    }
 
     // Animate mission section and intelligence domain cards
     this.setupMissionAnimations();
