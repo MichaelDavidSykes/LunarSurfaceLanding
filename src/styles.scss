@@ -121,59 +121,6 @@ app-root {
   border-radius: 0;
 }
 
-/* Explorer-styled dialog shell used by query modals */
-.cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
-  background: linear-gradient(150deg, rgba(8, 11, 22, 0.98), rgba(16, 21, 38, 0.96)) !important;
-  border: 1px solid rgba(145, 94, 255, 0.3) !important;
-  border-radius: 0;
-  box-shadow: 0 28px 56px rgba(2, 5, 14, 0.62), 0 0 0 1px rgba(145, 94, 255, 0.1) !important;
-  color: #f3f5ff !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-title {
-  color: #f3f5ff !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.015em !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-content {
-  color: rgba(233, 236, 255, 0.86) !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field {
-  width: 100%;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-text-field-wrapper {
-  background: rgba(10, 14, 28, 0.9) !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field .mdc-notched-outline__leading,
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field .mdc-notched-outline__notch,
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field .mdc-notched-outline__trailing {
-  border-color: rgba(167, 139, 250, 0.38) !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field .mdc-floating-label,
-.cdk-overlay-pane.lunar-dialog .mat-mdc-form-field .mat-mdc-floating-label {
-  color: rgba(218, 225, 255, 0.78) !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-input-element,
-.cdk-overlay-pane.lunar-dialog textarea.mat-mdc-input-element {
-  color: #f3f5ff !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-actions .mat-mdc-button:not(.mat-primary) {
-  color: rgba(223, 228, 255, 0.84) !important;
-}
-
-.cdk-overlay-pane.lunar-dialog .mat-mdc-dialog-actions .mat-mdc-raised-button.mat-primary {
-  background: linear-gradient(135deg, rgba(109, 40, 217, 0.9), rgba(88, 28, 135, 0.88)) !important;
-  color: #fdf9ff !important;
-  border: 1px solid rgba(196, 181, 253, 0.45) !important;
-}
-
 /* Global Snackbar Styles */
 .cdk-overlay-container,
 .cdk-global-overlay-wrapper {
