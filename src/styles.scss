@@ -264,36 +264,6 @@ app-root {
   background: transparent;
 }
 
-/* Light theme scrollbar overrides */
-body.light-theme, :host-context(.light-theme) {
-  * {
-    scrollbar-color: rgba(108, 92, 231, 0.3) transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(108, 92, 231, 0.2);
-    background-clip: content-box;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(108, 92, 231, 0.4);
-    background-clip: content-box;
-  }
-}
-
-/* Dark theme scrollbar overrides */
-body.dark-theme, :host-context(.dark-theme) {
-  * {
-    scrollbar-color: rgba(161, 120, 241, 0.3) transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(161, 120, 241, 0.2);
-    background-clip: content-box;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(161, 120, 241, 0.4);
-    background-clip: content-box;
-  }
-}
-
 /* Utility classes for special cases */
 .thin-scrollbar {
   scrollbar-width: thin;
