@@ -1,7 +1,5 @@
 // Supplemental shims to satisfy Angular build resolution
 // without overriding core typings.
-declare module 'three/build/three.cjs';
-declare module 'three/build/three.js';
 declare module 'three/examples/jsm/controls/OrbitControls.js';
 declare module 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
