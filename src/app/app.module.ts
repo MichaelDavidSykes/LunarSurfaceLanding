@@ -18,6 +18,7 @@ import { ApiDocsSidebarComponent } from './shared/components/api-docs-sidebar/ap
 import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component';
 import { PricingPageComponent } from './pricing-page/pricing-page.component';
 import { TermsComponent } from './terms/terms.component';
+import { SiteFooterComponent } from './shared/components/site-footer/site-footer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TermsComponent } from './terms/terms.component';
     ApiDocsSidebarComponent,
     ApiDocsLayoutComponent,
     PricingPageComponent,
-    TermsComponent
+    TermsComponent,
+    SiteFooterComponent
   ],
   imports: [
     BrowserModule,
