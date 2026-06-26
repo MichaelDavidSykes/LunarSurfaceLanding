@@ -6,7 +6,6 @@ import { Subscription, filter } from 'rxjs';
 interface DocsSidebarItem {
   id: string;
   label: string;
-  path?: string;
   children?: DocsSidebarItem[];
 }
 
@@ -47,36 +46,32 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     {
       id: 'start',
       label: 'Start',
-      path: 'overview',
       children: [
-        { id: 'overview', label: 'Overview', path: 'overview' },
-        { id: 'quick-start', label: 'Paths', path: 'quick-start' },
-        { id: 'base-configuration', label: 'Intelligence Graph', path: 'base-configuration' }
+        { id: 'overview', label: 'Overview' },
+        { id: 'quick-start', label: 'Paths' },
+        { id: 'base-configuration', label: 'Intelligence Graph' }
       ]
     },
     {
       id: 'platform-surfaces',
       label: 'APIs',
-      path: 'endpoint-focus',
       children: [
-        { id: 'endpoint-focus', label: 'Surfaces', path: 'endpoint-focus' },
-        { id: 'payload-response', label: 'Payloads', path: 'payload-response' }
+        { id: 'endpoint-focus', label: 'Surfaces' },
+        { id: 'payload-response', label: 'Payloads' }
       ]
     },
     {
       id: 'agentic-systems',
       label: 'Agents',
-      path: 'mcp-server',
       children: [
-        { id: 'mcp-server', label: 'MCP', path: 'mcp-server' }
+        { id: 'mcp-server', label: 'MCP' }
       ]
     },
     {
       id: 'query-authoring',
       label: 'Queries',
-      path: 'aql-playbook',
       children: [
-        { id: 'aql-playbook', label: 'AQL', path: 'aql-playbook' }
+        { id: 'aql-playbook', label: 'AQL' }
       ]
     }
   ];

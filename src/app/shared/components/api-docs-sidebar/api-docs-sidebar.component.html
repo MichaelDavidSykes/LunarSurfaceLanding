@@ -11,7 +11,7 @@
           <a
             *ngFor="let child of item.children"
             class="sidebar-link child-link"
-            [routerLink]="buildPath(child)"
+            [routerLink]="['/api', child.id]"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">
             {{ child.label }}
@@ -22,7 +22,7 @@
       <ng-template #standaloneItem>
         <a
           class="sidebar-link group-link"
-          [routerLink]="buildPath(item)"
+          [routerLink]="['/api', item.id]"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }">
           {{ item.label }}
