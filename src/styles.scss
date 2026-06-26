@@ -1,32 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'leaflet/dist/leaflet.css';
-/* Global styles for CSS2DRenderer labels created at runtime (outside Angular encapsulation) */
-.globe-label {
-  pointer-events: none;
-  color: #a9afbc;
-  font-size: 11px;
-  line-height: 1.25;
-  background: rgba(5, 6, 10, 0.72);
-  border: 1px solid rgba(110, 45, 200, 0.28);
-  box-shadow: 0 4px 14px rgba(110, 45, 200, 0.10);
-  border-radius: 0;
-  padding: 6px 8px;
-  max-width: 220px;
-  backdrop-filter: blur(3px);
-}
-.globe-label .label-title {
-  font-weight: 600;
-  color: #9f90e2;
-  margin-bottom: 3px;
-  font-size: 11.5px;
-}
-.globe-label .label-line {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0.9;
-}
-
 html, body { 
   height: 100%;
   margin: 0;
@@ -209,31 +182,4 @@ app-root {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
-}
-
-/* Utility classes for special cases */
-.thin-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(161, 120, 241, 0.2) transparent;
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(161, 120, 241, 0.15);
-    border-radius: 0;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(161, 120, 241, 0.3);
-  }
-}
-.hidden-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
