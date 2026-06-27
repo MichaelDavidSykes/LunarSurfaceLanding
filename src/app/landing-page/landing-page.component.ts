@@ -1315,23 +1315,27 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const headerItems = this.sectionTargets(section, '.contact-main-heading, .contact-subtitle');
     const cards = this.sectionTargets(section, '.contact-card');
-    const cardDetails = cards.flatMap((card) => [
-      card.querySelector('h3'),
-      ...Array.from(card.querySelectorAll('p'))
-    ].filter((target): target is Element => Boolean(target)));
+    const cardDetails = cards.flatMap((card): Element[] => {
+      const details: Array<Element | null> = [
+        card.querySelector('h3'),
+        ...Array.from(card.querySelectorAll('p'))
+      ];
+
+      return details.filter((target): target is Element => Boolean(target));
+    });
     const form = section.querySelector('.contact-form') as HTMLElement | null;
     const formItems = this.sectionTargets(
       section,
       '.contact-form h2, .contact-form .form-group, .contact-submit-btn'
     );
 
-    const targets = [
+    const targets = ([
       ...headerItems,
       ...cards,
       ...cardDetails,
       form,
       ...formItems
-    ].filter((target): target is Element => Boolean(target));
+    ] as Array<Element | null>).filter((target): target is Element => Boolean(target));
 
     if (targets.length === 0) return;
 
@@ -1390,10 +1394,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 0);
 
     cards.forEach((card, index) => {
-      const details = [
+      const details = ([
         card.querySelector('h3'),
         ...Array.from(card.querySelectorAll('p'))
-      ].filter((target): target is Element => Boolean(target));
+      ] as Array<Element | null>).filter((target): target is Element => Boolean(target));
       const offset = 0.28 + index * 0.12;
 
       tl.to(card, {
