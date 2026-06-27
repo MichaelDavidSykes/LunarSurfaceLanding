@@ -17,6 +17,18 @@ interface FeatureCard {
   details: string;
 }
 
+interface TypingEffect {
+  id: number;
+  text: string;
+  displayText: string;
+  x: number;
+  y: number;
+  opacity: number;
+  isVisible: boolean;
+  startTime: number;
+  duration: number;
+}
+
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -66,19 +78,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   threatIntelligenceData: any[] = [];
 
   // Multiple typing effects properties
-  typingEffects: Array<{
-    id: number;
-    text: string;
-    displayText: string;
-    x: number;
-    y: number;
-    opacity: number;
-    isVisible: boolean;
-    startTime: number;
-    duration: number;
-  }> = [];
+  typingEffects: TypingEffect[] = [];
   private nextEffectId: number = 0;
-  private typingEffectsInterval: any;
+  private typingEffectsInterval: ReturnType<typeof setTimeout> | null = null;
 
   chartsLoaded = false;
 
@@ -91,6 +93,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private routeFragmentSubscription?: Subscription;
   private typingEffectsAnimationFrame: number | null = null;
   private isDestroyed = false;
+  private readonly pendingTimers = new Set<ReturnType<typeof setTimeout>>();
   private readonly mobileDetectionResizeHandler = () => this.handleViewportResize();
   private readonly nativeMobileScrollClass = 'landing-native-mobile-scroll';
 
@@ -319,11 +322,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (this.isBrowser) {
       // Small delay to ensure DOM is ready
-      this.viewInitDelayTimer = setTimeout(() => {
+      this.viewInitDelayTimer = this.setLandingTimeout(() => {
         this.viewInitDelayTimer = null;
-        if (this.isDestroyed) {
-          return;
-        }
 
         // Preserve container constraints before running layout calculations
         this.preserveContainerConstraints();
@@ -334,11 +334,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.startTypingEffectsAnimationLoop();
         
         // Restore container constraints after layout calculations
-        this.containerRestoreTimer = setTimeout(() => {
+        this.containerRestoreTimer = this.setLandingTimeout(() => {
           this.containerRestoreTimer = null;
-          if (this.isDestroyed) {
-            return;
-          }
 
           this.restoreContainerConstraints();
         }, 100);
@@ -381,18 +378,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isDestroyed = true;
     this.stopMultipleTypingEffects();
     this.stopTypingEffectsAnimationLoop();
-    if (this.viewInitDelayTimer) {
-      clearTimeout(this.viewInitDelayTimer);
-      this.viewInitDelayTimer = null;
-    }
-    if (this.containerRestoreTimer) {
-      clearTimeout(this.containerRestoreTimer);
-      this.containerRestoreTimer = null;
-    }
-    if (this.navigationScrollTimer) {
-      clearTimeout(this.navigationScrollTimer);
-      this.navigationScrollTimer = null;
-    }
+    this.clearLandingTimeout(this.viewInitDelayTimer);
+    this.viewInitDelayTimer = null;
+    this.clearLandingTimeout(this.containerRestoreTimer);
+    this.containerRestoreTimer = null;
+    this.clearLandingTimeout(this.navigationScrollTimer);
+    this.navigationScrollTimer = null;
+    this.clearPendingLandingTimers();
     this.routeFragmentSubscription?.unsubscribe();
     this.routeFragmentSubscription = undefined;
     if (this.isBrowser && typeof window !== 'undefined') {
@@ -408,6 +400,33 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       cancelAnimationFrame(this.typingEffectsAnimationFrame);
       this.typingEffectsAnimationFrame = null;
     }
+  }
+
+  private setLandingTimeout(callback: () => void, delay: number): ReturnType<typeof setTimeout> {
+    const timer = setTimeout(() => {
+      this.pendingTimers.delete(timer);
+      if (this.isDestroyed) {
+        return;
+      }
+
+      callback();
+    }, delay);
+    this.pendingTimers.add(timer);
+    return timer;
+  }
+
+  private clearLandingTimeout(timer: ReturnType<typeof setTimeout> | null): void {
+    if (!timer) {
+      return;
+    }
+
+    clearTimeout(timer);
+    this.pendingTimers.delete(timer);
+  }
+
+  private clearPendingLandingTimers(): void {
+    this.pendingTimers.forEach((timer) => clearTimeout(timer));
+    this.pendingTimers.clear();
   }
 
   // Navigation handler
@@ -471,14 +490,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.navigationScrollTimer) {
-      clearTimeout(this.navigationScrollTimer);
+      this.clearLandingTimeout(this.navigationScrollTimer);
     }
 
-    this.navigationScrollTimer = setTimeout(() => {
+    this.navigationScrollTimer = this.setLandingTimeout(() => {
       this.navigationScrollTimer = null;
-      if (this.isDestroyed) {
-        return;
-      }
 
       this.scrollToFragment(fragment);
     }, 450);
@@ -493,7 +509,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (attempts <= 0) {
       return;
     }
-    setTimeout(() => this.scrollToSelectorWithRetry(selector, attempts - 1), 120);
+    this.setLandingTimeout(() => this.scrollToSelectorWithRetry(selector, attempts - 1), 120);
   }
 
   private consumeNavigationScrollTarget(): void {
@@ -521,7 +537,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.scheduleNavigationScroll(target);
     this.suppressTaskbarSyncUntil = Date.now() + 1200;
-    setTimeout(() => {
+    this.setLandingTimeout(() => {
       this.suppressTaskbarSyncUntil = 0;
       this.updateTaskbarScrolledState();
     }, 1250);
@@ -635,18 +651,14 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.get(`${environment.apiUrl}/api/${environment.apiVersion}/graph/public/landing-threat-intelligence`)
       .subscribe({
         next: (response: any) => {
+          if (this.isDestroyed) {
+            return;
+          }
+
           if (Array.isArray(response?.data)) {
             this.threatIntelligenceData = response.data.filter((item: any) => item.type !== 'location');
             this.locationData = response.data.find((item: any) => item.type === 'location')?.items || [];
 
-            // Typing effects will start after map loads
-            
-            // Initialize map if charts are loaded, otherwise wait for them
-            if (this.chartsLoaded) {
-              this.initializeMapWithLocations();
-            }
-            
-            // Also check if we can initialize the map now
             this.checkAndInitializeMap();
           } else {
             this.threatIntelligenceData = [];
@@ -655,6 +667,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         error: (error) => {
+          if (this.isDestroyed) {
+            return;
+          }
+
           console.error('Error loading threat intelligence data:', error);
           this.threatIntelligenceData = [];
           this.locationData = [];
@@ -673,7 +689,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       
       // Schedule next effect with new random delay
       const randomDelay = 1200 + Math.random() * 800; // Random delay between 1.2-2.0 seconds
-      this.typingEffectsInterval = setTimeout(createNextEffect, randomDelay);
+      this.typingEffectsInterval = this.setLandingTimeout(createNextEffect, randomDelay);
     };
     
     // Start the first effect
@@ -683,7 +699,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   // Stop multiple typing effects
   stopMultipleTypingEffects(): void {
     if (this.typingEffectsInterval) {
-      clearTimeout(this.typingEffectsInterval);
+      this.clearLandingTimeout(this.typingEffectsInterval);
       this.typingEffectsInterval = null;
     }
   }
@@ -760,7 +776,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Start typing animation for a specific effect
-  startTypingAnimationForEffect(effect: any): void {
+  startTypingAnimationForEffect(effect: TypingEffect): void {
     let charIndex = 0;
     
     const typeNextChar = () => {
@@ -770,12 +786,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         
         // Random typing speed for natural feel - slightly faster
         const typingDelay = 25 + Math.random() * 40; // Reduced from 30-80ms to 25-65ms
-        setTimeout(typeNextChar, typingDelay);
+        this.setLandingTimeout(typeNextChar, typingDelay);
       }
     };
 
     // Small delay before typing so the vertical reveal can complete
-    setTimeout(() => {
+    this.setLandingTimeout(() => {
       typeNextChar();
     }, 220);
 
@@ -809,8 +825,16 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       const script = document.createElement('script');
       script.src = 'https://www.gstatic.com/charts/loader.js?loading=async';
       script.onload = () => {
+        if (this.isDestroyed) {
+          return;
+        }
+
         google.charts.load('current', { packages: ['geochart'] });
         google.charts.setOnLoadCallback(() => {
+          if (this.isDestroyed) {
+            return;
+          }
+
           this.chartsLoaded = true;
           this.checkAndInitializeMap();
         });
@@ -819,6 +843,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       google.charts.load('current', { packages: ['geochart'] });
       google.charts.setOnLoadCallback(() => {
+        if (this.isDestroyed) {
+          return;
+        }
+
         this.chartsLoaded = true;
         this.checkAndInitializeMap();
       });
@@ -828,23 +856,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private checkAndInitializeMap(): void {
     // If we have both charts and data, initialize the map
     if (this.chartsLoaded && this.locationData && this.locationData.length > 0) {
-      this.initializeMapWithLocations();
-    }
-  }
-
-  private initializeMapWithLocations(): void {
-    if (typeof google !== 'undefined' && google.charts) {
-      if (this.locationData.length > 0) {
-        this.drawMapWithLocations();
-      }
+      this.drawMapWithLocations();
     }
   }
 
   private drawMapWithLocations(): void {
-    if (!this.locationData || this.locationData.length === 0) return;
+    if (!this.locationData || this.locationData.length === 0 || typeof google === 'undefined' || !google.charts) return;
     
     this.fadeState = 'fade-out';
-    setTimeout(() => {
+    this.setLandingTimeout(() => {
       try {
         // Create data table for Google Charts with location data
         const data = google.visualization.arrayToDataTable([
@@ -888,7 +908,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           chart.draw(data, options);
 
           // After chart is drawn, fade in and hide loading
-          setTimeout(() => {
+          this.setLandingTimeout(() => {
             this.fadeState = 'fade-in';
             this.hideLoading();
             
@@ -896,7 +916,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.startMultipleTypingEffects();
             
             // Create first typing effect with a tiny delay to let users see the map first
-            setTimeout(() => {
+            this.setLandingTimeout(() => {
               this.createRandomTypingEffect();
             }, 200); // Small delay to let users see the map before first effect appears
           }, 300); // Reduced from 400ms to 300ms for faster map fade-in
@@ -1503,7 +1523,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.isLoading = true;
 
-    setTimeout(() => {
+    this.setLandingTimeout(() => {
       if (document.querySelector('.loading-text')) {
         gsap.set('.loading-text', { opacity: 0, y: 12 });
       }
