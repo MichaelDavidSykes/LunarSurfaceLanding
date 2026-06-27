@@ -3,8 +3,9 @@ import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 type FooterLandingTarget = 'solutions' | 'ai-agent' | 'contact';
-type FooterActivePage = 'pricing';
+type FooterActivePage = 'pricing' | 'terms';
 type FooterLinkType = 'landing' | 'route' | 'external';
+type FooterVariant = 'dark' | 'light';
 
 interface FooterLink {
   label: string;
@@ -28,6 +29,7 @@ interface FooterLinkGroup {
 export class SiteFooterComponent {
   @Input() activePage: FooterActivePage | null = null;
   @Input() showSocial = true;
+  @Input() variant: FooterVariant = 'dark';
 
   protected readonly linkGroups: ReadonlyArray<FooterLinkGroup> = [
     {
@@ -60,7 +62,7 @@ export class SiteFooterComponent {
       title: 'Company',
       links: [
         { label: 'Contact Us', type: 'landing', target: 'contact' },
-        { label: 'Terms & Conditions', type: 'route', routerLink: '/terms' },
+        { label: 'Terms & Conditions', type: 'route', routerLink: '/terms', activePage: 'terms' },
         { label: 'LinkedIn', type: 'external', href: 'https://linkedin.com/company/lunarchain' }
       ]
     }

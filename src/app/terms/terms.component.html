@@ -196,46 +196,5 @@
     </div>
   </div>
 
-  <footer class="landing-footer">
-    <div class="footer-content">
-      <div class="footer-main">
-        <div class="footer-brand">
-          <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="footer-logo">
-          <div class="footer-brand-text">
-            <h3>LunarChain</h3>
-            <p>Operational threat intelligence for analysts, platforms, and agents</p>
-          </div>
-        </div>
-
-        <div class="footer-links">
-          <div class="footer-link-group">
-            <h4>Solutions</h4>
-            <ul>
-              <li><button type="button" (click)="navigateHome('solutions')">Solutions</button></li>
-              <li><button type="button" (click)="navigateToApi()">MCP Server</button></li>
-              <li><button type="button" (click)="navigateToPricing()">Pricing</button></li>
-            </ul>
-          </div>
-
-          <div class="footer-link-group">
-            <h4>Navigate</h4>
-            <ul>
-              <li><button type="button" (click)="navigateHome()">Home</button></li>
-              <li><button type="button" (click)="navigateToPricing()">Pricing</button></li>
-              <li><button type="button" (click)="navigateHome('contact')">Contact Us</button></li>
-              <li><button type="button" aria-current="page" (click)="scrollToTop()">Terms &amp; Conditions</button></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div class="footer-bottom-content">
-          <div class="footer-copyright">
-            <p>&copy; 2026 LunarChain. All rights reserved.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <app-site-footer activePage="terms" variant="light" [showSocial]="false"></app-site-footer>
 </section>

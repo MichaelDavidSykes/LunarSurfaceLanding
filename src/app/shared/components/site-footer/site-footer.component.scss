@@ -173,6 +173,53 @@
   }
 }
 
+.landing-footer--light {
+  color: #0f172a;
+  background: #ffffff;
+  border-top: 0;
+
+  &::before {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+  }
+
+  &::after {
+    content: none;
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    padding: 0 2rem;
+  }
+
+  .footer-logo {
+    filter: none;
+    opacity: 1;
+  }
+
+  .footer-brand-text h3,
+  .footer-link-group h4 {
+    color: #0f172a;
+  }
+
+  .footer-brand-text p,
+  .footer-link-group a,
+  .footer-link-group button,
+  .footer-copyright p {
+    color: #6b7280;
+  }
+
+  .footer-link-group a:hover,
+  .footer-link-group a[aria-current='page'],
+  .footer-link-group button:hover {
+    color: #0f172a;
+  }
+
+  .footer-bottom {
+    border-top-color: #e5e7eb;
+  }
+}
+
 @media (max-width: 768px) {
   .landing-footer {
     padding: 3rem 0 1.5rem;

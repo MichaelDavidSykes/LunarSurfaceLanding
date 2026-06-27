@@ -187,128 +187,6 @@
   }
 }
 
-.landing-footer {
-  background: #ffffff;
-  color: #0f172a;
-  padding: 4rem 0 2rem;
-  margin-top: 0;
-  position: relative;
-  width: 100%;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
-  }
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.footer-main {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 4rem;
-  margin-bottom: 3rem;
-}
-
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  .footer-logo {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 1rem;
-  }
-
-  .footer-brand-text h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem;
-    color: #0f172a;
-  }
-
-  .footer-brand-text p {
-    font-size: 1rem;
-    color: #6b7280;
-    margin: 0;
-    line-height: 1.6;
-    max-width: 300px;
-  }
-}
-
-.footer-links {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-}
-
-.footer-link-group {
-  h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    margin-bottom: 0.75rem;
-  }
-
-  a,
-  button {
-    color: #6b7280;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    font: inherit;
-  }
-
-  a:hover,
-  button:hover {
-    color: #0f172a;
-  }
-}
-
-.footer-bottom {
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.footer-bottom-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.footer-copyright p {
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin: 0;
-}
-
 @media (max-width: 960px) {
   .terms-layout {
     grid-template-columns: 1fr;
@@ -316,11 +194,6 @@
 
   .terms-sidebar {
     position: static;
-  }
-
-  .footer-main {
-    grid-template-columns: 1fr;
-    gap: 2rem;
   }
 }
 
@@ -336,19 +209,5 @@
 
   .terms-notice {
     grid-template-columns: 1fr;
-  }
-
-  .footer-content {
-    padding: 0 1rem;
-  }
-
-  .footer-links {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .footer-bottom-content {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }

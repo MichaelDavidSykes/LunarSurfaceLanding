@@ -111,15 +111,6 @@ export class TermsComponent implements AfterViewInit, OnDestroy {
     this.scrollElementIntoView(sectionId, 'smooth');
   }
 
-  protected scrollToTop(): void {
-    this.activeSectionId = 'overview';
-    void this.router.navigate(['/terms']);
-
-    if (this.isBrowser && typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
   protected isSectionActive(sectionId: TermsSectionId): boolean {
     return this.activeSectionId === sectionId;
   }
