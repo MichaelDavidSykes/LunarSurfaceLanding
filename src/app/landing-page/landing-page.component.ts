@@ -1316,7 +1316,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const headerItems = this.sectionTargets(section, '.contact-main-heading, .contact-subtitle');
     const cards = this.sectionTargets(section, '.contact-card');
     const cardDetails = cards.flatMap((card) => [
-      card.querySelector('.contact-icon'),
       card.querySelector('h3'),
       ...Array.from(card.querySelectorAll('p'))
     ].filter((target): target is Element => Boolean(target)));
@@ -1392,7 +1391,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     cards.forEach((card, index) => {
       const details = [
-        card.querySelector('.contact-icon'),
         card.querySelector('h3'),
         ...Array.from(card.querySelectorAll('p'))
       ].filter((target): target is Element => Boolean(target));

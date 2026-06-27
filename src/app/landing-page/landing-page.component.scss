@@ -982,16 +982,6 @@ p {
   box-shadow: 0 8px 32px rgba(145, 94, 255, 0.13);
 }
 
-.contact-icon {
-  color: #915eff;
-  margin-bottom: 1rem;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .contact-card h3 {
   font-size: 1.2rem;
   font-weight: 700;
@@ -2253,10 +2243,6 @@ p {
 
 .contact-card:hover {
   box-shadow: none;
-}
-
-.contact-icon {
-  display: none !important;
 }
 
 .contact-card h3 {
