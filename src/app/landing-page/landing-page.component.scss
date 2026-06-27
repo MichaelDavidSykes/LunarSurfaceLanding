@@ -441,8 +441,12 @@ p {
     width: calc(100% - 2rem) !important;
     min-height: auto !important;
     height: auto !important;
+    overflow: visible !important;
     padding: 2rem 1.5rem 2rem 1.5rem !important;
     box-sizing: border-box !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
   }
 
   .landing-extra-content .feature-cards .feature-card p {
@@ -467,8 +471,14 @@ p {
     width: calc(100% - 1.6rem) !important;
     min-height: auto !important;
     height: auto !important;
+    overflow: visible !important;
     padding: 1.8rem 1.2rem 1.8rem 1.2rem !important;
     box-sizing: border-box !important;
+  }
+
+  .landing-extra-content .feature-cards .feature-card:nth-child(-n+3) {
+    min-height: auto !important;
+    padding-bottom: 0.6rem !important;
   }
 
   .landing-extra-content .feature-cards .feature-card p {
@@ -491,13 +501,7 @@ p {
 /* Extra small mobile devices */
 @media (max-width: 360px) {
   .landing-extra-content .feature-cards .feature-card {
-    min-height: auto !important;
     padding: 1.5rem 1rem 1.5rem 1rem !important;
-  }
-  /* Shorten the first three feature cards on very small screens */
-  .landing-extra-content .feature-cards .feature-card:nth-child(-n+3) {
-    min-height: auto !important;
-    padding-bottom: 0.6rem !important;
   }
 
   .landing-extra-content .feature-cards .feature-card p {
@@ -513,15 +517,6 @@ p {
 
 /* Mobile expandable cards styles - HIGH PRIORITY */
 @media (max-width: 768px) {
-  .landing-extra-content .feature-cards .feature-card {
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    position: relative !important;
-    overflow: visible !important;
-    height: auto !important;
-    min-height: auto !important;
-  }
-
   .landing-extra-content .feature-cards .feature-card .card-main-text {
     margin-bottom: 1rem !important;
   }
@@ -565,11 +560,6 @@ p {
     height: 20px !important;
   }
 
-  /* Override any conflicting height constraints */
-  .landing-extra-content .feature-cards .feature-card.expanded {
-    min-height: auto !important;
-    height: auto !important;
-  }
 }
 
 .fade-in-element {
@@ -1361,18 +1351,6 @@ p {
     padding: 0 1rem;
   }
 
-  .contact-info,
-  .contact-form {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .contact-card {
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-  }
-
   .contact-form {
     padding: 1.5rem 1.2rem 1.2rem;
     width: 100%;
@@ -1590,27 +1568,6 @@ p {
   100% {
     transform: scaleY(1) scaleX(1);
     opacity: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .landing-extra-content .feature-cards .feature-card {
-    min-height: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-  /* Shorten first three cards on small mobile */
-  .landing-extra-content .feature-cards .feature-card:nth-child(-n+3) {
-    min-height: auto !important;
-    padding-bottom: 0.6rem !important;
-  }
-}
-
-@media (max-width: 360px) {
-  .landing-extra-content .feature-cards .feature-card {
-    min-height: auto !important;
-    height: auto !important;
-    overflow: visible !important;
   }
 }
 
@@ -2046,10 +2003,7 @@ p {
     min-height: auto;
   }
 
-  .product-module-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
+  .product-module-grid,
   .product-panel--saferoute .product-module-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2103,15 +2057,12 @@ p {
     transform: none;
   }
 
-  .product-module-grid {
-    grid-template-columns: 1fr;
-  }
-
   .product-panel-backdrop--saferoute {
     background-position: center, center, 62% bottom;
     opacity: 0.72;
   }
 
+  .product-module-grid,
   .product-panel--saferoute .product-module-grid {
     grid-template-columns: 1fr;
   }
