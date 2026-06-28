@@ -114,9 +114,11 @@
   border-color: rgba(145, 94, 255, 0.28);
 }
 
-.docs-mobile-icon-btn svg {
+.docs-mobile-icon-btn mat-icon {
   width: 20px;
   height: 20px;
+  font-size: 20px;
+  line-height: 20px;
 }
 
 .landing-taskbar {
@@ -324,9 +326,11 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.close-btn svg {
+.close-btn mat-icon {
   width: 20px;
   height: 20px;
+  font-size: 20px;
+  line-height: 20px;
 }
 
 .mobile-menu-items {
@@ -398,9 +402,11 @@
   transform: translateY(-1px);
 }
 
-.mobile-icon-btn svg {
+.mobile-icon-btn mat-icon {
   width: 22px;
   height: 22px;
+  font-size: 22px;
+  line-height: 22px;
 }
 
 @media (max-width: 1180px) {

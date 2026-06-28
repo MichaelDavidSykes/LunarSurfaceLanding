@@ -224,9 +224,11 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 
-  .docs-mobile-close-btn svg {
+  .docs-mobile-close-btn mat-icon {
     width: 20px;
     height: 20px;
+    font-size: 20px;
+    line-height: 20px;
   }
 
   .docs-mobile-body {
