@@ -903,54 +903,30 @@ p {
   }
 }
 
-/* Contact Us Section Styles */
+/* Contact section base styles */
 .contact-section {
   width: 100%;
-  background: #fff;
-  color: #2d3748;
-  padding: 6rem 2rem 4rem 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   box-sizing: border-box;
 }
 
-.contact-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
 .contact-main-heading {
-  font-size: 2.8rem;
-  font-weight: 800;
-  color: #915eff;
   margin-bottom: 0.5rem;
 }
 
 .contact-subtitle {
-  font-size: 1.2rem;
-  color: #4a5568;
   margin: 0 auto;
-  max-width: 600px;
-  line-height: 1.6;
 }
 
 .contact-content {
-  display: flex;
-  gap: 3rem;
-  max-width: 1100px;
   width: 100%;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
 }
 
 .contact-info {
-  flex: 1 1 320px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
 }
 
 .contact-card {
@@ -999,22 +975,13 @@ p {
 }
 
 .contact-form {
-  flex: 1 1 380px;
-  background: #f7fafc;
   border-radius: 0;
-  box-shadow: 0 2px 12px rgba(145, 94, 255, 0.07);
-  padding: 2.5rem 2rem 2rem 2rem;
-  border: 1px solid #e2e8f0;
-  min-width: 320px;
-  max-width: 420px;
-  margin: 0 auto;
 }
 
 .contact-form h2 {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #2d3748;
 }
 
 .contact-form-inner {
@@ -1036,8 +1003,6 @@ p {
   border: 1.5px solid #d1d5db;
   border-radius: 0;
   font-size: 1rem;
-  background: #fff;
-  color: #2d3748;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
 }
@@ -1055,8 +1020,6 @@ p {
 }
 
 .contact-submit-btn {
-  background: #915eff;
-  color: #fff;
   font-weight: 700;
   border: none;
   border-radius: 0;
@@ -1065,44 +1028,6 @@ p {
   cursor: pointer;
   margin-top: 0.5rem;
   transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(145, 94, 255, 0.08);
-}
-
-.contact-submit-btn:hover {
-  background: #7c3aed;
-  box-shadow: 0 6px 24px rgba(145, 94, 255, 0.13);
-}
-
-@media (max-width: 900px) {
-  .contact-content {
-    flex-direction: column;
-    gap: 2.5rem;
-    align-items: center;
-  }
-  .contact-info, .contact-form {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .contact-card {
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-@media (max-width: 600px) {
-  .contact-section {
-    padding: 3rem 0 2rem 0;
-  }
-  .contact-header {
-    margin-bottom: 2rem;
-  }
-  .contact-main-heading {
-    font-size: 2rem;
-  }
-  .contact-form {
-    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
-  }
 }
 
 /* Loading Animation Styles */
