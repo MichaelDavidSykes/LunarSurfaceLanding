@@ -554,13 +554,6 @@ pip install "mcp>=1.18.0,<2.0.0"
 
   protected readonly publicLandingExample = `curl https://api.lunarchain.net/api/v1/graph/public/landing-globe`;
 
-  protected readonly publicCountryExample = `curl -X POST https://api.lunarchain.net/api/v1/graph/public/landing-country-iocs \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "country_code": "US",
-    "country_name": "United States"
-  }'`;
-
   protected readonly payloadExample = `{
   "query": "LET startDate = DATE_ISO8601(DATE_SUBTRACT(DATE_NOW(), \\\"30 days\\\"))\\nFOR doc IN nodes_vertex_collection\\n  FILTER doc.type == \\\"report\\\" AND doc._is_latest == true\\n  FILTER doc.created >= startDate\\n  SORT doc.modified DESC\\n  LIMIT 50\\n  RETURN { id: doc._id, name: doc.name, modified: doc.modified }",
   "bind_vars": {},
