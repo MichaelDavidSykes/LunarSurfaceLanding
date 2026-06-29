@@ -114,7 +114,8 @@
   border-color: rgba(145, 94, 255, 0.28);
 }
 
-.docs-mobile-icon-btn mat-icon {
+.docs-mobile-icon-btn mat-icon,
+.close-btn mat-icon {
   width: 20px;
   height: 20px;
   font-size: 20px;
@@ -324,13 +325,6 @@
 
 .close-btn:hover {
   background-color: rgba(0, 0, 0, 0.05);
-}
-
-.close-btn mat-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  line-height: 20px;
 }
 
 .mobile-menu-items {
