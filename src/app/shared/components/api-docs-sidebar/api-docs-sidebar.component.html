@@ -3,16 +3,17 @@
   <h2 class="sidebar-title">{{ title }}</h2>
 
   <nav class="sidebar-nav">
-    <div class="sidebar-group" *ngFor="let item of items" routerLinkActive="sidebar-group--active">
+    <div class="sidebar-group" *ngFor="let item of items; trackBy: trackSidebarItem" routerLinkActive="sidebar-group--active">
       <ng-container *ngIf="item.children?.length; else standaloneItem">
         <p class="sidebar-group-label">{{ item.label }}</p>
 
         <div class="sidebar-children">
           <a
-            *ngFor="let child of item.children"
+            *ngFor="let child of item.children; trackBy: trackSidebarItem"
             class="sidebar-link child-link"
             [routerLink]="['/api', child.id]"
             routerLinkActive="active"
+            ariaCurrentWhenActive="page"
             [routerLinkActiveOptions]="{ exact: true }">
             {{ child.label }}
           </a>
@@ -24,6 +25,7 @@
           class="sidebar-link group-link"
           [routerLink]="['/api', item.id]"
           routerLinkActive="active"
+          ariaCurrentWhenActive="page"
           [routerLinkActiveOptions]="{ exact: true }">
           {{ item.label }}
         </a>

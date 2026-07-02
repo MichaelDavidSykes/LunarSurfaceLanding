@@ -59,7 +59,7 @@
   padding: 10px 12px;
   color: #b8b8b8;
   border: 1px solid transparent;
-  transition: all 0.16s ease;
+  transition: color 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
   font-size: 0.98rem;
 }
 

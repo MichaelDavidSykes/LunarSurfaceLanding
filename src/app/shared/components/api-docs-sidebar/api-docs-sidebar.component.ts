@@ -16,4 +16,8 @@ export class ApiDocsSidebarComponent {
   @Input() kicker = 'LunarChain API';
   @Input() items: SidebarItem[] = [];
   @Input() variant: 'default' | 'light' = 'default';
+
+  protected trackSidebarItem(_index: number, item: SidebarItem): string {
+    return item.id;
+  }
 }
