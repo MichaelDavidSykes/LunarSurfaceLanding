@@ -75,7 +75,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'quick-start'">
-    <header class="docs-hero docs-hero--compact" id="integration-paths">
+    <header class="docs-hero" id="integration-paths">
       <div class="hero-copy">
         <p class="section-kicker">Getting Started</p>
         <h2>Choose the right entry point</h2>
@@ -131,10 +131,10 @@
       </div>
     </details>
 
-    <article class="docs-card request-spec-card" id="frontend-paths">
+    <article class="docs-card" id="frontend-paths">
       <p class="card-eyebrow">At a glance</p>
       <h3>What each frontend path is doing</h3>
-      <div class="request-spec compact-spec">
+      <div class="request-spec">
         <div class="request-row">
           <span class="request-key">Landing frontend</span>
           <div class="request-values">
@@ -158,7 +158,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'base-configuration'">
-    <header class="docs-hero docs-hero--compact" id="system-layers">
+    <header class="docs-hero" id="system-layers">
       <div class="hero-copy">
         <p class="section-kicker">Architecture</p>
         <h2>How the platform is layered</h2>
@@ -197,7 +197,7 @@
       </div>
 
       <div class="fact-grid">
-        <article class="docs-card fact-card" *ngFor="let fact of graphFacts">
+        <article class="docs-card" *ngFor="let fact of graphFacts">
           <p class="fact-label">{{ fact.title }}</p>
           <code class="fact-value">{{ fact.value }}</code>
           <p>{{ fact.detail }}</p>
@@ -205,7 +205,7 @@
       </div>
     </div>
 
-    <article class="docs-card request-spec-card" id="platform-config">
+    <article class="docs-card" id="platform-config">
       <p class="card-eyebrow">Core config</p>
       <h3>Base platform configuration</h3>
       <div class="request-spec">
@@ -248,7 +248,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'endpoint-focus'">
-    <header class="docs-hero docs-hero--compact" id="public-routes">
+    <header class="docs-hero" id="public-routes">
       <div class="hero-copy">
         <p class="section-kicker">Reference</p>
         <h2>API surfaces</h2>
@@ -334,7 +334,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'mcp-server'">
-    <header class="docs-hero docs-hero--compact" id="mcp-workflow">
+    <header class="docs-hero" id="mcp-workflow">
       <div class="hero-copy">
         <p class="section-kicker">Agent Access</p>
         <h2>MCP workflow</h2>
@@ -442,7 +442,7 @@
 
     <details class="docs-collapsible" id="mcp-examples">
       <summary>MCP cURL examples</summary>
-      <div class="stack-list code-stack">
+      <div class="stack-list">
         <article class="docs-card">
           <h3>Install a client</h3>
           <pre><code [textContent]="mcpInstallExample"></code></pre>
@@ -472,7 +472,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'payload-response'">
-    <header class="docs-hero docs-hero--compact" id="authenticated-payloads">
+    <header class="docs-hero" id="authenticated-payloads">
       <div class="hero-copy">
         <p class="section-kicker">Reference</p>
         <h2>Payload shapes</h2>
@@ -539,7 +539,7 @@
       <pre><code [textContent]="errorResponseExample"></code></pre>
     </article>
 
-    <article class="docs-card request-spec-card">
+    <article class="docs-card">
       <p class="card-eyebrow">Notes</p>
       <h3>Response handling</h3>
       <ul class="detail-list">
@@ -552,7 +552,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchCase="'aql-playbook'">
-    <header class="docs-hero docs-hero--compact" id="authoring-rules">
+    <header class="docs-hero" id="authoring-rules">
       <div class="hero-copy">
         <p class="section-kicker">AQL</p>
         <h2>AQL playbook</h2>
@@ -625,7 +625,7 @@
   </section>
 
   <section class="docs-section" *ngSwitchDefault>
-    <header class="docs-hero docs-hero--compact">
+    <header class="docs-hero">
       <div class="hero-copy">
         <p class="section-kicker">Docs</p>
         <h2>Select a section</h2>
