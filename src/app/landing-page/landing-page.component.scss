@@ -52,7 +52,6 @@
 }
 
 input[type="email"],
-input[type="password"],
 input[type="text"] {
   width: 100%;
   padding: 12px;
@@ -67,14 +66,12 @@ input[type="text"] {
 }
 
 input[type="email"]::placeholder,
-input[type="password"]::placeholder,
 input[type="text"]::placeholder {
   color: #888 !important; /* Make placeholder text a readable grey */
   opacity: 1;
 }
 
 input[type="email"]:focus,
-input[type="password"]:focus,
 input[type="text"]:focus {
   border-color: #915eff;
   box-shadow: 0 0 0 2px #e9e3f5;
@@ -100,15 +97,6 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: linear-gradient(90deg, #7a4dcb 0%, #b47adf 100%);
   transform: translateY(-2px) scale(1.03);
-}
-
-label {
-  display: block;
-  margin-top: 18px;
-  margin-bottom: 4px;
-  font-weight: 500;
-  color: #915eff;
-  text-align: left;
 }
 
 h2 {
@@ -214,6 +202,10 @@ p {
 
 .fade-in {
   opacity: 1 !important;
+}
+
+.fade-out {
+  opacity: 0 !important;
 }
 
 .landing-initial-viewport {
