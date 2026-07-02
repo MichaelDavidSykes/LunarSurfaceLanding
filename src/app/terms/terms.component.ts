@@ -124,6 +124,10 @@ export class TermsComponent implements AfterViewInit, OnDestroy {
     return this.activeSectionId === sectionId;
   }
 
+  protected trackSectionLink(_index: number, section: TermsSectionLink): TermsSectionId {
+    return section.id;
+  }
+
   private setupSectionObserver(): void {
     if (
       typeof window === 'undefined' ||

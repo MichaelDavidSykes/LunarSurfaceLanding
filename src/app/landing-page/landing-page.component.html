@@ -30,8 +30,8 @@
     </div>
     
     <!-- Multiple floating typing effects -->
-    <div 
-      *ngFor="let effect of typingEffects" 
+    <div
+      *ngFor="let effect of typingEffects; trackBy: trackTypingEffect"
       class="floating-typing-effect"
       [style.left.%]="effect.x"
       [style.top.%]="effect.y"

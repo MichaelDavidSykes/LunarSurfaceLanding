@@ -572,6 +572,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return card.title;
   }
 
+  protected trackTypingEffect(_index: number, effect: TypingEffect): number {
+    return effect.id;
+  }
+
   updateMobileDetection(): void {
     this.isMobile = window.innerWidth <= 768;
     this.syncNativeMobileScrollMode();

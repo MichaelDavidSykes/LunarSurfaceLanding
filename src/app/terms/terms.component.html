@@ -31,7 +31,7 @@
         <div class="terms-sidebar-card">
           <h2>Contents</h2>
           <button
-            *ngFor="let section of sectionLinks"
+            *ngFor="let section of sectionLinks; trackBy: trackSectionLink"
             type="button"
             [class.active]="isSectionActive(section.id)"
             [attr.aria-current]="isSectionActive(section.id) ? 'location' : null"
