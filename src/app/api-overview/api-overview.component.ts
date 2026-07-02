@@ -3,6 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 
 type ExampleLevel = 'Simple' | 'Intermediate' | 'Advanced';
 
+const API_DOC_PAGES: ReadonlySet<string> = new Set([
+  'overview',
+  'quick-start',
+  'base-configuration',
+  'endpoint-focus',
+  'mcp-server',
+  'payload-response',
+  'aql-playbook'
+]);
+
 interface OverviewMetric {
   value: string;
   label: string;
@@ -385,17 +395,17 @@ export class ApiOverviewComponent implements OnInit {
     }
   ];
 
-  protected get publicEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access === 'Public');
-  }
+  protected readonly publicEndpoints = this.endpointCards.filter(
+    (endpoint) => endpoint.access === 'Public'
+  );
 
-  protected get authenticatedEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access === 'Authenticated');
-  }
+  protected readonly authenticatedEndpoints = this.endpointCards.filter(
+    (endpoint) => endpoint.access === 'Authenticated'
+  );
 
-  protected get agentEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access !== 'Public' && endpoint.access !== 'Authenticated');
-  }
+  protected readonly agentEndpoints = this.endpointCards.filter(
+    (endpoint) => endpoint.access !== 'Public' && endpoint.access !== 'Authenticated'
+  );
 
   protected readonly mcpResourceHighlights: McpResourceCard[] = [
     {
@@ -933,16 +943,7 @@ FOR intr IN nodes_vertex_collection
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const rawPage = params.get('page')?.toLowerCase() ?? 'overview';
-      const allowed = new Set([
-        'overview',
-        'quick-start',
-        'base-configuration',
-        'endpoint-focus',
-        'mcp-server',
-        'payload-response',
-        'aql-playbook'
-      ]);
-      this.page = allowed.has(rawPage) ? rawPage : 'overview';
+      this.page = API_DOC_PAGES.has(rawPage) ? rawPage : 'overview';
     });
   }
 }
