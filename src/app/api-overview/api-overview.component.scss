@@ -107,10 +107,6 @@
   box-shadow: none;
 }
 
-.hero-callout {
-  display: none;
-}
-
 .metric-card {
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -220,40 +216,6 @@
 
 .detail-list li + li {
   margin-top: 6px;
-}
-
-.step-list {
-  counter-reset: step;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.step-list li {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 10px;
-  align-items: start;
-  color: #d8d8d8;
-  line-height: 1.55;
-}
-
-.step-list li::before {
-  counter-increment: step;
-  content: counter(step);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 0;
-  background: rgba(145, 94, 255, 0.14);
-  border: 1px solid rgba(145, 94, 255, 0.24);
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 700;
 }
 
 .step-card {
