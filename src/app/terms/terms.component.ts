@@ -45,6 +45,7 @@ export class TermsComponent implements AfterViewInit, OnDestroy {
   private fragmentSubscription?: Subscription;
   private sectionObserver?: IntersectionObserver;
   private scrollTimer?: ReturnType<typeof setTimeout>;
+  private smoothScrollFragment: TermsSectionId | null = null;
 
   constructor(
     private readonly router: Router,
@@ -66,7 +67,9 @@ export class TermsComponent implements AfterViewInit, OnDestroy {
       }
 
       this.activeSectionId = fragment;
-      this.scheduleSectionScroll(fragment, 'auto');
+      const behavior = this.smoothScrollFragment === fragment ? 'smooth' : 'auto';
+      this.smoothScrollFragment = null;
+      this.scheduleSectionScroll(fragment, behavior);
     });
   }
 
@@ -104,11 +107,17 @@ export class TermsComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
+    if (this.route.snapshot.fragment === sectionId) {
+      this.smoothScrollFragment = null;
+      this.scheduleSectionScroll(sectionId, 'smooth');
+      return;
+    }
+
+    this.smoothScrollFragment = sectionId;
     void this.router.navigate([], {
       relativeTo: this.route,
       fragment: sectionId
     });
-    this.scrollElementIntoView(sectionId, 'smooth');
   }
 
   protected isSectionActive(sectionId: TermsSectionId): boolean {
