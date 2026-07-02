@@ -55,50 +55,41 @@
       *ngIf="selectedCountry || selectedCountryLoading || (enableDateFilter && dateRangeReady) || (!selectedCountryLoading && !selectedCountryGroups.length)"
     >
       <div class="globe-map-view-row" *ngIf="explorerMode">
-        <span
+        <button
+          type="button"
           class="globe-map-view-icon"
-          role="button"
-          tabindex="0"
           aria-label="Open interactive map view"
           title="Open interactive map view"
           (click)="requestMapView()"
-          (keydown.enter)="requestMapView()"
-          (keydown.space)="requestMapView(); $event.preventDefault()"
         >
           <mat-icon>map</mat-icon>
-        </span>
+        </button>
       </div>
 
       <div class="globe-module-breakdown" *ngIf="moduleBreakdownCounts.length">
-        <div
+        <button
+          type="button"
           class="module-filter-toggle"
-          role="button"
-          tabindex="0"
           aria-label="Toggle module filters"
           (click)="toggleModuleFilterExpanded()"
-          (keydown.enter)="toggleModuleFilterExpanded()"
-          (keydown.space)="toggleModuleFilterExpanded(); $event.preventDefault()"
         >
           <span class="module-filter-title">Modules</span>
           <span class="module-filter-meta">{{ moduleFilterSummary }}</span>
           <span class="module-filter-chevron">{{ moduleFilterExpanded ? '▴' : '▾' }}</span>
-        </div>
+        </button>
 
         <div class="module-breakdown-chips" *ngIf="moduleFilterExpanded">
-          <span
+          <button
+            type="button"
             class="module-breakdown-chip"
             *ngFor="let module of moduleBreakdownCounts"
-            role="button"
-            tabindex="0"
             [class.active]="isModuleChipSelected(module.key)"
             [class.muted]="isModuleChipMuted(module.key)"
             (click)="onModuleChipClick(module.key)"
-            (keydown.enter)="onModuleChipClick(module.key)"
-            (keydown.space)="onModuleChipClick(module.key); $event.preventDefault()"
           >
             <span class="module-chip-name">{{ module.label }}</span>
             <span class="module-chip-count">{{ module.count }}</span>
-          </span>
+          </button>
         </div>
       </div>
 
