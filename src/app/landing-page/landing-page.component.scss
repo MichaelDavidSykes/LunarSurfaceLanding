@@ -548,23 +548,6 @@ p {
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-.architectural-shapes {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  right: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.arch-connection {
-  filter: drop-shadow(0 0 4px rgba(145, 94, 255, 0.2));
-}
-
 .gsap-animated-section {
   position: relative;
   align-self: center;
@@ -1610,10 +1593,6 @@ p {
   background: #05070b !important;
   color: #f8fafc;
   scroll-margin-top: 7rem;
-}
-
-.product-suite-section .architectural-shapes {
-  display: none;
 }
 
 .product-suite-content {

@@ -610,7 +610,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetLandingRevealStylesForNativeScroll(): void {
     const targets = gsap.utils.toArray<HTMLElement>(
-      '.animate-title, .interactive-globe-section, .globe-heading, .arch-connection, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .contact-section *, .landing-footer *'
+      '.animate-title, .interactive-globe-section, .globe-heading, .mission-section *, .product-suite-section *, .solutions-section *, .custom-operations-section *, .contact-section *, .landing-footer *'
     );
 
     if (targets.length === 0) {
@@ -943,22 +943,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     // Globe section + heading initial state
     gsap.set('.interactive-globe-section', { opacity: 0, y: 30 });
     gsap.set('.globe-heading', { opacity: 0, y: 10 });
-
-    // Animate architectural connections for second section
-    gsap.fromTo('.arch-connection',
-      { strokeDasharray: "0 1000", strokeDashoffset: 0 },
-      {
-        strokeDasharray: "1000 0", duration: 2, ease: "power2.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: '.gsap-animated-section',
-          start: 'top 70%',
-          end: 'bottom 30%',
-          scrub: 1,
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
 
     // Fade in globe section
     gsap.to('.interactive-globe-section', {
