@@ -257,17 +257,6 @@ p {
   }
 }
 
-/* Mobile padding override */
-@media (max-width: 768px) {
-  .landing-extra-content {
-    padding: 6rem 0 !important;
-  }
-
-  .extra-content-inner {
-    padding: 0 1rem !important;
-  }
-}
-
 /* Container constraints for active landing sections */
 .landing-extra-content,
 .custom-operations-section,
@@ -969,10 +958,6 @@ p {
   word-break: break-all;
 }
 
-.contact-form {
-  border-radius: 0;
-}
-
 .contact-form h2 {
   font-size: 1.4rem;
   font-weight: 700;
@@ -996,7 +981,6 @@ p {
 .contact-form textarea {
   padding: 0.8rem 1rem;
   border: 1.5px solid #d1d5db;
-  border-radius: 0;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
@@ -1017,7 +1001,6 @@ p {
 .contact-submit-btn {
   font-weight: 700;
   border: none;
-  border-radius: 0;
   padding: 0.9rem 1.5rem;
   font-size: 1.1rem;
   cursor: pointer;
