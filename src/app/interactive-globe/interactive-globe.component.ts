@@ -107,7 +107,6 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   private projection: any;
   private pathGen: any;
   private geojson: any;
-  private ready = false;
   private pendingHighlightData: any[] | null = null;
   private lastOverlayData: any[] | null = null;
   private featureIsoMap = new Map<string, string>();
@@ -947,8 +946,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       this.sphereMat.color.set(0xffffff);
       this.sphereMat.needsUpdate = true;
 
-      // Mark ready and flush any pending highlights
-      this.ready = true;
+      // Flush any pending highlights once texture dependencies are available.
       if (this.pendingHighlightData) {
         const data = this.pendingHighlightData;
         this.pendingHighlightData = null;
