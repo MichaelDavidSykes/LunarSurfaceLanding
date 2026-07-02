@@ -16,7 +16,7 @@
     </header>
 
     <div class="metric-grid">
-      <article class="docs-card metric-card" *ngFor="let metric of overviewMetrics">
+      <article class="docs-card metric-card" *ngFor="let metric of overviewMetrics; trackBy: trackOverviewMetric">
         <p class="metric-value">{{ metric.value }}</p>
         <h3>{{ metric.label }}</h3>
         <p>{{ metric.detail }}</p>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card surface-card" *ngFor="let surface of platformSurfaces">
+        <article class="docs-card stack-card surface-card" *ngFor="let surface of platformSurfaces; trackBy: trackTitledItem">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ surface.audience }}</p>
@@ -44,7 +44,7 @@
           </div>
           <p>{{ surface.summary }}</p>
           <ul class="detail-list">
-            <li *ngFor="let bullet of surface.bullets">{{ bullet }}</li>
+            <li *ngFor="let bullet of surface.bullets; trackBy: trackTextItem">{{ bullet }}</li>
           </ul>
         </article>
       </div>
@@ -57,7 +57,7 @@
       </div>
 
       <div class="compact-grid">
-        <article class="docs-card" *ngFor="let capability of capabilityCards">
+        <article class="docs-card" *ngFor="let capability of capabilityCards; trackBy: trackTitledItem">
           <h3>{{ capability.title }}</h3>
           <p>{{ capability.summary }}</p>
         </article>
@@ -97,7 +97,7 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card path-card" *ngFor="let path of integrationPaths">
+        <article class="docs-card stack-card path-card" *ngFor="let path of integrationPaths; trackBy: trackTitledItem">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ path.audience }}</p>
@@ -108,7 +108,7 @@
           <code class="card-route">{{ path.route }}</code>
           <p>{{ path.whenToUse }}</p>
           <ul class="detail-list">
-            <li *ngFor="let bullet of path.bullets">{{ bullet }}</li>
+            <li *ngFor="let bullet of path.bullets; trackBy: trackTextItem">{{ bullet }}</li>
           </ul>
         </article>
       </div>
@@ -177,11 +177,11 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card" *ngFor="let layer of architectureLayers">
+        <article class="docs-card stack-card" *ngFor="let layer of architectureLayers; trackBy: trackTitledItem">
           <h3>{{ layer.title }}</h3>
           <p>{{ layer.summary }}</p>
           <ul class="detail-list">
-            <li *ngFor="let responsibility of layer.responsibilities">{{ responsibility }}</li>
+            <li *ngFor="let responsibility of layer.responsibilities; trackBy: trackTextItem">{{ responsibility }}</li>
           </ul>
         </article>
       </div>
@@ -197,7 +197,7 @@
       </div>
 
       <div class="fact-grid">
-        <article class="docs-card" *ngFor="let fact of graphFacts">
+        <article class="docs-card" *ngFor="let fact of graphFacts; trackBy: trackTitledItem">
           <p class="fact-label">{{ fact.title }}</p>
           <code class="fact-value">{{ fact.value }}</code>
           <p>{{ fact.detail }}</p>
@@ -268,7 +268,7 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of publicEndpoints">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of publicEndpoints; trackBy: trackEndpointCard">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ endpoint.access }}</p>
@@ -278,7 +278,7 @@
           </div>
           <p>{{ endpoint.summary }}</p>
           <ul class="detail-list">
-            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+            <li *ngFor="let bullet of endpoint.bullets; trackBy: trackTextItem">{{ bullet }}</li>
           </ul>
         </article>
       </div>
@@ -292,7 +292,7 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of authenticatedEndpoints">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of authenticatedEndpoints; trackBy: trackEndpointCard">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ endpoint.access }}</p>
@@ -302,7 +302,7 @@
           </div>
           <p>{{ endpoint.summary }}</p>
           <ul class="detail-list">
-            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+            <li *ngFor="let bullet of endpoint.bullets; trackBy: trackTextItem">{{ bullet }}</li>
           </ul>
         </article>
       </div>
@@ -316,7 +316,7 @@
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of agentEndpoints">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of agentEndpoints; trackBy: trackEndpointCard">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ endpoint.access }}</p>
@@ -326,7 +326,7 @@
           </div>
           <p>{{ endpoint.summary }}</p>
           <ul class="detail-list">
-            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
+            <li *ngFor="let bullet of endpoint.bullets; trackBy: trackTextItem">{{ bullet }}</li>
           </ul>
         </article>
       </div>
@@ -417,7 +417,7 @@
       </div>
 
       <div class="compact-grid">
-        <article class="docs-card" *ngFor="let resource of mcpResourceHighlights">
+        <article class="docs-card" *ngFor="let resource of mcpResourceHighlights; trackBy: trackMcpResource">
           <h3>{{ resource.name }}</h3>
           <code class="card-route">{{ resource.uri }}</code>
           <p>{{ resource.purpose }}</p>
@@ -432,7 +432,7 @@
       </div>
 
       <div class="compact-grid">
-        <article class="docs-card" *ngFor="let tool of mcpToolHighlights">
+        <article class="docs-card" *ngFor="let tool of mcpToolHighlights; trackBy: trackMcpTool">
           <h3><code>{{ tool.name }}</code></h3>
           <p>{{ tool.use }}</p>
           <p class="tool-why">{{ tool.why }}</p>
@@ -576,7 +576,7 @@
       </div>
 
       <div class="compact-grid">
-        <article class="docs-card" *ngFor="let card of aqlOverviewCards">
+        <article class="docs-card" *ngFor="let card of aqlOverviewCards; trackBy: trackTitledItem">
           <h3>{{ card.title }}</h3>
           <p>{{ card.summary }}</p>
         </article>
@@ -593,7 +593,7 @@
       </div>
 
       <div class="compact-grid">
-        <article class="docs-card" *ngFor="let rule of authoringRules">
+        <article class="docs-card" *ngFor="let rule of authoringRules; trackBy: trackTitledItem">
           <h3>{{ rule.title }}</h3>
           <p>{{ rule.detail }}</p>
         </article>
@@ -607,7 +607,7 @@
       </div>
 
       <div class="example-list">
-        <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index" [attr.data-level]="example.level">
+        <article class="docs-card example-card" *ngFor="let example of aqlExamples; let i = index; trackBy: trackAqlExample" [attr.data-level]="example.level">
           <details class="example-collapse">
             <summary>
               <div class="example-meta">

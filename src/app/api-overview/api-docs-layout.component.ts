@@ -119,6 +119,10 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     ]
   };
 
+  protected trackOutlineItem(_index: number, item: DocsOutlineItem): string {
+    return item.id;
+  }
+
   protected get currentOutline(): DocsOutlineItem[] {
     return this.pageOutlines[this.currentPage] ?? [];
   }

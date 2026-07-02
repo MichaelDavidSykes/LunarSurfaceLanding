@@ -940,6 +940,34 @@ FOR intr IN nodes_vertex_collection
     }
   ];
 
+  protected trackOverviewMetric(_index: number, metric: OverviewMetric): string {
+    return metric.label;
+  }
+
+  protected trackTitledItem(_index: number, item: { title: string }): string {
+    return item.title;
+  }
+
+  protected trackTextItem(index: number, item: string): string {
+    return `${index}:${item}`;
+  }
+
+  protected trackEndpointCard(_index: number, endpoint: EndpointCard): string {
+    return endpoint.route;
+  }
+
+  protected trackMcpResource(_index: number, resource: McpResourceCard): string {
+    return resource.uri;
+  }
+
+  protected trackMcpTool(_index: number, tool: McpToolCard): string {
+    return tool.name;
+  }
+
+  protected trackAqlExample(_index: number, example: AqlExample): string {
+    return `${example.level}:${example.title}`;
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const rawPage = params.get('page')?.toLowerCase() ?? 'overview';

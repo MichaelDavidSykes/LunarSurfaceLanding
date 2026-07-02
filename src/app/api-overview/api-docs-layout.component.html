@@ -24,7 +24,7 @@
         <p class="outline-title">On this page</p>
         <nav class="outline-nav" aria-label="On this page">
           <a
-            *ngFor="let item of currentOutline"
+            *ngFor="let item of currentOutline; trackBy: trackOutlineItem"
             class="outline-link"
             [attr.href]="buildSectionHref(item.id)"
             [class.active]="item.id === activeOutlineId"
