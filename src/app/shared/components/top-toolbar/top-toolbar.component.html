@@ -74,6 +74,7 @@
     aria-modal="true"
     aria-label="Main navigation"
     [attr.aria-hidden]="isMobileMenuOpen ? null : 'true'"
+    [attr.inert]="isMobileMenuOpen ? null : ''"
     [class.open]="isMobileMenuOpen">
     <div class="mobile-menu-header">
       <span class="mobile-menu-title">Menu</span>

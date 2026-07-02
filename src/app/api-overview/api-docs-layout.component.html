@@ -44,6 +44,7 @@
     aria-modal="true"
     aria-label="Documentation navigation"
     [attr.aria-hidden]="isMobileDocsMenuOpen ? null : 'true'"
+    [attr.inert]="isMobileDocsMenuOpen ? null : ''"
     [class.open]="isMobileDocsMenuOpen">
     <div class="docs-mobile-header">
       <span class="docs-mobile-title">Docs</span>
