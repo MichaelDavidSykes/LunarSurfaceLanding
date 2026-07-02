@@ -2,6 +2,7 @@
   <app-top-toolbar
     context="api"
     [forceScrolled]="true"
+    [docsMenuOpen]="isMobileDocsMenuOpen"
     (docsMenuClick)="toggleMobileDocsMenu()">
   </app-top-toolbar>
 
@@ -35,8 +36,15 @@
     </aside>
   </main>
 
-  <div class="docs-mobile-overlay" [class.open]="isMobileDocsMenuOpen" (click)="closeMobileDocsMenu()"></div>
-  <aside class="docs-mobile-drawer" [class.open]="isMobileDocsMenuOpen">
+  <div class="docs-mobile-overlay" aria-hidden="true" [class.open]="isMobileDocsMenuOpen" (click)="closeMobileDocsMenu()"></div>
+  <aside
+    id="docs-mobile-drawer"
+    class="docs-mobile-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Documentation navigation"
+    [attr.aria-hidden]="isMobileDocsMenuOpen ? null : 'true'"
+    [class.open]="isMobileDocsMenuOpen">
     <div class="docs-mobile-header">
       <span class="docs-mobile-title">Docs</span>
       <button class="docs-mobile-close-btn" type="button" aria-label="Close documentation navigation" (click)="closeMobileDocsMenu()">

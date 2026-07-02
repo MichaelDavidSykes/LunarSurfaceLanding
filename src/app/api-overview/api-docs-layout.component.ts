@@ -166,7 +166,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   private syncBodyScrollLock(): void {
-    if (typeof document === 'undefined') {
+    if (!isPlatformBrowser(this.platformId)) {
       return;
     }
     document.body.style.overflow = this.isMobileDocsMenuOpen ? 'hidden' : '';
@@ -181,6 +181,11 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:scroll')
   protected onWindowScroll(): void {
     this.syncActiveOutlineWithScroll();
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscapeKey(): void {
+    this.closeMobileDocsMenu();
   }
 
   ngAfterViewInit(): void {

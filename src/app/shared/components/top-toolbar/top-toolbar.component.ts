@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
@@ -25,6 +25,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() isScrolled = false;
   @Input() forceScrolled = false;
   @Input() activeAction: ToolbarAction | null = null;
+  @Input() docsMenuOpen = false;
 
   @Output() solutionsClick = new EventEmitter<void>();
   @Output() aiAgentClick = new EventEmitter<void>();
@@ -137,14 +138,17 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     return this.forcedScrollVisual || this.isScrolled || this.isMobileMenuOpen;
   }
 
+  @HostListener('document:keydown.escape')
+  protected onEscapeKey(): void {
+    this.closeMobileMenu();
+  }
+
   protected toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    this.mobileMenuOpenChange.emit(this.isMobileMenuOpen);
-    if (this.isMobileMenuOpen && isPlatformBrowser(this.platformId)) {
-      document.body.style.overflow = 'hidden';
-    } else if (isPlatformBrowser(this.platformId)) {
-      document.body.style.overflow = '';
-    }
+    this.setMobileMenuOpen(!this.isMobileMenuOpen);
+  }
+
+  protected closeMobileMenu(): void {
+    this.setMobileMenuOpen(false);
   }
 
   protected onAction(action: ToolbarAction): void {
@@ -155,7 +159,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.isMobileMenuOpen) {
-      this.toggleMobileMenu();
+      this.closeMobileMenu();
     }
   }
 
@@ -165,7 +169,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
 
   protected onBrandClick(): void {
     if (this.isMobileMenuOpen) {
-      this.toggleMobileMenu();
+      this.closeMobileMenu();
     }
 
     if (this.context === 'landing' && this.isCurrentLandingRoute()) {
@@ -208,6 +212,24 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
         this.contactClick.emit();
         break;
     }
+  }
+
+  private setMobileMenuOpen(isOpen: boolean): void {
+    if (this.isMobileMenuOpen === isOpen) {
+      return;
+    }
+
+    this.isMobileMenuOpen = isOpen;
+    this.mobileMenuOpenChange.emit(this.isMobileMenuOpen);
+    this.syncMobileMenuBodyScroll();
+  }
+
+  private syncMobileMenuBodyScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
   }
 
   private handleApiAction(action: ToolbarAction): void {
