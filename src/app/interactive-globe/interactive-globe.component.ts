@@ -37,6 +37,19 @@ interface SelectedCountryReportGroup {
   sourceLink?: string | null;
 }
 
+interface ModuleBreakdownCount {
+  key: string;
+  label: string;
+  count: number;
+}
+
+interface LandingReportSnippet {
+  title: string;
+  date?: string | null;
+  source?: string | null;
+  link?: string | null;
+}
+
 const TYPE_PRESENTATION: Record<string, EntityGroupPresentation> = {
   malware: { label: 'Malware', icon: 'pest_control', order: 1 },
   tool: { label: 'Tools', icon: 'handyman', order: 2 },
@@ -178,7 +191,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   @Input() dateRangeEnd?: Date | string | null;
   @Input() dateRangeMin?: Date | string | null;
   @Input() dateRangeMax?: Date | string | null;
-  @Input() moduleBreakdownCounts: Array<{ key: string; label: string; count: number }> = [];
+  @Input() moduleBreakdownCounts: ModuleBreakdownCount[] = [];
   @Input() selectedModuleFilterKeys: string[] = [];
   @Output() dateRangeChange = new EventEmitter<{ start: Date; end: Date }>();
   @Output() moduleChipToggle = new EventEmitter<string>();
@@ -194,6 +207,26 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
 
   get selectedCountryIocs(): ExplorerEntity[] {
     return this._selectedCountryIocs;
+  }
+
+  protected trackEntityGroup(_index: number, group: EntityGroup): string {
+    return group.key;
+  }
+
+  protected trackTextLine(_index: number, line: string): string {
+    return line;
+  }
+
+  protected trackModuleBreakdown(_index: number, module: ModuleBreakdownCount): string {
+    return module.key;
+  }
+
+  protected trackSelectedCountryReportGroup(_index: number, group: SelectedCountryReportGroup): string {
+    return `${group.report}:${group.modified ?? ''}:${group.sourceLink ?? group.sourceName ?? ''}`;
+  }
+
+  protected trackLandingReportSnippet(_index: number, report: LandingReportSnippet): string {
+    return `${report.title}:${report.date ?? ''}:${report.link ?? report.source ?? ''}`;
   }
 
   private _stretch = false;
@@ -560,7 +593,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     return snippets;
   }
 
-  get landingReportSnippets(): Array<{ title: string; date?: string | null; source?: string | null; link?: string | null }> {
+  get landingReportSnippets(): LandingReportSnippet[] {
     if (this.explorerMode || !this.selectedCountryGroups.length) {
       return [];
     }

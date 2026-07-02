@@ -27,7 +27,7 @@
         <ng-container *ngIf="explorerMode; else landingEntityBlock">
           <ng-container *ngIf="entityGroups.length; else noEntities">
             <div class="entity-group-grid">
-              <div class="entity-group-heading" *ngFor="let group of entityGroups">
+              <div class="entity-group-heading" *ngFor="let group of entityGroups; trackBy: trackEntityGroup">
                 <mat-icon>{{ group.icon }}</mat-icon>
                 <div class="entity-group-copy">
                   <span class="entity-group-title">{{ group.label }}</span>
@@ -40,7 +40,7 @@
         <ng-template #landingEntityBlock>
           <ng-container *ngIf="landingEntitySnippets.length; else noEntities">
             <ul class="landing-meta-list">
-              <li *ngFor="let line of landingEntitySnippets">{{ line }}</li>
+              <li *ngFor="let line of landingEntitySnippets; trackBy: trackTextLine">{{ line }}</li>
             </ul>
           </ng-container>
         </ng-template>
@@ -82,7 +82,7 @@
           <button
             type="button"
             class="module-breakdown-chip"
-            *ngFor="let module of moduleBreakdownCounts"
+            *ngFor="let module of moduleBreakdownCounts; trackBy: trackModuleBreakdown"
             [class.active]="isModuleChipSelected(module.key)"
             [class.muted]="isModuleChipMuted(module.key)"
             (click)="onModuleChipClick(module.key)"
@@ -136,7 +136,7 @@
       >
         <ng-container *ngIf="explorerMode; else landingReportsBlock">
           <ng-container *ngIf="selectedCountryGroups.length; else noReports">
-            <div class="report-item" *ngFor="let group of selectedCountryGroups">
+            <div class="report-item" *ngFor="let group of selectedCountryGroups; trackBy: trackSelectedCountryReportGroup">
               <div class="report-title">{{ group.report }}</div>
               <span class="report-date" *ngIf="group.modified">Updated {{ group.modified | date: 'mediumDate' }}</span>
               <span class="report-source" *ngIf="group.sourceName || group.sourceLink">
@@ -156,7 +156,7 @@
         <ng-template #landingReportsBlock>
           <ng-container *ngIf="landingReportSnippets.length; else noReports">
             <ul class="landing-meta-list">
-              <li *ngFor="let report of landingReportSnippets">
+              <li *ngFor="let report of landingReportSnippets; trackBy: trackLandingReportSnippet">
                 <div class="landing-report-title">{{ report.title }}</div>
                 <div class="landing-report-meta" *ngIf="report.date || report.source">
                   <span *ngIf="report.date">Updated {{ report.date | date: 'mediumDate' }}</span>
