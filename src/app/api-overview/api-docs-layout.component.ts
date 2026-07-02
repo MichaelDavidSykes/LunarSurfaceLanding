@@ -24,6 +24,9 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected currentPage = 'overview';
   protected activeOutlineId = '';
   private readonly routerEventsSub: Subscription;
+  private pendingOutlineSyncUrl = '';
+  private outlineSyncFrame: number | null = null;
+  private outlineSyncNextFrame: number | null = null;
 
   constructor(
     private readonly router: Router,
@@ -197,12 +200,33 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        this.scrollToFragmentFromUrl(url);
+    this.pendingOutlineSyncUrl = url;
+    this.cancelScheduledOutlineSync();
+
+    this.outlineSyncFrame = window.requestAnimationFrame(() => {
+      this.outlineSyncFrame = null;
+      this.outlineSyncNextFrame = window.requestAnimationFrame(() => {
+        this.outlineSyncNextFrame = null;
+        this.scrollToFragmentFromUrl(this.pendingOutlineSyncUrl);
         this.syncActiveOutlineWithScroll();
       });
     });
+  }
+
+  private cancelScheduledOutlineSync(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    if (this.outlineSyncFrame !== null) {
+      window.cancelAnimationFrame(this.outlineSyncFrame);
+      this.outlineSyncFrame = null;
+    }
+
+    if (this.outlineSyncNextFrame !== null) {
+      window.cancelAnimationFrame(this.outlineSyncNextFrame);
+      this.outlineSyncNextFrame = null;
+    }
   }
 
   private scrollToFragmentFromUrl(url: string): void {
@@ -265,7 +289,8 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerEventsSub.unsubscribe();
-    if (typeof document !== 'undefined') {
+    this.cancelScheduledOutlineSync();
+    if (isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = '';
     }
   }
