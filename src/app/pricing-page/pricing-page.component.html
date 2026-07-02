@@ -30,14 +30,16 @@
     </header>
 
     <section class="pricing-overview" aria-label="Pricing overview">
-      <article class="pricing-overview-card" *ngFor="let item of pricingOverview">
+      <article
+        class="pricing-overview-card"
+        *ngFor="let item of pricingOverview; trackBy: trackOverviewItem">
         <p>{{ item.label }}</p>
         <span>{{ item.description }}</span>
       </article>
     </section>
 
     <section
-      *ngFor="let section of pricingSections"
+      *ngFor="let section of pricingSections; trackBy: trackPricingSection"
       class="product-pricing-section"
       [ngClass]="section.modifierClass"
       [id]="section.id">
@@ -51,7 +53,7 @@
 
       <div class="plans-grid">
         <article
-          *ngFor="let plan of section.plans"
+          *ngFor="let plan of section.plans; trackBy: trackPricingPlan"
           class="plan-card"
           [class.plan-card--featured]="plan.featured">
           <div class="plan-header">
@@ -67,14 +69,16 @@
           <p class="plan-description">{{ plan.description }}</p>
 
           <div class="plan-metrics">
-            <div class="plan-metric" *ngFor="let metric of plan.metrics">
+            <div
+              class="plan-metric"
+              *ngFor="let metric of plan.metrics; trackBy: trackPricingMetric">
               <span>{{ metric.label }}</span>
               <strong>{{ metric.value }}</strong>
             </div>
           </div>
 
           <ul class="plan-features">
-            <li *ngFor="let feature of plan.features">{{ feature }}</li>
+            <li *ngFor="let feature of plan.features; trackBy: trackPricingFeature">{{ feature }}</li>
           </ul>
 
           <p class="plan-footnote">{{ plan.footnote }}</p>

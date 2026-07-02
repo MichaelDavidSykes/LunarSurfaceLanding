@@ -265,7 +265,7 @@
   box-shadow: none;
   background:
     linear-gradient(180deg, rgba(6, 13, 22, 0.96) 0%, rgba(6, 12, 19, 0.91) 100%);
-  transition: background-color 0.18s ease, transform 0.18s ease;
+  transition: transform 0.18s ease;
 }
 
 .plan-card:hover {

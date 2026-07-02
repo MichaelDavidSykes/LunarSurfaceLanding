@@ -244,4 +244,24 @@ export class PricingPageComponent {
   protected navigateToApi(): void {
     void this.router.navigate(['/api/overview']);
   }
+
+  protected trackOverviewItem(_index: number, item: ProductPricingOverview): string {
+    return item.label;
+  }
+
+  protected trackPricingSection(_index: number, section: ProductPricingSection): string {
+    return section.id;
+  }
+
+  protected trackPricingPlan(_index: number, plan: PricingPlan): string {
+    return plan.name;
+  }
+
+  protected trackPricingMetric(_index: number, metric: PricingMetric): string {
+    return metric.label;
+  }
+
+  protected trackPricingFeature(_index: number, feature: string): string {
+    return feature;
+  }
 }
