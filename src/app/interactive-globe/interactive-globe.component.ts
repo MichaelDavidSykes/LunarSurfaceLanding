@@ -29,6 +29,14 @@ interface EntityGroup {
   order: number;
 }
 
+interface SelectedCountryReportGroup {
+  report: string;
+  items: ExplorerEntity[];
+  modified?: string | null;
+  sourceName?: string | null;
+  sourceLink?: string | null;
+}
+
 const TYPE_PRESENTATION: Record<string, EntityGroupPresentation> = {
   malware: { label: 'Malware', icon: 'pest_control', order: 1 },
   tool: { label: 'Tools', icon: 'handyman', order: 2 },
@@ -99,7 +107,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   private projection: any;
   private pathGen: any;
   private geojson: any;
-  public ready: boolean = false;
+  private ready = false;
   private pendingHighlightData: any[] | null = null;
   private lastOverlayData: any[] | null = null;
   private featureIsoMap = new Map<string, string>();
@@ -156,18 +164,11 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   };
 
   @Output() selectedCountryChange = new EventEmitter<{ name: string | null; code: string | null } | null>();
-  @Output() entityGroupsChange = new EventEmitter<any[]>();
   @Output() mapViewRequest = new EventEmitter<void>();
 
   @Input() selectedCountry: string | null = null;
   @Input() selectedCountryCode: string | null = null;
-  @Input() selectedCountryGroups: Array<{
-    report: string;
-    items: any[];
-    modified?: string | null;
-    sourceName?: string | null;
-    sourceLink?: string | null;
-  }> = [];
+  @Input() selectedCountryGroups: SelectedCountryReportGroup[] = [];
   @Input() selectedCountryLoading = false;
   @Input() explorerMode = false;
   @Input() enableSharedRelationshipArcs = false;
@@ -184,13 +185,12 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   @Output() moduleChipToggle = new EventEmitter<string>();
 
   private _selectedCountryIocs: ExplorerEntity[] = [];
-  entityGroups: EntityGroup[] = [];
+  protected entityGroups: EntityGroup[] = [];
 
   @Input()
   set selectedCountryIocs(value: ExplorerEntity[] | null | undefined) {
     this._selectedCountryIocs = Array.isArray(value) ? value : [];
     this.entityGroups = this.buildEntityGroups(this._selectedCountryIocs);
-    this.entityGroupsChange.emit(this.entityGroups);
   }
 
   get selectedCountryIocs(): ExplorerEntity[] {
@@ -304,7 +304,6 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     if ('selectedCountry' in changes && !this.selectedCountry) {
       this.entityGroups = [];
       this.selectionFocusPending = false;
-      this.entityGroupsChange.emit([]);
     }
 
     if (
