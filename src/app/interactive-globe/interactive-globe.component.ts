@@ -105,7 +105,9 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   private relationLabelOverlays: Array<{ obj: any; mid: any; normal: any; visible: boolean }> = [];
   private animationId: number | null = null;
   private pendingLabelElements: HTMLElement[] = [];
+  private queuedLabelRevealElements: HTMLElement[] = [];
   private labelRevealTimer: ReturnType<typeof setTimeout> | null = null;
+  private labelRevealFrame: number | null = null;
   private focusActive = false;
   private pendingLabelReveal = false;
   private countryCentroids = new Map<string, { lon: number; lat: number }>();
@@ -290,6 +292,12 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
   private resizeHandler: (() => void) | null = null;
   private clickHighlightCanvas: HTMLCanvasElement | null = null;
   private clickHighlightHandler: ((event: MouseEvent) => void) | null = null;
+  private readonly controlsDragStartHandler = (): void => {
+    this.labelRenderer?.domElement?.classList.add('globe-label-layer--dragging');
+  };
+  private readonly controlsDragEndHandler = (): void => {
+    this.labelRenderer?.domElement?.classList.remove('globe-label-layer--dragging');
+  };
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -845,12 +853,8 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     this.controls.autoRotateSpeed = 0.6;
     // Keep orbit pivot locked to the globe center to avoid visual wobble.
     this.controls.target.set(0, 0, 0);
-    this.controls.addEventListener('start', () => {
-      this.labelRenderer?.domElement?.classList.add('globe-label-layer--dragging');
-    });
-    this.controls.addEventListener('end', () => {
-      this.labelRenderer?.domElement?.classList.remove('globe-label-layer--dragging');
-    });
+    this.controls.addEventListener('start', this.controlsDragStartHandler);
+    this.controls.addEventListener('end', this.controlsDragEndHandler);
 
     this.resizeHandler = () => {
       if (!this.renderer || !this.camera) return;
@@ -1001,14 +1005,14 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     this.lastOverlayData = data;
 
     // Schedule rendering on next animation frame to avoid blocking rotation
-    if (this.overlayRenderHandle) {
-      try { cancelAnimationFrame(this.overlayRenderHandle as any); } catch {}
-      this.overlayRenderHandle = null;
-    }
+    this.cancelOverlayRenderFrame();
 
     const payload = Array.isArray(data) ? data : [];
     this.overlayRenderHandle = requestAnimationFrame(() => {
       this.overlayRenderHandle = null;
+      if (this.destroyed) {
+        return;
+      }
       this.performOverlayRender(payload);
     });
   }
@@ -1968,9 +1972,20 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     if (!this.pendingLabelElements.length) {
       return;
     }
-    const elements = [...this.pendingLabelElements];
+    this.queuedLabelRevealElements.push(...this.pendingLabelElements);
     this.pendingLabelElements = [];
-    requestAnimationFrame(() => {
+
+    if (this.labelRevealFrame !== null) {
+      return;
+    }
+
+    this.labelRevealFrame = requestAnimationFrame(() => {
+      this.labelRevealFrame = null;
+      const elements = [...this.queuedLabelRevealElements];
+      this.queuedLabelRevealElements = [];
+      if (this.destroyed) {
+        return;
+      }
       for (const el of elements) {
         el.classList.remove('globe-label--hidden');
       }
@@ -1992,7 +2007,12 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       clearTimeout(this.labelRevealTimer);
       this.labelRevealTimer = null;
     }
+    if (this.labelRevealFrame !== null) {
+      cancelAnimationFrame(this.labelRevealFrame);
+      this.labelRevealFrame = null;
+    }
     this.pendingLabelElements = [];
+    this.queuedLabelRevealElements = [];
     this.pendingLabelReveal = false;
   }
 
@@ -2249,6 +2269,7 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
     this.removeGlobeEventListeners();
     if (this.animationId) cancelAnimationFrame(this.animationId);
     this.animationId = null;
+    this.cancelOverlayRenderFrame();
     if (this.controls) this.controls.dispose();
     if (this.labelRenderer) {
       const el = this.containerRef?.nativeElement;
@@ -2287,7 +2308,22 @@ export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnCh
       window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
+    this.removeControlsEventListeners();
     this.removeClickHighlightListener();
+  }
+
+  private removeControlsEventListeners(): void {
+    this.controls?.removeEventListener?.('start', this.controlsDragStartHandler);
+    this.controls?.removeEventListener?.('end', this.controlsDragEndHandler);
+  }
+
+  private cancelOverlayRenderFrame(): void {
+    if (this.overlayRenderHandle === null) {
+      return;
+    }
+
+    cancelAnimationFrame(this.overlayRenderHandle);
+    this.overlayRenderHandle = null;
   }
 
   private removeClickHighlightListener(): void {
