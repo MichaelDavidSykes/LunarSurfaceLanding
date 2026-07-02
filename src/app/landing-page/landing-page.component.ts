@@ -680,7 +680,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Start multiple typing effects system
-  startMultipleTypingEffects(): void {
+  private startMultipleTypingEffects(initialDelayMs = 0): void {
     this.stopMultipleTypingEffects();
     
     // Create new effects with truly random timing
@@ -692,6 +692,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.typingEffectsInterval = this.setLandingTimeout(createNextEffect, randomDelay);
     };
     
+    if (initialDelayMs > 0) {
+      this.typingEffectsInterval = this.setLandingTimeout(createNextEffect, initialDelayMs);
+      return;
+    }
+
     // Start the first effect
     createNextEffect();
   }
@@ -876,34 +881,35 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         ]);
 
         // Create and draw the chart
-        if (document.getElementById('regions_div')) {
-          const chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-        const options = {
-          backgroundColor: '#000000',
-          colorAxis: {
-            colors: ['#d5bfff', '#a178f1'],
-            minValue: 0,
+        const mapElement = document.getElementById('regions_div');
+        if (mapElement) {
+          const chart = new google.visualization.GeoChart(mapElement);
+          const options = {
+            backgroundColor: '#000000',
+            colorAxis: {
+              colors: ['#d5bfff', '#a178f1'],
+              minValue: 0,
               maxValue: 1
-          },
-          datalessRegionColor: '#2f2e2e',
-          defaultColor: '#c0c0c0',
-          region: 'world',
-          displayMode: 'regions',
-            enableRegionInteractivity: false,
-          resolution: 'countries',
-          height: '100%',
-          width: '100%',
-          legend: 'none',
-          tooltip: {
-              trigger: 'none',
-            textStyle: { 
-              color: '#fff',
-              fontSize: 14,
-              backgroundColor: '#1e1e1e'
             },
-            isHtml: true
-          }
-        };
+            datalessRegionColor: '#2f2e2e',
+            defaultColor: '#c0c0c0',
+            region: 'world',
+            displayMode: 'regions',
+            enableRegionInteractivity: false,
+            resolution: 'countries',
+            height: '100%',
+            width: '100%',
+            legend: 'none',
+            tooltip: {
+              trigger: 'none',
+              textStyle: {
+                color: '#fff',
+                fontSize: 14,
+                backgroundColor: '#1e1e1e'
+              },
+              isHtml: true
+            }
+          };
 
           chart.draw(data, options);
 
@@ -912,13 +918,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.fadeState = 'fade-in';
             this.hideLoading();
             
-            // Start typing effects immediately after map loads
-            this.startMultipleTypingEffects();
-            
-            // Create first typing effect with a tiny delay to let users see the map first
-            this.setLandingTimeout(() => {
-              this.createRandomTypingEffect();
-            }, 200); // Small delay to let users see the map before first effect appears
+            // Start the first typing effect after a tiny delay, then continue the randomized cycle.
+            this.startMultipleTypingEffects(200);
           }, 300); // Reduced from 400ms to 300ms for faster map fade-in
         }
       } catch (error) {
