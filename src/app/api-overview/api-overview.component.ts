@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 type ExampleLevel = 'Simple' | 'Intermediate' | 'Advanced';
 
-const API_DOC_PAGES: ReadonlySet<string> = new Set([
+const DEFAULT_API_DOC_PAGE = 'overview';
+const API_DOC_PAGES = [
   'overview',
   'quick-start',
   'base-configuration',
@@ -11,7 +13,13 @@ const API_DOC_PAGES: ReadonlySet<string> = new Set([
   'mcp-server',
   'payload-response',
   'aql-playbook'
-]);
+] as const;
+type ApiDocPage = typeof API_DOC_PAGES[number];
+const API_DOC_PAGE_SET: ReadonlySet<string> = new Set(API_DOC_PAGES);
+
+function isApiDocPage(page: string): page is ApiDocPage {
+  return API_DOC_PAGE_SET.has(page);
+}
 
 interface OverviewMetric {
   value: string;
@@ -90,10 +98,11 @@ interface AqlExample {
   templateUrl: './api-overview.component.html',
   styleUrls: ['./api-overview.component.scss']
 })
-export class ApiOverviewComponent implements OnInit {
+export class ApiOverviewComponent implements OnInit, OnDestroy {
   constructor(private readonly route: ActivatedRoute) {}
 
-  protected page = 'overview';
+  protected page: ApiDocPage = DEFAULT_API_DOC_PAGE;
+  private routeParamSubscription?: Subscription;
 
   protected readonly apiBase = 'https://api.lunarchain.net/api/v1';
   protected readonly mcpEndpoint = 'https://api.lunarchain.net/api/v1/graph/mcp';
@@ -969,9 +978,13 @@ FOR intr IN nodes_vertex_collection
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const rawPage = params.get('page')?.toLowerCase() ?? 'overview';
-      this.page = API_DOC_PAGES.has(rawPage) ? rawPage : 'overview';
+    this.routeParamSubscription = this.route.paramMap.subscribe((params) => {
+      const rawPage = params.get('page')?.toLowerCase() ?? DEFAULT_API_DOC_PAGE;
+      this.page = isApiDocPage(rawPage) ? rawPage : DEFAULT_API_DOC_PAGE;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routeParamSubscription?.unsubscribe();
   }
 }
