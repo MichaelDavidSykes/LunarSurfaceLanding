@@ -96,6 +96,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly pendingTimers = new Set<ReturnType<typeof setTimeout>>();
   private readonly mobileDetectionResizeHandler = () => this.handleViewportResize();
   private readonly nativeMobileScrollClass = 'landing-native-mobile-scroll';
+  private readonly sectionSelectorByFragment: Record<string, string> = {
+    products: '.product-suite-section',
+    solutions: '.solutions-section',
+    'ai-agent': '.product-suite-section',
+    contact: '.contact-section'
+  };
 
   constructor(
     private router: Router,
@@ -430,32 +436,20 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Navigation handler
-  navigateTo(path: string) {
-    this.router.navigate([`/${path}`]);
+  navigateTo(path: string): void {
+    void this.router.navigate([`/${path}`]);
   }
 
   scrollToSolutions(): void {
-    const solutionsSection = document.querySelector('.solutions-section');
-    if (solutionsSection) {
-      solutionsSection.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      });
-    }
+    this.scrollToFragment('solutions');
   }
 
   scrollToContact(): void {
-    const contactSection = document.querySelector('.contact-section');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    this.scrollToFragment('contact');
   }
 
   scrollToAIAgent(): void {
-    const productsSection = document.querySelector('.product-suite-section');
-    if (productsSection) {
-      productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    this.scrollToFragment('ai-agent');
   }
 
   private scrollToFragment(fragment: string): void {
@@ -469,14 +463,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    const sectionByFragment: Record<string, string> = {
-      products: '.product-suite-section',
-      solutions: '.solutions-section',
-      'ai-agent': '.product-suite-section',
-      contact: '.contact-section'
-    };
-
-    const selector = sectionByFragment[normalizedFragment];
+    const selector = this.sectionSelectorByFragment[normalizedFragment];
     if (!selector) {
       return;
     }
