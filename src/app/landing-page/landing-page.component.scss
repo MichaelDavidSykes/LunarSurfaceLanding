@@ -1914,11 +1914,6 @@ p {
     border-top: 0;
   }
 
-  .product-panel--saferoute .product-module:nth-child(odd) {
-    padding-left: 0;
-    border-left: 0;
-  }
-
   .product-panel--saferoute .product-module:nth-child(n + 3) {
     border-top: 1px solid rgba(255, 255, 255, 0.13);
   }
@@ -1962,8 +1957,7 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .product-module,
-  .product-module:nth-child(odd) {
+  .product-module {
     padding-left: 0;
     padding-right: 0;
     border-left: 0;
