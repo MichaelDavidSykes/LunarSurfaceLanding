@@ -1809,10 +1809,6 @@ p {
   aspect-ratio: 2.4 / 1;
 }
 
-.product-panel--saferoute .product-module-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .product-panel--saferoute .product-module:nth-child(3n + 1) {
   padding-left: 0;
   border-left: 0;
@@ -1829,6 +1825,10 @@ p {
   gap: 0;
   margin-top: clamp(0.5rem, 1vw, 0.85rem);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.product-module-grid--three-up {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .product-module {
