@@ -41,13 +41,13 @@
     id="docs-mobile-drawer"
     class="docs-mobile-drawer"
     role="dialog"
-    aria-modal="true"
-    aria-label="Documentation navigation"
+    aria-labelledby="docsMobileDrawerTitle"
     [attr.aria-hidden]="isMobileDocsMenuOpen ? null : 'true'"
+    [attr.aria-modal]="isMobileDocsMenuOpen ? 'true' : null"
     [attr.inert]="isMobileDocsMenuOpen ? null : ''"
     [class.open]="isMobileDocsMenuOpen">
     <div class="docs-mobile-header">
-      <span class="docs-mobile-title">Docs</span>
+      <span id="docsMobileDrawerTitle" class="docs-mobile-title">Docs</span>
       <button class="docs-mobile-close-btn" type="button" aria-label="Close documentation navigation" (click)="closeMobileDocsMenu()">
         <mat-icon aria-hidden="true">close</mat-icon>
       </button>

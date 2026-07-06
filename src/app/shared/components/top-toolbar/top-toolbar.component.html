@@ -71,13 +71,13 @@
     id="landing-mobile-menu"
     class="mobile-side-menu"
     role="dialog"
-    aria-modal="true"
-    aria-label="Main navigation"
+    aria-labelledby="landingMobileMenuTitle"
     [attr.aria-hidden]="isMobileMenuOpen ? null : 'true'"
+    [attr.aria-modal]="isMobileMenuOpen ? 'true' : null"
     [attr.inert]="isMobileMenuOpen ? null : ''"
     [class.open]="isMobileMenuOpen">
     <div class="mobile-menu-header">
-      <span class="mobile-menu-title">Menu</span>
+      <span id="landingMobileMenuTitle" class="mobile-menu-title">Menu</span>
       <button class="close-btn" type="button" aria-label="Close menu" (click)="closeMobileMenu()">
         <mat-icon aria-hidden="true">close</mat-icon>
       </button>
