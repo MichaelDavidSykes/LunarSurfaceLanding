@@ -88,7 +88,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadingAnimationTimeline: any;
   private threatIntelligenceLoaded = false;
   private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
-  private containerRestoreTimer: ReturnType<typeof setTimeout> | null = null;
   private navigationScrollTimer: ReturnType<typeof setTimeout> | null = null;
   private routeFragmentSubscription?: Subscription;
   private typingEffectsAnimationFrame: number | null = null;
@@ -330,21 +329,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       // Small delay to ensure DOM is ready
       this.viewInitDelayTimer = this.setLandingTimeout(() => {
         this.viewInitDelayTimer = null;
-
-        // Preserve container constraints before running layout calculations
-        this.preserveContainerConstraints();
         
         this.setupGSAPAnimations();
         
         // Start animation loop for typing effects
         this.startTypingEffectsAnimationLoop();
-        
-        // Restore container constraints after layout calculations
-        this.containerRestoreTimer = this.setLandingTimeout(() => {
-          this.containerRestoreTimer = null;
-
-          this.restoreContainerConstraints();
-        }, 100);
         
         if (this.isBrowser && typeof window !== 'undefined') {
           window.addEventListener('resize', this.mobileDetectionResizeHandler);
@@ -386,8 +375,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopTypingEffectsAnimationLoop();
     this.clearLandingTimeout(this.viewInitDelayTimer);
     this.viewInitDelayTimer = null;
-    this.clearLandingTimeout(this.containerRestoreTimer);
-    this.containerRestoreTimer = null;
     this.clearLandingTimeout(this.navigationScrollTimer);
     this.navigationScrollTimer = null;
     this.clearPendingLandingTimers();
@@ -1596,26 +1583,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.isLoading = false;
-  }
-
-  private preserveContainerConstraints(): void {
-    if (!this.isBrowser) return;
-    
-    // Add a temporary class to prevent layout shifts
-    const sections = document.querySelectorAll('.landing-extra-content, .contact-section');
-    sections.forEach(section => {
-      section.classList.add('preserving-constraints');
-    });
-  }
-
-  private restoreContainerConstraints(): void {
-    if (!this.isBrowser) return;
-    
-    // Remove the temporary class
-    const sections = document.querySelectorAll('.landing-extra-content, .contact-section');
-    sections.forEach(section => {
-      section.classList.remove('preserving-constraints');
-    });
   }
 
   // Contact form handling
