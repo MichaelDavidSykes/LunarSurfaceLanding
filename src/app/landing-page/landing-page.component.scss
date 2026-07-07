@@ -51,54 +51,6 @@
     0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
-input[type="email"],
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin-top: 12px;
-  border: 1.5px solid #d196e6;
-  border-radius: 0;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  box-sizing: border-box;
-  font-size: 16px;
-  background: #f8f6ff;
-  color: #333 !important; /* Ensure entered text is dark */
-}
-
-input[type="email"]::placeholder,
-input[type="text"]::placeholder {
-  color: #888 !important; /* Make placeholder text a readable grey */
-  opacity: 1;
-}
-
-input[type="email"]:focus,
-input[type="text"]:focus {
-  border-color: #915eff;
-  box-shadow: 0 0 0 2px #e9e3f5;
-}
-
-
-button[type="submit"] {
-  background: linear-gradient(90deg, #915eff 0%, #d196e6 100%);
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 0;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  width: 100%;
-  margin-top: 20px;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(145, 94, 255, 0.08);
-}
-
-button[type="submit"]:hover {
-  background: linear-gradient(90deg, #7a4dcb 0%, #b47adf 100%);
-  transform: translateY(-2px) scale(1.03);
-}
-
 h2 {
   color: #915eff;
   margin-bottom: 8px;
@@ -972,6 +924,8 @@ p {
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.8rem 1rem;
   border: 1.5px solid #d1d5db;
   font-size: 1rem;
@@ -992,6 +946,8 @@ p {
 }
 
 .contact-submit-btn {
+  width: 100%;
+  box-sizing: border-box;
   font-weight: 700;
   border: none;
   padding: 0.9rem 1.5rem;
@@ -2087,6 +2043,7 @@ p {
 .contact-form input::placeholder,
 .contact-form textarea::placeholder {
   color: rgba(219, 232, 238, 0.72);
+  opacity: 1;
 }
 
 .contact-form select {
