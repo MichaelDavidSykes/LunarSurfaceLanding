@@ -625,7 +625,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isTaskbarScrolled = window.scrollY > 20;
   }
 
-  loadThreatIntelligenceData(): void {
+  private loadThreatIntelligenceData(): void {
     this.http.get(`${environment.apiUrl}/api/${environment.apiVersion}/graph/public/landing-threat-intelligence`)
       .subscribe({
         next: (response: any) => {
@@ -683,7 +683,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Stop multiple typing effects
-  stopMultipleTypingEffects(): void {
+  private stopMultipleTypingEffects(): void {
     if (this.typingEffectsInterval) {
       this.clearLandingTimeout(this.typingEffectsInterval);
       this.typingEffectsInterval = null;
@@ -691,7 +691,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Create a random typing effect at a random position
-  createRandomTypingEffect(): void {
+  private createRandomTypingEffect(): void {
     if (!this.threatIntelligenceData || this.threatIntelligenceData.length === 0) return;
 
     // Randomly select threat data
@@ -761,7 +761,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Start typing animation for a specific effect
-  startTypingAnimationForEffect(effect: TypingEffect): void {
+  private startTypingAnimationForEffect(effect: TypingEffect): void {
     let charIndex = 0;
     
     const typeNextChar = () => {
@@ -783,7 +783,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Update effects (called in animation loop)
-  updateTypingEffects(): void {
+  private updateTypingEffects(): void {
     const now = Date.now();
     
     this.typingEffects = this.typingEffects.filter(effect => {
@@ -805,37 +805,32 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  loadGoogleCharts(): void {
+  private loadGoogleCharts(): void {
     if (typeof google === 'undefined') {
       const script = document.createElement('script');
       script.src = 'https://www.gstatic.com/charts/loader.js?loading=async';
-      script.onload = () => {
-        if (this.isDestroyed) {
-          return;
-        }
-
-        google.charts.load('current', { packages: ['geochart'] });
-        google.charts.setOnLoadCallback(() => {
-          if (this.isDestroyed) {
-            return;
-          }
-
-          this.chartsLoaded = true;
-          this.checkAndInitializeMap();
-        });
-      };
+      script.onload = () => this.loadGeoChartPackage();
       document.head.appendChild(script);
-    } else {
-      google.charts.load('current', { packages: ['geochart'] });
-      google.charts.setOnLoadCallback(() => {
-        if (this.isDestroyed) {
-          return;
-        }
-
-        this.chartsLoaded = true;
-        this.checkAndInitializeMap();
-      });
+      return;
     }
+
+    this.loadGeoChartPackage();
+  }
+
+  private loadGeoChartPackage(): void {
+    if (this.isDestroyed) {
+      return;
+    }
+
+    google.charts.load('current', { packages: ['geochart'] });
+    google.charts.setOnLoadCallback(() => {
+      if (this.isDestroyed) {
+        return;
+      }
+
+      this.chartsLoaded = true;
+      this.checkAndInitializeMap();
+    });
   }
 
   private checkAndInitializeMap(): void {
