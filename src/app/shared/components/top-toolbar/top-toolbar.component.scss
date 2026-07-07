@@ -18,12 +18,8 @@
   box-sizing: border-box;
 }
 
-.docs-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  text-decoration: none;
+.docs-brand,
+.brand-container {
   padding: 0;
   border: 0;
   background: transparent;
@@ -31,8 +27,15 @@
   cursor: pointer;
 }
 
+.docs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  text-decoration: none;
+}
+
 .docs-toolbar-logo {
-  height: 34px;
   filter: brightness(0) invert(1);
 }
 
@@ -169,11 +172,6 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  cursor: pointer;
 }
 
 .toolbar-logo {
