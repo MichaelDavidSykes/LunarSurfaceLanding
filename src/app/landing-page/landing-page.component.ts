@@ -24,7 +24,6 @@ interface TypingEffect {
   x: number;
   y: number;
   opacity: number;
-  isVisible: boolean;
   startTime: number;
   duration: number;
 }
@@ -759,7 +758,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       x: x,
       y: y,
       opacity: 0,
-      isVisible: true,
       startTime: Date.now(),
       duration: 4000 + Math.random() * 2000 // 4-6 seconds duration for longer visibility
     };
@@ -780,7 +778,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     let charIndex = 0;
     
     const typeNextChar = () => {
-      if (charIndex <= effect.text.length && effect.isVisible) {
+      if (charIndex <= effect.text.length) {
         effect.displayText = effect.text.slice(0, charIndex);
         charIndex++;
         
