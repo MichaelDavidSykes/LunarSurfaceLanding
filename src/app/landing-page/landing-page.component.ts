@@ -87,6 +87,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   fadeState = 'fade-in';
   isLoading = false; // Start hidden
   private loadingAnimationTimeline: any;
+  private threatIntelligenceLoaded = false;
   private viewInitDelayTimer: ReturnType<typeof setTimeout> | null = null;
   private containerRestoreTimer: ReturnType<typeof setTimeout> | null = null;
   private navigationScrollTimer: ReturnType<typeof setTimeout> | null = null;
@@ -649,11 +650,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           if (Array.isArray(response?.data)) {
             this.threatIntelligenceData = response.data.filter((item: any) => item.type !== 'location');
             this.locationData = response.data.find((item: any) => item.type === 'location')?.items || [];
+            this.threatIntelligenceLoaded = true;
 
             this.checkAndInitializeMap();
           } else {
             this.threatIntelligenceData = [];
             this.locationData = [];
+            this.threatIntelligenceLoaded = true;
             this.hideLoading();
           }
         },
@@ -665,6 +668,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
           console.error('Error loading threat intelligence data:', error);
           this.threatIntelligenceData = [];
           this.locationData = [];
+          this.threatIntelligenceLoaded = true;
           this.hideLoading();
         }
       });
@@ -850,10 +854,20 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private checkAndInitializeMap(): void {
-    // If we have both charts and data, initialize the map
-    if (this.chartsLoaded && this.locationData && this.locationData.length > 0) {
-      this.drawMapWithLocations();
+    if (!this.threatIntelligenceLoaded || !this.chartsLoaded) {
+      return;
     }
+
+    if (!this.locationData?.length) {
+      this.fadeState = 'fade-in';
+      this.hideLoading();
+      if (this.threatIntelligenceData.length > 0) {
+        this.startMultipleTypingEffects(200);
+      }
+      return;
+    }
+
+    this.drawMapWithLocations();
   }
 
   private drawMapWithLocations(): void {
@@ -912,6 +926,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
             // Start the first typing effect after a tiny delay, then continue the randomized cycle.
             this.startMultipleTypingEffects(200);
           }, 300); // Reduced from 400ms to 300ms for faster map fade-in
+        } else {
+          this.hideLoading();
         }
       } catch (error) {
         console.error('Error drawing map:', error);

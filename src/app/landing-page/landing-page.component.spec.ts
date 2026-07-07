@@ -7,6 +7,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalSnackbarService } from '../shared/global-snackbar/global-snackbar.service';
 import { LandingPageComponent } from './landing-page.component';
 
+type LandingPageHarness = {
+  chartsLoaded: boolean;
+  threatIntelligenceLoaded: boolean;
+  locationData: unknown[];
+  threatIntelligenceData: unknown[];
+  checkAndInitializeMap(): void;
+  hideLoading(): void;
+  startMultipleTypingEffects(initialDelayMs?: number): void;
+};
+
 describe('LandingPageComponent', () => {
   let component: LandingPageComponent;
   let fixture: ComponentFixture<LandingPageComponent>;
@@ -47,5 +57,30 @@ describe('LandingPageComponent', () => {
 
     expect(console.warn).toBe(warn);
     expect(console.error).toBe(error);
+  });
+
+  it('waits for threat intelligence data before resolving map loading', () => {
+    const harness = component as unknown as LandingPageHarness;
+    harness.chartsLoaded = true;
+    spyOn(harness, 'hideLoading');
+
+    harness.checkAndInitializeMap();
+
+    expect(harness.hideLoading).not.toHaveBeenCalled();
+  });
+
+  it('hides map loading when no location data is available', () => {
+    const harness = component as unknown as LandingPageHarness;
+    harness.chartsLoaded = true;
+    harness.threatIntelligenceLoaded = true;
+    harness.locationData = [];
+    harness.threatIntelligenceData = [];
+    spyOn(harness, 'hideLoading');
+    spyOn(harness, 'startMultipleTypingEffects');
+
+    harness.checkAndInitializeMap();
+
+    expect(harness.hideLoading).toHaveBeenCalled();
+    expect(harness.startMultipleTypingEffects).not.toHaveBeenCalled();
   });
 });
