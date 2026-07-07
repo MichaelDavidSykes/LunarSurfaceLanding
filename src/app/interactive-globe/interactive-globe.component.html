@@ -106,12 +106,14 @@
         >
           <input
             matSliderStartThumb
+            aria-label="Date range start"
             [(ngModel)]="sliderStartValue"
             [ngModelOptions]="{ standalone: true }"
             (ngModelChange)="onDateRangeSliderChange()"
           />
           <input
             matSliderEndThumb
+            aria-label="Date range end"
             [(ngModel)]="sliderEndValue"
             [ngModelOptions]="{ standalone: true }"
             (ngModelChange)="onDateRangeSliderChange()"
