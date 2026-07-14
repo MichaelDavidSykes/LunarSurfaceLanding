@@ -226,16 +226,19 @@
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 0.58rem 0.95rem;
   font-size: 0.88rem;
+  text-decoration: none;
 }
 
-.nav-btn {
+.nav-btn,
+.login-btn {
   color: #334155 !important;
   background: transparent !important;
   border: 1px solid transparent !important;
   box-shadow: none !important;
 }
 
-.nav-btn:hover {
+.nav-btn:hover,
+.login-btn:hover {
   background: rgba(15, 23, 42, 0.055) !important;
   color: #0f172a !important;
   border-color: rgba(15, 23, 42, 0.08) !important;
@@ -249,16 +252,8 @@
   box-shadow: none !important;
 }
 
-.login-btn {
-  margin-left: 0.2rem;
-  color: #ffffff !important;
-  border: 1px solid transparent !important;
-  background: #7c5ce6 !important;
-  box-shadow: 0 10px 24px rgba(117, 82, 232, 0.28) !important;
-}
-
 .landing-taskbar:not(.scrolled) .nav-btn,
-.landing-taskbar:not(.scrolled) .nav-btn {
+.landing-taskbar:not(.scrolled) .login-btn {
   color: rgba(255, 255, 255, 0.95) !important;
   background: transparent !important;
   border-color: transparent !important;
@@ -266,7 +261,7 @@
 }
 
 .landing-taskbar:not(.scrolled) .nav-btn:hover,
-.landing-taskbar:not(.scrolled) .nav-btn:hover {
+.landing-taskbar:not(.scrolled) .login-btn:hover {
   color: #ffffff !important;
   background: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
@@ -278,10 +273,6 @@
   background: rgba(255, 255, 255, 0.14) !important;
   border-color: rgba(255, 255, 255, 0.28) !important;
   box-shadow: none !important;
-}
-
-.login-btn:hover {
-  transform: translateY(-1px);
 }
 
 .mobile-nav {
