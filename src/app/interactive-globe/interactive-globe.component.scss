@@ -111,6 +111,21 @@
   color: rgba(235, 240, 255, 0.68);
 }
 
+:host(.landing-mode) .globe-overlay .chip,
+:host(.landing-mode) .module-filter-toggle,
+:host(.landing-mode) .module-breakdown-chip,
+:host(.landing-mode) .globe-meta-code {
+  border-radius: 999px;
+}
+
+:host(.landing-mode) .globe-meta,
+:host(.landing-mode) .module-breakdown-chips,
+:host(.landing-mode) .globe-date-filter,
+:host(.landing-mode) .report-item,
+:host(.landing-mode) .report-source-tooltip {
+  border-radius: 18px;
+}
+
 .globe-meta-left {
   left: 32px;
 }

@@ -58,7 +58,7 @@ input[type="text"] {
   padding: 12px;
   margin-top: 12px;
   border: 1.5px solid #d196e6;
-  border-radius: 0;
+  border-radius: 14px;
   transition: border-color 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
   font-size: 16px;
@@ -86,7 +86,7 @@ button[type="submit"] {
   color: #fff;
   padding: 12px;
   border: none;
-  border-radius: 0;
+  border-radius: 999px;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
   width: 100%;
@@ -163,7 +163,7 @@ p {
   justify-content: center;
   gap: 6px;
   padding: 10px 12px;
-  border-radius: 0;
+  border-radius: 18px;
   pointer-events: none;
   background: rgba(8, 8, 12, 0.34);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -357,9 +357,11 @@ p {
 .feature-card {
   --feature-accent: #2563eb;
   --feature-accent-rgb: 37, 99, 235;
-  background: #ffffff;
-  border-radius: 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(31, 41, 55, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
   padding: 2.5rem 2rem;
   min-width: 280px;
   max-width: 360px;
@@ -742,6 +744,7 @@ p {
   overflow: hidden;
   isolation: isolate;
   border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
   background: #071019;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
 }
@@ -925,18 +928,17 @@ p {
 }
 
 .contact-card {
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 1.35rem 0;
+  background: rgba(255, 255, 255, 0.055);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  padding: 1.35rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
   max-width: none;
   margin: 0;
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .contact-card:hover {
@@ -970,7 +972,7 @@ p {
 }
 
 .contact-form {
-  border-radius: 0;
+  border-radius: 28px;
 }
 
 .contact-form h2 {
@@ -996,7 +998,7 @@ p {
 .contact-form textarea {
   padding: 0.8rem 1rem;
   border: 1.5px solid #d1d5db;
-  border-radius: 0;
+  border-radius: 14px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
@@ -1017,7 +1019,7 @@ p {
 .contact-submit-btn {
   font-weight: 700;
   border: none;
-  border-radius: 0;
+  border-radius: 999px;
   padding: 0.9rem 1.5rem;
   font-size: 1.1rem;
   cursor: pointer;
@@ -1065,7 +1067,7 @@ p {
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-  border-radius: 0;
+  border-radius: 28px;
   overflow: visible;
 }
 
@@ -1222,7 +1224,7 @@ p {
     margin-bottom: 2rem !important;
     padding: 1.5rem 1rem !important;
     text-align: center !important;
-    border-radius: 0;
+    border-radius: 24px;
   }
 
   .mission-title {
@@ -1427,7 +1429,7 @@ p {
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
     padding: 12px 16px;
-    border-radius: 0;
+    border-radius: 16px;
     font-size: 0.9rem;
     line-height: 1.4;
     display: inline-block;
@@ -1454,7 +1456,7 @@ p {
       left: 0;
       right: 0;
       bottom: 0;
-      border-radius: 0;
+      border-radius: 16px;
       background: linear-gradient(45deg, transparent, rgba(145, 94, 255, 0.1), transparent);
       pointer-events: none;
     }
@@ -1683,7 +1685,7 @@ p {
   padding: clamp(1.4rem, 3vw, 2.4rem);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 0;
+  border-radius: 28px;
   color: #f8fafc;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
   backdrop-filter: blur(4px);
@@ -1804,6 +1806,7 @@ p {
   margin: 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
   background: rgba(3, 7, 12, 0.82);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
 }
@@ -1909,7 +1912,7 @@ p {
   color: #08111b;
   background: var(--product-accent);
   border: 1px solid transparent;
-  border-radius: 0;
+  border-radius: 999px;
   padding: 0.75rem 1rem;
   font-weight: 800;
   line-height: 1;
@@ -2089,8 +2092,8 @@ p {
 }
 
 .contact-info {
-  gap: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  gap: 1rem;
+  border-top: 0;
 }
 
 .contact-form {
@@ -2099,10 +2102,12 @@ p {
   min-width: 0 !important;
   margin: 0 !important;
   padding: clamp(2rem, 3vw, 3rem) !important;
-  border-radius: 0;
+  border-radius: 28px;
   background: rgba(5, 10, 16, 0.76);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
 }
 
 .contact-form h2 {
@@ -2113,7 +2118,7 @@ p {
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
-  border-radius: 0;
+  border-radius: 14px;
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.08);
   color: #f8fafc;
@@ -2129,7 +2134,7 @@ p {
 }
 
 .contact-submit-btn {
-  border-radius: 0;
+  border-radius: 999px;
   background: #f8fafc !important;
   color: #071019 !important;
   box-shadow: none !important;
