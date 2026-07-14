@@ -619,7 +619,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     gsap.killTweensOf(targets);
     gsap.set(targets, {
-      clearProps: 'transform,filter,clipPath,willChange'
+      clearProps: 'opacity,visibility,transform,filter,clipPath,willChange'
     });
   }
 
