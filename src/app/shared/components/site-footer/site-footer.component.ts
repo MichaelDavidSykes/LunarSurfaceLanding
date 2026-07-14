@@ -2,9 +2,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
-type FooterLandingTarget = 'solutions' | 'ai-agent' | 'contact';
+type FooterLandingTarget = 'ai-agent' | 'contact';
 type FooterActivePage = 'pricing' | 'terms';
-type FooterLinkType = 'landing' | 'route' | 'external';
+type FooterLinkType = 'landing' | 'route';
 type FooterVariant = 'dark' | 'light';
 
 interface FooterLink {
@@ -12,13 +12,7 @@ interface FooterLink {
   type: FooterLinkType;
   target?: FooterLandingTarget;
   routerLink?: string;
-  href?: string;
   activePage?: FooterActivePage;
-}
-
-interface FooterLinkGroup {
-  title: string;
-  links: ReadonlyArray<FooterLink>;
 }
 
 @Component({
@@ -31,41 +25,12 @@ export class SiteFooterComponent {
   @Input() showSocial = true;
   @Input() variant: FooterVariant = 'dark';
 
-  protected readonly linkGroups: ReadonlyArray<FooterLinkGroup> = [
-    {
-      title: 'Products',
-      links: [
-        { label: 'Our Products', type: 'landing', target: 'ai-agent' },
-        { label: 'ThreatScape', type: 'landing', target: 'ai-agent' },
-        { label: 'SafeRoute', type: 'landing', target: 'ai-agent' }
-      ]
-    },
-    {
-      title: 'Solutions',
-      links: [
-        { label: 'Custom Intelligence', type: 'landing', target: 'solutions' },
-        { label: 'Cybersecurity', type: 'landing', target: 'solutions' },
-        { label: 'Defence & Regional Risk', type: 'landing', target: 'solutions' },
-        { label: 'Executive Protection', type: 'landing', target: 'solutions' }
-      ]
-    },
-    {
-      title: 'Platform',
-      links: [
-        { label: 'Documentation', type: 'route', routerLink: '/api/overview' },
-        { label: 'API', type: 'route', routerLink: '/api/endpoint-focus' },
-        { label: 'MCP Server', type: 'route', routerLink: '/api/mcp-server' },
-        { label: 'Pricing', type: 'route', routerLink: '/pricing', activePage: 'pricing' }
-      ]
-    },
-    {
-      title: 'Company',
-      links: [
-        { label: 'Contact Us', type: 'landing', target: 'contact' },
-        { label: 'Terms & Conditions', type: 'route', routerLink: '/terms', activePage: 'terms' },
-        { label: 'LinkedIn', type: 'external', href: 'https://linkedin.com/company/lunarchain' }
-      ]
-    }
+  protected readonly footerLinks: ReadonlyArray<FooterLink> = [
+    { label: 'Products', type: 'landing', target: 'ai-agent' },
+    { label: 'API docs', type: 'route', routerLink: '/api/overview' },
+    { label: 'Pricing', type: 'route', routerLink: '/pricing', activePage: 'pricing' },
+    { label: 'Contact', type: 'landing', target: 'contact' },
+    { label: 'Terms', type: 'route', routerLink: '/terms', activePage: 'terms' }
   ];
 
   private readonly isBrowser: boolean;
@@ -93,10 +58,6 @@ export class SiteFooterComponent {
     return link.activePage && link.activePage === this.activePage ? 'page' : null;
   }
 
-  protected trackLinkGroup(_index: number, group: FooterLinkGroup): string {
-    return group.title;
-  }
-
   protected trackFooterLink(_index: number, link: FooterLink): string {
     return link.label;
   }
@@ -112,7 +73,6 @@ export class SiteFooterComponent {
     }
 
     const selectorByTarget: Record<FooterLandingTarget, string> = {
-      solutions: '.solutions-section',
       'ai-agent': '.product-suite-section',
       contact: '.contact-section'
     };
