@@ -1001,8 +1001,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
 
-    // Animate mission section and intelligence domain cards
-    this.setupMissionAnimations();
+    // Keep the mission copy static while revealing the intelligence domain cards below it.
+    this.setupFeatureCardAnimations();
 
     // Setup simple fade-in effect for product panels
     this.setupProductSuiteFadeIn();
@@ -1011,20 +1011,16 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setupSolutionsAndBelowAnimations();
   }
 
-  private setupMissionAnimations(): void {
+  private setupFeatureCardAnimations(): void {
     if (!this.isBrowser) return;
 
-    const section = document.querySelector('.landing-extra-content') as HTMLElement | null;
-    const mission = section?.querySelector('.mission-section') as HTMLElement | null;
+    const section = document.querySelector('.landing-extra-content .feature-cards') as HTMLElement | null;
 
-    if (!section || !mission) return;
+    if (!section) return;
 
     const reduceMotion = this.prefersReducedMotion();
     const skipInitialMobileReveal = this.isMobileViewport();
 
-    const title = mission.querySelector('.mission-title') as HTMLElement | null;
-    const statement = mission.querySelector('.mission-statement') as HTMLElement | null;
-    const copyParagraphs = gsap.utils.toArray<HTMLElement>('.mission-section .mission-copy p');
     const cards = gsap.utils.toArray<HTMLElement>('.landing-extra-content .feature-card');
     const cardTextItems = cards.flatMap((card) => [
       card.querySelector('h3'),
@@ -1033,9 +1029,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     ].filter((target): target is Element => Boolean(target)));
 
     const targets = [
-      title,
-      statement,
-      ...copyParagraphs,
       ...cards,
       ...cardTextItems
     ].filter((target): target is Element => Boolean(target));
@@ -1047,25 +1040,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    if (title) {
-      gsap.set(title, {
-        opacity: 0,
-        y: 18,
-        letterSpacing: '0.08em'
-      });
-    }
-
-    if (statement) {
-      gsap.set(statement, {
-        opacity: 0,
-        y: 34,
-        scale: 0.97,
-        filter: 'blur(8px)',
-        transformOrigin: '50% 50%'
-      });
-    }
-
-    gsap.set(copyParagraphs, { opacity: 0, y: 18 });
     gsap.set(cards, {
       opacity: 0,
       clipPath: 'inset(0% 0% 16% 0% round 12px)'
@@ -1075,42 +1049,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: 'top 78%',
-        end: 'top 34%',
+        start: 'top 84%',
+        end: 'top 44%',
         toggleActions: 'play none none reverse'
       }
     });
-
-    if (title) {
-      tl.to(title, {
-        opacity: 1,
-        y: 0,
-        letterSpacing: '0.18em',
-        duration: 0.55,
-        ease: 'power2.out'
-      }, 0);
-    }
-
-    if (statement) {
-      tl.to(statement, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: 'blur(0px)',
-        duration: 0.8,
-        ease: 'power3.out'
-      }, 0.12);
-    }
-
-    if (copyParagraphs.length > 0) {
-      tl.to(copyParagraphs, {
-        opacity: 1,
-        y: 0,
-        duration: 0.58,
-        stagger: 0.12,
-        ease: 'power2.out'
-      }, 0.42);
-    }
 
     cards.forEach((card, index) => {
       const textItems = [
@@ -1118,7 +1061,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         card.querySelector('.card-main-text'),
         card.querySelector('.card-expandable-content')
       ].filter((target): target is Element => Boolean(target));
-      const offset = 0.78 + index * 0.12;
+      const offset = index * 0.12;
 
       tl.to(card, {
         opacity: 1,
