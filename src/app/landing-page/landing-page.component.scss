@@ -375,14 +375,10 @@ p {
   overflow: hidden;
 }
 
-.feature-card::before {
-  content: none;
-}
-
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 42px rgba(var(--feature-accent-rgb), 0.14);
-  border-color: rgba(var(--feature-accent-rgb), 0.28);
+  box-shadow: 0 14px 42px rgba(31, 41, 55, 0.12);
+  border-color: #e2e8f0;
 }
 
 .feature-card:focus-visible {
