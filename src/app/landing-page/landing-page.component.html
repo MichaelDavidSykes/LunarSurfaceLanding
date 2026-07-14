@@ -1,3 +1,4 @@
+<!-- Top Taskbar + Map (initial viewport) -->
 <div class="landing-initial-viewport">
   <app-top-toolbar
     context="landing"
@@ -10,117 +11,79 @@
     (mobileMenuOpenChange)="onToolbarMobileMenuChange($event)">
   </app-top-toolbar>
 
-  <div class="map-container" aria-hidden="true">
+  <!-- Map Container -->
+  <div class="map-container">
+    <!-- Loading Animation in Map Area -->
     <div class="map-loading" *ngIf="isLoading">
       <div class="loading-container">
-        <svg class="loading-logo-mark" viewBox="0 0 120 120" role="img" aria-label="LunarChain loading logo">
-          <rect class="logo-segment logo-outer-top" x="14" y="12" width="92" height="14"></rect>
-          <rect class="logo-segment logo-outer-left" x="7" y="12" width="14" height="97"></rect>
-          <rect class="logo-segment logo-outer-bottom" x="14" y="95" width="92" height="14"></rect>
-          <rect class="logo-segment logo-inner-left" x="35" y="35" width="14" height="50"></rect>
-          <rect class="logo-segment logo-inner-bottom" x="42" y="71" width="53" height="14"></rect>
-        </svg>
-        <div class="loading-text">Loading intelligence layer</div>
+        <div class="loading-logo">
+          <svg class="loading-logo-mark" viewBox="0 0 120 120" role="img" aria-label="LunarChain loading logo">
+            <rect class="logo-segment logo-outer-top" x="14" y="12" width="92" height="14"></rect>
+            <rect class="logo-segment logo-outer-left" x="7" y="12" width="14" height="97"></rect>
+            <rect class="logo-segment logo-outer-bottom" x="14" y="95" width="92" height="14"></rect>
+            <rect class="logo-segment logo-inner-left" x="35" y="35" width="14" height="50"></rect>
+            <rect class="logo-segment logo-inner-bottom" x="42" y="71" width="53" height="14"></rect>
+          </svg>
+        </div>
+        <div class="loading-text">Loading LunarChain</div>
+      </div>
+    </div>
+    
+    <!-- Multiple floating typing effects -->
+    <div 
+      *ngFor="let effect of typingEffects" 
+      class="floating-typing-effect"
+      [style.left.%]="effect.x"
+      [style.top.%]="effect.y"
+      [style.opacity]="effect.opacity"
+      [style.z-index]="effect.id"
+    >
+      <div class="effect-content">
+        {{ effect.displayText }}
       </div>
     </div>
     <div id="regions_div" [ngClass]="fadeState"></div>
-  </div>
-
-  <div class="hero-ambient hero-ambient--one" aria-hidden="true"></div>
-  <div class="hero-ambient hero-ambient--two" aria-hidden="true"></div>
-
-  <main class="hero-content" aria-labelledby="hero-title">
-    <div class="hero-copy liquid-panel" data-hero-item>
-      <p class="section-eyebrow">Connected threat intelligence</p>
-      <h1 id="hero-title">See the risk.<br><span>Understand the context.</span></h1>
-      <p class="hero-description">
-        LunarChain turns fragmented cyber, geopolitical, and operational signals into intelligence your team can act on.
-      </p>
-      <div class="hero-actions">
-        <button type="button" class="button button--primary" (click)="scrollToSolutions()">Explore solutions</button>
-        <button type="button" class="button button--glass" (click)="scrollToContact()">Talk to our team</button>
-      </div>
+    <div class="map-scroll-cue" *ngIf="!isTaskbarScrolled && !isMobileMenuOpen && !isLoading">
+      <span class="map-scroll-cue-text">Scroll</span>
+      <span class="map-scroll-cue-arrow" aria-hidden="true"></span>
     </div>
-
-    <div class="hero-metrics" data-gsap-group>
-      <div class="hero-metric" data-gsap-item>
-        <strong>One graph</strong>
-        <span>Connected entities, events, and sources</span>
-      </div>
-      <div class="hero-metric" data-gsap-item>
-        <strong>Built to fit</strong>
-        <span>Workflows designed around your mission</span>
-      </div>
-      <div class="hero-metric" data-gsap-item>
-        <strong>Ready to deliver</strong>
-        <span>Platform, API, and MCP access</span>
-      </div>
-    </div>
-  </main>
-
-  <div class="map-scroll-cue" *ngIf="!isTaskbarScrolled && !isMobileMenuOpen && !isLoading">
-    <span>Scroll to explore</span>
-    <span class="map-scroll-cue-arrow" aria-hidden="true"></span>
-  </div>
+</div>
 </div>
 
-<section class="interactive-globe-section" aria-labelledby="globe-heading" data-gsap-group>
-  <div class="section-intro section-intro--light" data-gsap-item>
-    <p class="section-eyebrow">Global intelligence picture</p>
-    <div>
-      <h2 id="globe-heading">From signal to shared context.</h2>
-      <p>Explore how reports, locations, and indicators connect across the world. Select a country to inspect the intelligence behind the map.</p>
-    </div>
-  </div>
-  <div class="globe-shell liquid-panel" data-gsap-item>
-    <app-interactive-globe
-      (selectedCountryChange)="onSelectedCountry($event)"
-      [selectedCountry]="selectedCountry"
-      [selectedCountryCode]="selectedCountryCode"
-      [selectedCountryIocs]="selectedCountryIocs"
-      [selectedCountryGroups]="selectedCountryGroups"
-      [selectedCountryLoading]="selectedCountryLoading"
-      [enableSharedRelationshipArcs]="true">
-    </app-interactive-globe>
-  </div>
+<!-- Interactive Globe Section (full viewport, between map and mission) -->
+<section class="interactive-globe-section">
+  <h2 class="globe-heading">Supporting Global Intelligence Operations</h2>
+  <app-interactive-globe
+    (selectedCountryChange)="onSelectedCountry($event)"
+    [selectedCountry]="selectedCountry"
+    [selectedCountryCode]="selectedCountryCode"
+    [selectedCountryIocs]="selectedCountryIocs"
+    [selectedCountryGroups]="selectedCountryGroups"
+    [selectedCountryLoading]="selectedCountryLoading"
+    [enableSharedRelationshipArcs]="true">
+  </app-interactive-globe>
+  <!-- spacer to ensure separation if needed -->
 </section>
 
-<section class="landing-extra-content" aria-labelledby="mission-title">
+<!-- Extra content revealed on scroll -->
+<section class="landing-extra-content">
   <div class="extra-content-inner">
-    <div class="mission-layout" data-gsap-group>
-      <div class="mission-section" data-gsap-item>
-        <p class="section-eyebrow">Our mission</p>
-        <h2 id="mission-title" class="mission-title">Intelligence systems shaped around the decisions that matter.</h2>
-        <p class="mission-statement">
-          Most teams do not need more data. They need the right signals connected, explained, and delivered inside the way they already operate.
+    <div class="mission-section">
+      <h2 class="fade-in-element mission-title">LunarChain's Mission</h2>
+      <p class="fade-in-element mission-statement">Building threat intelligence solutions for niche environments</p>
+      <div class="fade-in-element mission-copy">
+        <p>
+          LunarChain supports intelligence operations across cybersecurity, defence, geopolitical risk, executive protection, convoy planning, supply chain exposure, and regional security.
         </p>
-        <div class="mission-copy">
-          <p>LunarChain builds specialised intelligence capabilities for cybersecurity, defence, geopolitical risk, executive protection, supply-chain exposure, and regional security.</p>
-          <p>We combine robust collection with clear analyst workflows, so complex environments feel focused rather than overwhelming.</p>
-        </div>
-      </div>
-
-      <div class="mission-principles" data-gsap-item>
-        <div class="principle-card">
-          <span>01</span>
-          <div><strong>Relevant by design</strong><p>Sources, entities, and alerts are tuned to your operating environment.</p></div>
-        </div>
-        <div class="principle-card">
-          <span>02</span>
-          <div><strong>Clear under pressure</strong><p>Interfaces prioritise context, confidence, and the next useful action.</p></div>
-        </div>
-        <div class="principle-card">
-          <span>03</span>
-          <div><strong>Flexible by default</strong><p>Use LunarChain through the platform, your own systems, or AI workflows.</p></div>
-        </div>
+        <p>
+          We build custom intelligence solutions for high demand environments requiring robust, specialised and intuitive systems to support intelligence operations.
+        </p>
       </div>
     </div>
-
-    <div class="feature-cards" data-gsap-group>
-      <article
+    <div class="feature-cards">
+      <div
         *ngFor="let card of featureCards; let cardIndex = index; trackBy: trackFeatureCard"
-        class="feature-card"
-        data-gsap-item
+        class="feature-card fade-in-element"
         [class.expanded]="expandedCards[cardIndex]"
         [attr.role]="isMobile ? 'button' : null"
         [attr.tabindex]="isMobile ? 0 : null"
@@ -128,137 +91,276 @@
         (click)="toggleCardExpansion(cardIndex)"
         (keydown.enter)="toggleCardExpansion(cardIndex)"
         (keydown.space)="toggleCardExpansion(cardIndex); $event.preventDefault()">
-        <span class="feature-card-index">0{{ cardIndex + 1 }}</span>
         <h3>{{ card.title }}</h3>
         <p class="card-main-text">{{ card.summary }}</p>
         <div class="card-expandable-content" [class.show]="expandedCards[cardIndex]">
           <p>{{ card.details }}</p>
         </div>
-        <div class="mobile-expand-indicator" *ngIf="isMobile" aria-hidden="true">
+        <div class="mobile-expand-indicator" *ngIf="isMobile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[cardIndex]">
             <path d="M6 9l6 6 6-6"/>
           </svg>
         </div>
-      </article>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="solutions" class="solutions-section" aria-labelledby="solutions-title">
-  <div class="solutions-header" data-gsap-group>
-    <p class="section-eyebrow" data-gsap-item>Our solutions</p>
-    <h2 id="solutions-title" class="solutions-main-heading" data-gsap-item>Purpose-built intelligence.<br>Without the clutter.</h2>
-    <p class="solutions-subtitle" data-gsap-item>Start with the mission, then configure the sources, entities, alerts, and delivery methods around it.</p>
+<!-- Our Solutions Section -->
+<section id="solutions" class="solutions-section">
+  <div class="solutions-header">
+    <h1 class="solutions-main-heading fade-in-element">Our Solutions</h1>
+    <p class="solutions-subtitle fade-in-element">How we support intelligence operations across various domains and industries</p>
   </div>
 </section>
 
-<section class="custom-operations-section" aria-labelledby="operations-title">
+<!-- Custom Intelligence Operations Section -->
+<section class="custom-operations-section">
   <div class="custom-operations-inner">
-    <div class="custom-operations-copy solution-section-copy" data-gsap-group>
-      <p class="section-eyebrow" data-gsap-item>Custom intelligence operations</p>
-      <h2 id="operations-title" class="solution-main-heading" data-gsap-item>Six examples. One adaptable intelligence layer.</h2>
-      <p class="solution-description" data-gsap-item>LunarSurface can be configured around the domains you monitor, the sources you trust, and the decisions your team needs to make.</p>
+    <div class="custom-operations-copy solution-section-copy">
+      <p class="solution-eyebrow">Custom Intelligence Operations</p>
+      <h2 class="solution-main-heading">Tailored intelligence operations for niche environments</h2>
+      <p class="solution-description">LunarSurface can be configured around the domains you monitor, the sources you trust, the entities you track, and the decisions your team needs to make.</p>
     </div>
 
-    <div class="custom-operations-list" aria-label="Custom intelligence operation capabilities" data-gsap-group>
-      <article class="custom-operation-panel custom-operation-panel--cybersecurity" data-gsap-item>
+    <div class="custom-operations-list" aria-label="Custom intelligence operation capabilities">
+      <article class="custom-operation-panel custom-operation-panel--cybersecurity">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>01</span><div><h3>Cyber threat monitoring</h3><p>Track actors, malware, leaked credentials, exposed assets, vulnerabilities, suspicious infrastructure, and IOCs around your organisation.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">01</span>
+          <div class="custom-operation-copy">
+            <h3>Cyber Threat Monitoring And Incident Enrichment</h3>
+            <p>A custom monitoring workspace for security teams that tracks threat activity around your organization, sector, vendors, exposed assets, and priority technologies.</p>
+            <p>Monitor threat actors, malware reporting, phishing infrastructure, leaked credentials, vulnerability exploitation, suspicious domains, and IOCs so analysts can investigate faster and prioritize what matters.</p>
+          </div>
+        </div>
       </article>
-      <article class="custom-operation-panel custom-operation-panel--defence" data-gsap-item>
+
+      <article class="custom-operation-panel custom-operation-panel--defence">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>02</span><div><h3>Defence delivery risk</h3><p>Connect programme, supplier, sanctions, conflict, shipping, and regional reporting to support bids, delivery, and mission planning.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">02</span>
+          <div class="custom-operation-copy">
+            <h3>Defence Contract And Delivery Risk Monitoring</h3>
+            <p>For defence manufacturers, suppliers, and project teams managing high-value programmes across sensitive regions, customers, and delivery routes.</p>
+            <p>Monitor the customer, end user, operating region, supplier network, shipping lanes, sanctions exposure, conflict activity, border incidents, infrastructure disruption, and public reporting around a named programme.</p>
+            <p>Help commercial, compliance, and operations teams understand what could affect bid decisions, delivery timelines, site access, export reviews, or mission planning.</p>
+          </div>
+        </div>
       </article>
-      <article class="custom-operation-panel custom-operation-panel--executive" data-gsap-item>
+
+      <article class="custom-operation-panel custom-operation-panel--executive">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>03</span><div><h3>Executive protection</h3><p>Monitor routes, venues, local incidents, protests, closures, weather, and medical access before and during protected movements.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">03</span>
+          <div class="custom-operation-copy">
+            <h3>Executive Protection And Convoy Route Intelligence</h3>
+            <p>For private security operators, corporate security teams, and armed response providers protecting executives, VIPs, residences, offices, venues, and planned movements.</p>
+            <p>Build route and residence intelligence around the principal, convoy route, destination, and surrounding area. Monitor crime reports, protests, road closures, unrest, weather, medical access, incidents near venues, and local reporting before and during movement.</p>
+            <p>Use alerts and briefings to support control rooms, drivers, close protection teams, and response units with timely context for go, delay, reroute, or escalation decisions.</p>
+          </div>
+        </div>
       </article>
-      <article class="custom-operation-panel custom-operation-panel--humanitarian" data-gsap-item>
+
+      <article class="custom-operation-panel custom-operation-panel--humanitarian">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>04</span><div><h3>Humanitarian access</h3><p>Track conflict, displacement, infrastructure damage, border closures, disease, and access risks affecting field operations.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">04</span>
+          <div class="custom-operation-copy">
+            <h3>Humanitarian Crisis And Access Monitoring</h3>
+            <p>For NGOs and aid organizations operating in unstable regions. Track conflict activity, displacement, border closures, infrastructure damage, disease outbreaks, sanctions, and access risks that could affect field teams, aid delivery, or reporting.</p>
+          </div>
+        </div>
       </article>
-      <article class="custom-operation-panel custom-operation-panel--procurement" data-gsap-item>
+
+      <article class="custom-operation-panel custom-operation-panel--procurement">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>05</span><div><h3>Procurement integrity</h3><p>Connect companies, officials, ownership, contracts, court records, sanctions, and adverse media around a case or region.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">05</span>
+          <div class="custom-operation-copy">
+            <h3>Anti-Corruption And Procurement Risk Monitoring</h3>
+            <p>For investigative teams, compliance groups, and anti-corruption organizations. Monitor companies, officials, contracts, sanctions, court records, adverse media, ownership links, and regional political risk around a case, country, or procurement process.</p>
+          </div>
+        </div>
       </article>
-      <article class="custom-operation-panel custom-operation-panel--environmental" data-gsap-item>
+
+      <article class="custom-operation-panel custom-operation-panel--environmental">
         <div class="custom-operation-backdrop" aria-hidden="true"></div>
-        <div class="custom-operation-panel-content"><span>06</span><div><h3>Environmental crime</h3><p>Map seizures, trafficking routes, ports, species, suspected networks, marketplaces, and regional enforcement activity.</p></div></div>
+        <div class="custom-operation-panel-content">
+          <span class="custom-operation-index">06</span>
+          <div class="custom-operation-copy">
+            <h3>Wildlife Trafficking And Environmental Crime Monitoring</h3>
+            <p>For conservation groups and enforcement partners. Track seizure reports, trafficking routes, ports, border crossings, species mentions, suspected networks, online marketplaces, and regional enforcement activity.</p>
+          </div>
+        </div>
       </article>
     </div>
   </div>
 </section>
 
-<section class="product-suite-section" aria-labelledby="products-title">
-  <div class="product-suite-content">
-    <div class="product-suite-header" data-gsap-group>
-      <p class="section-eyebrow" data-gsap-item>Product suite</p>
-      <h2 id="products-title" data-gsap-item>One intelligence foundation.<br>Two focused experiences.</h2>
+<!-- Products Section -->
+<section class="gsap-animated-section product-suite-section">
+  <svg class="architectural-shapes" viewBox="0 0 1200 1000" preserveAspectRatio="none">
+    <line class="arch-connection" x1="200" y1="200" x2="400" y2="150" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="150" x2="600" y2="200" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="200" x2="800" y2="150" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="150" x2="1000" y2="200" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="200" y1="600" x2="400" y2="650" stroke="#bca6ff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="400" y1="650" x2="600" y2="600" stroke="#a178f1" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="600" y1="600" x2="800" y2="650" stroke="#915eff" stroke-width="2" opacity="0.3"/>
+    <line class="arch-connection" x1="800" y1="650" x2="1000" y2="600" stroke="#d196e6" stroke-width="2" opacity="0.3"/>
+  </svg>
+  <div class="animated-content product-suite-content">
+    <div class="animated-header product-suite-header">
+      <p class="product-suite-eyebrow">Product Suite</p>
+      <h2 class="animate-title">Our Products</h2>
     </div>
 
-    <div class="product-suite-grid" data-gsap-group>
-      <article class="product-panel product-panel--threatscape" data-gsap-item>
+    <div class="product-suite-grid">
+      <article class="product-panel product-panel--threatscape">
         <div class="product-panel-copy">
-          <div class="product-panel-kicker">01 / General-purpose intelligence platform</div>
-          <div class="product-panel-heading"><h3>ThreatScape</h3><p>The analyst workspace for searching, monitoring, alerting, reporting, and investigating intelligence across cyber, geopolitical, security, and operational risk.</p></div>
+          <div class="product-panel-kicker">01 / General purpose threat intelligence platform</div>
+          <div class="product-panel-heading">
+            <h3>ThreatScape</h3>
+            <p>ThreatScape is the analyst workspace for searching, monitoring, alerting, reporting, and investigating intelligence across cyber, geopolitical, security, and operational risk domains.</p>
+          </div>
         </div>
-        <figure class="product-media"><img src="assets/product-screenshots/threatscape-explorer.png" alt="ThreatScape Explorer intelligence workspace showing a graph map and linked report context"></figure>
+
+        <figure class="product-media product-media--threatscape">
+          <img src="assets/product-screenshots/threatscape-explorer.png" alt="ThreatScape Explorer intelligence workspace showing a graph map and linked report context">
+        </figure>
+
         <div class="product-module-grid" aria-label="ThreatScape capabilities">
-          <div class="product-module"><h4>Explorer workspace</h4><p>Search reports, entities, indicators, organisations, and locations in one connected view.</p></div>
-          <div class="product-module"><h4>Targets and alerts</h4><p>Save priority requirements, monitor targets, review alerts, and build reporting.</p></div>
-          <div class="product-module"><h4>Specialist coverage</h4><p>Bring advisories, forums, leaks, and hard-to-monitor sources into a cleaner workflow.</p></div>
-          <div class="product-module"><h4>API and MCP</h4><p>Give approved tools and AI workflows structured access to LunarChain intelligence.</p></div>
+          <div class="product-module">
+            <h4>Explorer Workspace</h4>
+            <p>Search reports, entities, indicators, organizations, and locations from one connected intelligence workspace.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Targets, Alerts, And Reports</h4>
+            <p>Save priority requirements, monitor targets over time, review alerts, and build reporting from the same source of intelligence.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Dark Web And Source Coverage</h4>
+            <p>Bring hard-to-monitor sources, advisories, forums, leaks, and specialist reporting into a cleaner analyst workflow.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>API And MCP Access</h4>
+            <p>Give approved internal tools and AI workflows structured access to LunarChain intelligence through API and MCP endpoints.</p>
+          </div>
         </div>
-        <div class="product-integration-strip"><div><span>MCP inside ThreatScape</span><p>Connect compatible clients for agent-assisted investigations.</p></div><a href="/api">Open API docs</a></div>
+
+        <div class="product-integration-strip">
+          <div>
+            <span>MCP inside ThreatScape</span>
+            <p>Connect MCP-compatible clients to query and traverse LunarChain graph intelligence for agent-assisted investigations.</p>
+          </div>
+          <a href="/api">Open API docs</a>
+        </div>
       </article>
 
-      <article class="product-panel product-panel--saferoute" data-gsap-item>
-        <div class="product-panel-backdrop" aria-hidden="true"></div>
+      <article class="product-panel product-panel--saferoute">
+        <div class="product-panel-backdrop product-panel-backdrop--saferoute" aria-hidden="true"></div>
+
         <div class="product-panel-copy">
           <div class="product-panel-kicker">02 / Convoy intelligence platform</div>
-          <div class="product-panel-heading"><h3>SafeRoute</h3><p>Plan, compare, brief, and monitor protected movements by combining route planning, live risk context, convoy details, and operational handoff.</p></div>
+          <div class="product-panel-heading">
+            <h3>SafeRoute</h3>
+            <p>SafeRoute helps security teams plan, compare, brief, and monitor protected movements by combining route planning, live risk context, convoy details, and operational handoff workflows.</p>
+          </div>
         </div>
-        <figure class="product-media"><img src="assets/product-screenshots/saferoute-route-planner.png" alt="SafeRoute route planner showing convoy route risk overlays and route review panel"></figure>
-        <div class="product-module-grid product-module-grid--three" aria-label="SafeRoute capabilities">
-          <div class="product-module"><h4>Route planning</h4><p>Plan routes, alternates, waypoints, vehicles, people, timings, and trip details.</p></div>
-          <div class="product-module"><h4>Route comparison</h4><p>Compare risk, distance, complexity, chokepoints, and exposure before approval.</p></div>
-          <div class="product-module"><h4>Live risk layers</h4><p>Overlay hazards, traffic, infrastructure exposure, and local risk markers.</p></div>
-          <div class="product-module"><h4>Asset readiness</h4><p>Track vehicles, people, equipment, roles, allocations, and readiness checks.</p></div>
-          <div class="product-module"><h4>Briefing and handoff</h4><p>Package route intelligence for principals, field teams, and external map tools.</p></div>
-          <div class="product-module"><h4>Monitoring and alerts</h4><p>Keep route plans linked to changing incidents and operational updates.</p></div>
+
+        <figure class="product-media product-media--saferoute">
+          <img src="assets/product-screenshots/saferoute-route-planner.png" alt="SafeRoute route planner showing convoy route risk overlays and route review panel">
+        </figure>
+
+        <div class="product-module-grid" aria-label="SafeRoute capabilities">
+          <div class="product-module">
+            <h4>Route And Convoy Planning</h4>
+            <p>Plan routes, waypoints, alternates, vehicles, personnel, timings, and trip details in one operational workspace.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Primary And Alternate Routes</h4>
+            <p>Compare route options against risk, distance, complexity, chokepoints, and exposure before a movement is approved.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Live Risk Layers</h4>
+            <p>Overlay hazards, road sections, traffic context, infrastructure exposure, and local risk markers around movement corridors.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Convoy And Asset Readiness</h4>
+            <p>Track assigned vehicles, people, equipment, roles, route allocations, and readiness checks before departure.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Briefing And Handoff</h4>
+            <p>Package route intelligence for principals, operators, field teams, and external map tools through shareable exports and route files.</p>
+          </div>
+
+          <div class="product-module">
+            <h4>Monitoring And Alerts</h4>
+            <p>Keep route plans linked to changing incidents, alerts, and risk updates so teams can adjust before or during movement.</p>
+          </div>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<section id="contact" class="contact-section" aria-labelledby="contact-title">
-  <div class="contact-shell liquid-panel">
-    <div class="contact-header" data-gsap-group>
-      <p class="section-eyebrow" data-gsap-item>Start a conversation</p>
-      <h2 id="contact-title" class="contact-main-heading" data-gsap-item>Bring us the intelligence problem.</h2>
-      <p class="contact-subtitle" data-gsap-item>Tell us what your team monitors, how decisions are made, and where current tools fall short.</p>
+<!-- Contact Us Section -->
+<section id="contact" class="contact-section">
+  <div class="contact-header">
+    <h1 class="contact-main-heading">Contact Us</h1>
+        <p class="contact-subtitle">Talk to us about intelligence requirements, alerting workflows, or LunarSurface access</p>
+  </div>
+  
+  <div class="contact-content">
+    <div class="contact-info">
+      <div class="contact-card">
+        <h3>Email</h3>
+        <p><a href="mailto:info&#64;lunarchain.net">info&#64;lunarchain.net</a></p>
+          <p>General inquiries, product questions, and support</p>
+      </div>
+      
+      <div class="contact-card">
+        <h3>Location</h3>
+        <p>London, UK</p>
+          <p>Headquarters and core operations</p>
+      </div>
     </div>
-
-    <div class="contact-content" data-gsap-group>
-      <div class="contact-info" data-gsap-item>
-        <div class="contact-card"><span>Email</span><h3><a href="mailto:info&#64;lunarchain.net">info&#64;lunarchain.net</a></h3><p>Product questions, custom operations, and support.</p></div>
-        <div class="contact-card"><span>Based in</span><h3>London, UK</h3><p>Supporting intelligence teams across regions and sectors.</p></div>
-      </div>
-
-      <div class="contact-form" data-gsap-item>
-        <h3>Tell us what you need</h3>
-        <form class="contact-form-inner" (submit)="onSubmitContactForm($event)">
-          <div class="form-row">
-            <div class="form-group"><label for="contact-name">Name</label><input id="contact-name" type="text" name="name" placeholder="Your name" required></div>
-            <div class="form-group"><label for="contact-email">Email</label><input id="contact-email" type="email" name="email" placeholder="you&#64;company.com" required></div>
-          </div>
-          <div class="form-group"><label for="contact-company">Company</label><input id="contact-company" type="text" name="company" placeholder="Company name"></div>
-          <div class="form-group"><label for="contact-type">What can we help with?</label><select id="contact-type" name="inquiryType" required><option value="">Select an inquiry type</option><option value="demo">Request a demo</option><option value="pricing">Pricing information</option><option value="support">Technical support</option><option value="partnership">Partnership opportunities</option><option value="other">Something else</option></select></div>
-          <div class="form-group"><label for="contact-message">Message</label><textarea id="contact-message" name="message" placeholder="Briefly describe your intelligence requirement" rows="5" required></textarea></div>
-          <button type="submit" class="button button--primary contact-submit-btn">Send message</button>
-        </form>
-      </div>
+    
+    <div class="contact-form">
+      <h2>Send us a message</h2>
+      <form class="contact-form-inner" (submit)="onSubmitContactForm($event)">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <input type="text" name="company" placeholder="Company Name">
+        </div>
+        <div class="form-group">
+          <select name="inquiryType" required>
+            <option value="">Select Inquiry Type</option>
+            <option value="demo">Request Demo</option>
+            <option value="pricing">Pricing Information</option>
+            <option value="support">Technical Support</option>
+            <option value="partnership">Partnership Opportunities</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="contact-submit-btn">Send Message</button>
+      </form>
     </div>
   </div>
 </section>
