@@ -82,7 +82,7 @@ input[type="text"]:focus {
 
 
 button[type="submit"] {
-  background: linear-gradient(90deg, #915eff 0%, #d196e6 100%);
+  background: #8559e8;
   color: #fff;
   padding: 12px;
   border: none;
@@ -98,7 +98,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background: linear-gradient(90deg, #7a4dcb 0%, #b47adf 100%);
+  background: #7448d4;
   transform: translateY(-2px) scale(1.03);
 }
 
@@ -376,25 +376,13 @@ p {
 }
 
 .feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--feature-accent);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
+  content: none;
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 42px rgba(var(--feature-accent-rgb), 0.14);
   border-color: rgba(var(--feature-accent-rgb), 0.28);
-}
-
-.feature-card:hover::before {
-  transform: scaleX(1);
 }
 
 .feature-card:focus-visible {
@@ -763,9 +751,7 @@ p {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(90deg, rgba(3, 7, 12, 0.92) 0%, rgba(3, 7, 12, 0.72) 42%, rgba(3, 7, 12, 0.22) 100%),
-    linear-gradient(180deg, rgba(3, 7, 12, 0.08) 0%, rgba(3, 7, 12, 0.88) 100%);
+  background: rgba(3, 7, 12, 0.68);
 }
 
 .custom-operation-panel--cybersecurity .custom-operation-backdrop {
@@ -1448,17 +1434,9 @@ p {
     position: relative;
   align-self: center;
 
-    // Add a subtle glow effect
+    // Keep the typing overlay flat and unobtrusive.
     &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 16px;
-      background: linear-gradient(45deg, transparent, rgba(145, 94, 255, 0.1), transparent);
-      pointer-events: none;
+      content: none;
     }
 
     // Add blinking cursor effect
@@ -1499,38 +1477,46 @@ p {
 }
 
 .mission-section {
-  text-align: center;
-  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto 3rem;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  text-align: left;
+  background: #f6f7f9;
+  border: 1px solid #e2e6eb;
+  border-radius: 28px;
 }
 
 .mission-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #718096;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #66727e;
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   padding: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.8;
 }
 
 .mission-statement {
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  font-weight: 780;
   color: #1a202c;
-  line-height: 1.3;
-  max-width: 700px;
-  margin: 0 auto;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: -0.02em;
+  line-height: 1.08;
+  max-width: 820px;
+  margin: 0;
+  text-shadow: none;
+  letter-spacing: -0.035em;
 }
 
 .mission-copy {
   display: grid;
-  gap: 0.9rem;
-  max-width: 860px;
-  margin: 1.5rem auto 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  max-width: 900px;
+  margin: 1.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dce1e7;
 }
 
 .mission-title,
@@ -1547,11 +1533,18 @@ p {
 }
 
 .mission-copy p {
-  max-width: 760px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   color: #4a5568;
-  font-size: 1.05rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 700px) {
+  .mission-copy {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 /* Shared Our Solutions intro layout */
@@ -1692,14 +1685,7 @@ p {
 }
 
 .product-panel::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  height: 5px;
-  background: var(--product-accent);
+  content: none;
 }
 
 .product-panel::after {
@@ -1708,24 +1694,19 @@ p {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 34%),
-    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--product-accent) 22%, transparent), transparent 36%);
-  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .product-panel--threatscape {
   --product-accent: #75c7d4;
   --product-muted: #a7d9e2;
-  background:
-    linear-gradient(135deg, rgba(5, 12, 20, 0.94) 0%, rgba(8, 20, 32, 0.9) 58%, rgba(8, 31, 42, 0.86) 100%);
+  background: #08141f;
 }
 
 .product-panel--saferoute {
   --product-accent: #91a7ff;
   --product-muted: #c3ceff;
-  background:
-    linear-gradient(135deg, rgba(5, 9, 16, 0.97) 0%, rgba(6, 12, 22, 0.93) 58%, rgba(8, 15, 28, 0.9) 100%);
+  background: #090f1c;
 }
 
 .product-panel-backdrop {
@@ -1736,16 +1717,13 @@ p {
 }
 
 .product-panel-backdrop--saferoute {
-  background-image:
-    linear-gradient(90deg, rgba(4, 8, 14, 0.96) 0%, rgba(4, 8, 14, 0.72) 42%, rgba(4, 8, 14, 0.22) 74%, rgba(4, 8, 14, 0.42) 100%),
-    linear-gradient(180deg, rgba(4, 8, 14, 0.38) 0%, rgba(4, 8, 14, 0.18) 46%, rgba(4, 8, 14, 0.72) 100%),
-    url("/assets/section-backgrounds/saferoute-executive-sedan-bg.jpg");
-  background-position: center, center, right bottom;
+  background-image: url("/assets/section-backgrounds/saferoute-executive-sedan-bg.jpg");
+  background-position: right bottom;
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: scroll, scroll, fixed;
-  filter: brightness(1.18) saturate(0.92);
-  opacity: 0.92;
+  background-attachment: fixed;
+  filter: brightness(0.58) saturate(0.82);
+  opacity: 0.62;
 }
 
 .product-panel-copy,
@@ -1812,13 +1790,7 @@ p {
 }
 
 .product-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(3, 7, 12, 0.18) 0%, rgba(3, 7, 12, 0) 42%, rgba(3, 7, 12, 0.2) 100%),
-    linear-gradient(90deg, rgba(3, 7, 12, 0.28) 0%, rgba(3, 7, 12, 0) 28%, rgba(3, 7, 12, 0.24) 100%);
+  content: none;
 }
 
 .product-media img {
@@ -1982,7 +1954,7 @@ p {
   }
 
   .product-panel-backdrop--saferoute {
-    background-position: center, center, 62% bottom;
+    background-position: 62% bottom;
     opacity: 0.72;
   }
 
@@ -2047,9 +2019,7 @@ p {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(3, 7, 12, 0.97) 0%, rgba(3, 7, 12, 0.9) 48%, rgba(3, 7, 12, 0.72) 100%),
-    linear-gradient(180deg, rgba(3, 7, 12, 0.12) 0%, rgba(3, 7, 12, 0.92) 100%);
+  background: rgba(3, 7, 12, 0.84);
 }
 
 .contact-content {
