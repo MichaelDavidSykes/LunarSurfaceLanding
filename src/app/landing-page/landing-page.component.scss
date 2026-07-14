@@ -1711,6 +1711,16 @@ p {
   pointer-events: none;
 }
 
+.product-panel-backdrop--threatscape {
+  background-image: url("/assets/section-backgrounds/platform-delivery.jpg");
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  filter: brightness(0.48) saturate(0.78);
+  opacity: 0.42;
+}
+
 .product-panel-backdrop--saferoute {
   background-image: url("/assets/section-backgrounds/saferoute-executive-sedan-bg.jpg");
   background-position: right bottom;
@@ -1903,6 +1913,7 @@ p {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .product-panel-backdrop--threatscape,
   .product-panel-backdrop--saferoute {
     background-attachment: scroll;
   }
@@ -1951,6 +1962,11 @@ p {
   .product-panel-backdrop--saferoute {
     background-position: 62% bottom;
     opacity: 0.72;
+  }
+
+  .product-panel-backdrop--threatscape {
+    background-position: 68% center;
+    opacity: 0.36;
   }
 
   .product-module-grid,
