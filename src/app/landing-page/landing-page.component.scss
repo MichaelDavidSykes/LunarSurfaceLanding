@@ -280,10 +280,18 @@ p {
 }
 
 /* Force active content containers to respect padding */
-.landing-extra-content .extra-content-inner,
+.landing-extra-content .extra-content-inner {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  box-sizing: border-box !important;
+}
+
 .product-suite-section .product-suite-content,
 .contact-section .contact-content {
-  max-width: 1200px !important;
+  max-width: 1440px !important;
   width: 100% !important;
   margin: 0 auto !important;
   padding-left: 2rem !important;
@@ -1623,7 +1631,7 @@ p {
 }
 
 .product-suite-content {
-  max-width: 1280px;
+  max-width: 1440px;
   padding: 0 clamp(1.75rem, 3vw, 2.5rem);
   text-align: left;
 }
@@ -2031,7 +2039,7 @@ p {
 }
 
 .contact-content {
-  max-width: 1280px !important;
+  max-width: 1440px !important;
   padding-left: clamp(1.75rem, 3vw, 2.5rem) !important;
   padding-right: clamp(1.75rem, 3vw, 2.5rem) !important;
   display: grid;
@@ -2041,8 +2049,8 @@ p {
 }
 
 .contact-header {
-  width: min(100%, 1280px);
-  max-width: 46rem !important;
+  width: min(100%, 1440px);
+  max-width: 1440px !important;
   padding-left: clamp(1.75rem, 3vw, 2.5rem);
   padding-right: clamp(1.75rem, 3vw, 2.5rem);
   margin: 0 auto clamp(2.5rem, 5vw, 4rem) !important;
