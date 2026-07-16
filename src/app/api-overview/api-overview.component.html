@@ -288,63 +288,15 @@
       </article>
     </header>
 
-    <div class="section-band">
+    <div class="section-band" *ngFor="let section of endpointSections" [attr.id]="section.id">
       <div class="section-copy">
-        <p class="section-kicker">Public</p>
-        <h2 class="subsection-title">Landing-safe routes</h2>
-        <p class="section-intro">These routes power public visuals and should stay narrow, fixed, and presentation-safe.</p>
+        <p class="section-kicker">{{ section.kicker }}</p>
+        <h2 class="subsection-title">{{ section.title }}</h2>
+        <p class="section-intro">{{ section.intro }}</p>
       </div>
 
       <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of publicEndpoints">
-          <div class="card-head">
-            <div>
-              <p class="card-eyebrow">{{ endpoint.access }}</p>
-              <h3>{{ endpoint.title }}</h3>
-            </div>
-            <code class="route-code">{{ endpoint.route }}</code>
-          </div>
-          <p>{{ endpoint.summary }}</p>
-          <ul class="detail-list">
-            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-
-    <div class="section-band" id="authenticated-routes">
-      <div class="section-copy">
-        <p class="section-kicker">Authenticated</p>
-        <h2 class="subsection-title">Product and integration routes</h2>
-        <p class="section-intro">These routes are for the analyst app and controlled integrations that need more flexibility.</p>
-      </div>
-
-      <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of authenticatedEndpoints">
-          <div class="card-head">
-            <div>
-              <p class="card-eyebrow">{{ endpoint.access }}</p>
-              <h3>{{ endpoint.title }}</h3>
-            </div>
-            <code class="route-code">{{ endpoint.route }}</code>
-          </div>
-          <p>{{ endpoint.summary }}</p>
-          <ul class="detail-list">
-            <li *ngFor="let bullet of endpoint.bullets">{{ bullet }}</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-
-    <div class="section-band" id="agent-routes">
-      <div class="section-copy">
-        <p class="section-kicker">Agents</p>
-        <h2 class="subsection-title">MCP route</h2>
-        <p class="section-intro">This route is for MCP clients that need session-based, read-only access through the backend.</p>
-      </div>
-
-      <div class="stack-list">
-        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of agentEndpoints">
+        <article class="docs-card stack-card endpoint-card" *ngFor="let endpoint of section.endpoints">
           <div class="card-head">
             <div>
               <p class="card-eyebrow">{{ endpoint.access }}</p>

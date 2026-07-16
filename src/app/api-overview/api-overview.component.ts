@@ -51,6 +51,8 @@ interface GraphFact {
   detail: string;
 }
 
+type EndpointAccess = 'Public' | 'Authenticated' | 'MCP session-based';
+
 interface IntegrationPath {
   title: string;
   audience: string;
@@ -63,9 +65,17 @@ interface IntegrationPath {
 interface EndpointCard {
   title: string;
   route: string;
-  access: string;
+  access: EndpointAccess;
   summary: string;
   bullets: string[];
+}
+
+interface EndpointSection {
+  id?: string;
+  kicker: string;
+  title: string;
+  intro: string;
+  endpoints: EndpointCard[];
 }
 
 interface McpResourceCard {
@@ -403,17 +413,28 @@ export class ApiOverviewComponent implements OnInit, OnDestroy {
     }
   ];
 
-  protected get publicEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access === 'Public');
-  }
-
-  protected get authenticatedEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access === 'Authenticated');
-  }
-
-  protected get agentEndpoints(): EndpointCard[] {
-    return this.endpointCards.filter((endpoint) => endpoint.access !== 'Public' && endpoint.access !== 'Authenticated');
-  }
+  protected readonly endpointSections: EndpointSection[] = [
+    {
+      kicker: 'Public',
+      title: 'Landing-safe routes',
+      intro: 'These routes power public visuals and should stay narrow, fixed, and presentation-safe.',
+      endpoints: this.endpointCards.filter((endpoint) => endpoint.access === 'Public')
+    },
+    {
+      id: 'authenticated-routes',
+      kicker: 'Authenticated',
+      title: 'Product and integration routes',
+      intro: 'These routes are for the analyst app and controlled integrations that need more flexibility.',
+      endpoints: this.endpointCards.filter((endpoint) => endpoint.access === 'Authenticated')
+    },
+    {
+      id: 'agent-routes',
+      kicker: 'Agents',
+      title: 'MCP route',
+      intro: 'This route is for MCP clients that need session-based, read-only access through the backend.',
+      endpoints: this.endpointCards.filter((endpoint) => endpoint.access === 'MCP session-based')
+    }
+  ];
 
   protected readonly mcpResourceHighlights: McpResourceCard[] = [
     {
