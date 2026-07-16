@@ -19,7 +19,6 @@
 
 .docs-hero {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 12px;
   align-items: start;
 }
@@ -93,10 +92,6 @@
 .stack-list {
   display: grid;
   gap: 18px;
-}
-
-.metric-grid {
-  grid-template-columns: 1fr;
 }
 
 .docs-card {
@@ -413,10 +408,6 @@ span code {
   margin: 0 18px 18px;
 }
 
-[id] {
-  scroll-margin-top: 124px;
-}
-
 @media (max-width: 1180px) {
   .route-code {
     max-width: none;
@@ -430,12 +421,6 @@ span code {
 
   .section-band {
     margin-top: 12px;
-  }
-
-  .compact-grid,
-  .fact-grid,
-  .code-pair {
-    grid-template-columns: 1fr;
   }
 
   .card-head {
