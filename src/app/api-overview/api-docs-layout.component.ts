@@ -14,6 +14,23 @@ interface DocsOutlineItem {
   label: string;
 }
 
+const DOCS_PAGE_IDS = [
+  'overview',
+  'quick-start',
+  'base-configuration',
+  'endpoint-focus',
+  'mcp-server',
+  'payload-response',
+  'aql-playbook'
+] as const;
+
+type DocsPageId = typeof DOCS_PAGE_IDS[number];
+const DOCS_PAGE_ID_SET: ReadonlySet<string> = new Set(DOCS_PAGE_IDS);
+
+function isDocsPageId(page: string | undefined): page is DocsPageId {
+  return page !== undefined && DOCS_PAGE_ID_SET.has(page);
+}
+
 @Component({
   selector: 'app-api-docs-layout',
   templateUrl: './api-docs-layout.component.html',
@@ -21,7 +38,7 @@ interface DocsOutlineItem {
 })
 export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected isMobileDocsMenuOpen = false;
-  protected currentPage = 'overview';
+  protected currentPage: DocsPageId = 'overview';
   protected activeOutlineId = '';
   private readonly routerEventsSub: Subscription;
   private outlineSyncFrame: number | null = null;
@@ -78,7 +95,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  protected readonly pageOutlines: Record<string, DocsOutlineItem[]> = {
+  protected readonly pageOutlines: Record<DocsPageId, DocsOutlineItem[]> = {
     overview: [
       { id: 'page-overview', label: 'Overview' },
       { id: 'platform-surfaces', label: 'Main components' },
@@ -177,7 +194,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   private syncCurrentPage(url: string): void {
     const cleanUrl = url.split('#')[0].split('?')[0];
     const lastSegment = cleanUrl.split('/').filter(Boolean).pop();
-    this.currentPage = !lastSegment || lastSegment === 'api' ? 'overview' : lastSegment;
+    this.currentPage = isDocsPageId(lastSegment) ? lastSegment : 'overview';
   }
 
   @HostListener('window:scroll')
