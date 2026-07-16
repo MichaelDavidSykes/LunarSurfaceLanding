@@ -1410,11 +1410,11 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!footer) return;
 
     const brand = footer.querySelector('.footer-brand') as HTMLElement | null;
-    const linkGroups = this.sectionTargets(footer, '.footer-link-group');
+    const links = this.sectionTargets(footer, '.footer-links a, .footer-links button');
     const bottomItems = this.sectionTargets(footer, '.footer-copyright, .footer-social .social-link');
     const targets = [
       brand,
-      ...linkGroups,
+      ...links,
       ...bottomItems
     ].filter((target): target is HTMLElement => Boolean(target));
 
@@ -1445,7 +1445,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         duration: 0.5,
         ease: 'power3.out'
       }, 0)
-      .to(linkGroups, {
+      .to(links, {
         autoAlpha: 1,
         y: 0,
         duration: 0.46,
