@@ -72,9 +72,10 @@
     class="mobile-side-menu"
     [class.open]="isMobileMenuOpen"
     role="dialog"
-    aria-modal="true"
+    [attr.aria-modal]="isMobileMenuOpen ? 'true' : null"
     aria-labelledby="landing-mobile-menu-title"
-    [attr.aria-hidden]="!isMobileMenuOpen">
+    [attr.aria-hidden]="!isMobileMenuOpen"
+    [attr.inert]="isMobileMenuOpen ? null : ''">
     <div class="mobile-menu-header">
       <span id="landing-mobile-menu-title" class="mobile-menu-title">Menu</span>
       <button class="close-btn" type="button" aria-label="Close menu" (click)="toggleMobileMenu()">

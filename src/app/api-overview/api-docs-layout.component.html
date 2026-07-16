@@ -42,9 +42,10 @@
     class="docs-mobile-drawer"
     [class.open]="isMobileDocsMenuOpen"
     role="dialog"
-    aria-modal="true"
+    [attr.aria-modal]="isMobileDocsMenuOpen ? 'true' : null"
     aria-labelledby="docs-mobile-navigation-title"
-    [attr.aria-hidden]="!isMobileDocsMenuOpen">
+    [attr.aria-hidden]="!isMobileDocsMenuOpen"
+    [attr.inert]="isMobileDocsMenuOpen ? null : ''">
     <div class="docs-mobile-header">
       <span id="docs-mobile-navigation-title" class="docs-mobile-title">Docs</span>
       <button class="docs-mobile-close-btn" type="button" aria-label="Close documentation navigation" (click)="closeMobileDocsMenu()">
