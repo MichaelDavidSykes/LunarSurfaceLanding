@@ -307,13 +307,6 @@ p {
   box-sizing: border-box !important;
 }
 
-/* Temporary class to preserve constraints during JavaScript execution */
-.preserving-constraints {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-  box-sizing: border-box !important;
-}
-
 .extra-content-inner {
   max-width: 1200px !important;
   width: 100% !important;
