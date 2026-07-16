@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 
 type ToolbarAction = 'solutions' | 'ai' | 'api' | 'pricing' | 'contact';
 type ToolbarContext = 'landing' | 'api';
+type LandingScrollTarget = 'top' | 'solutions' | 'ai-agent' | 'contact';
 
 interface ToolbarNavItem {
   action: ToolbarAction;
@@ -176,7 +177,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/'], { state: { landingScrollTarget: 'top' } });
+    this.navigateToLandingTarget('top');
   }
 
   protected isActionActive(action: ToolbarAction): boolean {
@@ -212,22 +213,26 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private handleApiAction(action: ToolbarAction): void {
-    if (action === 'api') {
-      this.router.navigateByUrl('/api/overview');
-      return;
+    switch (action) {
+      case 'api':
+        this.router.navigateByUrl('/api/overview');
+        return;
+      case 'pricing':
+        this.router.navigateByUrl('/pricing');
+        return;
+      case 'solutions':
+        this.navigateToLandingTarget('solutions');
+        return;
+      case 'ai':
+        this.navigateToLandingTarget('ai-agent');
+        return;
+      case 'contact':
+        this.navigateToLandingTarget('contact');
+        return;
     }
+  }
 
-    if (action === 'pricing') {
-      this.router.navigateByUrl('/pricing');
-      return;
-    }
-
-    const landingTargetByAction: Record<Exclude<ToolbarAction, 'api' | 'pricing'>, string> = {
-      solutions: 'solutions',
-      ai: 'ai-agent',
-      contact: 'contact'
-    };
-    const landingScrollTarget = landingTargetByAction[action as Exclude<ToolbarAction, 'api' | 'pricing'>];
+  private navigateToLandingTarget(landingScrollTarget: LandingScrollTarget): void {
     this.router.navigate(['/'], { state: { landingScrollTarget } });
   }
 
