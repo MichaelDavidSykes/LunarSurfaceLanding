@@ -106,7 +106,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
     if (this.isBrowser && typeof window !== 'undefined') {
       const hasPendingNavTarget = this.hasPendingNavigationScrollTarget();
-      this.isTaskbarScrolled = hasPendingNavTarget ? true : this.getInitialTaskbarScrolledState();
+      this.isTaskbarScrolled = hasPendingNavTarget || window.scrollY > 20;
       if (hasPendingNavTarget) {
         // Prevent docs -> landing first-paint flip while route handoff and smooth-scroll begin.
         this.suppressTaskbarSyncUntil = Date.now() + 1200;
@@ -115,19 +115,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger);
     }
-  }
-
-  private getInitialTaskbarScrolledState(): boolean {
-    if (!this.isBrowser || typeof window === 'undefined') {
-      return false;
-    }
-
-    // Keep toolbar visually stable during docs -> landing route handoff.
-    if (this.hasPendingNavigationScrollTarget()) {
-      return true;
-    }
-
-    return window.scrollY > 20;
   }
 
   onSelectedCountry(selection: { name: string | null; code: string | null } | null) {
