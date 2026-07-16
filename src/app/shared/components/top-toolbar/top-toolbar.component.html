@@ -22,6 +22,8 @@
         class="docs-mobile-icon-btn"
         type="button"
         aria-label="Open documentation navigation"
+        aria-controls="docs-mobile-navigation"
+        [attr.aria-expanded]="isDocsMenuOpen"
         (click)="onDocsMenuClick()">
         <mat-icon aria-hidden="true">menu</mat-icon>
       </button>
@@ -57,15 +59,24 @@
         class="mobile-icon-btn"
         type="button"
         aria-label="Open menu"
+        aria-controls="landing-mobile-menu"
+        [attr.aria-expanded]="isMobileMenuOpen"
         (click)="toggleMobileMenu()">
         <mat-icon aria-hidden="true">menu</mat-icon>
       </button>
     </div>
   </div>
 
-  <div class="mobile-side-menu" [class.open]="isMobileMenuOpen">
+  <aside
+    id="landing-mobile-menu"
+    class="mobile-side-menu"
+    [class.open]="isMobileMenuOpen"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="landing-mobile-menu-title"
+    [attr.aria-hidden]="!isMobileMenuOpen">
     <div class="mobile-menu-header">
-      <span class="mobile-menu-title">Menu</span>
+      <span id="landing-mobile-menu-title" class="mobile-menu-title">Menu</span>
       <button class="close-btn" type="button" aria-label="Close menu" (click)="toggleMobileMenu()">
         <mat-icon aria-hidden="true">close</mat-icon>
       </button>
@@ -80,7 +91,7 @@
         {{ item.label }}
       </button>
     </div>
-  </div>
+  </aside>
 
   <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
 </ng-template>

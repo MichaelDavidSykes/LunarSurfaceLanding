@@ -25,6 +25,7 @@ export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() isScrolled = false;
   @Input() forceScrolled = false;
   @Input() activeAction: ToolbarAction | null = null;
+  @Input() isDocsMenuOpen = false;
 
   @Output() solutionsClick = new EventEmitter<void>();
   @Output() aiAgentClick = new EventEmitter<void>();
