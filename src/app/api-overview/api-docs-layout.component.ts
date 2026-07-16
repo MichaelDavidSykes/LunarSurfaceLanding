@@ -31,6 +31,14 @@ function isDocsPageId(page: string | undefined): page is DocsPageId {
   return page !== undefined && DOCS_PAGE_ID_SET.has(page);
 }
 
+export function decodeDocsFragment(fragment: string): string {
+  try {
+    return decodeURIComponent(fragment);
+  } catch {
+    return fragment;
+  }
+}
+
 @Component({
   selector: 'app-api-docs-layout',
   templateUrl: './api-docs-layout.component.html',
@@ -250,7 +258,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const decodedFragment = decodeURIComponent(fragment);
+    const decodedFragment = decodeDocsFragment(fragment);
     const target = document.getElementById(decodedFragment);
     if (!target) {
       return;
