@@ -6,25 +6,39 @@ import { AppModule } from './app/app.module';
 const originalWarn = console.warn;
 const originalError = console.error;
 
+const googleMapsWarningMessages = [
+  'NoApiKeys',
+  'InvalidKey',
+  'Geocoding Service',
+  'Google Maps JavaScript API warning',
+  'Google Maps JavaScript API has been loaded directly without loading=async',
+  'You must use an API key to authenticate each request to Google Maps Platform APIs',
+  'maps-no-account'
+] as const;
+
+const googleMapsErrorMessages = [
+  'Geocoding Service',
+  'maps-no-account',
+  'Google Maps Platform APIs'
+] as const;
+
+const isSuppressedGoogleMapsMessage = (
+  args: Parameters<typeof console.warn>,
+  messages: readonly string[]
+): boolean => {
+  const [message] = args;
+  return typeof message === 'string' && messages.some(fragment => message.includes(fragment));
+};
+
 console.warn = function(...args) {
-  if (args[0] && typeof args[0] === 'string' && 
-      (args[0].includes('NoApiKeys') || 
-       args[0].includes('InvalidKey') || 
-       args[0].includes('Geocoding Service') ||
-       args[0].includes('Google Maps JavaScript API warning') ||
-       args[0].includes('Google Maps JavaScript API has been loaded directly without loading=async') ||
-       args[0].includes('You must use an API key to authenticate each request to Google Maps Platform APIs') ||
-       args[0].includes('maps-no-account'))) {
+  if (isSuppressedGoogleMapsMessage(args, googleMapsWarningMessages)) {
     return; // Suppress these specific warnings
   }
   originalWarn.apply(console, args);
 };
 
 console.error = function(...args) {
-  if (args[0] && typeof args[0] === 'string' && 
-      (args[0].includes('Geocoding Service') ||
-       args[0].includes('maps-no-account') ||
-       args[0].includes('Google Maps Platform APIs'))) {
+  if (isSuppressedGoogleMapsMessage(args, googleMapsErrorMessages)) {
     return; // Suppress these specific errors
   }
   originalError.apply(console, args);
