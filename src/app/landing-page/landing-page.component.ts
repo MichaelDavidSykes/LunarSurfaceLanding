@@ -104,7 +104,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private typingEffectsAnimationFrame: number | null = null;
   private isDestroyed = false;
   private readonly pendingTimers = new Set<ReturnType<typeof setTimeout>>();
-  private readonly mobileDetectionResizeHandler = () => this.handleViewportResize();
+  private readonly mobileDetectionResizeHandler = () => this.updateMobileDetection();
   private readonly nativeMobileScrollClass = 'landing-native-mobile-scroll';
 
   constructor(
@@ -557,14 +557,10 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return card.title;
   }
 
-  updateMobileDetection(): void {
+  private updateMobileDetection(): void {
     this.isMobile = window.innerWidth <= 768;
     this.syncNativeMobileScrollMode();
     this.updateTaskbarScrolledState();
-  }
-
-  private handleViewportResize(): void {
-    this.updateMobileDetection();
   }
 
   private shouldUseNativeMobileScroll(): boolean {
