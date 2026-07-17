@@ -1006,7 +1006,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!section) return;
 
     const reduceMotion = this.prefersReducedMotion();
-    const skipInitialMobileReveal = this.isMobileViewport();
+    const skipInitialMobileReveal = window.innerWidth <= 768;
 
     const cards = gsap.utils.toArray<HTMLElement>('.landing-extra-content .feature-card');
     const cardTextItems = cards.flatMap((card) => [
@@ -1149,12 +1149,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private prefersReducedMotion(): boolean {
     return typeof window !== 'undefined'
       && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  private isMobileViewport(): boolean {
-    return this.isBrowser
-      && typeof window !== 'undefined'
-      && window.innerWidth <= 768;
   }
 
   private sectionTargets(section: HTMLElement, selector: string): HTMLElement[] {
