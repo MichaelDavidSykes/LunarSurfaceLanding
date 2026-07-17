@@ -29,6 +29,17 @@ interface TypingEffect {
   duration: number;
 }
 
+interface LandingThreatItem {
+  name?: string | null;
+  signature?: string | null;
+  description?: string | null;
+}
+
+interface LandingThreatGroup {
+  type?: string | null;
+  items?: LandingThreatItem[];
+}
+
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -73,9 +84,9 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   expandedCards: boolean[] = this.featureCards.map(() => false);
 
   // Location data from graph API
-  locationData: any[] = [];
+  locationData: LandingThreatItem[] = [];
   // New threat intelligence properties
-  threatIntelligenceData: any[] = [];
+  threatIntelligenceData: LandingThreatGroup[] = [];
 
   // Multiple typing effects properties
   typingEffects: TypingEffect[] = [];
@@ -622,16 +633,18 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadThreatIntelligenceData(): void {
-    this.http.get(`${environment.apiUrl}/api/${environment.apiVersion}/graph/public/landing-threat-intelligence`)
+    this.http.get<{ data?: LandingThreatGroup[] }>(`${environment.apiUrl}/api/${environment.apiVersion}/graph/public/landing-threat-intelligence`)
       .subscribe({
-        next: (response: any) => {
+        next: (response) => {
           if (this.isDestroyed) {
             return;
           }
 
           if (Array.isArray(response?.data)) {
-            this.threatIntelligenceData = response.data.filter((item: any) => item.type !== 'location');
-            this.locationData = response.data.find((item: any) => item.type === 'location')?.items || [];
+            this.threatIntelligenceData = response.data.filter(item => item.type !== 'location');
+            const locationGroup = response.data.find(item => item.type === 'location');
+            const locationItems = locationGroup?.items;
+            this.locationData = Array.isArray(locationItems) ? locationItems : [];
 
             this.checkAndInitializeMap();
           } else {
@@ -843,7 +856,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, OnDestroy {
         // Create data table for Google Charts with location data
         const data = google.visualization.arrayToDataTable([
           ['Country', 'Mentions'],
-          ...this.locationData.map((location: any) => [
+          ...this.locationData.map(location => [
             location.name || 'Unknown',
             1 // Each location gets equal weight
           ])
