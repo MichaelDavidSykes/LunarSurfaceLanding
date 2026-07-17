@@ -412,7 +412,7 @@ p {
     min-height: auto !important;
     height: auto !important;
     overflow: visible !important;
-    padding: 2rem 1.5rem 2rem 1.5rem !important;
+    padding: 2rem 1.5rem !important;
     box-sizing: border-box !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
@@ -437,13 +437,8 @@ p {
 @media (max-width: 480px) {
   .landing-extra-content .feature-cards .feature-card {
     max-width: calc(100% - 1.6rem) !important;
-    min-width: 0 !important;
     width: calc(100% - 1.6rem) !important;
-    min-height: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    padding: 1.8rem 1.2rem 1.8rem 1.2rem !important;
-    box-sizing: border-box !important;
+    padding: 1.8rem 1.2rem !important;
   }
 
   .landing-extra-content .feature-cards .feature-card:nth-child(-n+3) {
@@ -455,15 +450,12 @@ p {
     line-height: 1.8;
     margin-bottom: 1.3rem;
     font-size: 0.9rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
   }
 
   .landing-extra-content .feature-cards .feature-card h3 {
     margin-bottom: 1.3rem;
     line-height: 1.2;
     font-size: 1.2rem;
-    word-wrap: break-word;
   }
 
 }
@@ -471,7 +463,7 @@ p {
 /* Extra small mobile devices */
 @media (max-width: 360px) {
   .landing-extra-content .feature-cards .feature-card {
-    padding: 1.5rem 1rem 1.5rem 1rem !important;
+    padding: 1.5rem 1rem !important;
   }
 
   .landing-extra-content .feature-cards .feature-card p {
