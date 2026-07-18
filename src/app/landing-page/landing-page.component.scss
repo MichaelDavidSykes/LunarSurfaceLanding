@@ -1148,14 +1148,7 @@ p {
   }
 
   .feature-card {
-    max-width: calc(100% - 2rem) !important;
-    min-width: 0 !important;
-    width: calc(100% - 2rem) !important;
-    padding: 2rem 1.5rem 3rem !important;
-    box-sizing: border-box !important;
     margin: 0 1rem !important;
-    min-height: auto !important;
-    height: auto !important;
   }
 
   .feature-card h3 {
@@ -1277,9 +1270,6 @@ p {
   }
 
   .feature-card {
-    padding: 1.5rem 1.2rem 2.5rem !important;
-    width: calc(100% - 1.6rem) !important;
-    max-width: calc(100% - 1.6rem) !important;
     margin: 0 0.8rem !important;
   }
 
