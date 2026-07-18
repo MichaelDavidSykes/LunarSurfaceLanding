@@ -344,7 +344,6 @@ p {
 }
 
 .feature-card {
-  --feature-accent-rgb: 37, 99, 235;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 24px;
   box-shadow: 0 18px 50px rgba(31, 41, 55, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.82);
@@ -370,7 +369,7 @@ p {
 }
 
 .feature-card:focus-visible {
-  outline: 2px solid rgba(var(--feature-accent-rgb), 0.72);
+  outline: 2px solid rgba(37, 99, 235, 0.72);
   outline-offset: 4px;
 }
 
