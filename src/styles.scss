@@ -103,7 +103,6 @@ app-root {
   --toast-border: rgba(145, 94, 255, 0.42);
   --toast-glow: rgba(109, 40, 217, 0.34);
   --toast-text: rgba(243, 245, 255, 0.98);
-  --toast-subtle: rgba(207, 214, 255, 0.86);
   margin-top: 74px !important;
   z-index: 3200 !important;
 }
@@ -125,7 +124,7 @@ app-root {
 }
 
 .mat-mdc-snack-bar-container.global-snackbar .mat-mdc-snack-bar-action .mat-mdc-button {
-  color: var(--toast-subtle) !important;
+  color: rgba(207, 214, 255, 0.86) !important;
   font-weight: 600 !important;
 }
 
