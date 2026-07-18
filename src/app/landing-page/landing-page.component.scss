@@ -1127,7 +1127,6 @@ p {
     overflow: hidden !important;
   }
 
-  .map-container,
   .map-scroll-cue {
     display: none !important;
   }
@@ -1335,10 +1334,6 @@ p {
 }
 
 @media (max-width: 768px) and (orientation: landscape) {
-  .map-container {
-    display: none !important;
-  }
-
   .landing-initial-viewport {
     height: auto !important;
     min-height: auto !important;
