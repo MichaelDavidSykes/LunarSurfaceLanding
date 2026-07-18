@@ -504,17 +504,12 @@
     display: inline-flex;
   }
 
-  .landing-taskbar {
+  .landing-taskbar,
+  .landing-taskbar.scrolled {
     top: 10px;
     height: 60px;
     padding: 0 0.55rem 0 0.8rem;
     width: calc(100% - 1rem);
-    border-radius: 20px;
-  }
-
-  .landing-taskbar.scrolled {
-    width: calc(100% - 1rem);
-    padding: 0 0.55rem 0 0.8rem;
     border-radius: 20px;
   }
 
