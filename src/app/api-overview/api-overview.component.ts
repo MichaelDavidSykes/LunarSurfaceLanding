@@ -1,25 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { isApiDocsPageId, type ApiDocsPageId } from './api-docs-pages';
 
 type ExampleLevel = 'Simple' | 'Intermediate' | 'Advanced';
-const API_OVERVIEW_PAGES = [
-  'overview',
-  'quick-start',
-  'base-configuration',
-  'endpoint-focus',
-  'mcp-server',
-  'payload-response',
-  'aql-playbook'
-] as const;
-
-type ApiOverviewPage = typeof API_OVERVIEW_PAGES[number];
-const API_OVERVIEW_PAGE_SET: ReadonlySet<string> = new Set(API_OVERVIEW_PAGES);
-
-function isApiOverviewPage(page: string): page is ApiOverviewPage {
-  return API_OVERVIEW_PAGE_SET.has(page);
-}
-
 interface OverviewMetric {
   value: string;
   label: string;
@@ -110,7 +94,7 @@ interface AqlExample {
 export class ApiOverviewComponent implements OnInit, OnDestroy {
   constructor(private readonly route: ActivatedRoute) {}
 
-  protected page: ApiOverviewPage = 'overview';
+  protected page: ApiDocsPageId = 'overview';
   private routeParamSubscription?: Subscription;
 
   protected readonly apiBase = 'https://api.lunarchain.net/api/v1';
@@ -972,7 +956,7 @@ FOR intr IN nodes_vertex_collection
   ngOnInit(): void {
     this.routeParamSubscription = this.route.paramMap.subscribe((params) => {
       const rawPage = params.get('page')?.toLowerCase() ?? 'overview';
-      this.page = isApiOverviewPage(rawPage) ? rawPage : 'overview';
+      this.page = isApiDocsPageId(rawPage) ? rawPage : 'overview';
     });
   }
 

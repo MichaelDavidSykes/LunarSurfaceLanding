@@ -2,6 +2,7 @@ import { AfterViewInit, Component, HostListener, Inject, OnDestroy, PLATFORM_ID 
 import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
+import { isApiDocsPageId, type ApiDocsPageId } from './api-docs-pages';
 
 interface DocsSidebarItem {
   id: string;
@@ -12,23 +13,6 @@ interface DocsSidebarItem {
 interface DocsOutlineItem {
   id: string;
   label: string;
-}
-
-const DOCS_PAGE_IDS = [
-  'overview',
-  'quick-start',
-  'base-configuration',
-  'endpoint-focus',
-  'mcp-server',
-  'payload-response',
-  'aql-playbook'
-] as const;
-
-type DocsPageId = typeof DOCS_PAGE_IDS[number];
-const DOCS_PAGE_ID_SET: ReadonlySet<string> = new Set(DOCS_PAGE_IDS);
-
-function isDocsPageId(page: string | undefined): page is DocsPageId {
-  return page !== undefined && DOCS_PAGE_ID_SET.has(page);
 }
 
 export function decodeDocsFragment(fragment: string): string {
@@ -46,7 +30,7 @@ export function decodeDocsFragment(fragment: string): string {
 })
 export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected isMobileDocsMenuOpen = false;
-  protected currentPage: DocsPageId = 'overview';
+  protected currentPage: ApiDocsPageId = 'overview';
   protected activeOutlineId = '';
   private readonly routerEventsSub: Subscription;
   private readonly isBrowser: boolean;
@@ -105,7 +89,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  protected readonly pageOutlines: Record<DocsPageId, DocsOutlineItem[]> = {
+  protected readonly pageOutlines: Record<ApiDocsPageId, DocsOutlineItem[]> = {
     overview: [
       { id: 'page-overview', label: 'Overview' },
       { id: 'platform-surfaces', label: 'Main components' },
@@ -204,7 +188,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   private syncCurrentPage(url: string): void {
     const cleanUrl = url.split('#')[0].split('?')[0];
     const lastSegment = cleanUrl.split('/').filter(Boolean).pop();
-    this.currentPage = isDocsPageId(lastSegment) ? lastSegment : 'overview';
+    this.currentPage = isApiDocsPageId(lastSegment) ? lastSegment : 'overview';
   }
 
   @HostListener('window:scroll')
