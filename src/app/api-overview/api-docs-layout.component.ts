@@ -49,13 +49,15 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected currentPage: DocsPageId = 'overview';
   protected activeOutlineId = '';
   private readonly routerEventsSub: Subscription;
+  private readonly isBrowser: boolean;
   private outlineSyncFrame: number | null = null;
   private outlineSyncFollowUpFrame: number | null = null;
 
   constructor(
     private readonly router: Router,
-    @Inject(PLATFORM_ID) private readonly platformId: Object
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.syncCurrentPage(this.router.url);
     this.activeOutlineId = this.currentOutline[0]?.id ?? '';
     this.routerEventsSub = this.router.events
@@ -153,7 +155,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   protected onOutlineClick(event: MouseEvent, sectionId: string): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!this.isBrowser) {
       return;
     }
 
@@ -162,7 +164,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   protected scrollToSection(sectionId: string): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!this.isBrowser) {
       return;
     }
 
@@ -215,7 +217,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   private scheduleOutlineSync(url: string): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!this.isBrowser) {
       return;
     }
 
@@ -232,7 +234,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   private cancelPendingOutlineSync(): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!this.isBrowser) {
       return;
     }
 
@@ -248,7 +250,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   private scrollToFragmentFromUrl(url: string): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!this.isBrowser) {
       return;
     }
 
@@ -272,7 +274,7 @@ export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   }
 
   private syncActiveOutlineWithScroll(): void {
-    if (!isPlatformBrowser(this.platformId) || !this.currentOutline.length) {
+    if (!this.isBrowser || !this.currentOutline.length) {
       return;
     }
 
