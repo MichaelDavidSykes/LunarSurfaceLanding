@@ -503,6 +503,7 @@ pip install "mcp>=1.18.0,<2.0.0"
   protected readonly mcpInitExample = `curl -i -X POST https://api.lunarchain.net/api/v1/graph/mcp \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer <access-token>" \\
   -d '{
     "jsonrpc":"2.0",
     "id":"init-1",
@@ -517,6 +518,7 @@ pip install "mcp>=1.18.0,<2.0.0"
   protected readonly mcpResourcesExample = `curl -i -X POST https://api.lunarchain.net/api/v1/graph/mcp \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer <access-token>" \\
   -H "mcp-session-id: <SESSION_ID>" \\
   -d '{
     "jsonrpc":"2.0",
@@ -528,6 +530,7 @@ pip install "mcp>=1.18.0,<2.0.0"
   protected readonly mcpToolsExample = `curl -i -X POST https://api.lunarchain.net/api/v1/graph/mcp \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer <access-token>" \\
   -H "mcp-session-id: <SESSION_ID>" \\
   -d '{
     "jsonrpc":"2.0",
@@ -539,6 +542,7 @@ pip install "mcp>=1.18.0,<2.0.0"
   protected readonly mcpHealthCheckExample = `curl -i -X POST https://api.lunarchain.net/api/v1/graph/mcp \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer <access-token>" \\
   -H "mcp-session-id: <SESSION_ID>" \\
   -d '{
     "jsonrpc":"2.0",
@@ -553,6 +557,7 @@ pip install "mcp>=1.18.0,<2.0.0"
   protected readonly mcpQueryExample = `curl -i -X POST https://api.lunarchain.net/api/v1/graph/mcp \\
   -H "Content-Type: application/json" \\
   -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer <access-token>" \\
   -H "mcp-session-id: <SESSION_ID>" \\
   -d '{
     "jsonrpc":"2.0",
