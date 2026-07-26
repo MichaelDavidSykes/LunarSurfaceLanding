@@ -14,40 +14,45 @@
   <!-- Map Container -->
   <div class="map-container">
     <!-- Loading Animation in Map Area -->
-    <div class="map-loading" *ngIf="isLoading">
-      <div class="loading-container">
-        <div class="loading-logo">
-          <svg class="loading-logo-mark" viewBox="0 0 120 120" role="img" aria-label="LunarChain loading logo">
-            <rect class="logo-segment logo-outer-top" x="14" y="12" width="92" height="14"></rect>
-            <rect class="logo-segment logo-outer-left" x="7" y="12" width="14" height="97"></rect>
-            <rect class="logo-segment logo-outer-bottom" x="14" y="95" width="92" height="14"></rect>
-            <rect class="logo-segment logo-inner-left" x="35" y="35" width="14" height="50"></rect>
-            <rect class="logo-segment logo-inner-bottom" x="42" y="71" width="53" height="14"></rect>
-          </svg>
+    @if (isLoading) {
+      <div class="map-loading">
+        <div class="loading-container">
+          <div class="loading-logo">
+            <svg class="loading-logo-mark" viewBox="0 0 120 120" role="img" aria-label="LunarChain loading logo">
+              <rect class="logo-segment logo-outer-top" x="14" y="12" width="92" height="14"></rect>
+              <rect class="logo-segment logo-outer-left" x="7" y="12" width="14" height="97"></rect>
+              <rect class="logo-segment logo-outer-bottom" x="14" y="95" width="92" height="14"></rect>
+              <rect class="logo-segment logo-inner-left" x="35" y="35" width="14" height="50"></rect>
+              <rect class="logo-segment logo-inner-bottom" x="42" y="71" width="53" height="14"></rect>
+            </svg>
+          </div>
+          <div class="loading-text">Loading LunarChain</div>
         </div>
-        <div class="loading-text">Loading LunarChain</div>
       </div>
-    </div>
-    
+    }
+
     <!-- Multiple floating typing effects -->
-    <div 
-      *ngFor="let effect of typingEffects" 
-      class="floating-typing-effect"
-      [style.left.%]="effect.x"
-      [style.top.%]="effect.y"
-      [style.opacity]="effect.opacity"
-      [style.z-index]="effect.id"
-    >
-      <div class="effect-content">
-        {{ effect.displayText }}
+    @for (effect of typingEffects; track effect) {
+      <div
+        class="floating-typing-effect"
+        [style.left.%]="effect.x"
+        [style.top.%]="effect.y"
+        [style.opacity]="effect.opacity"
+        [style.z-index]="effect.id"
+        >
+        <div class="effect-content">
+          {{ effect.displayText }}
+        </div>
       </div>
-    </div>
+    }
     <div id="regions_div" [ngClass]="fadeState"></div>
-    <div class="map-scroll-cue" *ngIf="!isTaskbarScrolled && !isMobileMenuOpen && !isLoading">
-      <span class="map-scroll-cue-text">Scroll</span>
-      <span class="map-scroll-cue-arrow" aria-hidden="true"></span>
-    </div>
-</div>
+    @if (!isTaskbarScrolled && !isMobileMenuOpen && !isLoading) {
+      <div class="map-scroll-cue">
+        <span class="map-scroll-cue-text">Scroll</span>
+        <span class="map-scroll-cue-arrow" aria-hidden="true"></span>
+      </div>
+    }
+  </div>
 </div>
 
 <!-- Interactive Globe Section (full viewport, between map and mission) -->
@@ -81,27 +86,30 @@
       </div>
     </div>
     <div class="feature-cards">
-      <div
-        *ngFor="let card of featureCards; let cardIndex = index; trackBy: trackFeatureCard"
-        class="feature-card fade-in-element"
-        [class.expanded]="expandedCards[cardIndex]"
-        [attr.role]="isMobile ? 'button' : null"
-        [attr.tabindex]="isMobile ? 0 : null"
-        [attr.aria-expanded]="isMobile ? expandedCards[cardIndex] : null"
-        (click)="toggleCardExpansion(cardIndex)"
-        (keydown.enter)="toggleCardExpansion(cardIndex)"
-        (keydown.space)="toggleCardExpansion(cardIndex); $event.preventDefault()">
-        <h3>{{ card.title }}</h3>
-        <p class="card-main-text">{{ card.summary }}</p>
-        <div class="card-expandable-content" [class.show]="expandedCards[cardIndex]">
-          <p>{{ card.details }}</p>
+      @for (card of featureCards; track trackFeatureCard(cardIndex, card); let cardIndex = $index) {
+        <div
+          class="feature-card fade-in-element"
+          [class.expanded]="expandedCards[cardIndex]"
+          [attr.role]="isMobile ? 'button' : null"
+          [attr.tabindex]="isMobile ? 0 : null"
+          [attr.aria-expanded]="isMobile ? expandedCards[cardIndex] : null"
+          (click)="toggleCardExpansion(cardIndex)"
+          (keydown.enter)="toggleCardExpansion(cardIndex)"
+          (keydown.space)="toggleCardExpansion(cardIndex); $event.preventDefault()">
+          <h3>{{ card.title }}</h3>
+          <p class="card-main-text">{{ card.summary }}</p>
+          <div class="card-expandable-content" [class.show]="expandedCards[cardIndex]">
+            <p>{{ card.details }}</p>
+          </div>
+          @if (isMobile) {
+            <div class="mobile-expand-indicator">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[cardIndex]">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </div>
+          }
         </div>
-        <div class="mobile-expand-indicator" *ngIf="isMobile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="expandedCards[cardIndex]">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </section>
@@ -318,24 +326,24 @@
 <section id="contact" class="contact-section">
   <div class="contact-header">
     <h1 class="contact-main-heading">Contact Us</h1>
-        <p class="contact-subtitle">Talk to us about intelligence requirements, alerting workflows, or LunarSurface access</p>
+    <p class="contact-subtitle">Talk to us about intelligence requirements, alerting workflows, or LunarSurface access</p>
   </div>
-  
+
   <div class="contact-content">
     <div class="contact-info">
       <div class="contact-card">
         <h3>Email</h3>
         <p><a href="mailto:info&#64;lunarchain.net">info&#64;lunarchain.net</a></p>
-          <p>General inquiries, product questions, and support</p>
+        <p>General inquiries, product questions, and support</p>
       </div>
-      
+
       <div class="contact-card">
         <h3>Location</h3>
         <p>London, UK</p>
-          <p>Headquarters and core operations</p>
+        <p>Headquarters and core operations</p>
       </div>
     </div>
-    
+
     <div class="contact-form">
       <h2>Send us a message</h2>
       <form class="contact-form-inner" (submit)="onSubmitContactForm($event)">

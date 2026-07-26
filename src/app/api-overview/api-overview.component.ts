@@ -87,9 +87,10 @@ interface AqlExample {
 }
 
 @Component({
-  selector: 'app-api-overview',
-  templateUrl: './api-overview.component.html',
-  styleUrls: ['./api-overview.component.scss']
+    selector: 'app-api-overview',
+    templateUrl: './api-overview.component.html',
+    styleUrls: ['./api-overview.component.scss'],
+    standalone: false
 })
 export class ApiOverviewComponent implements OnInit, OnDestroy {
   constructor(private readonly route: ActivatedRoute) {}

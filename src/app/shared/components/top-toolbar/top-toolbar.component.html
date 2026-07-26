@@ -1,22 +1,21 @@
-<ng-container *ngIf="context === 'api'; else landingToolbar">
+@if (context === 'api') {
   <header class="docs-toolbar">
     <button type="button" class="docs-brand" aria-label="LunarChain home" (click)="onBrandClick()">
       <img src="assets/logo/Logo_no_text-removebg-preview.png" alt="LunarChain Logo" class="toolbar-logo docs-toolbar-logo">
       <span class="docs-logo-text">LunarChain Docs</span>
     </button>
-
     <nav class="docs-desktop-nav" aria-label="Primary">
-      <button
-        *ngFor="let item of apiNavItems; trackBy: trackNavItem"
-        type="button"
-        class="docs-nav-link"
-        [class.docs-nav-link--active]="isActionActive(item.action)"
-        (click)="onAction(item.action)">
-        {{ item.label }}
-      </button>
+      @for (item of apiNavItems; track trackNavItem($index, item)) {
+        <button
+          type="button"
+          class="docs-nav-link"
+          [class.docs-nav-link--active]="isActionActive(item.action)"
+          (click)="onAction(item.action)">
+          {{ item.label }}
+        </button>
+      }
       <a class="docs-login-link" [href]="loginUrl">Log In</a>
     </nav>
-
     <div class="docs-mobile-nav">
       <button
         class="docs-mobile-icon-btn"
@@ -29,9 +28,7 @@
       </button>
     </div>
   </header>
-</ng-container>
-
-<ng-template #landingToolbar>
+} @else {
   <div
     class="landing-taskbar"
     [class.scrolled]="taskbarScrolled"
@@ -41,19 +38,18 @@
       <span class="logo-text">LunarChain</span>
     </button>
     <span class="spacer"></span>
-
     <div class="desktop-nav">
-      <button
-        *ngFor="let item of landingNavItems; trackBy: trackNavItem"
-        type="button"
-        class="nav-btn"
-        [class.active]="isActionActive(item.action)"
-        (click)="onAction(item.action)">
-        {{ item.label }}
-      </button>
+      @for (item of landingNavItems; track trackNavItem($index, item)) {
+        <button
+          type="button"
+          class="nav-btn"
+          [class.active]="isActionActive(item.action)"
+          (click)="onAction(item.action)">
+          {{ item.label }}
+        </button>
+      }
       <a class="login-btn" [href]="loginUrl">Log In</a>
     </div>
-
     <div class="mobile-nav">
       <button
         class="mobile-icon-btn"
@@ -66,7 +62,6 @@
       </button>
     </div>
   </div>
-
   <aside
     id="landing-mobile-menu"
     class="mobile-side-menu"
@@ -83,16 +78,16 @@
       </button>
     </div>
     <div class="mobile-menu-items">
-      <button
-        *ngFor="let item of landingNavItems; trackBy: trackNavItem"
-        type="button"
-        class="mobile-menu-btn"
-        [class.active]="isActionActive(item.action)"
-        (click)="onAction(item.action)">
-        {{ item.label }}
-      </button>
+      @for (item of landingNavItems; track trackNavItem($index, item)) {
+        <button
+          type="button"
+          class="mobile-menu-btn"
+          [class.active]="isActionActive(item.action)"
+          (click)="onAction(item.action)">
+          {{ item.label }}
+        </button>
+      }
     </div>
   </aside>
-
   <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
-</ng-template>
+}
