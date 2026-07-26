@@ -21,9 +21,10 @@ interface TermsSectionLink {
 }
 
 @Component({
-  selector: 'app-terms',
-  templateUrl: './terms.component.html',
-  styleUrls: ['./terms.component.scss']
+    selector: 'app-terms',
+    templateUrl: './terms.component.html',
+    styleUrls: ['./terms.component.scss'],
+    standalone: false
 })
 export class TermsComponent implements AfterViewInit, OnDestroy {
   protected readonly lastUpdated = '29 May 2026';

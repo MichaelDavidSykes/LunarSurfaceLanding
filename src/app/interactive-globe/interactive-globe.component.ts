@@ -51,9 +51,10 @@ const DEFAULT_PRESENTATION: EntityGroupPresentation = {
 };
 
 @Component({
-  selector: 'app-interactive-globe',
-  templateUrl: './interactive-globe.component.html',
-  styleUrls: ['./interactive-globe.component.scss']
+    selector: 'app-interactive-globe',
+    templateUrl: './interactive-globe.component.html',
+    styleUrls: ['./interactive-globe.component.scss'],
+    standalone: false
 })
 export class InteractiveGlobeComponent implements AfterViewInit, OnDestroy, OnChanges {
   @ViewChild('globeContainer', { static: true }) containerRef!: ElementRef<HTMLDivElement>;

@@ -13,9 +13,10 @@ interface ToolbarNavItem {
 }
 
 @Component({
-  selector: 'app-top-toolbar',
-  templateUrl: './top-toolbar.component.html',
-  styleUrls: ['./top-toolbar.component.scss']
+    selector: 'app-top-toolbar',
+    templateUrl: './top-toolbar.component.html',
+    styleUrls: ['./top-toolbar.component.scss'],
+    standalone: false
 })
 export class TopToolbarComponent implements OnInit, OnChanges, OnDestroy {
   private static lastVisualScrolled = false;

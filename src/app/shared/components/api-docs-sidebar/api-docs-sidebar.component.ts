@@ -7,9 +7,10 @@ interface SidebarItem {
 }
 
 @Component({
-  selector: 'app-api-docs-sidebar',
-  templateUrl: './api-docs-sidebar.component.html',
-  styleUrls: ['./api-docs-sidebar.component.scss']
+    selector: 'app-api-docs-sidebar',
+    templateUrl: './api-docs-sidebar.component.html',
+    styleUrls: ['./api-docs-sidebar.component.scss'],
+    standalone: false
 })
 export class ApiDocsSidebarComponent {
   @Input() title = 'Documentation';

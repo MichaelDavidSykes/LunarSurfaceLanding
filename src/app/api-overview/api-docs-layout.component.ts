@@ -24,9 +24,10 @@ export function decodeDocsFragment(fragment: string): string {
 }
 
 @Component({
-  selector: 'app-api-docs-layout',
-  templateUrl: './api-docs-layout.component.html',
-  styleUrls: ['./api-docs-layout.component.scss']
+    selector: 'app-api-docs-layout',
+    templateUrl: './api-docs-layout.component.html',
+    styleUrls: ['./api-docs-layout.component.scss'],
+    standalone: false
 })
 export class ApiDocsLayoutComponent implements AfterViewInit, OnDestroy {
   protected isMobileDocsMenuOpen = false;
