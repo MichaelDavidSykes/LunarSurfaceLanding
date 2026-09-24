@@ -3,7 +3,7 @@ import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 type FooterLandingTarget = 'ai-agent' | 'contact';
-type FooterActivePage = 'pricing' | 'terms';
+type FooterActivePage = 'pricing' | 'terms' | 'security';
 type FooterLinkType = 'landing' | 'route';
 type FooterVariant = 'dark' | 'light';
 
@@ -30,6 +30,7 @@ export class SiteFooterComponent {
     { label: 'Products', type: 'landing', target: 'ai-agent' },
     { label: 'API docs', type: 'route', routerLink: '/api/overview' },
     { label: 'Pricing', type: 'route', routerLink: '/pricing', activePage: 'pricing' },
+    { label: 'LunarChain Security', type: 'route', routerLink: '/security', activePage: 'security' },
     { label: 'Contact', type: 'landing', target: 'contact' },
     { label: 'Terms', type: 'route', routerLink: '/terms', activePage: 'terms' }
   ];

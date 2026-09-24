@@ -800,6 +800,17 @@ p {
   margin-top: 0.75rem;
 }
 
+.custom-operation-copy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.custom-operation-copy a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 @media (max-width: 900px) {
   .custom-operations-section {
     padding: 4.5rem 0;
