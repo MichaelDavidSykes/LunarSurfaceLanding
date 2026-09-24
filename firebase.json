@@ -3,6 +3,7 @@
     {
       "target": "landing",
       "public": "dist/lunarchain-landing/browser",
+      "trailingSlash": false,
       "ignore": [
         "firebase.json",
         "**/.*",
