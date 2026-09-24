@@ -19,6 +19,7 @@ import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component
 import { PricingPageComponent } from './pricing-page/pricing-page.component';
 import { TermsComponent } from './terms/terms.component';
 import { SiteFooterComponent } from './shared/components/site-footer/site-footer.component';
+import { SecurityPageComponent } from './security-page/security-page.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SiteFooterComponent } from './shared/components/site-footer/site-footer
     ApiDocsLayoutComponent,
     PricingPageComponent,
     TermsComponent,
+    SecurityPageComponent,
     SiteFooterComponent
   ],
   imports: [

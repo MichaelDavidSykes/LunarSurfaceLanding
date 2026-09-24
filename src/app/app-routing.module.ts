@@ -6,12 +6,14 @@ import { ApiOverviewComponent } from './api-overview/api-overview.component';
 import { ApiDocsLayoutComponent } from './api-overview/api-docs-layout.component';
 import { PricingPageComponent } from './pricing-page/pricing-page.component';
 import { TermsComponent } from './terms/terms.component';
+import { SecurityPageComponent } from './security-page/security-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'landingpage', component: LandingPageComponent },
   { path: 'pricing', component: PricingPageComponent },
   { path: 'terms', component: TermsComponent },
+  { path: 'security', component: SecurityPageComponent },
   {
     path: 'api',
     component: ApiDocsLayoutComponent,

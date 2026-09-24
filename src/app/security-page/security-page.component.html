@@ -1,0 +1,78 @@
+<div class="security-page">
+  <app-top-toolbar
+    context="landing"
+    [isScrolled]="true"
+    [forceScrolled]="true"
+    (solutionsClick)="navigateHome('solutions')"
+    (aiAgentClick)="navigateHome('ai-agent')"
+    (apiClick)="navigateTo('/api/overview')"
+    (pricingClick)="navigateTo('/pricing')"
+    (contactClick)="navigateHome('contact')">
+  </app-top-toolbar>
+
+  <main class="security-shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a routerLink="/">LunarChain</a><span aria-hidden="true">/</span><span aria-current="page">LunarChain Security</span>
+    </nav>
+
+    <article>
+      <header class="security-hero">
+        <p class="eyebrow">LunarChain Security</p>
+        <h1>Intelligence informs the test.<br><span>Evidence drives the fix.</span></h1>
+        <p class="intro">LunarChain Security brings an offensive security perspective to the signals we investigate every day: what is exposed, how it could be used, and what needs to change.</p>
+        <div class="actions">
+          <a class="action action--primary" href="https://lunarchainsecurity.com/">Explore LunarChain Security <span aria-hidden="true">↗</span></a>
+          <a class="action" routerLink="/security" fragment="intelligence-in-practice">How intelligence informs testing <span aria-hidden="true">↓</span></a>
+        </div>
+      </header>
+
+      <section class="overview" aria-labelledby="offensive-security">
+        <div>
+          <p class="eyebrow">From context to validation</p>
+          <h2 id="offensive-security">What is LunarChain Security?</h2>
+        </div>
+        <div class="prose">
+          <p><a href="https://lunarchainsecurity.com/">LunarChain Security</a> provides manual penetration testing and red team exercises. Its work covers web applications, APIs, networks, cloud environments and the ways those systems connect. The aim is to establish which weaknesses can be exploited, explain their impact and give teams a practical route to remediation.</p>
+          <p>LunarChain supports the intelligence side of that work. ThreatScape brings together intelligence search, graph exploration, saved queries, monitoring and investigations. That context helps a security team decide where to look more closely; authorised testing establishes what is actually possible within an agreed scope.</p>
+        </div>
+      </section>
+
+      <section class="practice" aria-labelledby="intelligence-in-practice">
+        <p class="eyebrow">In day-to-day security work</p>
+        <h2 id="intelligence-in-practice">Turn a signal into a useful security question.</h2>
+        <p class="section-intro">A report of exploitation, an unfamiliar domain or a mention of exposed credentials starts an investigation. The useful question is how that information relates to the organisation, its assets and its controls.</p>
+        <ol class="workflow">
+          <li><span class="step" aria-hidden="true">01</span><h3>Find the signal</h3><p>Monitor relevant threat reporting, technologies, suspicious infrastructure and exposure indicators through LunarChain.</p></li>
+          <li><span class="step" aria-hidden="true">02</span><h3>Check the context</h3><p>Review sources, timestamps and asset ownership. Separate a relevant lead from outdated information or a false association.</p></li>
+          <li><span class="step" aria-hidden="true">03</span><h3>Test the hypothesis</h3><p>Use the intelligence to focus an agreed penetration test or red team scenario. Validate the attack path and the controls around it.</p></li>
+          <li><span class="step" aria-hidden="true">04</span><h3>Fix and revisit</h3><p>Turn evidence into prioritised remediation, retest the changes and refine the questions being monitored.</p></li>
+        </ol>
+      </section>
+
+      <section class="overview" aria-labelledby="practical-example">
+        <div>
+          <p class="eyebrow">A practical example</p>
+          <h2 id="practical-example">From exploitation reporting to a scoped test.</h2>
+        </div>
+        <div class="prose">
+          <p>Consider a new report of attackers targeting a remote-access product. An intelligence workflow can surface the report, connect it to a technology being monitored and preserve the source for review. The security team can then confirm whether that product is present and whether it is exposed.</p>
+          <p>Within an authorised engagement, LunarChain Security can test the relevant configuration and access controls, document the impact of a confirmed weakness and retest after remediation. This is an illustrative workflow: a threat report alone does not establish that a system is vulnerable or compromised.</p>
+          <p>The same approach helps frame questions about application access, API permissions and cloud configuration. Read <a href="https://lunarchainsecurity.com/lunarchain">how LunarChain intelligence informs offensive security work</a> from the testing team's perspective.</p>
+        </div>
+      </section>
+
+      <section class="security-cta" aria-labelledby="next-step">
+        <div>
+          <p class="eyebrow">Put the context to work</p>
+          <h2 id="next-step">Explore the service behind the testing.</h2>
+          <p>See the scope of LunarChain Security's <a href="https://lunarchainsecurity.com/penetration-testing">penetration testing services</a>, or explore LunarChain for intelligence monitoring and investigations.</p>
+        </div>
+        <div class="actions">
+          <a class="action action--primary" href="https://lunarchainsecurity.com/book-a-call">Discuss a security assessment <span aria-hidden="true">↗</span></a>
+          <a class="action" routerLink="/" fragment="solutions">Explore LunarChain</a>
+        </div>
+      </section>
+    </article>
+  </main>
+  <app-site-footer activePage="security"></app-site-footer>
+</div>

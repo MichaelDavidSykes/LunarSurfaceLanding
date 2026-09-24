@@ -31,6 +31,17 @@ npm run start
 npm run build:prod
 ```
 
+The homepage and `/security` are pre-rendered using `prerender-routes.txt`.
+Firebase serves `/security/index.html` for the security introduction and uses
+`index.csr.html` for other client-rendered routes. Keep that fallback when adding
+pre-rendered pages so the API documentation and pricing routes do not hydrate
+against the homepage's HTML. Public discovery files live in `src/robots.txt`
+and `src/sitemap.xml`.
+
+The security page links to the companion page at
+`https://lunarchainsecurity.com/lunarchain`. Its title, canonical, description
+and social metadata are included in the generated HTML.
+
 ## Firebase Hosting
 
 This repo deploys to the dedicated Firebase Hosting site:

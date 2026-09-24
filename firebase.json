@@ -10,11 +10,24 @@
       ],
       "rewrites": [
         {
+          "source": "/security",
+          "destination": "/security/index.html"
+        },
+        {
           "source": "**",
-          "destination": "/index.html"
+          "destination": "/index.csr.html"
         }
       ],
       "headers": [
+        {
+          "source": "/security{,/**}",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
         {
           "source": "**",
           "headers": [
