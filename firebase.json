@@ -11,6 +11,14 @@
       ],
       "rewrites": [
         {
+          "source": "/saferoute/privacy",
+          "destination": "/assets/saferoute/privacy.html"
+        },
+        {
+          "source": "/saferoute/support",
+          "destination": "/assets/saferoute/support.html"
+        },
+        {
           "source": "/security",
           "destination": "/security/index.html"
         },
